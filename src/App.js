@@ -1,25 +1,44 @@
-import logo from './logo.svg';
-import './App.css';
+import React, { Suspense, lazy } from "react";
+import { BrowserRouter, Route, Routes } from "react-router-dom";
 
-function App() {
+// 라우터 페이지 로딩 컴포넌트
+const Loading = <div style={{ background: "red" }}>로딩중...</div>;
+// lasy는 실시간으로 컴포넌트 불러들이기
+const LazyMainPage = lazy(() => import("./pages/MainPage"));
+const LazyAboutPage = lazy(() => import("./pages/AboutPage"));
+const LazyTodoPage = lazy(() => import("./pages/TodoPage"));
+
+const App = () => {
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
+    <BrowserRouter>
+      <Routes>
+        <Route
+          path="/"
+          element={
+            <Suspense fallback={Loading}>
+              <LazyMainPage />
+            </Suspense>
+          }
+        />
+        <Route
+          path="/about"
+          element={
+            <Suspense fallback={Loading}>
+              <LazyAboutPage />
+            </Suspense>
+          }
+        />
+        <Route
+          path="/todo"
+          element={
+            <Suspense fallback={Loading}>
+              <LazyTodoPage />
+            </Suspense>
+          }
+        />
+      </Routes>
+    </BrowserRouter>
   );
-}
+};
 
 export default App;
