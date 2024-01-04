@@ -1,41 +1,75 @@
 import React, { Suspense, lazy } from "react";
 import { BrowserRouter, Route, Routes } from "react-router-dom";
+import Loading from "./components/loading/Loading";
 
-// 라우터 페이지 로딩 컴포넌트
-const Loading = <div style={{ background: "red" }}>로딩중...</div>;
-// lasy는 실시간으로 컴포넌트 불러들이기
-const LazyMainPage = lazy(() => import("./pages/MainPage"));
-const LazyAboutPage = lazy(() => import("./pages/AboutPage"));
-const LazyTodoPage = lazy(() => import("./pages/TodoPage"));
+const LazyAboutPage = lazy(() => import("./pages/about/AboutPage"));
+const LazyCommunityPage = lazy(() => import("./pages/community/CommunityPgae"));
+const LazyGogiPage = lazy(() => import("./pages/gogi/GogiPage"));
+const LazyLoginPage = lazy(() => import("./pages/login/LoginPage"));
+const LazyMartPage = lazy(() => import("./pages/mart/MartPage"));
+const LazySalePage = lazy(() => import("./pages/sale/SalePage"));
 
 const App = () => {
   return (
     <BrowserRouter>
       <Routes>
+        <Route path="*" element={<h1>페이지가 없어요</h1>}></Route>
         <Route
           path="/"
           element={
-            <Suspense fallback={Loading}>
-              <LazyMainPage />
+            <Suspense fallback={<Loading />}>
+              <LazyGogiPage />
             </Suspense>
           }
-        />
+        ></Route>
         <Route
           path="/about"
           element={
-            <Suspense fallback={Loading}>
+            <Suspense fallback={<Loading />}>
               <LazyAboutPage />
             </Suspense>
           }
-        />
+        ></Route>
         <Route
-          path="/todo"
+          path="/community"
           element={
-            <Suspense fallback={Loading}>
-              <LazyTodoPage />
+            <Suspense fallback={<Loading />}>
+              <LazyCommunityPage />
             </Suspense>
           }
-        />
+        ></Route>
+        <Route
+          path="/gogi"
+          element={
+            <Suspense fallback={<Loading />}>
+              <LazyGogiPage />
+            </Suspense>
+          }
+        ></Route>
+        <Route
+          path="/login"
+          element={
+            <Suspense fallback={<Loading />}>
+              <LazyLoginPage />
+            </Suspense>
+          }
+        ></Route>
+        <Route
+          path="/mart"
+          element={
+            <Suspense fallback={<Loading />}>
+              <LazyMartPage />
+            </Suspense>
+          }
+        ></Route>
+        <Route
+          path="/sale"
+          element={
+            <Suspense fallback={<Loading />}>
+              <LazySalePage />
+            </Suspense>
+          }
+        ></Route>
       </Routes>
     </BrowserRouter>
   );
