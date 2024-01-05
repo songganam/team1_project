@@ -1,13 +1,13 @@
 import React from "react";
 import Layout from "../../layouts/Layout";
 
-// 로그인 페이지입니다.
-const LoginPage = () => {
+// 회원가입 페이지입니다.
+const JoinPage = () => {
   return (
     <Layout>
-      <h1>LoginPage</h1>
+      <h1>JoinPage</h1>
     </Layout>
   );
 };
 
-export default LoginPage;
+export default JoinPage;
