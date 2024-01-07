@@ -4,7 +4,7 @@ import Loading from "./components/loading/Loading";
 
 const LazyAboutPage = lazy(() => import("./pages/main/AboutPage"));
 
-const LazyCommunityPage = lazy(() => import("./pages/community/CommunityPgae"));
+const LazyCommunityPage = lazy(() => import("./pages/community/CommunityPage"));
 const LazyListPage = lazy(() => import("./pages/community/ListPage"));
 const LazyAddPage = lazy(() => import("./pages/community/AddPage"));
 const LazyModifyPage = lazy(() => import("./pages/community/ModifyPage"));
