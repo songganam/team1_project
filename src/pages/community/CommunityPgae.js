@@ -1,12 +1,8 @@
 import React from "react";
+import { Outlet, createSearchParams, useNavigate } from "react-router-dom";
 import Layout from "../../layouts/Layout";
-import {
-  Outlet,
-  createSearchParams,
-  useNavigate,
-  useParams,
-} from "react-router-dom";
 
+// 고기잡담 페이지입니다.
 const CommunityPgae = () => {
   // 패스 이동
   const navigate = useNavigate();
