@@ -1,8 +1,12 @@
 import React from "react";
 
-// 고깃집 정보 수정하기 페이지입니다. (관리자)
+// 고깃집 리뷰 수정하기 페이지입니다.
 const GmodifyPage = () => {
-  return <div>GmodifyPage</div>;
+  return (
+    <div>
+      <h2>고깃집 리뷰 수정하기</h2>
+    </div>
+  );
 };
 
 export default GmodifyPage;

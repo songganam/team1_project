@@ -1,11 +1,35 @@
 import React from "react";
 import Layout from "../../layouts/Layout";
+import { useNavigate } from "react-router-dom";
 
 // 로그인 페이지입니다.
 const LoginPage = () => {
+  const navigate = useNavigate();
+
+  const handleClickLogin = () => {
+    console.log("로그인이 되었습니다.");
+  };
+  const handleClickJoin = () => {
+    navigate("/join");
+  };
+
   return (
     <Layout>
-      <h1>LoginPage</h1>
+      <h1>로그인</h1>
+      <button
+        onClick={() => {
+          handleClickLogin();
+        }}
+      >
+        로그인
+      </button>
+      <button
+        onClick={() => {
+          handleClickJoin();
+        }}
+      >
+        회원가입
+      </button>
     </Layout>
   );
 };

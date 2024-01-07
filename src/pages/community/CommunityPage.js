@@ -2,7 +2,7 @@ import React from "react";
 import { Outlet, createSearchParams, useNavigate } from "react-router-dom";
 import Layout from "../../layouts/Layout";
 
-// 고기잡담 페이지입니다.
+// 고기잡담 메인 페이지입니다.
 const CommunityPage = () => {
   // 패스 이동
   const navigate = useNavigate();

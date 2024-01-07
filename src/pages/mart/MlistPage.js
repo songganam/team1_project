@@ -1,7 +1,11 @@
 import React from "react";
 
 const MlistPage = () => {
-  return <div>MlistPage</div>;
+  return (
+    <div>
+      <h2>정육점 목록</h2>
+    </div>
+  );
 };
 
 export default MlistPage;

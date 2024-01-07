@@ -11,19 +11,25 @@ const LazyModifyPage = lazy(() => import("./pages/community/ModifyPage"));
 const LazyReadPage = lazy(() => import("./pages/community/ReadPage"));
 
 const LazyGogiPage = lazy(() => import("./pages/gogi/GogiPage"));
-const LazyGlistPage = lazy(() => import("./pages/gogi/GlistPage"));
 const LazyGbookPage = lazy(() => import("./pages/gogi/GbookPage"));
+const LazyGlistPage = lazy(() => import("./pages/gogi/GlistPage"));
 const LazyGreadPage = lazy(() => import("./pages/gogi/GreadPage"));
+const LazyGaddPage = lazy(() => import("./pages/gogi/GaddPage"));
+const LazyGmodifyPage = lazy(() => import("./pages/gogi/GmodifyPage"));
 
 const LazyJoinPage = lazy(() => import("./pages/join/JoinPage"));
-const LazyJmodifyPage = lazy(() => import("./pages/join/JmodifyPage"));
+const LazyJoinAddPage = lazy(() => import("./pages/join/JaddPage"));
 const LazyJreadPage = lazy(() => import("./pages/join/JreadPage"));
+const LazyJmodifyPage = lazy(() => import("./pages/join/JmodifyPage"));
 
 const LazyLoginPage = lazy(() => import("./pages/login/LoginPage"));
 
 const LazyMartPage = lazy(() => import("./pages/mart/MartPage"));
+const LazyMartBook = lazy(() => import("./pages/mart/MbookPage"));
 const LazyMlistPage = lazy(() => import("./pages/mart/MlistPage"));
 const LazyMreadPage = lazy(() => import("./pages/mart/MreadPage"));
+const LazyMaddPage = lazy(() => import("./pages/mart/MaddPage"));
+const LazyMmodifyPage = lazy(() => import("./pages/mart/MmodifyPage"));
 
 const LazyMyPage = lazy(() => import("./pages/my/MyPage"));
 const LazyMyModifyPage = lazy(() => import("./pages/my/MyModifyPage"));
@@ -49,21 +55,83 @@ const App = () => {
           }
         ></Route>
         <Route
-          path="/join"
+          path="/join/"
           element={
             <Suspense fallback={<Loading />}>
               <LazyJoinPage />
             </Suspense>
           }
-        ></Route>
+        >
+          {/* 회원가입 페이지 첫화면 */}
+          <Route path="" element={<Navigate to="jadd" />}></Route>
+          <Route
+            path="jadd"
+            element={
+              <Suspense fallback={<Loading />}>
+                <LazyJoinAddPage />
+              </Suspense>
+            }
+          ></Route>
+          <Route
+            path="jread"
+            element={
+              <Suspense fallback={<Loading />}>
+                <LazyJreadPage />
+              </Suspense>
+            }
+          ></Route>
+          <Route
+            path="jmodify"
+            element={
+              <Suspense fallback={<Loading />}>
+                <LazyJmodifyPage />
+              </Suspense>
+            }
+          ></Route>
+        </Route>
         <Route
-          path="/my"
+          path="/my/"
           element={
             <Suspense fallback={<Loading />}>
               <LazyMyPage />
             </Suspense>
           }
-        ></Route>
+        >
+          {/* 회원가입 페이지 첫화면 */}
+          <Route path="" element={<Navigate to="mylist" />}></Route>
+          <Route
+            path="mylist"
+            element={
+              <Suspense fallback={<Loading />}>
+                <LazyMyListPage />
+              </Suspense>
+            }
+          ></Route>
+          <Route
+            path="mybook"
+            element={
+              <Suspense fallback={<Loading />}>
+                <LazyMyBookPage />
+              </Suspense>
+            }
+          ></Route>
+          <Route
+            path="myreview"
+            element={
+              <Suspense fallback={<Loading />}>
+                <LazyMyReviewPage />
+              </Suspense>
+            }
+          ></Route>
+          <Route
+            path="mymodify"
+            element={
+              <Suspense fallback={<Loading />}>
+                <LazyMyModifyPage />
+              </Suspense>
+            }
+          ></Route>
+        </Route>
         <Route
           path="/"
           element={
@@ -124,29 +192,134 @@ const App = () => {
           ></Route>
         </Route>
         <Route
-          path="/gogi"
+          path="/gogi/"
           element={
             <Suspense fallback={<Loading />}>
               <LazyGogiPage />
             </Suspense>
           }
-        ></Route>
+        >
+          {/* 고깃집찾기 페이지 첫 화면 */}
+          <Route path="" element={<Navigate to="glist" />}></Route>
+          <Route
+            path="gbook"
+            element={
+              <Suspense fallback={<Loading />}>
+                <LazyGbookPage />
+              </Suspense>
+            }
+          ></Route>
+          <Route
+            path="glist"
+            element={
+              <Suspense fallback={<Loading />}>
+                <LazyGlistPage />
+              </Suspense>
+            }
+          ></Route>
+          <Route
+            path="gread"
+            element={
+              <Suspense fallback={<Loading />}>
+                <LazyGreadPage />
+              </Suspense>
+            }
+          ></Route>
+          <Route
+            path="gadd"
+            element={
+              <Suspense fallback={<Loading />}>
+                <LazyGaddPage />
+              </Suspense>
+            }
+          ></Route>
+          <Route
+            path="gmodify"
+            element={
+              <Suspense fallback={<Loading />}>
+                <LazyGmodifyPage />
+              </Suspense>
+            }
+          ></Route>
+        </Route>
         <Route
-          path="/mart"
+          path="/mart/"
           element={
             <Suspense fallback={<Loading />}>
               <LazyMartPage />
             </Suspense>
           }
-        ></Route>
+        >
+          {/* 마트 페이지 첫 화면 */}
+          <Route path="" element={<Navigate to="mlist" />}></Route>
+          <Route
+            path="mbook"
+            element={
+              <Suspense fallback={<Loading />}>
+                <LazyMartBook />
+              </Suspense>
+            }
+          ></Route>
+          <Route
+            path="mlist"
+            element={
+              <Suspense fallback={<Loading />}>
+                <LazyMlistPage />
+              </Suspense>
+            }
+          ></Route>
+          <Route
+            path="mread"
+            element={
+              <Suspense fallback={<Loading />}>
+                <LazyMreadPage />
+              </Suspense>
+            }
+          ></Route>
+          <Route
+            path="madd"
+            element={
+              <Suspense fallback={<Loading />}>
+                <LazyMaddPage />
+              </Suspense>
+            }
+          ></Route>
+          <Route
+            path="mmodify"
+            element={
+              <Suspense fallback={<Loading />}>
+                <LazyMmodifyPage />
+              </Suspense>
+            }
+          ></Route>
+        </Route>
         <Route
-          path="/sale"
+          path="/sale/"
           element={
             <Suspense fallback={<Loading />}>
               <LazySalePage />
             </Suspense>
           }
-        ></Route>
+        >
+          {/* 마감세일 페이지 첫 화면 */}
+          <Route path="" element={<Navigate to="slist" />}></Route>
+          <Route
+            path="slist"
+            element={
+              <Suspense fallback={<Loading />}>
+                <LazySlistPage />
+              </Suspense>
+            }
+          ></Route>
+          <Route
+            path="sread"
+            element={
+              <Suspense fallback={<Loading />}>
+                <LazySreadPage />
+              </Suspense>
+            }
+          ></Route>
+        </Route>
       </Routes>
     </BrowserRouter>
   );
