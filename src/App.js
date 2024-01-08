@@ -2,14 +2,17 @@ import React, { Suspense, lazy } from "react";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import Loading from "./components/loading/Loading";
 
+// 어바웃 페이지
 const LazyAboutPage = lazy(() => import("./pages/main/AboutPage"));
 
+// 커뮤니티 페이지
 const LazyCommunityPage = lazy(() => import("./pages/community/CommunityPage"));
 const LazyListPage = lazy(() => import("./pages/community/ListPage"));
 const LazyAddPage = lazy(() => import("./pages/community/AddPage"));
 const LazyModifyPage = lazy(() => import("./pages/community/ModifyPage"));
 const LazyReadPage = lazy(() => import("./pages/community/ReadPage"));
 
+// 고깃집 페이지
 const LazyGogiPage = lazy(() => import("./pages/gogi/GogiPage"));
 const LazyGbookPage = lazy(() => import("./pages/gogi/GbookPage"));
 const LazyGlistPage = lazy(() => import("./pages/gogi/GlistPage"));
@@ -17,13 +20,12 @@ const LazyGreadPage = lazy(() => import("./pages/gogi/GreadPage"));
 const LazyGaddPage = lazy(() => import("./pages/gogi/GaddPage"));
 const LazyGmodifyPage = lazy(() => import("./pages/gogi/GmodifyPage"));
 
+// 회원가입 페이지
 const LazyJoinPage = lazy(() => import("./pages/join/JoinPage"));
 const LazyJoinAddPage = lazy(() => import("./pages/join/JaddPage"));
-const LazyJreadPage = lazy(() => import("./pages/join/JreadPage"));
-const LazyJmodifyPage = lazy(() => import("./pages/join/JmodifyPage"));
-
 const LazyLoginPage = lazy(() => import("./pages/login/LoginPage"));
 
+// 정육점 페이지
 const LazyMartPage = lazy(() => import("./pages/mart/MartPage"));
 const LazyMartBook = lazy(() => import("./pages/mart/MbookPage"));
 const LazyMlistPage = lazy(() => import("./pages/mart/MlistPage"));
@@ -31,12 +33,14 @@ const LazyMreadPage = lazy(() => import("./pages/mart/MreadPage"));
 const LazyMaddPage = lazy(() => import("./pages/mart/MaddPage"));
 const LazyMmodifyPage = lazy(() => import("./pages/mart/MmodifyPage"));
 
+// 마이페이지
 const LazyMyPage = lazy(() => import("./pages/my/MyPage"));
 const LazyMyModifyPage = lazy(() => import("./pages/my/MyModifyPage"));
 const LazyMyBookPage = lazy(() => import("./pages/my/MyBookPage"));
 const LazyMyListPage = lazy(() => import("./pages/my/MyListPage"));
 const LazyMyReviewPage = lazy(() => import("./pages/my/MyReviewPage"));
 
+// 마감세일 페이지
 const LazySalePage = lazy(() => import("./pages/sale/SalePage"));
 const LazySlistPage = lazy(() => import("./pages/sale/SlistPage"));
 const LazySreadPage = lazy(() => import("./pages/sale/SreadPage"));
@@ -69,22 +73,6 @@ const App = () => {
             element={
               <Suspense fallback={<Loading />}>
                 <LazyJoinAddPage />
-              </Suspense>
-            }
-          ></Route>
-          <Route
-            path="jread"
-            element={
-              <Suspense fallback={<Loading />}>
-                <LazyJreadPage />
-              </Suspense>
-            }
-          ></Route>
-          <Route
-            path="jmodify"
-            element={
-              <Suspense fallback={<Loading />}>
-                <LazyJmodifyPage />
               </Suspense>
             }
           ></Route>
