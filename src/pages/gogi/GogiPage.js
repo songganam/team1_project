@@ -1,6 +1,7 @@
 import React from "react";
 import { Outlet, useNavigate } from "react-router-dom";
 import Layout from "../../layouts/Layout";
+import { Wrapper } from "../../styles/common/LayoutStyles";
 
 // 고깃집 메인 페이지입니다.
 const GogiPage = () => {
@@ -24,7 +25,7 @@ const GogiPage = () => {
   };
 
   return (
-    <Layout>
+    <Wrapper>
       <div>
         <h1>고깃집찾기</h1>
         <button
@@ -66,7 +67,7 @@ const GogiPage = () => {
           <Outlet />
         </div>
       </div>
-    </Layout>
+    </Wrapper>
   );
 };
 
