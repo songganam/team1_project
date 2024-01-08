@@ -4,7 +4,7 @@
 /node_modules
 /.pnp
 .pnp.js
-fonts/
+
 
 # testing
 /coverage
@@ -22,3 +22,5 @@ fonts/
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+
+
