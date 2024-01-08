@@ -34,43 +34,11 @@ export const ColorStyle = {
   g1000: "#000000",
 };
 
-// Pretendard
-
-export const Regular = {
-  r8: css`
-    font-family: "PretendardRegular", sans-serif;
-    font-size: 8px;
-  `,
-  r11: css`
-    font-family: "Pretendard-Regular", sans-serif;
-    font-size: 11px;
-  `,
-  r14: css`
-    font-family: "Pretendard-Regular", sans-serif;
-    font-size: 14px;
-  `,
-  r19: css`
-    font-family: "Pretendard-Regular", sans-serif;
-    font-size: 19px;
-  `,
-  r25: css`
-    font-family: "Pretendard-Regular", sans-serif;
-    font-size: 25px;
-  `,
-  r33: css`
-    font-family: "Pretendard-Regular", sans-serif;
-    font-size: 33px;
-  `,
-  r44: css`
-    font-family: "Pretendard-Regular", sans-serif;
-    font-size: 44px;
-  `,
-  r59: css`
-    font-family: "Pretendard-Regular", sans-serif;
-    font-size: 59px;
-  `,
-  r79: css`
-    font-family: "Pretendard-Regular", sans-serif;
-    font-size: 79px;
-  `,
+export const FontSize = {
+  xxs: "8px",
+  tag: "11px",
+  default: "14px",
+  strong: "19px",
+  title: "33px",
+  sub_title: "25px",
 };
