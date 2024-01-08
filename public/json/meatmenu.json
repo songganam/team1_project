@@ -1,0 +1,62 @@
+[
+  {
+    "idx": 1,
+    "storeName": "Cafe Rose",
+    "image": "cafe_rose.jpg",
+    "tags": ["coffee", "dessert", "atmosphere", "relaxation"]
+  },
+  {
+    "idx": 2,
+    "storeName": "Pasta Kitchen",
+    "image": "pasta_kitchen.jpg",
+    "tags": ["pasta", "Italian", "wine", "romantic"]
+  },
+  {
+    "idx": 3,
+    "storeName": "Health Bar",
+    "image": "health_bar.jpg",
+    "tags": ["smoothies", "salad", "fitness", "energy"]
+  },
+  {
+    "idx": 4,
+    "storeName": "Book Nook",
+    "image": "book_nook.jpg",
+    "tags": ["books", "reading", "quiet", "knowledge"]
+  },
+  {
+    "idx": 5,
+    "storeName": "Bakery Bliss",
+    "image": "bakery_bliss.jpg",
+    "tags": ["bread", "pastries", "fresh", "delicious"]
+  },
+  {
+    "idx": 6,
+    "storeName": "Art Gallery",
+    "image": "art_gallery.jpg",
+    "tags": ["art", "paintings", "culture", "inspiration"]
+  },
+  {
+    "idx": 7,
+    "storeName": "Music Lounge",
+    "image": "music_lounge.jpg",
+    "tags": ["music", "live", "entertainment", "vibes"]
+  },
+  {
+    "idx": 8,
+    "storeName": "Garden Cafe",
+    "image": "garden_cafe.jpg",
+    "tags": ["nature", "cafe", "outdoor", "green"]
+  },
+  {
+    "idx": 9,
+    "storeName": "Wine Cellar",
+    "image": "wine_cellar.jpg",
+    "tags": ["wine", "vintage", "tasting", "sophisticated"]
+  },
+  {
+    "idx": 10,
+    "storeName": "Craft Beer Bar",
+    "image": "craft_beer_bar.jpg",
+    "tags": ["beer", "craft", "pub", "friends"]
+  }
+]
