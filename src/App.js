@@ -51,6 +51,22 @@ const App = () => {
       <Routes>
         <Route path="*" element={<h1>페이지가 없어요</h1>}></Route>
         <Route
+          path="/"
+          element={
+            <Suspense fallback={<Loading />}>
+              <LazyAboutPage />
+            </Suspense>
+          }
+        ></Route>
+        <Route
+          path="/main"
+          element={
+            <Suspense fallback={<Loading />}>
+              <LazyAboutPage />
+            </Suspense>
+          }
+        ></Route>
+        <Route
           path="/login"
           element={
             <Suspense fallback={<Loading />}>
@@ -120,22 +136,6 @@ const App = () => {
             }
           ></Route>
         </Route>
-        <Route
-          path="/"
-          element={
-            <Suspense fallback={<Loading />}>
-              <LazyGogiPage />
-            </Suspense>
-          }
-        ></Route>
-        <Route
-          path="/main"
-          element={
-            <Suspense fallback={<Loading />}>
-              <LazyAboutPage />
-            </Suspense>
-          }
-        ></Route>
         <Route
           path="/community/"
           element={

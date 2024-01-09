@@ -1,14 +1,14 @@
 import React from "react";
-import Navigation from "../components/header/Navigation";
+import Header from "../components/header/Header";
 import Footer from "../components/footer/Footer";
 
 // 각 page에는 BasicLayout을 이용하여 children을 쓰자
 // 객체구조분해할당 {children : children} = props.children
 const Layout = ({ children }) => {
   return (
-    <div className="wrap">
+    <div>
       <header>
-        <Navigation />
+        <Header />
       </header>
       <main>{children}</main>
       <footer>
