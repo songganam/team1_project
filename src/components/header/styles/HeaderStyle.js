@@ -51,7 +51,7 @@ export const HeaderStyle = styled.div`
   display: flex;
   justify-content: space-between;
   margin: 0 auto;
-  padding: 21px 100px;
+  padding: 21px 20px;
   border-bottom: 1px solid ${ColorStyle.g700};
   align-items: center;
 `;
