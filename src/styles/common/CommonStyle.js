@@ -1,5 +1,3 @@
-import { css } from "@emotion/react";
-import styled from "@emotion/styled";
 
 // Primary : p000 / Seconday: s000 / GrayScale : g000
 export const ColorStyle = {

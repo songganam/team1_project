@@ -1,59 +1,85 @@
 import styled from "@emotion/styled";
+import { ColorStyle, FontSize } from "./CommonStyle";
 
 // 고깃집 가게 카드 컴포넌트
 export const MeatStoreCard = styled.div`
-  position: relative;
-  width: 540px;
-  height: 365px;
-  border: 1px solid black;
-  padding-top: 30px;
-  margin-bottom: 100px;
+  font-family: "DAEAM_LEE_TAE_JOON";
+  display: inline-flex;
+  padding: 30px 0px;
+  align-items: flex-start;
+  background: red;
 `;
 export const MeatStoreCardName = styled.div`
+  margin-left: 10px;
   position: relative;
-  font-family: "Prentendard-Regular";
-  font-size: 33px;
+  font-size: ${FontSize.title};
   font-weight: 400;
-  background-color: green;
+
   /* margin-bottom: 20px; */
 `;
 export const MeatStoreInfo = styled.div`
-  display: grid;
-  grid-template-columns: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
-  grid-template-rows: 1fr 1fr 1fr 1fr 1fr 1fr 1fr 1fr;
-  gap: 0px 0px;
-  grid-template-areas:
-    ". . . . . . . ."
-    ". . . storeImage storeImage storeImage storeImage storeImage"
-    ". . . storeImage storeImage storeImage storeImage storeImage"
-    "tag tag tag storeImage storeImage storeImage storeImage storeImage"
-    "tag tag tag storeImage storeImage storeImage storeImage storeImage"
-    ". . . storeImage storeImage storeImage storeImage storeImage"
-    "rBtn rBtn . storeImage storeImage storeImage storeImage storeImage"
-    ". . . . . . . .";
+  display: flex;
+  width: 158px;
+  height: 230px;
+  padding: 10px;
+  align-items: flex-start;
+  align-content: flex-start;
+  gap: 5px;
+  flex-wrap: wrap;
 `;
 export const MeatSotreCardImg = styled.div`
   width: 380px;
   height: 210px;
-  grid-area: storeImage;
-  background-color: red;
-`;
-export const ReservationBtn = styled.button`
-  grid-area: rBtn;
-  margin-top: -20px;
-  margin-left: 10px;
-  position: relative;
-  border: none;
-  background: transparent;
-  font-family: "Prentendard-Regular";
-  font-size: 19px;
-  font-weight: 400;
-  padding: 10px;
-`;
-export const MeatstoreTag = styled.div`
-  grid-area: tag;
   /* background-color: blue; */
-  border: 1px solid #c9c9c9;
-  height: 80px;
-  margin-top: -20px;
+  background: url("<path-to-image>"), lightgray 50% / cover no-repeat, #d9d9d9;
+`;
+
+export const MeatstoreTag = styled.div``;
+
+export const MeatStoreTitle = styled.span`
+  color: #111;
+  /* font-family: DAEAM_LEE_TAE_JOON; */
+  font-size: 33px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 125%; /* 41.25px */
+`;
+export const SubTitle = styled.span`
+  font-size: ${FontSize.sub_title};
+  font-weight: 400;
+  color: ${ColorStyle.g500};
+`;
+
+export const reserveBtn = styled.div`
+  width: 73px;
+  height: 25px;
+  flex-shrink: 0;
+  span {
+    color: #111;
+    font-family: DAEAM_LEE_TAE_JOON;
+    font-size: 19px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 125%; /* 23.75px */
+    text-decoration-line: underline;
+  }
+`;
+export const InfoTagWrap = styled.div`
+  display: flex;
+  width: 138px;
+  height: 203px;
+  align-items: flex-start;
+  align-content: flex-start;
+  gap: 28px 10px;
+  flex-shrink: 0;
+  flex-wrap: wrap;
+  display: inline-flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  button {
+    border-radius: 20px;
+    border: 2px solid var(--sub, #066e52);
+    background: var(--gray-scale-0, #fff);
+  }
 `;
