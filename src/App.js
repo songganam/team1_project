@@ -103,7 +103,7 @@ const App = () => {
           }
         >
           {/* 회원가입 페이지 첫화면 */}
-          <Route path="" element={<Navigate to="mylist" />}></Route>
+          <Route path="" element={<Navigate to="mybook" />}></Route>
           <Route
             path="mylist"
             element={

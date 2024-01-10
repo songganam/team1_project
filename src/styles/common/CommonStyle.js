@@ -1,4 +1,3 @@
-
 // Primary : p000 / Seconday: s000 / GrayScale : g000
 export const ColorStyle = {
   primary: "#d60117",
@@ -38,5 +37,6 @@ export const FontSize = {
   default: "14px",
   strong: "19px",
   title: "33px",
+  main_title: "44px",
   sub_title: "25px",
 };
