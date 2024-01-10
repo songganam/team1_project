@@ -13,7 +13,6 @@ export const JoinStyle = styled.div`
   display: flex;
   justify-content: flex-end;
   gap: 20px;
-  font-family: "Pretendard-Regular";
   font-size: ${FontSize.default};
   color: ${ColorStyle.g700};
   a {
