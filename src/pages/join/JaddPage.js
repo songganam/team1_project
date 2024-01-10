@@ -20,22 +20,27 @@ const JaddPage = () => {
   };
 
   return (
-    <div>
-      <h2>회원가입 정보 작성하기</h2>
-      <button
-        onClick={() => {
-          handleClickJoin();
-        }}
-      >
-        회원가입 작성완료
-      </button>
-      <button
-        onClick={() => {
-          handleClickCancel();
-        }}
-      >
-        회원가입 취소하기
-      </button>
+    <div className="JoinPage-main">
+      <div className="JoinPage-img"></div>
+      <div className="JoinPage-write">
+        <h2>회원가입 정보 작성하기</h2>
+      </div>
+      <div className="JoinPage-bt">
+        <button
+          onClick={() => {
+            handleClickJoin();
+          }}
+        >
+          회원가입 작성완료
+        </button>
+        <button
+          onClick={() => {
+            handleClickCancel();
+          }}
+        >
+          회원가입 취소하기
+        </button>
+      </div>
     </div>
   );
 };
