@@ -4,6 +4,7 @@ import GCard from "../../components/common/GCard";
 import { SubTitle } from "../../styles/common/GCardStyle";
 import { Map, MapMarker } from "react-kakao-maps-sdk";
 import { MapWrapper } from "./styles/GlistPageStyle";
+import TitleHeader from "../../components/titleheader/TitleHeader";
 
 // 고깃집 목록보기 페이지입니다.
 const GlistPage = () => {
@@ -23,8 +24,6 @@ const GlistPage = () => {
   return (
     <div>
       <div>
-        {/* <Title>고깃집 찾기</Title> */}
-        <SubTitle>고기 자체로 행복이 되는 순간</SubTitle>
         <form>
           <input type="text" />
           <button>검색</button>
