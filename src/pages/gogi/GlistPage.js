@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from "react";
-import StoreCard from "../../components/common/StoreCard";
 import { MeatGo } from "../../api/meatApi";
-import { SubTitle, Title } from "../../styles/common/CommonComponentStyle";
+import GCard from "../../components/common/GCard";
+import { SubTitle } from "../../styles/common/GCardStyle";
+import { Map, MapMarker } from "react-kakao-maps-sdk";
+import { MapWrapper } from "./styles/GlistPageStyle";
 
 // 고깃집 목록보기 페이지입니다.
 const GlistPage = () => {
@@ -40,16 +42,14 @@ const GlistPage = () => {
           <button>해산물(준비중)</button>
         </div>
         <div>
-          <button>모두보기</button>
-          <button>주차</button>
-          <button>키즈존</button>
-          <button>단체석</button>
-          <button>데이트</button>
-          <button>가족모임</button>
-          <button>소개팅</button>
+          <select>
+            <option value={1}>인기순</option>
+            <option value={1}>최신순</option>
+          </select>
         </div>
       </div>
-      <StoreCard data={meatMenu} />
+      <GCard data={meatMenu} />
+      {/* 공사중 지도 페이지 입니다. */}
     </div>
   );
 };

@@ -1,18 +1,13 @@
 import React from "react";
 import {
-  DivTag,
-  InfoTag,
   InfoTagWrap,
   MeatSotreCardImg,
   MeatStoreCard,
-  MeatStoreCardName,
   MeatStoreInfo,
   MeatStoreTitle,
-  MeatstoreTag,
-  ReservationBtn,
-} from "../../styles/common/CommonComponentStyle";
+} from "../../styles/common/GCardStyle";
 
-const StoreCard = ({ data }) => {
+const GCard = ({ data }) => {
   console.log("데이터임 :", data);
   return (
     <div>
@@ -39,10 +34,18 @@ const StoreCard = ({ data }) => {
         <MeatStoreInfo>
           <MeatStoreTitle>목구멍</MeatStoreTitle>
           <InfoTagWrap>
-            <button></button>
-            <button></button>
-            <button></button>
-            <button></button>
+            <button>
+              <span>소</span>
+            </button>
+            <button>
+              <span>돼지</span>
+            </button>
+            <button>
+              <span>단체석완비</span>
+            </button>
+            <button>
+              <span>무선인터넷</span>
+            </button>
           </InfoTagWrap>
           {/* 예약하기 */}
           <reserveBtn>
@@ -60,4 +63,4 @@ const StoreCard = ({ data }) => {
   );
 };
 
-export default StoreCard;
+export default GCard;
