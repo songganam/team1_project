@@ -45,7 +45,7 @@ const Footer = () => {
               <li>정보보호 책임자: 김고기 gogi@greenart.co.kr</li>
             </ul>
           </ContentStyle>
-          <ContentStyle color={ColorStyle.g800}>
+          <ContentStyle color={ColorStyle.g800} marginTop="1vw">
             <ul>
               <li>
                 대구광역시 중구 고기로 92길, 고기 192호(남산동,

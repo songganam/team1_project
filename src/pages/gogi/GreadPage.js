@@ -1,6 +1,6 @@
 import React from "react";
-import { MapWrapper } from "./styles/GlistPageStyle";
-import { Map, MapMarker } from "react-kakao-maps-sdk";
+// import { MapWrapper } from "./styles/GlistPageStyle";
+// import { Map, MapMarker } from "react-kakao-maps-sdk";
 import {
   QuickReser,
   ReserCountBox,
