@@ -7,7 +7,7 @@ export const MeatStoreCard = styled.div`
   display: inline-flex;
   padding: 30px 0px;
   align-items: flex-start;
-  background: red;
+  /* background: red; */
 `;
 export const MeatStoreCardName = styled.div`
   margin-left: 10px;
@@ -19,13 +19,14 @@ export const MeatStoreCardName = styled.div`
 `;
 export const MeatStoreInfo = styled.div`
   display: flex;
-  width: 158px;
-  height: 230px;
-  padding: 10px;
+  width: 138px;
+  height: 203px;
   align-items: flex-start;
   align-content: flex-start;
-  gap: 5px;
+  gap: 28px 10px;
+  flex-shrink: 0;
   flex-wrap: wrap;
+  padding: 10px;
 `;
 export const MeatSotreCardImg = styled.div`
   width: 380px;
@@ -66,17 +67,31 @@ export const reserveBtn = styled.div`
 `;
 export const InfoTagWrap = styled.div`
   display: flex;
-  width: 138px;
-  height: 203px;
   align-items: flex-start;
   align-content: flex-start;
-  gap: 28px 10px;
-  flex-shrink: 0;
+  gap: 10px;
   flex-wrap: wrap;
-  display: inline-flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
+  button {
+    display: flex;
+    width: 64px;
+    height: 25px;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    border-radius: 20px;
+    border: 2px solid var(--sub, #066e52);
+    background: #fff;
+
+    span {
+      color: var(--primary, #d60117);
+      text-align: center;
+      font-family: DAEAM_LEE_TAE_JOON;
+      font-size: 11px;
+      font-style: normal;
+      font-weight: 400;
+      line-height: 125%; /* 13.75px */
+    }
+  }
   button {
     border-radius: 20px;
     border: 2px solid var(--sub, #066e52);

@@ -25,49 +25,16 @@ const GogiPage = () => {
   };
 
   return (
-    <Wrapper>
-      <div>
-        <h1>고깃집찾기</h1>
-        <button
-          onClick={() => {
-            handleClickGbook();
-          }}
-        >
-          고깃집 예약하기
-        </button>
-        <button
-          onClick={() => {
-            handleClickGlist();
-          }}
-        >
-          고깃집 목록
-        </button>
-        <button
-          onClick={() => {
-            handleClickGread();
-          }}
-        >
-          고깃집 정보 상세보기
-        </button>
-        <button
-          onClick={() => {
-            handleClickGadd();
-          }}
-        >
-          고깃집 리뷰 쓰기
-        </button>
-        <button
-          onClick={() => {
-            handleClickGmodify();
-          }}
-        >
-          고깃집 리뷰 수정하기
-        </button>
+    <Layout>
+      <Wrapper>
         <div>
-          <Outlet />
+          <h1>고깃집찾기</h1>
+          <div>
+            <Outlet />
+          </div>
         </div>
-      </div>
-    </Wrapper>
+      </Wrapper>
+    </Layout>
   );
 };
 
