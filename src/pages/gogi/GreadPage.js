@@ -1,8 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { MeatMenu } from "../../api/meatApi";
-import { } from "./styles/GlistPageStyle";
+import {} from "./styles/GlistPageStyle";
 
 import {
+  MapWrapper,
   QuickReser,
   QuickReserWrap,
   ReserCountBox,
@@ -41,8 +42,9 @@ import {
   StoreReviewImageWrap,
   StoreReviewMainImage,
   StoreReviewSubImage,
-  StoreReviewTitle
+  StoreReviewTitle,
 } from "./styles/GreadPageStyle";
+import { Map, MapMarker } from "react-kakao-maps-sdk";
 
 // 고깃집 정보 상세보기 페이지입니다.
 const GreadPage = () => {
