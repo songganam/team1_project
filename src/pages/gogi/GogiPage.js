@@ -2,6 +2,7 @@ import React from "react";
 import { Outlet, useNavigate } from "react-router-dom";
 import Layout from "../../layouts/Layout";
 import { Wrapper } from "../../styles/common/LayoutStyles";
+import TitleHeader from "../../components/titleheader/TitleHeader";
 
 // 고깃집 메인 페이지입니다.
 const GogiPage = () => {
@@ -26,9 +27,13 @@ const GogiPage = () => {
 
   return (
     <Layout>
+      <TitleHeader
+        timg="https://picsum.photos/1920/215/?category=meat"
+        tname="고깃집찾기"
+        tcontent="고기자체로 행복이 되는 공간"
+      ></TitleHeader>
       <Wrapper>
         <div>
-          <h1>고깃집찾기</h1>
           <div>
             <Outlet />
           </div>
