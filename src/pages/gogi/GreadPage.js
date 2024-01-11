@@ -70,6 +70,17 @@ const GreadPage = () => {
     };
     MenuData();
   }, []);
+  const [reserCount, setReserCount] = useState(0);
+  const handleClickCountPlus = () => {
+    setReserCount(reserCount + 1);
+  };
+  const handleClickCountMinus = () => {
+    if (reserCount >= 1) {
+      setReserCount(reserCount - 1);
+    } else {
+      alert("0명 보다 작을 수없습니다.");
+    }
+  };
 
   return (
     <div>
@@ -103,13 +114,13 @@ const GreadPage = () => {
                 <span>인원수</span>
               </ReserCountText>
               <ReserCountBox>
-                <ReserCountBtn>
+                <ReserCountBtn onClick={handleClickCountMinus}>
                   <span>-</span>
                 </ReserCountBtn>
                 <ReserCountBtn>
-                  <span>0</span>
+                  <span>{reserCount}</span>
                 </ReserCountBtn>
-                <ReserCountBtn>
+                <ReserCountBtn onClick={handleClickCountPlus}>
                   <span>+</span>
                 </ReserCountBtn>
               </ReserCountBox>
@@ -218,11 +229,13 @@ const GreadPage = () => {
       {/* mapper */}
       <MapWrapper>
         <Map
-          center={{ lat: 33.5563, lng: 126.79581 }}
+          center={{ lat: 35.8668123877152, lng: 128.60146665675214 }}
           style={{ width: "1180px", height: "500px" }}
         >
-          <MapMarker position={{ lat: 33.55635, lng: 126.795841 }}>
-            <div style={{ color: "#000" }}>Hello World!</div>
+          <MapMarker
+            position={{ lat: 35.8668123877152, lng: 128.60146665675214 }}
+          >
+            <div style={{ color: "#000" }}>미진삼겹살</div>
           </MapMarker>
         </Map>
       </MapWrapper>
