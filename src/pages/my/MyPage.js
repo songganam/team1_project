@@ -7,7 +7,6 @@ import {
   MyPageData,
   MyPageMenu,
   MyPageMenuBar,
-  MyPageNum,
   MyPageWrapper,
 } from "./styles/MyPageStyle";
 
@@ -75,7 +74,6 @@ const MyPage = () => {
             <Outlet />
           </MyPageContent>
         </MyPageData>
-        <MyPageNum>임시 버튼 1 2 3 4 5</MyPageNum>
       </MyPageWrapper>
     </Layout>
   );
