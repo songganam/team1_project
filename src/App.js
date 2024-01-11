@@ -173,7 +173,7 @@ const App = () => {
             }
           ></Route>
           <Route
-            path="read/:tno"
+            path="read/"
             element={
               <Suspense fallback={<Loading />}>
                 <LazyReadPage />

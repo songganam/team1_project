@@ -6,6 +6,7 @@ import { Map, MapMarker } from "react-kakao-maps-sdk";
 import { MapWrapper } from "./styles/GlistPageStyle";
 import TitleHeader from "../../components/titleheader/TitleHeader";
 
+
 // 고깃집 목록보기 페이지입니다.
 const GlistPage = () => {
   const [meatMenu, setMeatMenu] = useState([]);
