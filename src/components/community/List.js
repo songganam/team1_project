@@ -1,15 +1,20 @@
 import React from "react";
 import { createSearchParams, useNavigate } from "react-router-dom";
+import { ColorStyle } from "../../styles/common/CommonStyle";
+import Thead from "./Thead";
+import Topen from "./Topen";
 import {
   InfoStyle,
-  TableStyle,
+  TableFootStyle,
   TitleStyle,
   TnoStyle,
-  TopenStyle,
   TtableStyle,
   WrapStyle,
 } from "./styles/ListStyle";
-import { ColorStyle } from "../../styles/common/CommonStyle";
+import Ttable from "./Ttable";
+import Paging from "./Paging";
+import Search from "./Search";
+import Button from "../button/Button";
 
 // 서버데이터 초기값 객체
 const initState = {
@@ -47,57 +52,33 @@ const List = () => {
 
   return (
     <WrapStyle>
-      <TableStyle>
-        <TnoStyle>번호</TnoStyle>
-        <TitleStyle justifyContent="center">제목</TitleStyle>
-        <InfoStyle>
-          <div>작성자</div>
-          <div>작성일</div>
-          <div>조회수</div>
-        </InfoStyle>
-      </TableStyle>
-      <TtableStyle>
-        <TnoStyle color={ColorStyle.g700}>공지</TnoStyle>
-        <TitleStyle>이메일로 회원가입이 안되는 경우 읽어주세요.</TitleStyle>
-        <InfoStyle color={ColorStyle.g700}>
-          <div>고기로</div>
-          <div>2024.01.08</div>
-          <div>3578</div>
-        </InfoStyle>
-      </TtableStyle>
+      <Thead />
+      <Ttable />
       <TtableStyle background={ColorStyle.g200}>
         <TnoStyle color={ColorStyle.g1000}>478</TnoStyle>
-        <TitleStyle>이메일로 회원가입이 안되는 경우 읽어주세요.</TitleStyle>
+        <TitleStyle>
+          간만에 퇴근길에 괜찮은 고깃집 갔음 곧 웨이팅 걸리기전에 얼른 가야할 듯
+        </TitleStyle>
         <InfoStyle color={ColorStyle.g1000}>
           <div>어쭈구</div>
           <div>2024.01.08</div>
           <div>4265</div>
         </InfoStyle>
       </TtableStyle>
-      <TopenStyle>
-        <div className="imgs">
-          <div className="largeImg"></div>
-          <div className="thumbnails">
-            <div className="thumbnail"></div>
-            <div className="thumbnail"></div>
-            <div className="thumbnail"></div>
-          </div>
-        </div>
-        <div className="contentInfo">
-          <div className="content">
-            <div className="user"></div>
-            <div className="summary">
-              퇴근하고 집에 가는데 고기가 너무 먹고싶어서 들렀음!! 요즘에 다
-              구워주긴 하지만 여기는 아예 주방에서 구어서 나옴, 근데 다 식으면
-              어쩌나 했는데 따뜻하게 먹을 수 있게 그거 뭐라 그러냐 고체 연료
-              같은거 같이 나와서 그릇 계속...
-            </div>
-          </div>
-          <div className="btn">
-            <button>더보기</button>
-          </div>
-        </div>
-      </TopenStyle>
+      <Topen />
+      <Ttable />
+      <Ttable />
+      <Ttable />
+      <Ttable />
+      <Ttable />
+      <Ttable />
+      <Ttable />
+      <Ttable />
+      <Paging />
+      <Search />
+      <TableFootStyle>
+        <Button bttext="글쓰기" />
+      </TableFootStyle>
     </WrapStyle>
   );
 };

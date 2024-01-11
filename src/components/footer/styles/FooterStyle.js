@@ -37,7 +37,7 @@ export const ContentStyle = styled.div`
     font-size: 1.4rem;
     line-height: 1.75rem;
   }
-  @media (max-width: 1440px) {
+  @media (max-width: 1680px) {
     margin-left: 5vw;
     margin-right: 5vw;
   }
@@ -47,7 +47,7 @@ export const LineStyle = styled.div`
   position: relative;
   margin: 0 18vw;
   border-top: 1px solid ${ColorStyle.g600};
-  @media (max-width: 1440px) {
+  @media (max-width: 1680px) {
     margin: 0 5vw;
   }
 `;
