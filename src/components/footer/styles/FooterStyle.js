@@ -3,7 +3,7 @@ import { ColorStyle } from "../../../styles/common/CommonStyle";
 
 export const FooterStyle = styled.div`
   position: relative;
-  padding: 2.1rem 19vw;
+  padding: 2.1rem 18vw;
   background: ${props => props.background};
   color: ${props => props.color};
   ul {
@@ -15,7 +15,7 @@ export const FooterStyle = styled.div`
     font-size: 1.4rem;
     font-weight: ${props => props.fontWeight};
   }
-  @media (max-width: 1440px) {
+  @media (max-width: 1680px) {
     padding: 2.1rem 5vw;
   }
 `;
@@ -24,8 +24,8 @@ export const ContentStyle = styled.div`
   position: relative;
   margin-top: ${props => props.marginTop};
   margin-bottom: 0.5rem;
-  margin-left: 19vw;
-  margin-right: 19vw;
+  margin-left: 18vw;
+  margin-right: 18vw;
   padding: 0;
   color: ${props => props.color};
   ul {
@@ -45,7 +45,7 @@ export const ContentStyle = styled.div`
 
 export const LineStyle = styled.div`
   position: relative;
-  margin: 0 19vw;
+  margin: 0 18vw;
   border-top: 1px solid ${ColorStyle.g600};
   @media (max-width: 1440px) {
     margin: 0 5vw;

@@ -1,4 +1,3 @@
-
 import React, { useEffect, useState } from "react";
 import { Map, MapMarker } from "react-kakao-maps-sdk";
 import { MeatMenu } from "../../api/meatApi";
@@ -219,7 +218,7 @@ const GreadPage = () => {
         </StoreNoticeWrap>
       </StoreInfoWrap>
       {/* mapper */}
-      {/* <MapWrapper>
+      <MapWrapper>
         <Map
           center={{ lat: 33.5563, lng: 126.79581 }}
           style={{ width: "1180px", height: "500px" }}
@@ -228,7 +227,7 @@ const GreadPage = () => {
             <div style={{ color: "#000" }}>Hello World!</div>
           </MapMarker>
         </Map>
-      </MapWrapper> */}
+      </MapWrapper>
       {/* Review */}
       <StoreReviewTitle>
         <span>리뷰</span>
