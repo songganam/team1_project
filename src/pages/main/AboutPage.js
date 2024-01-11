@@ -6,12 +6,12 @@ const AboutPage = () => {
     <div className="AboutPage-wrap">
       <div className="AboutPage-top">
         <div className="AboutPage-main">
-          <div className="AboutPage-main-gogi"></div>
+          <div className="AboutPage-main-gogishop"></div>
           <div className="AboutPage-main-butcher"></div>
           <div className="AboutPage-main-band"></div>
-          <div className="AboutPage-main-shop"></div>
+          <div className="AboutPage-main-shops"></div>
           <div className="AboutPage-main-event"></div>
-          <div className="AboutPage-main-??"></div>
+          <div className="AboutPage-main-community"></div>
           <Layout>
             <h1>AboutPage</h1>
           </Layout>

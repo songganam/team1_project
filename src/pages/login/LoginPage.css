@@ -1,0 +1,84 @@
+.LoginPage-wrap {
+  position: relative;
+  display: block;
+}
+.LoginPage-top {
+  position: relative;
+  display: block;
+}
+.LoginPage-main {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  flex-wrap: wrap; /* 아이템을 여러 줄에 걸쳐 배치 */
+  justify-content: center; /* 가로 방향 중앙 정렬 */
+  align-items: center;
+  padding-top: 140px;
+  padding-bottom: 180px;
+}
+.LoginPage-info {
+  display: inline-flex;
+  flex-direction: column;
+  align-items: flex-start;
+
+  font-size: 20px;
+  gap: 35px;
+}
+.Login-id {
+  position: relative;
+  padding-bottom: 15px;
+  display: block;
+  width: 500px;
+  height: 40px;
+  border: none;
+  border-bottom: 1px solid #5c5c5c;
+}
+.Login-pw {
+  position: relative;
+  padding-bottom: 15px;
+  display: block;
+  width: 500px;
+  height: 40px;
+  border: none;
+  border-bottom: 1px solid #5c5c5c;
+}
+.Login-checkbox {
+  position: relative;
+
+  display: block;
+  width: 500px;
+  padding-top: 12px;
+
+  font-size: 19px;
+}
+.Login-bts {
+  position: relative;
+
+  display: inline-flex;
+  padding-top: 40px;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 20px;
+}
+.Loginbutton {
+  position: relative;
+  border: 1px solid #066e52;
+  font-size: 19px;
+  color: #D60117;
+  border-radius: 20px;
+  background-color: #ffffff;
+  width: 500px;
+  height: 55px;
+  padding: 10px 20px;
+}
+.Joinbutton {
+  position: relative;
+  border: 1px solid #066e52;
+  font-size: 19px;
+  border-radius: 20px;
+  color: #ffffff;
+  background-color: #066e52;
+  width: 500px;
+  height: 55px;
+  padding: 10px 20px;
+}
