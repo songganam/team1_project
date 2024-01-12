@@ -16,21 +16,32 @@ import {
 } from "./styles/MyBookCardStyle";
 
 const MyBookCard = props => {
-  const { gogiimg } = props;
+  const {
+    storeimg,
+    storeplace,
+    storename,
+    bookdate,
+    booktime,
+    bookpeople,
+    bookmemo,
+  } = props;
+
   return (
     <MyBookCardWrapper>
       <MyBookCardVisual>
-        <img src={gogiimg} alt="가게 이미지"></img>
+        <img src={storeimg} alt="가게 이미지"></img>
       </MyBookCardVisual>
       <MyBookCardContent>
         <MyBookCardTitle>
           <MyBookCardSubTitle>
             <MyBookmark>
-              <img src="../public/assets/images/bookmark_null.svg"></img>
+              <img
+                src={`${process.env.PUBLIC_URL}/assets/images/bookmark_null.svg`}
+              ></img>
             </MyBookmark>
-            <MyBookCardPlace>지점명</MyBookCardPlace>
+            <MyBookCardPlace>지점명{storeplace}</MyBookCardPlace>
           </MyBookCardSubTitle>
-          <MyBookCardName>가게명</MyBookCardName>
+          <MyBookCardName>가게명{storename}</MyBookCardName>
         </MyBookCardTitle>
         <MyBookCardInfo>
           <MyBookCardDateTitle>
@@ -40,10 +51,10 @@ const MyBookCard = props => {
             <li>요청사항</li>
           </MyBookCardDateTitle>
           <MyBookCardDateContent>
-            <li>날짜내용</li>
-            <li>시간내용</li>
-            <li>인원내용</li>
-            <li>요청내용</li>
+            <li>날짜내용{bookdate}</li>
+            <li>시간내용{booktime}</li>
+            <li>인원내용{bookpeople}</li>
+            <li>요청내용{bookmemo}</li>
           </MyBookCardDateContent>
         </MyBookCardInfo>
         <MyBookCardBookButton>

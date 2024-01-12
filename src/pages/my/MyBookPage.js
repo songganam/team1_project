@@ -10,7 +10,7 @@ const MyBookPage = () => {
       <MyBookPageTitle>
         <span>내 예약 내역 보기</span>
       </MyBookPageTitle>
-      <MyBookCard gogiimg="https://picsum.photos/331/228/?category=meat"></MyBookCard>
+      <MyBookCard storeimg="https://picsum.photos/331/228/?category=meat"></MyBookCard>
       <div>
         <button>페이지이동버튼</button>
       </div>
