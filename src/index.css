@@ -29,3 +29,6 @@ body {
   word-break: keep-all;
   color: #000000;
 }
+body::-webkit-scrollbar {
+  display: none;
+}

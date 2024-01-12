@@ -158,6 +158,7 @@ export const SummaryStyle = styled.div`
   text-overflow: ellipsis;
   -webkit-line-clamp: 3;
   -webkit-box-orient: vertical;
+  color: ${ColorStyle.g600};
 `;
 
 export const BtnStyle = styled.div`
