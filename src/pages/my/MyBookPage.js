@@ -1,14 +1,20 @@
 import React from "react";
 import MyBookCard from "../../components/my/MyBookCard";
 import Button from "../../components/button/Button";
+import { MyBookPageTitle, MyBookPageWrapper } from "./styles/MyBookPageStyle";
 
-// 내 예약내역보기 페이지입니다.
+// 내 예약 내역 보기 페이지
 const MyBookPage = () => {
   return (
-    <div>
-      <h2>나의 예약내역 보기</h2>
+    <MyBookPageWrapper>
+      <MyBookPageTitle>
+        <span>내 예약 내역 보기</span>
+      </MyBookPageTitle>
       <MyBookCard gogiimg="https://picsum.photos/331/228/?category=meat"></MyBookCard>
-    </div>
+      <div>
+        <button>페이지이동버튼</button>
+      </div>
+    </MyBookPageWrapper>
   );
 };
 

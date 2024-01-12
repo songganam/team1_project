@@ -1,4 +1,5 @@
 import styled from "@emotion/styled";
+import { ColorStyle, FontSize } from "../../../styles/common/CommonStyle";
 
 export const MyBookCardWrapper = styled.div`
   position: relative;
@@ -12,7 +13,7 @@ export const MyBookCardWrapper = styled.div`
 `;
 
 export const MyBookCardVisual = styled.div`
-  margin-right: 10px;
+  margin-right: 15px;
   img {
     width: 331px;
     height: 228px;
@@ -22,11 +23,31 @@ export const MyBookCardVisual = styled.div`
   }
 `;
 
-export const MyBookCardContent = styled.div``;
+export const MyBookCardContent = styled.div`
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: space-between;
+  width: 344px;
+  height: 228px;
+`;
 
 export const MyBookCardTitle = styled.div``;
 
-export const MyBookmark = styled.button``;
+export const MyBookCardSubTitle = styled.div`
+  position: relative;
+  display: flex;
+  margin-bottom: 10px;
+`;
+
+export const MyBookmark = styled.button`
+  position: relative;
+  margin-right: 5px;
+  img {
+    width: 12px;
+    height: 15px;
+  }
+`;
 
 export const MyBookCardPlace = styled.p`
   font-family: DAEAM_LEE_TAE_JOON;
@@ -35,16 +56,11 @@ export const MyBookCardPlace = styled.p`
   font-weight: 400;
 `;
 
-export const MyBookCardSubTitle = styled.p`
+export const MyBookCardName = styled.p`
   font-family: DAEAM_LEE_TAE_JOON;
   font-size: 33px;
   font-style: normal;
   font-weight: 400;
-`;
-
-export const MyBookCardBookButton = styled.div`
-  button {
-  }
 `;
 
 export const MyBookCardInfo = styled.div`
@@ -59,6 +75,7 @@ export const MyBookCardDateTitle = styled.ul`
     font-size: 14px;
     font-style: normal;
     font-weight: 400;
+    line-height: 140%;
   }
 `;
 
@@ -68,5 +85,20 @@ export const MyBookCardDateContent = styled.ul`
     font-size: 14px;
     font-style: normal;
     font-weight: 400;
+    line-height: 140%;
+    color: ${ColorStyle.g500};
+  }
+`;
+
+export const MyBookCardBookButton = styled.div`
+  position: relative;
+  display: flex;
+  justify-content: flex-end;
+  button {
+    padding: 7px !important;
+    margin-left: 10px;
+    span {
+      font-size: ${FontSize.default} !important;
+    }
   }
 `;

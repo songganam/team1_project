@@ -1,10 +1,12 @@
 import React from "react";
+import Button from "../../components/button/Button";
 import {
   MyBookCardBookButton,
   MyBookCardContent,
   MyBookCardDateContent,
   MyBookCardDateTitle,
   MyBookCardInfo,
+  MyBookCardName,
   MyBookCardPlace,
   MyBookCardSubTitle,
   MyBookCardTitle,
@@ -22,13 +24,13 @@ const MyBookCard = props => {
       </MyBookCardVisual>
       <MyBookCardContent>
         <MyBookCardTitle>
-          <MyBookmark>북마크</MyBookmark>
-          <MyBookCardPlace>지점명</MyBookCardPlace>
-          <MyBookCardSubTitle>가게명</MyBookCardSubTitle>
-          <MyBookCardBookButton>
-            <button>예약변경</button>
-            <button>예약취소</button>
-          </MyBookCardBookButton>
+          <MyBookCardSubTitle>
+            <MyBookmark>
+              <img src="../public/assets/images/bookmark_null.svg"></img>
+            </MyBookmark>
+            <MyBookCardPlace>지점명</MyBookCardPlace>
+          </MyBookCardSubTitle>
+          <MyBookCardName>가게명</MyBookCardName>
         </MyBookCardTitle>
         <MyBookCardInfo>
           <MyBookCardDateTitle>
@@ -44,6 +46,10 @@ const MyBookCard = props => {
             <li>요청내용</li>
           </MyBookCardDateContent>
         </MyBookCardInfo>
+        <MyBookCardBookButton>
+          <Button bttext="예약변경"></Button>
+          <Button bttext="예약취소"></Button>
+        </MyBookCardBookButton>
       </MyBookCardContent>
     </MyBookCardWrapper>
   );
