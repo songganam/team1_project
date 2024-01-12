@@ -33,6 +33,7 @@ export const MyPageMenu = styled.div`
     line-height: 40px;
     border: none;
     background: none;
+    cursor: pointer;
   }
   button:hover,
   button:focus,

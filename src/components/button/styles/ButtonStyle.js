@@ -12,6 +12,7 @@ export const DefaultBt = styled.button`
   background: #fff;
   border: 2px solid #066e52;
   border-radius: 10px;
+  cursor: pointer;
   span {
     font-family: DAEAM_LEE_TAE_JOON;
     font-size: 19px;
