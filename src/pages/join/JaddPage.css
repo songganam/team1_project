@@ -1,0 +1,105 @@
+.JoinPage-wrap {
+  position: relative;
+  display: block;
+}
+.JoinPage-main {
+  position: relative;
+  display: block;
+  padding-top: 140px;
+}
+.JoinPage-img {
+  position: relative;
+
+  background-color: green;
+  width: 280px;
+  height: 280px;
+  border-radius: 250px;
+}
+.JoinPage-img-button {
+  position: relative;
+  width: 68px;
+  height: 68px;
+  border-radius: 250px;
+  border: none;
+}
+.JoinPage-info {
+  position: relative;
+  display: flex;
+  padding-bottom: 180px;
+  display: block;
+  border: none;
+  width: 500px;
+}
+.Join-mail {
+  position: relative;
+  width: 100%;
+  border: none;
+  border-bottom: 1px solid #000000;
+}
+.Join-name {
+  position: relative;
+  width: 100%;
+  border: none;
+  border-bottom: 1px solid #000000;
+}
+.Join-pw {
+  position: relative;
+  border: none;
+  width: 100%;
+  border-bottom: 1px solid #000000;
+}
+.Join-morepw {
+  position: relative;
+  border: none;
+  width: 100%;
+  border-bottom: 1px solid #000000;
+}
+.Join-gender {
+  position: relative;
+  width: 100%;
+  border: none;
+  background-color: #ffffff;
+  border-bottom: 1px solid #000000;
+}
+.Join-nickname {
+  position: relative;
+  border: none;
+  width: 100%;
+  border-bottom: 1px solid #000000;
+}
+.Join-phonenumber {
+  position: relative;
+  border: none;
+  width: 100%;
+  border-bottom: 1px solid #000000;
+}
+.Join-address {
+  position: relative;
+  border: none;
+  width: 100%;
+  border-bottom: 1px solid #000000;
+}
+.Join-buttons {
+  position: relative;
+  padding-top: 97px;
+  display: block;
+  gap: 20px;
+}
+.Join-button {
+  width: 100%;
+  height: 55px;
+  color: #d60117;
+  font-size: 19px;
+}
+.cancel-button {
+  position: relative;
+
+  border: 1px solid #066e52;
+  font-size: 19px;
+  border-radius: 10px;
+  color: #ffffff;
+  background-color: #066e52;
+  width: 500px;
+  height: 55px;
+  padding: 10px 20px;
+}
