@@ -3,10 +3,10 @@ import Button from "../button/Button";
 import More from "./More";
 import { WrapStyle } from "./styles/ListStyle";
 import {
-  BtnBox,
   BtnBoxStyle,
   MoreTitleStyle,
   PrnvContentStyle,
+  ReviewBox,
   TitleBoxStyle,
   WriterBoxStyle,
 } from "./styles/ReadStyle";
@@ -66,10 +66,38 @@ const Read = () => {
         </div>
         <Button bttext="목록보기" />
       </BtnBoxStyle>
-      <div className="reviewBox">
-        <div className="readReviewBox"></div>
-        <div className="inputReviewBox"></div>
-      </div>
+      <ReviewBox>
+        <div className="readReviewBox">
+          <div className="readReview">
+            <div className="reviewInfo">
+              <div className="reviewCount">댓글 1개</div>
+              <div className="userInfo">
+                <div className="user">
+                  <div className="icon">
+                    <img
+                      src={`${process.env.PUBLIC_URL}/assets/images/speech.svg`}
+                    />
+                  </div>
+                  <div className="nickName">막내손씨</div>
+                </div>
+                <div className="date">2024-01-09 16:27:48</div>
+              </div>
+            </div>
+            <div className="reviewContent">
+              오!! 여기 양도 혜자 그잡채임
+              <br />
+              대박 나만 알고 싶은 곳 인정!!! 나도 고기먹고잡다
+            </div>
+          </div>
+          <div className="deleteBtn">삭제</div>
+        </div>
+        <div className="inputReviewBox">
+          <div className="inputReview">
+            <input type="text" placeholder="댓글을 입력해보세요" />
+          </div>
+          <Button bttext="댓글입력" />
+        </div>
+      </ReviewBox>
     </WrapStyle>
   );
 };

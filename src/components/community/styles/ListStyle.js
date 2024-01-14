@@ -214,7 +214,6 @@ export const PagingBoxStyle = styled.div`
 
 export const SearchStyle = styled.div`
   position: relative;
-
   display: flex;
   flex-wrap: wrap;
   padding: 0 50px;

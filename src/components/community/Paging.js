@@ -4,7 +4,7 @@ import { PagingBoxStyle } from "./styles/ListStyle";
 const Paging = () => {
   return (
     <PagingBoxStyle>
-      <button>prev</button>
+      <button>이전</button>
       <button>1</button>
       <button>2</button>
       <button>3</button>
@@ -15,7 +15,7 @@ const Paging = () => {
       <button>8</button>
       <button>9</button>
       <button>10</button>
-      <button>next</button>
+      <button>다음</button>
     </PagingBoxStyle>
   );
 };
