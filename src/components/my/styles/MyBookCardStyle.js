@@ -71,7 +71,7 @@ export const MyBookCardInfo = styled.div`
   display: flex;
 `;
 
-export const MyBookCardDateTitle = styled.ul`
+export const MyBookCardInfoTitle = styled.ul`
   margin-right: 10px;
   li {
     font-family: Pretendard;
