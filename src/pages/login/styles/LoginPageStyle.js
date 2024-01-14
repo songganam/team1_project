@@ -1,9 +1,11 @@
-.LoginPage-wrap {
+import styled from "@emotion/styled";
+
+export const LoginPageWrap = styled.div`
   position: relative;
   display: block;
-}
+`;
 
-.LoginPage-main {
+export const LoginPageMain = styled.div`
   font-family: "DAEAM_LEE_TAE_JOON";
   position: relative;
   display: flex;
@@ -13,15 +15,17 @@
   align-items: center;
   padding-top: 140px;
   padding-bottom: 180px;
-}
-.LoginPage-info {
+`;
+
+export const LoginPageInfo = styled.div`
   display: inline-flex;
   flex-direction: column;
   align-items: flex-start;
   font-size: 20px;
   gap: 35px;
-}
-.Login-id {
+`;
+
+export const LoginPageID = styled.input`
   position: relative;
   padding-bottom: 15px;
   display: block;
@@ -29,8 +33,9 @@
   height: 40px;
   border: none;
   border-bottom: 1px solid #5c5c5c;
-}
-.Login-pw {
+`;
+
+export const LoginPagePW = styled.input`
   position: relative;
   padding-bottom: 15px;
   display: block;
@@ -38,41 +43,44 @@
   height: 40px;
   border: none;
   border-bottom: 1px solid #5c5c5c;
-}
-.Login-checkbox {
+`;
+
+export const LoginPageCheckbox = styled.div`
   position: relative;
   display: block;
   width: 500px;
   padding-top: 12px;
   font-size: 19px;
-}
-.Login-bts {
+`;
+
+export const LoginPageBts = styled.div`
   position: relative;
   display: inline-flex;
   padding-top: 40px;
   flex-direction: column;
   align-items: flex-start;
   gap: 20px;
-}
-.Loginbutton {
-  position: relative;
-  border: 1px solid #066e52;
-  font-size: 19px;
-  color: #d60117;
-  border-radius: 20px;
-  background-color: #ffffff;
-  width: 500px;
-  height: 55px;
-  padding: 10px 20px;
-}
-.Joinbutton {
-  position: relative;
-  border: 1px solid #066e52;
-  font-size: 19px;
-  border-radius: 20px;
-  color: #ffffff;
-  background-color: #066e52;
-  width: 500px;
-  height: 55px;
-  padding: 10px 20px;
-}
+
+  .Loginbutton {
+    position: relative;
+    border: 1px solid #066e52;
+    font-size: 19px;
+    color: #d60117;
+    border-radius: 20px;
+    background-color: #ffffff;
+    width: 500px;
+    height: 55px;
+    padding: 10px 20px;
+  }
+  .Joinbutton {
+    position: relative;
+    border: 1px solid #066e52;
+    font-size: 19px;
+    border-radius: 20px;
+    color: #ffffff;
+    background-color: #066e52;
+    width: 500px;
+    height: 55px;
+    padding: 10px 20px;
+  }
+`;
