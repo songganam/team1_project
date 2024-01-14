@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
 import Layout from "../../layouts/Layout";
 import { Wrapper } from "../../styles/common/LayoutStyles";
@@ -33,20 +33,23 @@ const GogiPage = () => {
       tname = "고깃집찾기";
       tcontent = "고기자체로 행복이 되는 공간";
       break;
-    case `/gogi/gread`:
-      timg = "https://picsum.photos/1920/215/?category=meat";
-      tname = "목구멍";
-      tcontent = "목구멍을 찾아주셔서 감사합니다.";
-      break;
   }
+  // ! Title Header
+  const [showTitleHeader, setShowTitleHeader] = useState(false);
 
   return (
     <Layout>
-      <TitleHeader timg={timg} tname={tname} tcontent={tcontent}></TitleHeader>
+      {showTitleHeader && (
+        <TitleHeader
+          timg={timg}
+          tname={tname}
+          tcontent={tcontent}
+        ></TitleHeader>
+      )}
       <Wrapper>
         <div>
           <div>
-            <Outlet />
+            <Outlet showTitleHeader={showTitleHeader} />
           </div>
         </div>
       </Wrapper>

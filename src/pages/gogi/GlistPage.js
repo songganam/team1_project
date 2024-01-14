@@ -6,6 +6,9 @@ import GCard from "../../components/common/GCard";
 const GlistPage = () => {
   const [meatMenu, setMeatMenu] = useState([]);
 
+  // useEffect(() => {
+  //   setShowTitleHeader(true);
+  // }, []);
   useEffect(() => {
     const MeatData = async () => {
       try {
