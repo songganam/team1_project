@@ -4,8 +4,8 @@ import {
   MyBookCardBookButton,
   MyBookCardContent,
   MyBookCardDateContent,
-  MyBookCardDateTitle,
   MyBookCardInfo,
+  MyBookCardInfoTitle,
   MyBookCardName,
   MyBookCardPlace,
   MyBookCardSubTitle,
@@ -44,12 +44,12 @@ const MyBookCard = props => {
           <MyBookCardName>가게명{storename}</MyBookCardName>
         </MyBookCardTitle>
         <MyBookCardInfo>
-          <MyBookCardDateTitle>
+          <MyBookCardInfoTitle>
             <li>날짜</li>
             <li>시간</li>
             <li>인원 수</li>
             <li>요청사항</li>
-          </MyBookCardDateTitle>
+          </MyBookCardInfoTitle>
           <MyBookCardDateContent>
             <li>날짜내용{bookdate}</li>
             <li>시간내용{booktime}</li>
