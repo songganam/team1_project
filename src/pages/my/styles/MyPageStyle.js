@@ -17,7 +17,6 @@ export const MyPageData = styled.div`
 export const MyPageMenuBar = styled.div`
   position: relative;
   height: 1530px;
-  background-color: beige;
 `;
 
 export const MyPageMenu = styled.div`
@@ -46,5 +45,4 @@ export const MyPageContent = styled.div`
   position: relative;
   width: 730px;
   height: 1530px;
-  background-color: aquamarine;
 `;

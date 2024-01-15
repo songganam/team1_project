@@ -44,7 +44,7 @@ const MyPage = () => {
                   handleClickMyBook();
                 }}
               >
-                내 예약 내역 보기
+                내 예약/픽업 내역 보기
               </button>
               <button
                 onClick={() => {
@@ -69,7 +69,6 @@ const MyPage = () => {
               </button>
             </MyPageMenu>
           </MyPageMenuBar>
-
           <MyPageContent>
             <Outlet />
           </MyPageContent>
