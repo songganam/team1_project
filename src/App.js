@@ -1,9 +1,8 @@
+import "normalize.css";
 import React, { Suspense, lazy } from "react";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import Loading from "./components/loading/Loading";
-import "normalize.css";
 import "./index.css";
-import GCanlendar from "./pages/gogi/GCanlendar";
 
 // 어바웃 페이지
 const LazyAboutPage = lazy(() => import("./pages/main/AboutPage"));
@@ -311,7 +310,6 @@ const App = () => {
             }
           ></Route>
         </Route>
-        <Route path="/calendar" element={<GCanlendar />} />
       </Routes>
     </BrowserRouter>
   );

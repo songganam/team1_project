@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { MeatMenu } from "../../api/meatApi";
+import { MeatMenu } from "../../api/GApi";
 import { Map, MapMarker } from "react-kakao-maps-sdk";
 import {
   InfoContent,
@@ -59,17 +59,6 @@ const GreadPage = () => {
     };
     MenuData();
   }, []);
-  const [reserCount, setReserCount] = useState(0);
-  const handleClickCountPlus = () => {
-    setReserCount(reserCount + 1);
-  };
-  const handleClickCountMinus = () => {
-    if (reserCount >= 1) {
-      setReserCount(reserCount - 1);
-    } else {
-      alert("0명 보다 작을 수없습니다.");
-    }
-  };
 
   return (
     <div>

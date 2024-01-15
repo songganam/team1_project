@@ -17,6 +17,8 @@ import {
   ReserWrap,
   ReserWrapper,
 } from "./styles/GaddPageStyle";
+import GCalendar from "../../components/gogi/ReserCalendar";
+import ReserCalendar from "../../components/gogi/ReserCalendar";
 
 // 고깃집 리뷰 쓰기 페이지입니다.
 const GaddPage = () => {
@@ -48,6 +50,7 @@ const GaddPage = () => {
     if (personCount > 0) {
       setPersonCount(personCount - 1);
     } else {
+      // TODO MODAL로 변경하여야 함
       alert("인원 수가 0명 이하일 수없습니다.");
     }
   };
@@ -55,6 +58,9 @@ const GaddPage = () => {
     const personCount = 0;
     setPersonCount(personCount);
   };
+  // * Calendar(예약달력)
+  const [selectedDate, setSelectedDate] = useState("");
+  const handleClickSelectedDate = () => {};
   return (
     <div>
       <ReserWrapper>
@@ -114,13 +120,13 @@ const GaddPage = () => {
               {/* Counting Box */}
               <ReserCountBox>
                 <ReserCountBtn onClick={handleClickPCountMinus}>
-                  <span>-</span>
+                  <button>-</button>
                 </ReserCountBtn>
                 <ReserCountBtn>
                   <span>{personCount}</span>
                 </ReserCountBtn>
                 <ReserCountBtn onClick={handleClickPCountPlus}>
-                  <span>+</span>
+                  <button>+</button>
                 </ReserCountBtn>
               </ReserCountBox>
               <ReserCountResetBtn onClick={handleClickPCountReset}>
@@ -136,16 +142,16 @@ const GaddPage = () => {
                 <span>요청사항</span>
               </ReserItem>
               <ReserContent>
-                <ReserRequireInput />
+                <ReserRequireInput
+                  placeholder="요청사항을 입력해주세요. (30자 내외)"
+                  maxLength="50"
+                />
               </ReserContent>
             </ReserFormWrap>
           </ReserItemWrap>
           {/* Calendar */}
           <div>
-            <img
-              src="https://picsum.photos/375/375/?category=meat"
-              alt="고기 더미 이미지"
-            />
+            <ReserCalendar setSelectedDate={setSelectedDate} />
           </div>
         </ReserWrap>
         {/* button */}
