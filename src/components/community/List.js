@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import { createSearchParams, useNavigate } from "react-router-dom";
 import { ColorStyle } from "../../styles/common/CommonStyle";
 import Thead from "./Thead";
@@ -15,45 +15,58 @@ import Ttable from "./Ttable";
 import Paging from "./Paging";
 import Search from "./Search";
 import Button from "../button/Button";
+import useCustomMove from "./hooks/useCustomMove";
+import { getList } from "../../api/communityApi";
 
 // 서버데이터 초기값 객체
-const initState = {
-  current: 0,
-  dtoList: [],
-  next: false,
-  nextpage: 0,
-  pageNumlist: [],
-  pageRequestDTO: null,
-  prev: false,
-  prevPage: 0,
-  totalCount: 0,
-  totalPage: 0,
-};
+const initState = [
+  {
+    iboard: 0,
+    boardNum: 0,
+    iuser: 0,
+    writerName: "",
+    title: "",
+    contents: "",
+    pics: [""],
+  },
+];
 
 const List = () => {
-  // 패스 이동
-  const navigate = useNavigate();
-
-  // 쿼리스트링 생성
-  const queryStr = createSearchParams({ page: 1, size: 10 }).toString();
-
-  const handleClickList = () => {
-    navigate({ pathname: "list", search: queryStr });
+  const { page, moveToRead } = useCustomMove();
+  const [serverData, setServerData] = useState(initState);
+  // todo 로딩창
+  // 최초 데이터 가져오기
+  useEffect(() => {
+    const param = { page };
+    getList({ param, successFn, failFn, errorFn });
+  }, [page]);
+  // 데이터 연동 처리 결과
+  const successFn = result => {
+    setServerData(result);
+    console.log(result);
   };
-  const handleClickLAdd = () => {
-    navigate({ pathname: "add", search: queryStr });
+  const failFn = result => {
+    console.log(result);
   };
-  const handleClickModify = () => {
-    navigate({ pathname: "modify", search: queryStr });
-  };
-  const handleClickRead = () => {
-    navigate({ pathname: "read", search: queryStr });
+  const errorFn = result => {
+    console.log(result);
   };
 
   return (
     <WrapStyle>
       <Thead />
-      <Ttable />
+      {serverData.map((item, index) => (
+        <TtableStyle key={index}>
+          <TnoStyle color={ColorStyle.g700}>{item.iboard}</TnoStyle>
+          <TitleStyle>{item.title}</TitleStyle>
+          <InfoStyle color={ColorStyle.g700}>
+            <div>{item.writerName}</div>
+            <div>2024.01.08</div>
+            <div>3578</div>
+          </InfoStyle>
+        </TtableStyle>
+      ))}
+
       <TtableStyle background={ColorStyle.g200}>
         <TnoStyle color={ColorStyle.g1000}>478</TnoStyle>
         <TitleStyle>
@@ -66,14 +79,6 @@ const List = () => {
         </InfoStyle>
       </TtableStyle>
       <Topen />
-      <Ttable />
-      <Ttable />
-      <Ttable />
-      <Ttable />
-      <Ttable />
-      <Ttable />
-      <Ttable />
-      <Ttable />
       <Paging />
       <Search />
       <TableFootStyle>
