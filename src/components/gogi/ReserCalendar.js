@@ -1,14 +1,13 @@
-import moment from "moment";
 import React, { useState } from "react";
 import Calendar from "react-calendar";
 import "./styles/GCalendar.css";
+import moment from "moment";
 
-const ReserCalendar = () => {
+const ReserCalendar = ({ onDateChange }) => {
   const [value, setValue] = useState(new Date());
   const onChange = e => {
-    // setSelectedDate = moment(value).format("YYYY년 MM월 DD일");
-    // console.log(setSelectedDate);
     setValue(e);
+    onDateChange(moment(e).format("YYYY.MM.DD"));
   };
   return (
     <div>

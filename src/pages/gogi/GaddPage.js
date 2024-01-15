@@ -1,4 +1,6 @@
+import moment from "moment";
 import React, { useState } from "react";
+import ReserCalendar from "../../components/gogi/ReserCalendar";
 import {
   ReserContent,
   ReserCountBox,
@@ -17,13 +19,10 @@ import {
   ReserWrap,
   ReserWrapper,
 } from "./styles/GaddPageStyle";
-import GCalendar from "../../components/gogi/ReserCalendar";
-import ReserCalendar from "../../components/gogi/ReserCalendar";
 
 // 고깃집 리뷰 쓰기 페이지입니다.
 const GaddPage = () => {
   // 시간 카운팅
-  const [timeCount, setTimeCount] = useState("");
   // 사람 카운팅
   const [personCount, setPersonCount] = useState(0);
   const timeValue = [
@@ -36,11 +35,22 @@ const GaddPage = () => {
     "20:00",
     "20:30",
   ];
-
+  const [timeCount, setTimeCount] = useState("");
+  // * 시간 버튼에 대한 로직
+  /* 
+  ? 의사코드
+  ? 상태를 저장할 useState 생성 안눌렀을때 A상태 눌렀을 때 B상태(!A)
+  ? Map을 돌린다면 prop로 GaddPageStyle -> REserTimeBtn 진입
+  ? (위 조건) ? color : "red" : "blue" 
+  
+  */
+  // const [isSwitched, setIsSwitched] = useState("");
+  const [clickedValue, setClickedValue] = useState(null);
   // * 시간에 대한 로직(timeCount)
   const handleClickTCount = event => {
     const clickedValue = event.target.innerText;
-    return setTimeCount(clickedValue);
+    setTimeCount(clickedValue);
+    setClickedValue(clickedValue);
   };
   // * 인원수에 관한 로직 (PersonCount)
   const handleClickPCountPlus = () => {
@@ -55,12 +65,30 @@ const GaddPage = () => {
     }
   };
   const handleClickPCountReset = () => {
-    const personCount = 0;
-    setPersonCount(personCount);
+    setPersonCount(0);
+  };
+
+  const [requiredMsg, setRequiredMsg] = useState("");
+  const handleRequireMsg = e => {
+    setRequiredMsg(e.target.value);
   };
   // * Calendar(예약달력)
-  const [selectedDate, setSelectedDate] = useState("");
-  const handleClickSelectedDate = () => {};
+  const date = new Date();
+  const nowdata = moment(date).format("YYYY.MM.DD");
+  const [selectedDate, setSelectedDate] = useState(nowdata);
+  const handleDateChange = formattedDate => {
+    console.log(formattedDate);
+    setSelectedDate(formattedDate);
+  };
+  // * Submit
+  const handleReserSubmit = () => {
+    const reserData = {
+      selectedDate,
+      timeCount,
+      personCount,
+    };
+    console.log(reserData);
+  };
   return (
     <div>
       <ReserWrapper>
@@ -91,7 +119,7 @@ const GaddPage = () => {
                 <span>날짜</span>
               </ReserItem>
               <ReserContent>
-                <span>2024.01.12</span>
+                <span>{selectedDate}</span>
               </ReserContent>
             </ReserFormWrap>
             {/* 
@@ -104,7 +132,11 @@ const GaddPage = () => {
               {/* 에약 가능 시간대 버튼 */}
               <ReserTimeItem>
                 {timeValue.map((item, index) => (
-                  <ReserTimeBtn key={index} onClick={handleClickTCount}>
+                  <ReserTimeBtn
+                    key={index}
+                    onClick={handleClickTCount}
+                    clicked={clickedValue == item}
+                  >
                     <span>{item}</span>
                   </ReserTimeBtn>
                 ))}
@@ -143,6 +175,10 @@ const GaddPage = () => {
               </ReserItem>
               <ReserContent>
                 <ReserRequireInput
+                  type="text"
+                  name="requireMsg"
+                  onChange={e => handleRequireMsg(e)}
+                  value={requiredMsg}
                   placeholder="요청사항을 입력해주세요. (30자 내외)"
                   maxLength="50"
                 />
@@ -151,11 +187,11 @@ const GaddPage = () => {
           </ReserItemWrap>
           {/* Calendar */}
           <div>
-            <ReserCalendar setSelectedDate={setSelectedDate} />
+            <ReserCalendar onDateChange={handleDateChange} />
           </div>
         </ReserWrap>
         {/* button */}
-        <ReserSubmitBtn>
+        <ReserSubmitBtn onClick={handleReserSubmit}>
           <span>예약하기</span>
         </ReserSubmitBtn>
       </ReserWrapper>

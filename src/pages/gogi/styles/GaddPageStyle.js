@@ -111,6 +111,13 @@ export const ReserTimeBtn = styled.button`
     font-style: normal;
     font-weight: 400;
     line-height: 125%; /* 17.5px */
+    /* background: ${({ clicked }) => (clicked ? "blue" : "red")}; */
+  }
+  &:hover {
+    background-color: #dddd;
+  }
+  &:active {
+    background-color: #dddd;
   }
 `;
 // ! 인원 수
