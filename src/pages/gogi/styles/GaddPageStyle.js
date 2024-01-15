@@ -1,4 +1,5 @@
 import styled from "@emotion/styled";
+import { ColorStyle, FontSize } from "../../../styles/common/CommonStyle";
 
 // ! Wrapper
 export const ReserWrapper = styled.div`
@@ -49,6 +50,7 @@ export const ReserItem = styled.div`
   justify-content: center;
   flex-shrink: 0;
   span {
+    user-select: none;
     color: #000;
     font-family: DAEAM_LEE_TAE_JOON;
     font-size: 25px;
@@ -66,6 +68,7 @@ export const ReserContent = styled.div`
   justify-content: center;
   flex-shrink: 0;
   span {
+    user-select: none;
     color: #000;
     font-family: DAEAM_LEE_TAE_JOON;
     font-size: 25px;
@@ -130,7 +133,13 @@ export const ReserCountBtn = styled.div`
   height: 40px;
   flex-direction: column;
   justify-content: center;
+  /* 
+  ! + AND - button
+  */
   button {
+    border: none;
+    background-color: transparent;
+    cursor: pointer;
     color: #000;
     text-align: center;
     font-family: DAEAM_LEE_TAE_JOON;
@@ -181,6 +190,7 @@ export const ReserRequireInput = styled.input`
   border: none;
   font-size: 14px;
   font-family: "Pretendard";
+  border-bottom: 1px solid ${ColorStyle.g700};
 `;
 // ! Submit Button
 export const ReserSubmitBtn = styled.button`

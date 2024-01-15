@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { MeatGo } from "../../api/meatApi";
-import GCard from "../../components/common/GCard";
+import { MeatGo } from "../../api/GApi";
+import GCard from "../../components/gogi/GCard";
 
 // 고깃집 목록보기 페이지입니다.
 const GlistPage = () => {
