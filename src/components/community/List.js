@@ -1,8 +1,12 @@
 import React, { useEffect, useState } from "react";
-import { createSearchParams, useNavigate } from "react-router-dom";
+import { getList } from "../../api/communityApi";
 import { ColorStyle } from "../../styles/common/CommonStyle";
+import Button from "../button/Button";
+import Paging from "./Paging";
+import Search from "./Search";
 import Thead from "./Thead";
 import Topen from "./Topen";
+import useCustomMove from "./hooks/useCustomMove";
 import {
   InfoStyle,
   TableFootStyle,
@@ -11,12 +15,6 @@ import {
   TtableStyle,
   WrapStyle,
 } from "./styles/ListStyle";
-import Ttable from "./Ttable";
-import Paging from "./Paging";
-import Search from "./Search";
-import Button from "../button/Button";
-import useCustomMove from "./hooks/useCustomMove";
-import { getList } from "../../api/communityApi";
 
 // 서버데이터 초기값 객체
 const initState = [
