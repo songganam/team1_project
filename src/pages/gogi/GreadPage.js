@@ -1,29 +1,48 @@
 import React, { useEffect, useState } from "react";
 import { MeatMenu } from "../../api/meatApi";
-import {} from "./styles/GlistPageStyle";
-
-import {
-  MapApiWrapper,
-  StoreInfoContent,
-  StoreInfoContentWrap,
-  StoreInfoDesc,
-  StoreInfoDescContent,
-  StoreInfoDescItem,
-  StoreInfoDescWrap,
-  StoreInfoImageWrap,
-  StoreInfoName,
-  StoreInfoWrap,
-  StoreMenuCardContent,
-  StoreMenuCardContentItem,
-  StoreMenuCardContentPrice,
-  StoreMenuCardContentWrap,
-  StoreMenuCardImageWrap,
-  StoreMenuCardWrap,
-  StoreMenuContentWrap,
-  StoreMenuTitle,
-  StoreMenuWrap,
-} from "./styles/GreadPageStyle";
 import { Map, MapMarker } from "react-kakao-maps-sdk";
+import {
+  InfoContent,
+  InfoContentWrap,
+  InfoDesc,
+  InfoDescContent,
+  InfoDescItem,
+  InfoDescWrap,
+  InfoImageWrap,
+  InfoName,
+  InfoWrap,
+  MapApiWrapper,
+  MenuCardContent,
+  MenuCardContentItem,
+  MenuCardContentPrice,
+  MenuCardContentWrap,
+  MenuCardImageWrap,
+  MenuCardWrap,
+  MenuContentWrap,
+  MenuTitle,
+  MenuWrap,
+  NoticeCard,
+  NoticeCardContent,
+  NoticeCardDate,
+  NoticeCardImage,
+  NoticeCardItem,
+  NoticeCardTitle,
+  NoticeCardTitleWrap,
+  NoticeCardWrap,
+  NoticeTitle,
+  NoticeWrap,
+  ReivewImageWrap,
+  ReviewContent,
+  ReviewContentWrap,
+  ReviewContentmWrap,
+  ReviewItemWrap,
+  ReviewMainImage,
+  ReviewProfileImage,
+  ReviewProfileWrap,
+  ReviewSubImage,
+  ReviewTitle,
+  ReviewWrap,
+} from "./styles/GreadPageStyle";
 
 // 고깃집 정보 상세보기 페이지입니다.
 const GreadPage = () => {
@@ -53,251 +72,81 @@ const GreadPage = () => {
   };
 
   return (
-    // <div>
-    //   <div>
-    //     {/* 가게이름 */}
-    //     <div>목구멍</div>
-    //     {/* 가게이미지   */}
-    //     <div>
-    //       <img src="https://picsum.photos/1180/800/?category=meat" />
-    //     </div>
-    //   </div>
-    //   {/* 빠른 예약 */}
-    //   <QuickReserWrap>
-    //     <QuickReser>
-    //       <ReserLeft>
-    //         <ReserText>
-    //           <span>예약가능시간</span>
-    //         </ReserText>
-    //         <ReserTimeBox>
-    //           {PossibleTime.map((time, index) => (
-    //             <ReserTimeBtn key={index}>
-    //               <span>{time}</span>
-    //             </ReserTimeBtn>
-    //           ))}
-    //         </ReserTimeBox>
-    //       </ReserLeft>
-    //       <ReserRight>
-    //         {/* 인원수 */}
-    //         <ReserCounting>
-    //           <ReserCountText>
-    //             <span>인원수</span>
-    //           </ReserCountText>
-    //           <ReserCountBox>
-    //             <ReserCountBtn onClick={handleClickCountMinus}>
-    //               <span>-</span>
-    //             </ReserCountBtn>
-    //             <ReserCountBtn>
-    //               <span>{reserCount}</span>
-    //             </ReserCountBtn>
-    //             <ReserCountBtn onClick={handleClickCountPlus}>
-    //               <span>+</span>
-    //             </ReserCountBtn>
-    //           </ReserCountBox>
-    //         </ReserCounting>
-    //         <SelectBtn>
-    //           <span>다시작성</span>
-    //         </SelectBtn>
-    //         <SelectBtn>
-    //           <span>예약하기</span>
-    //         </SelectBtn>
-    //       </ReserRight>
-    //     </QuickReser>
-    //   </QuickReserWrap>
-    //   {/* 가게정보임 여긴 */}
-    //   <StoreInfoWrap>
-    //     <StoreInfo>
-    //       <StoreInfoTitle>
-    //         <span>가게정보</span>
-    //       </StoreInfoTitle>
-    //       <StoreInfoContent>
-    //         <StoreInfoContentItemBox>
-    //           <div>
-    //             <StoreInfoContentItem>주소</StoreInfoContentItem>
-    //           </div>
-    //           <div>
-    //             <StoreInfoContentItemDetail>
-    //               대구 중구 공평로 8길 25 미진삼겹살
-    //             </StoreInfoContentItemDetail>
-    //           </div>
-    //         </StoreInfoContentItemBox>
-    //         <StoreInfoContentItemBox>
-    //           <div>
-    //             <StoreInfoContentItem>전화번호</StoreInfoContentItem>
-    //           </div>
-    //           <div>
-    //             <StoreInfoContentItemDetail>
-    //               053-215-6969
-    //             </StoreInfoContentItemDetail>
-    //           </div>
-    //         </StoreInfoContentItemBox>
-    //         <StoreInfoContentItemBox>
-    //           <div>
-    //             <StoreInfoContentItem>종류</StoreInfoContentItem>
-    //           </div>
-    //           <div>
-    //             <StoreInfoContentItemDetail>
-    //               돼지고기
-    //             </StoreInfoContentItemDetail>
-    //           </div>
-    //         </StoreInfoContentItemBox>
-    //         <StoreInfoContentItemBox>
-    //           <div>
-    //             <StoreInfoContentItem>서비스</StoreInfoContentItem>
-    //           </div>
-    //           <div>
-    //             <StoreInfoContentItemDetail>
-    //               단체이용가능, 남녀화장실구분, 유아의자, 대기공간, 무선인터넷
-    //             </StoreInfoContentItemDetail>
-    //           </div>
-    //         </StoreInfoContentItemBox>
-    //       </StoreInfoContent>
-    //     </StoreInfo>
-    //     <StoreMenuWrap>
-    //       <StoreMenuTitle>
-    //         <span>메뉴</span>
-    //       </StoreMenuTitle>
-    //       {meatMenu.map(index => (
-    //         <StoreMenuCard key={index.idx}>
-    //           <StoreMenuCardImage>
-    //             <img src={index.image} alt="" />
-    //           </StoreMenuCardImage>
-    //           <StoreMenuCardTextBox>
-    //             <StoreMenuCardMenuName>
-    //               <span>{index.name}</span>
-    //             </StoreMenuCardMenuName>
-    //             <StoreMenuCardMenuPrice>
-    //               <span>{index.price}</span>
-    //             </StoreMenuCardMenuPrice>
-    //           </StoreMenuCardTextBox>
-    //         </StoreMenuCard>
-    //       ))}
-    //     </StoreMenuWrap>
-    //     <StoreNoticeWrap>
-    //       <StoreNoticeTitle>
-    //         <span>가게소식</span>
-    //       </StoreNoticeTitle>
-    //       <StoreNoticeCardWrap>
-    //         <StoreNoticeCardImage>
-    //           <img src="https://picsum.photos/270/240/?category=meat" />
-    //         </StoreNoticeCardImage>
-    //         <StoreNoticeCardTitleBox>
-    //           <StoreNoticeCardTitle>
-    //             2024 행복한 새해맞이 이벤트
-    //           </StoreNoticeCardTitle>
-    //           <StoreNoticeCardDate>2024.01.01</StoreNoticeCardDate>
-    //         </StoreNoticeCardTitleBox>
-    //         <StoreNoticeCardContent>
-    //           <span>
-    //             2024년의 해가 밝았습니다. 여러분들의 바람이 올해에도 이루어지길
-    //             바라며 소소한 이벤트를 하나 공지하고자 합니다.
-    //           </span>
-    //         </StoreNoticeCardContent>
-    //       </StoreNoticeCardWrap>
-    //     </StoreNoticeWrap>
-    //   </StoreInfoWrap>
-    //   {/* mapper */}
-    //   <MapWrapper>
-    //     <Map
-    //       center={{ lat: 35.8668123877152, lng: 128.60146665675214 }}
-    //       style={{ width: "1180px", height: "500px" }}
-    //     >
-    //       <MapMarker
-    //         position={{ lat: 35.8668123877152, lng: 128.60146665675214 }}
-    //       >
-    //         <div style={{ color: "#000" }}>미진삼겹살</div>
-    //       </MapMarker>
-    //     </Map>
-    //   </MapWrapper>
-    //   {/* Review */}
-    //   <StoreReviewTitle>
-    //     <span>리뷰</span>
-    //   </StoreReviewTitle>
-
-    //   <StoreReviewContet>
-    //     <StoreReviewImageWrap>
-    //       <StoreReviewMainImage>
-    //         <img src="https://picsum.photos/300/272/?category=meat" alt="" />
-    //       </StoreReviewMainImage>
-    //       <StoreReviewSubImage>
-    //         <img src="https://picsum.photos/60/50/?category=meat" alt="" />
-    //       </StoreReviewSubImage>
-    //     </StoreReviewImageWrap>
-    //   </StoreReviewContet>
-    // </div>
     <div>
       {/* 가게 정보 */}
-      <StoreInfoWrap>
+      <InfoWrap>
         {/* 이미지 */}
-        <StoreInfoImageWrap>
+        <InfoImageWrap>
           <img src="https://picsum.photos/1180/800/?category=meat" alt="" />
-        </StoreInfoImageWrap>
+        </InfoImageWrap>
         {/* 컨텐츠 */}
-        <StoreInfoContentWrap>
-          <StoreInfoContent>
-            <StoreInfoName>
+        <InfoContentWrap>
+          <InfoContent>
+            <InfoName>
               <span>목구멍</span>
-            </StoreInfoName>
-            <StoreInfoDescWrap>
-              <StoreInfoDesc>
-                <StoreInfoDescItem>주소</StoreInfoDescItem>
-                <StoreInfoDescContent>
+            </InfoName>
+            <InfoDescWrap>
+              <InfoDesc>
+                <InfoDescItem>주소</InfoDescItem>
+                <InfoDescContent>
                   대구 중구 공평로8길 25 미진삼겹살
-                </StoreInfoDescContent>
-              </StoreInfoDesc>
-              <StoreInfoDesc>
-                <StoreInfoDescItem>전화번호</StoreInfoDescItem>
-                <StoreInfoDescContent>053-215-6969</StoreInfoDescContent>
-              </StoreInfoDesc>
-              <StoreInfoDesc>
-                <StoreInfoDescItem>종류</StoreInfoDescItem>
-                <StoreInfoDescContent>돼지고기</StoreInfoDescContent>
-              </StoreInfoDesc>
-              <StoreInfoDesc>
-                <StoreInfoDescItem>서비스</StoreInfoDescItem>
-                <StoreInfoDescContent>
+                </InfoDescContent>
+              </InfoDesc>
+              <InfoDesc>
+                <InfoDescItem>전화번호</InfoDescItem>
+                <InfoDescContent>053-215-6969</InfoDescContent>
+              </InfoDesc>
+              <InfoDesc>
+                <InfoDescItem>종류</InfoDescItem>
+                <InfoDescContent>돼지고기</InfoDescContent>
+              </InfoDesc>
+              <InfoDesc>
+                <InfoDescItem>서비스</InfoDescItem>
+                <InfoDescContent>
                   무선인터넷, 유아의자, 남/녀화장실, 주차장
-                </StoreInfoDescContent>
-              </StoreInfoDesc>
-            </StoreInfoDescWrap>
-          </StoreInfoContent>
-        </StoreInfoContentWrap>
-      </StoreInfoWrap>
+                </InfoDescContent>
+              </InfoDesc>
+            </InfoDescWrap>
+          </InfoContent>
+        </InfoContentWrap>
+      </InfoWrap>
 
       {/* 
       // ! 가게 메뉴
       */}
-      <StoreMenuWrap>
-        <StoreMenuTitle>
+      <MenuWrap>
+        <MenuTitle>
           <span>메 뉴</span>
-        </StoreMenuTitle>
+        </MenuTitle>
 
-        <StoreMenuContentWrap>
+        <MenuContentWrap>
           {/* 
           // TODO Mapper Menu
           */}
-          <StoreMenuCardWrap>
+          <MenuCardWrap>
             {/* 그림 */}
-            <StoreMenuCardImageWrap>
+            <MenuCardImageWrap>
               <img src="https://picsum.photos/370/350/?category=meat" alt="" />
-            </StoreMenuCardImageWrap>
+            </MenuCardImageWrap>
             {/* 
       // ! 가게 정보
       */}
-            <StoreMenuCardContentWrap>
-              <StoreMenuCardContent>
-                <StoreMenuCardContentItem>
+            <MenuCardContentWrap>
+              <MenuCardContent>
+                <MenuCardContentItem>
                   <span>미진삼겹살(600g)</span>
-                </StoreMenuCardContentItem>
-                <StoreMenuCardContentPrice>
+                </MenuCardContentItem>
+                <MenuCardContentPrice>
                   <span>47,000원</span>
-                </StoreMenuCardContentPrice>
-              </StoreMenuCardContent>
-            </StoreMenuCardContentWrap>
-          </StoreMenuCardWrap>
-        </StoreMenuContentWrap>
-      </StoreMenuWrap>
-
+                </MenuCardContentPrice>
+              </MenuCardContent>
+            </MenuCardContentWrap>
+          </MenuCardWrap>
+        </MenuContentWrap>
+      </MenuWrap>
+      {/* 
+      // ! KAKAO MAP API
+    */}
       <MapApiWrapper>
         <Map
           center={{ lat: 33.5563, lng: 126.79581 }}
@@ -308,6 +157,87 @@ const GreadPage = () => {
           </MapMarker>
         </Map>
       </MapApiWrapper>
+
+      {/* 
+      // ! NOTICE AREA
+      */}
+      <NoticeWrap>
+        <NoticeTitle>
+          <span>가게소식</span>
+        </NoticeTitle>
+        <NoticeCardWrap>
+          <NoticeCard>
+            <NoticeCardImage>
+              <img src="https://picsum.photos/370/300/?category=meat" alt="" />
+            </NoticeCardImage>
+            <NoticeCardContent>
+              <NoticeCardTitleWrap>
+                <NoticeCardTitle>
+                  <span>2024 새해맞이 이벤트</span>
+                </NoticeCardTitle>
+                <NoticeCardDate>
+                  <span>2024.01.01</span>
+                </NoticeCardDate>
+              </NoticeCardTitleWrap>
+              <NoticeCardItem>
+                <span>
+                  2024년의 해가 밝았습니다. 여러분들의 바람이 올해에도
+                  이루어지길 바라며 소소한 이벤트를 하나 공지하고자 합니다.
+                </span>
+              </NoticeCardItem>
+            </NoticeCardContent>
+          </NoticeCard>
+        </NoticeCardWrap>
+      </NoticeWrap>
+
+      {/* 
+      // ! REVIEW AREA
+      */}
+      <ReviewWrap>
+        <ReviewTitle>
+          <span>리 뷰</span>
+        </ReviewTitle>
+        <ReviewContentWrap>
+          <ReviewItemWrap>
+            {/* Image */}
+            <ReivewImageWrap>
+              {/* main image */}
+              <ReviewMainImage>
+                <img
+                  src="https://picsum.photos/370/350/?category=meat"
+                  alt=""
+                />
+              </ReviewMainImage>
+              {/* sub image */}
+              <ReviewSubImage>
+                <img
+                  src="https://picsum.photos/370/350/?category=meat"
+                  alt=""
+                />
+              </ReviewSubImage>
+            </ReivewImageWrap>
+            <ReviewContentmWrap>
+              <ReviewProfileWrap>
+                <ReviewProfileImage>
+                  <img
+                    src="https://picsum.photos/370/350/?category=meat"
+                    alt=""
+                  />
+                </ReviewProfileImage>
+                <span>기무소스</span>
+              </ReviewProfileWrap>
+              <ReviewContent>
+                <p>
+                  퇴근하고 집에 가는데 고기가 너무 먹고싶어서 들렀음!! 요즘에 다
+                  구워주긴 하지만 여기는 아예 주방에서 구워서 나옴, 근데 다
+                  식으면 어쩌나 했는데, 따뜻하게 먹을 수 있게 그거 뭐라 그러냐
+                  고체 연료 같은거 같이 나와서 그릇 계속 ...
+                </p>
+              </ReviewContent>
+            </ReviewContentmWrap>
+          </ReviewItemWrap>
+        </ReviewContentWrap>
+      </ReviewWrap>
     </div>
   );
 };
