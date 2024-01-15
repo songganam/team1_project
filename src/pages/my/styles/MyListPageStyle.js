@@ -7,7 +7,7 @@ export const MyListPageWrapper = styled.div`
 
 export const MyListPageTitle = styled.div`
   position: relative;
-  font-family: Pretendard;
+  font-family: DAEAM_LEE_TAE_JOON;
   font-size: 24px;
   font-style: normal;
   font-weight: 400;

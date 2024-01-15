@@ -2,6 +2,7 @@ import React from "react";
 import {
   MyModifyPageButton,
   MyModifyPageForm,
+  MyModifyPageInfo,
   MyModifyPageProfile,
   MyModifyPageTitle,
   MyModifyPageWrapper,
@@ -20,22 +21,30 @@ const MyModifyPage = () => {
       <MyModifyPageProfile>
         <ProfileImg>
           <img src="https://picsum.photos/280/280/?category=meat" alt=""></img>
-          <button>사진수정버튼</button>
+          <button>
+            <img
+              src={`${process.env.PUBLIC_URL}/assets/images/profile_camera.svg`}
+            ></img>
+          </button>
         </ProfileImg>
         <MyNickName>닉네임</MyNickName>
       </MyModifyPageProfile>
-      <MyModifyPageForm>
+      <MyModifyPageInfo>
         <span>이름</span>
         <span>성별</span>
         <span>생년월일</span>
         <span>이메일</span>
+      </MyModifyPageInfo>
+      <MyModifyPageForm>
         <span>휴대폰 번호</span>
-        <input></input>
+        <input
+          type="text"
+          placeholder="변경할 휴대폰 번호를 입력하세요."
+        ></input>
         <span>닉네임</span>
-        <input></input>
-        <span>거주지</span>
-        <input></input>
-        <input></input>
+        <input type="text" placeholder="변경할 닉네임을 입력하세요."></input>
+        <span>현재주소</span>
+        <input type="text" placeholder="변경할 주소를 입력하세요."></input>
       </MyModifyPageForm>
       <MyModifyPageButton>
         <Button bttext="저장하기"></Button>

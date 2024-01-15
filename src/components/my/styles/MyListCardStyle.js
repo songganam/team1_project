@@ -27,9 +27,9 @@ export const MyListCardContent = styled.div`
   position: relative;
   display: flex;
   flex-direction: column;
-  justify-content: space-between;
   width: 344px;
   height: 228px;
+  gap: 40px;
 `;
 
 export const MyListCardTitle = styled.div``;
