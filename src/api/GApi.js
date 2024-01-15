@@ -1,5 +1,7 @@
 import axios from "axios";
 
+export const API_SERVER_HOST = "http://192.168.0.193:8082";
+const reserHost = `${API_SERVER_HOST}/api/`;
 export const MeatGo = async () => {
   try {
     const res = await axios.get("/json/meatmenu.json");
@@ -24,6 +26,14 @@ export const MeatMenu = async () => {
     } else {
       console.log("error");
     }
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const ReserPost = async () => {
+  try {
+    const res = await axios.post();
   } catch (error) {
     console.log(error);
   }
