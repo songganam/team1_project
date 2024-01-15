@@ -1,6 +1,6 @@
 import axios from "axios";
 
-export const API_SERVER_HOST = "http://192.168.0.193:8082";
+export const API_SERVER_HOST = "";
 const host = `${API_SERVER_HOST}/api/community`;
 
 // 게시판 전체 목록 가져오기
