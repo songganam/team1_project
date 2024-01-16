@@ -90,8 +90,10 @@ export const ReviewRating = styled.div`
   width: 364px;
   align-items: center;
   gap: 10px;
+  background-image: ${({ Rating, rating }) =>
+    Rating <= rating ? "red" : "blue"};
 `;
-export const ReviewRatingStar = styled.div`
+export const ReviewRatingStar = styled.img`
   width: 50px;
   height: 50px;
   flex-shrink: 0;
@@ -133,13 +135,19 @@ export const ReviewCommentSubItem = styled.div`
     line-height: 125%; /* 13.75px */
   }
 `;
-export const ReviewInput = styled.input`
-  width: 360px;
-  height: 30px;
+// ! Textarea
+export const ReviewInput = styled.textarea`
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  width: 360px;
+  resize: none;
+  max-height: 500px;
+  border: none;
+  border-bottom: 1px solid black;
+  font-size: 14px;
+  font-family: "Pretendard";
 `;
 
 export const ReviewImageWrap = styled.div`

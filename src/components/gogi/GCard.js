@@ -14,16 +14,16 @@ const GCard = ({ data }) => {
     <div>
       {data &&
         data.map(item => (
-          <MeatStoreCard key={item.idx}>
+          <MeatStoreCard key={item.ishop}>
             <MeatStoreInfo>
               <MeatStoreBox>
-                <MeatStoreTitle>{item.storeName}</MeatStoreTitle>
+                <MeatStoreTitle>{item.name}</MeatStoreTitle>
                 <InfoTagWrap>
-                  {item.tags.map((tag, index) => (
+                  {/* {item.tags.map((tag, index) => (
                     <button key={index}>
                       <span>{tag}</span>
                     </button>
-                  ))}
+                  ))} */}
                 </InfoTagWrap>
                 {/* 예약하기 */}
                 <reserveBtn>

@@ -86,8 +86,8 @@ const GreadPage = () => {
                 <InfoDescContent>053-215-6969</InfoDescContent>
               </InfoDesc>
               <InfoDesc>
-                <InfoDescItem>종류</InfoDescItem>
-                <InfoDescContent>돼지고기</InfoDescContent>
+                <InfoDescItem>영업시간</InfoDescItem>
+                <InfoDescContent>12:00-01:00</InfoDescContent>
               </InfoDesc>
               <InfoDesc>
                 <InfoDescItem>서비스</InfoDescItem>
