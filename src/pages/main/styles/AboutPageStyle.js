@@ -216,7 +216,6 @@ export const AboutPageCommunity = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  padd
   padding-bottom: 135px;
 
   .CommunityTitle {
