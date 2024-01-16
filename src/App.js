@@ -51,6 +51,7 @@ const LazySreadPage = lazy(() => import("./pages/sale/SreadPage"));
 const App = () => {
   return (
     <BrowserRouter>
+      <GoTop />
       <Routes>
         <Route path="*" element={<h1>페이지가 없어요</h1>}></Route>
         <Route

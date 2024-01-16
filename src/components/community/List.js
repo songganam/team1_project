@@ -44,16 +44,16 @@ const initState = [
 const List = () => {
   const { page, moveToRead } = useCustomMove();
   const [serverData, setServerData] = useState(initState);
-  const [topen, setTopen] = useState({
+  const [topenIboard, setTopenIboard] = useState(null);
+  const [preview, setPreview] = useState({
     iboard: 0,
     boardNum: 0,
     iuser: 0,
     writerName: "",
     title: "",
     contents: "",
-    pics: [""],
+    pics: [],
   });
-  // todo 로딩창
   // 최초 데이터 가져오기
   useEffect(() => {
     const param = { page };
@@ -72,8 +72,8 @@ const List = () => {
   };
 
   const handleClickTopen = item => {
-    setServerData(item.iboard);
-    setTopen({
+    setTopenIboard(item.iboard);
+    setPreview({
       iboard: item.iboard,
       boardNum: item.boardNum,
       iuser: item.iuser,
@@ -91,7 +91,7 @@ const List = () => {
       {serverData.map(item => (
         <TtableStyle
           key={item.iboard}
-          selected={topen === item.iboard}
+          selected={topenIboard === item.iboard}
           onClick={() => {
             handleClickTopen(item);
           }}
@@ -106,39 +106,24 @@ const List = () => {
         </TtableStyle>
       ))}
 
-      {/* {topen && (
+      {topenIboard && (
         <TopenStyle>
           <ImgStyle>
             <LargeImgStyle>
-              <img
-                src="https://picsum.photos/300/180/?category=meat"
-                alt="업로드 이미지"
-              />
+              <img src={preview.pics[0]} alt="img_1" />
             </LargeImgStyle>
             <ThumbnailStyle>
               <div className="thumbnail">
-                <img
-                  src="https://picsum.photos/60/50/?category=meat"
-                  alt="업로드 이미지"
-                />
+                <img src={preview.pics[1]} alt="img_2" />
               </div>
               <div className="thumbnail">
-                <img
-                  src="https://picsum.photos/60/50/?category=meat"
-                  alt="업로드 이미지"
-                />
+                <img src={preview.pics[2]} alt="img_3" />
               </div>
               <div className="thumbnail">
-                <img
-                  src="https://picsum.photos/60/50/?category=meat"
-                  alt="업로드 이미지"
-                />
+                <img src={preview.pics[3]} alt="img_4" />
               </div>
               <div className="thumbnail">
-                <img
-                  src="https://picsum.photos/60/50/?category=meat"
-                  alt="업로드 이미지"
-                />
+                <img src={preview.pics[4]} alt="img_5" />
               </div>
             </ThumbnailStyle>
           </ImgStyle>
@@ -147,12 +132,10 @@ const List = () => {
               <UserStyle>
                 <img src="/assets/images/avatar.svg" alt="프로필사진" />
                 <NameStyle>
-                  <div>{topen.writerName}</div>
+                  <div>{preview.writerName}</div>
                 </NameStyle>
               </UserStyle>
-              <SummaryStyle>
-                {topen.contents}
-              </SummaryStyle>
+              <SummaryStyle>{preview.contents}</SummaryStyle>
             </ContentStyle>
             <BtnStyle>
               <div
@@ -165,7 +148,7 @@ const List = () => {
             </BtnStyle>
           </ContentInfoStyle>
         </TopenStyle>
-      )} */}
+      )}
 
       {/* <Topen /> */}
       <Paging />
