@@ -13,6 +13,12 @@ import Button from "../../components/button/Button";
 
 // 프로필 수정 페이지
 const MyModifyPage = () => {
+  // input 휴대폰 번호 부분, 11자리 숫자만 입력 가능하도록 제한
+  const handlePhoneNumberChange = e => {
+    const value = e.target.value.replace(/[^0-9]/g, "").slice(0, 11);
+    e.target.value = value;
+  };
+
   return (
     <MyModifyPageWrapper>
       <MyModifyPageTitle>
@@ -40,6 +46,7 @@ const MyModifyPage = () => {
         <input
           type="text"
           placeholder="변경할 휴대폰 번호를 입력하세요."
+          onChange={handlePhoneNumberChange}
         ></input>
         <span>닉네임</span>
         <input type="text" placeholder="변경할 닉네임을 입력하세요."></input>

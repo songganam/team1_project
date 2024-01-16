@@ -16,6 +16,7 @@ export const MyPageData = styled.div`
 
 export const MyPageMenuBar = styled.div`
   position: relative;
+  width: 200px;
   height: 1530px;
 `;
 
@@ -24,6 +25,8 @@ export const MyPageMenu = styled.div`
   display: flex;
   flex-direction: column;
   button {
+    display: flex;
+    align-items: center;
     font-family: Pretendard;
     font-size: ${FontSize.strong};
     color: ${ColorStyle.g600};
@@ -32,12 +35,13 @@ export const MyPageMenu = styled.div`
     line-height: 40px;
     border: none;
     background: none;
+    margin-bottom: 10px;
     cursor: pointer;
-  }
-  button:hover,
-  button:focus,
-  button:active {
-    color: ${ColorStyle.g1000};
+    img {
+      position: relative;
+      width: 24px;
+      height: 24px;
+    }
   }
 `;
 
