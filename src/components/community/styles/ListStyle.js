@@ -26,7 +26,10 @@ export const TableStyle = styled.div`
 export const TtableStyle = styled(TableStyle)`
   padding: 10px 0;
   border-top: 1px solid ${ColorStyle.g500};
-  background: ${props => props.background};
+  background: ${props => (props.selected ? ColorStyle.g200 : null)};
+  &:hover {
+    background: ${ColorStyle.g200};
+  }
   @media (max-width: 980px) {
     display: block;
   }
@@ -48,6 +51,7 @@ export const TitleStyle = styled.div`
   padding: 10px;
   justify-content: ${props => props.justifyContent};
   align-items: center;
+  cursor: pointer;
   /* 1줄 말줄임 */
   overflow: hidden;
   white-space: nowrap;
@@ -182,6 +186,7 @@ export const PagingBoxStyle = styled.div`
   padding: 30px 50px;
   justify-content: center;
   align-items: center;
+  border-top: 1px solid ${ColorStyle.g500};
   button {
     background: none;
     color: inherit;

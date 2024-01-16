@@ -22,6 +22,7 @@
     "react-router": "^6.21.1",
     "react-router-dom": "^6.21.1",
     "react-scripts": "5.0.1",
+    "react-spinners": "^0.13.8",
     "redux": "^5.0.1",
     "sass": "^1.69.6"
   },
@@ -54,5 +55,5 @@
     "eslint-config-prettier": "^9.1.0",
     "eslint-plugin-react": "^7.33.2"
   },
-  "proxy": "https://192.168.0.193:8082"
+  "proxy": "http://192.168.0.193:8082/"
 }
