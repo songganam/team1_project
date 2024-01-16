@@ -1,25 +1,37 @@
 import React, { useEffect, useState } from "react";
-import { MeatGo } from "../../api/GApi";
+import { MeatGo, getGList } from "../../api/GApi";
 import GCard from "../../components/gogi/GCard";
+import useCustomMove from "../../components/community/hooks/useCustomMove";
 
 // 고깃집 목록보기 페이지입니다.
 const GlistPage = () => {
-  const [meatMenu, setMeatMenu] = useState([]);
-
-  // useEffect(() => {
-  //   setShowTitleHeader(true);
-  // }, []);
+  // ! InitState (초기 상태)
+  const initState = {
+    ishop: 0,
+    name: "",
+    location: "",
+    pics: [""],
+    x: "",
+    y: "",
+  };
+  const [GlistData, setGlistData] = useState(initState);
+  const { page } = useCustomMove();
   useEffect(() => {
-    const MeatData = async () => {
-      try {
-        const data = await MeatGo();
-        setMeatMenu(data);
-      } catch (error) {
-        console.log(error);
-      }
-    };
-    MeatData();
-  }, []);
+    const param = { page };
+    getGList({ param, successFn, failFn, errorFn });
+  }, [page]);
+
+  const successFn = result => {
+    setGlistData(result);
+    console.log(result);
+  };
+  const failFn = result => {
+    console.log(result);
+  };
+  const errorFn = result => {
+    console.log(result);
+  };
+
   return (
     <div>
       <div>
@@ -46,7 +58,7 @@ const GlistPage = () => {
           </select>
         </div>
       </div>
-      <GCard data={meatMenu} />
+      {/* <GCard data={GlistData} /> */}
       {/* 공사중 지도 페이지 입니다. */}
     </div>
   );

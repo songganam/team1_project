@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   ReivewMainImageWrap,
   ReviewCommentItem,
@@ -25,6 +25,32 @@ import {
 
 // 고깃집 예약 페이지입니다.
 const GbookPage = () => {
+  /* 
+   ? 의사코드
+   ? map으로 5개의 별이 있다.
+   ? 예를들어 3개를 누르면 count가 3개가 되어야하고 3개는 불이 들어오고, 2개는 불이 안들어와야함
+   ? 별이 누르면
+  */
+  // * Rating Count
+  const [rating, setRating] = useState(0);
+  const handleStarClick = e => {
+    setRating(e);
+    console.log(e);
+  };
+  const noCountStar =
+    process.env.PUBLIC_URL + `/assets/images/star_no_count.svg`;
+  const countStar = process.env.PUBLIC_URL + `/assets/images/star_count.svg`;
+
+  // * Text-field
+  const [reviewText, setReviewText] = useState("");
+  const handleTextHeightChange = event => {
+    setReviewText(event);
+    TextareaHeight(event.target);
+  };
+  const TextareaHeight = textarea => {
+    textarea.style.height = "auto";
+    textarea.style.height = Math.min(textarea.scrollHeight, 100) + "px";
+  };
   return (
     <div>
       {/* <h2>고깃집 예약하기</h2> */}
@@ -67,23 +93,14 @@ const GbookPage = () => {
                   <span>별점</span>
                 </ReviewItem>
                 <ReviewRating>
-                  <ReviewRatingStar>
-                    <img
-                      src={
-                        process.env.PUBLIC_URL + `/assets/images/star_count.svg`
-                      }
+                  {[1, 2, 3, 4, 5].map(star => (
+                    <ReviewRatingStar
+                      key={star}
+                      src={star <= rating ? countStar : noCountStar}
                       alt=""
+                      onClick={() => handleStarClick(star)}
                     />
-                  </ReviewRatingStar>
-                  <ReviewRatingStar>
-                    <img
-                      src={
-                        process.env.PUBLIC_URL +
-                        `/assets/images/star_no_count.svg`
-                      }
-                      alt=""
-                    />
-                  </ReviewRatingStar>
+                  ))}
                 </ReviewRating>
               </ReviewFormWrap>
               {/* 
@@ -99,7 +116,13 @@ const GbookPage = () => {
                   </ReviewCommentSubItem>
                 </ReviewCommentWrap>
                 <ReviewContent>
-                  <ReviewInput />
+                  <ReviewInput
+                    value={reviewText}
+                    onChange={handleTextHeightChange}
+                    onInput={e => TextareaHeight(e.target)}
+                    rows="1"
+                    cols="30"
+                  />
                 </ReviewContent>
               </ReviewFormWrap>
             </ReviewWrapper>
