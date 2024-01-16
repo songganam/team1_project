@@ -3,6 +3,7 @@ import React, { Suspense, lazy } from "react";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import Loading from "./components/loading/Loading";
 import "./index.css";
+import GoTop from "./components/common/GoTop";
 
 // 어바웃 페이지
 const LazyAboutPage = lazy(() => import("./pages/main/AboutPage"));
@@ -147,7 +148,7 @@ const App = () => {
           }
         >
           {/* 커뮤니티 페이지 첫 화면 */}
-          <Route path="" element={<Navigate to="list" />}></Route>
+          <Route path="" element={<Navigate to="list?page=1" />}></Route>
           <Route
             path="list"
             element={

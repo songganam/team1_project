@@ -7,12 +7,12 @@ const host = `${API_SERVER_HOST}/api/community`;
 export const getList = async ({ param, successFn, failFn, errorFn }) => {
   try {
     const res = await axios.get(`${host}`, { params: param });
-    const status = res.status.toStrings();
+    const status = res.status.toString();
     if (status.charAt(0) === "2") {
-      console.log("완료");
+      console.log("커뮤니티 목록 호출 성공");
       successFn(res.data);
     } else {
-      failFn("목록 호출 오류");
+      failFn("커뮤니티 목록 호출 오류");
     }
   } catch (error) {
     errorFn(error);
