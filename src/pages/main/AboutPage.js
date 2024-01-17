@@ -28,13 +28,13 @@ const AboutPage = () => {
       <AboutPageWrap>
         {/* Top사진 */}
         <AboutPageTop>
-          <ul>
-            <li className="text-one">인생은 고기서 고기다.</li>
-            <li className="text-two">기분이 저기앞일 땐 고기 앞으로 가자!</li>
-            <li className="text-three">고기에 진심인 자들을 위한</li>
-            <li className="text-four">고기-로</li>
-          </ul>
-          <img src="/assets/images/aboutimages/main.png" alt="" />
+          <img src="/assets/images/aboutimages/main.png" />
+          <div className="TopText">
+            <span className="text-one">인생은 고기서 고기다.</span>
+            <span className="text-two">기분이 저기앞일 땐 고기 앞으로 가자!</span>
+            <span className="text-three">고기에 진심인 자들을 위한</span>
+            <span className="text-four">고기-로</span>
+          </div>
         </AboutPageTop>
         {/* 중앙(메인) */}
         <AboutPageMain>
@@ -119,7 +119,7 @@ const AboutPage = () => {
               <br />
               <span className="">7,900원</span>
             </div>
-            <img src="" />
+            <img src="/assets/images/aboutimages/shoppic.svg" />
           </AboutPageShops>
           {/* 오늘의 행사 */}
           <AboutPageEvent>
@@ -133,7 +133,9 @@ const AboutPage = () => {
                 />
                 <div className="AboutCardTitle">신미식육점</div>
                 <div className="AboutCardPrice">최대 30% 할인 행사</div>
-                <DefaultBt className="EvenntButton">방문하기</DefaultBt>
+                <div className="EventButton-wrap">
+                  <DefaultBt className="EventButton">방문하기</DefaultBt>
+                </div>
               </AboutCardWrap>
               {/* 이벤트 두번째 카드 */}
               <AboutCardWrap>
@@ -143,7 +145,9 @@ const AboutPage = () => {
                 />
                 <div className="AboutCardTitle">신미식육점</div>
                 <div className="AboutCardPrice">최대 30% 할인 행사</div>
-                <DefaultBt className="EvenntButton">방문하기</DefaultBt>
+                <div className="EventButton-wrap">
+                  <DefaultBt className="EventButton">방문하기</DefaultBt>
+                </div>
               </AboutCardWrap>
             </AboutEventCards>
           </AboutPageEvent>
@@ -151,14 +155,21 @@ const AboutPage = () => {
           <AboutPageCommunity>
             <span className="CommunityTitle">고기 잡담</span>
             <CommunityImages>
-            <img
-              className="BigImage"
-              src="/assets/images/aboutimages/community_1.svg"
-            />
-            <img className="SmallImage" src="/assets/images/aboutimages/community_2.svg" />
-            <img className="SmallImage" src="/assets/images/aboutimages/community_3.svg" />
-            <img className="SmallImage" src="/assets/images/aboutimages/community_4.svg" />
-            <img className="SmallImage" src="/assets/images/aboutimages/community_5.svg" />
+              <div className="BigImage">
+                <img src="/assets/images/aboutimages/community_1.svg" />
+              </div>
+              <div className="smallone">
+                <img src="/assets/images/aboutimages/community_2.svg" />
+              </div>
+              <div className="smalltwo">
+                <img src="/assets/images/aboutimages/community_3.svg" />
+              </div>
+              <div className="smallthree">
+                <img src="/assets/images/aboutimages/community_4.svg" />
+              </div>
+              <div className="smallfour">
+                <img src="/assets/images/aboutimages/community_5.svg" />
+              </div>
             </CommunityImages>
           </AboutPageCommunity>
         </AboutPageMain>
