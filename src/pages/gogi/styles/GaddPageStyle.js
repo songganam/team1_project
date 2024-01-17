@@ -102,16 +102,17 @@ export const ReserTimeBtn = styled.button`
   gap: 10px;
   border-radius: 20px;
   border: 1px solid var(--sub, #066e52);
-  background: #fff;
+  background: ${({ clicked }) =>
+    clicked ? `${ColorStyle.secondary}` : `${ColorStyle.grayScale}`};
   span {
-    color: var(--primary, #d60117);
+    color: ${({ clicked }) =>
+      clicked ? `${ColorStyle.grayScale}` : `${ColorStyle.primary}`};
     text-align: center;
     font-family: DAEAM_LEE_TAE_JOON;
     font-size: 14px;
     font-style: normal;
     font-weight: 400;
     line-height: 125%; /* 17.5px */
-    background: ${({ clicked }) => (clicked ? "blue" : "red")};
   }
   &:hover {
     background-color: #dddd;

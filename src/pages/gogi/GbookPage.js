@@ -1,6 +1,5 @@
-import React, { useRef, useState } from "react";
+import React, { useState } from "react";
 import {
-  ReivewMainImageWrap,
   ReviewCommentInput,
   ReviewCommentItem,
   ReviewCommentItemWrap,
@@ -9,15 +8,16 @@ import {
   ReviewContent,
   ReviewContentWrap,
   ReviewFormWrap,
+  ReviewImageDeleteBtn,
   ReviewImageWrap,
+  ReviewInput,
   ReviewInputWrap,
   ReviewItem,
   ReviewItemWrap,
-  ReviewMainImage,
+  ReviewMainImageWrap,
   ReviewRating,
   ReviewRatingStar,
-  ReviewRefText,
-  ReviewSubImage,
+  ReviewSubImageItem,
   ReviewSubImageWrap,
   ReviewSubmitBtn,
   ReviewTitle,
@@ -33,8 +33,8 @@ const GbookPage = () => {
    ? 예를들어 3개를 누르면 count가 3개가 되어야하고 3개는 불이 들어오고, 2개는 불이 안들어와야함
    ? 별이 누르면
   */
-  // * Rating Count
-  const [rating, setRating] = useState(0);
+  // * Rating Count (초기값 : 1점)
+  const [rating, setRating] = useState(1);
   const handleStarClick = e => {
     setRating(e);
     console.log(e);
@@ -47,12 +47,20 @@ const GbookPage = () => {
   const mainImageSelect =
     process.env.PUBLIC_URL + `/assets/images/main_image_select.png`;
 
+  const deleteBtn = process.env.PUBLIC_URL + `/assets/images/delete_button.svg`;
   // * Image upload
   const [mainImage, setMainImage] = useState(null);
   const [subImages, setSubImages] = useState([]);
 
   const handleImageChange = e => {
     const files = e.target.files;
+    const fileCount = mainImage ? files.length + 1 : files.length; // 메인 이미지가 이미 있다면 +1을 해준다.
+
+    if (fileCount + subImages.length > 5) {
+      alert("최대 5개의 이미지만 업로드 가능합니다.");
+      return; // 함수를 여기서 종료시켜 더 이상 진행하지 않음
+    }
+
     let updatedMainImage = mainImage;
     const updatedSubImages = [...subImages];
 
@@ -62,7 +70,8 @@ const GbookPage = () => {
 
       if (!updatedMainImage) {
         updatedMainImage = imageUrl;
-      } else {
+      } else if (updatedSubImages.length < 4) {
+        // 서브 이미지가 4개 미만일 때만 추가
         updatedSubImages.push(imageUrl);
       }
     }
@@ -80,6 +89,14 @@ const GbookPage = () => {
     } else {
       setMainImage(null);
     }
+  };
+
+  const handleDeleteSubImage = index => {
+    if (index === 0 && !mainImage) {
+      // 첫 번째 서브 이미지를 메인 이미지로 설정
+      setMainImage(subImages[1] || null);
+    }
+    setSubImages(subImages.filter((_, i) => i !== index));
   };
   return (
     <div>
@@ -159,32 +176,39 @@ const GbookPage = () => {
             {/* 이미지 첨부 */}
             {/* process.env.PUBLIC_URL +
                     `/assets/images/main_image_select.png` */}
+            {/* 
+            // TODO 첫 input state 줘서 투명도 없애고 보여주고 그다음부터는
+            // TODO 이미지가 들어오면? 투명하게 보이도록
+            */}
             <ReviewImageWrap>
-              <ReivewMainImageWrap>
-                <ReviewMainImage htmlFor="mainImage" bcImage={mainImageSelect}>
-                  <input
-                    type="file"
-                    id="mainImage"
-                    style={{ display: "none" }}
-                  />
-                </ReviewMainImage>
-              </ReivewMainImageWrap>
-              {/* sub images */}
-              <ReviewSubImageWrap>
-                <ReviewSubImage>
-                  <img
-                    src={
-                      process.env.PUBLIC_URL +
-                      `/assets/images/sub_image_select.png`
-                    }
-                    alt=""
-                  />
-                </ReviewSubImage>
-              </ReviewSubImageWrap>
-              {/* notice */}
-              <ReviewRefText>
-                <span>(첫 번째 사진이 대표사진이 됩니다.)</span>
-              </ReviewRefText>
+              <ReviewInput type="file" multiple onChange={handleImageChange} />
+              <div>
+                {mainImage && (
+                  <ReviewMainImageWrap>
+                    <img src={mainImage} alt="Main" />
+                    <ReviewImageDeleteBtn
+                      onClick={handleDeleteMainImage}
+                      bgImg={deleteBtn}
+                    />
+                  </ReviewMainImageWrap>
+                )}
+                <ReviewSubImageWrap>
+                  {subImages.map((image, index) => (
+                    <ReviewSubImageItem key={index}>
+                      <img
+                        src={image}
+                        alt={`Sub ${index}`}
+                        width="370"
+                        height="370"
+                      />
+                      <ReviewImageDeleteBtn
+                        onClick={() => handleDeleteSubImage(index)}
+                        bgImg={deleteBtn}
+                      />
+                    </ReviewSubImageItem>
+                  ))}
+                </ReviewSubImageWrap>
+              </div>
             </ReviewImageWrap>
           </ReviewContentWrap>
         </ReviewItemWrap>

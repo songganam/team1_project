@@ -24,7 +24,7 @@ import {
 const GaddPage = () => {
   // 시간 카운팅
   // 사람 카운팅
-  const [personCount, setPersonCount] = useState(0);
+  const [personCount, setPersonCount] = useState(1);
   const timeValue = [
     "17:00",
     "17:30",
@@ -57,11 +57,11 @@ const GaddPage = () => {
     setPersonCount(personCount + 1);
   };
   const handleClickPCountMinus = () => {
-    if (personCount > 0) {
+    if (personCount > 1) {
       setPersonCount(personCount - 1);
     } else {
       // TODO MODAL로 변경하여야 함
-      alert("인원 수가 0명 이하일 수없습니다.");
+      alert("인원 수가 1명보다 적을 수없습니다.");
     }
   };
   const handleClickPCountReset = () => {
@@ -72,14 +72,23 @@ const GaddPage = () => {
   const handleRequireMsg = e => {
     setRequiredMsg(e.target.value);
   };
+
   // * Calendar(예약달력)
   const date = new Date();
-  const nowdata = moment(date).format("YYYY.MM.DD");
+  const nowdata = moment(date).format("YYYY-MM-DD");
   const [selectedDate, setSelectedDate] = useState(nowdata);
   const handleDateChange = formattedDate => {
     console.log(formattedDate);
     setSelectedDate(formattedDate);
   };
+
+  // * submit 날짜 + 시간 Value 폼
+  const timeCountvalue =
+    timeCount.split(":")[0] + "-" + timeCount.split(":")[1];
+  console.log(timeCountvalue);
+  const timeline = nowdata + " " + timeCountvalue;
+  console.log(timeline);
+
   // * Submit
   const handleReserSubmit = () => {
     const reserData = {
