@@ -8,7 +8,7 @@ const CommunityPage = () => {
   return (
     <Layout>
       <TitleHeader
-        timg="https://picsum.photos/1920/215/?category=meat"
+        timg={`${process.env.PUBLIC_URL}/assets/images/community_header.png`}
         tname="고기잡담"
         tcontent='"인생은 고기서 고기다"'
       />

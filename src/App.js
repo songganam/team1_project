@@ -1,9 +1,9 @@
 import "normalize.css";
 import React, { Suspense, lazy } from "react";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
+import GoTop from "./components/common/GoTop";
 import Loading from "./components/loading/Loading";
 import "./index.css";
-import GoTop from "./components/common/GoTop";
 
 // 어바웃 페이지
 const LazyAboutPage = lazy(() => import("./pages/main/AboutPage"));

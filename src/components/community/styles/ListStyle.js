@@ -61,14 +61,13 @@ export const TitleStyle = styled.div`
 export const InfoStyle = styled.div`
   position: relative;
   display: flex;
-  /* width: 360px; */
   padding: 10px 0;
   justify-content: space-between;
   @media (max-width: 980px) {
     display: none;
   }
   div {
-    width: 120px;
+    width: 160px;
     display: flex;
     justify-content: center;
     color: ${props => props.color};
@@ -112,7 +111,7 @@ export const ThumbnailStyle = styled.div`
 `;
 export const ContentInfoStyle = styled.div`
   position: relative;
-  max-width: 660px;
+  width: 660px;
   display: flex;
   flex-direction: column;
   gap: 34px;
@@ -198,6 +197,17 @@ export const PagingBoxStyle = styled.div`
     color: ${ColorStyle.g700};
     cursor: pointer;
     outline: inherit;
+    &:hover {
+      color: ${ColorStyle.g900};
+      font-weight: bold;
+    }
+
+    ${({ active }) =>
+      active &&
+      `
+      color: ${ColorStyle.g900};
+      font-weight: bold;
+    `}
 
     ${mediaQueries("tablet")`
       &:not(:first-of-type):not(:last-of-type) {
