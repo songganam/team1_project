@@ -1,14 +1,16 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import {
   ReivewMainImageWrap,
+  ReviewCommentInput,
   ReviewCommentItem,
+  ReviewCommentItemWrap,
   ReviewCommentSubItem,
   ReviewCommentWrap,
   ReviewContent,
   ReviewContentWrap,
   ReviewFormWrap,
   ReviewImageWrap,
-  ReviewInput,
+  ReviewInputWrap,
   ReviewItem,
   ReviewItemWrap,
   ReviewMainImage,
@@ -42,14 +44,42 @@ const GbookPage = () => {
   const countStar = process.env.PUBLIC_URL + `/assets/images/star_count.svg`;
 
   // * Text-field
-  const [reviewText, setReviewText] = useState("");
-  const handleTextHeightChange = event => {
-    setReviewText(event);
-    TextareaHeight(event.target);
+  const mainImageSelect =
+    process.env.PUBLIC_URL + `/assets/images/main_image_select.png`;
+
+  // * Image upload
+  const [mainImage, setMainImage] = useState(null);
+  const [subImages, setSubImages] = useState([]);
+
+  const handleImageChange = e => {
+    const files = e.target.files;
+    let updatedMainImage = mainImage;
+    const updatedSubImages = [...subImages];
+
+    for (let i = 0; i < files.length; i++) {
+      const file = files[i];
+      const imageUrl = URL.createObjectURL(file);
+
+      if (!updatedMainImage) {
+        updatedMainImage = imageUrl;
+      } else {
+        updatedSubImages.push(imageUrl);
+      }
+    }
+
+    setMainImage(updatedMainImage);
+    setSubImages(updatedSubImages);
   };
-  const TextareaHeight = textarea => {
-    textarea.style.height = "auto";
-    textarea.style.height = Math.min(textarea.scrollHeight, 100) + "px";
+
+  const handleDeleteMainImage = () => {
+    if (subImages.length > 0) {
+      const newMainImage = subImages[0];
+      const updatedSubImages = subImages.slice(1);
+      setMainImage(newMainImage);
+      setSubImages(updatedSubImages);
+    } else {
+      setMainImage(null);
+    }
   };
   return (
     <div>
@@ -106,7 +136,7 @@ const GbookPage = () => {
               {/* 
               // * 코멘트
               */}
-              <ReviewFormWrap>
+              <ReviewCommentItemWrap>
                 <ReviewCommentWrap>
                   <ReviewCommentItem>
                     <span>코멘트</span>
@@ -115,27 +145,27 @@ const GbookPage = () => {
                     <span>(300자 제한)</span>
                   </ReviewCommentSubItem>
                 </ReviewCommentWrap>
-                <ReviewContent>
-                  <ReviewInput
-                    value={reviewText}
-                    onChange={handleTextHeightChange}
-                    onInput={e => TextareaHeight(e.target)}
-                    rows="1"
-                    cols="30"
+
+                <ReviewInputWrap>
+                  <ReviewCommentInput
+                    maxRows={15}
+                    minRows={1}
+                    placeholder="리뷰를 작성해주세요."
+                    height={375}
                   />
-                </ReviewContent>
-              </ReviewFormWrap>
+                </ReviewInputWrap>
+              </ReviewCommentItemWrap>
             </ReviewWrapper>
             {/* 이미지 첨부 */}
+            {/* process.env.PUBLIC_URL +
+                    `/assets/images/main_image_select.png` */}
             <ReviewImageWrap>
               <ReivewMainImageWrap>
-                <ReviewMainImage>
-                  <img
-                    src={
-                      process.env.PUBLIC_URL +
-                      `/assets/images/main_image_select.png`
-                    }
-                    alt=""
+                <ReviewMainImage htmlFor="mainImage" bcImage={mainImageSelect}>
+                  <input
+                    type="file"
+                    id="mainImage"
+                    style={{ display: "none" }}
                   />
                 </ReviewMainImage>
               </ReivewMainImageWrap>
