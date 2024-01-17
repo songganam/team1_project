@@ -50,7 +50,7 @@ const GoTop = () => {
     text-align: center;
     z-index: 9999;
     padding: 10px;
-    bottom: 90px;
+    bottom: 80px;
     right: 20px;
     width: 80px;
     background: ${ColorStyle.secondary};

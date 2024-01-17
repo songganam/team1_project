@@ -14,7 +14,7 @@ const Thead = () => {
       <InfoStyle>
         <div>작성자</div>
         <div>작성일</div>
-        <div>조회수</div>
+        {/* <div>조회수</div> */}
       </InfoStyle>
     </TableStyle>
   );

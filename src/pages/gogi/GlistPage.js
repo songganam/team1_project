@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { MeatGo, getGList } from "../../api/GApi";
 import GCard from "../../components/gogi/GCard";
-import useCustomMove from "../../components/community/hooks/useCustomMove";
+import useCustomMove from "../../components/hooks/useCustomMove";
 
 // 고깃집 목록보기 페이지입니다.
 const GlistPage = () => {
