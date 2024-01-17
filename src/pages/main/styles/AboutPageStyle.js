@@ -10,31 +10,46 @@ export const AboutPageWrap = styled.div`
 // 맨 위 사진
 export const AboutPageTop = styled.div`
   position: relative;
-  display: block;
+  display: flex;
+  justify-content: center;
+  align-items: flex-start;
   width: 100%;
-  height: 964px;
+  height: 800px;
 
   img {
-    position: absolute;
+    position: relative;
+    align-items: center;
+    justify-content: center;
     width: 100%;
-    height: 964px;
+    height: 100%;
   }
 
-  ul {
-    position: absolute;
-    top: 0; /* 텍스트를 상단에 위치시킴 */
-    left: 0; /* 텍스트를 왼쪽에 위치시킴 */
+  .TopText {
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    align-items: flex-start;
+    width: 371px;
+    height: 265px;
 
-    .text-one {
-      color: #ffffff;
+    .TopText .text-one {
+      position: absolute;
+      font-size: 25px;
+      color: #a8a8a8;
     }
-    .text-two {
-      color: #ffffff;
+    .TopText .text-two {
+      position: absolute;
+      font-size: 10px;
+      color: #a8a8a8;
     }
-    .text-three {
-      color: #ffffff;
+    .TopText .text-three {
+      position: absolute;
+      font-size: px;
+      color: #c2c2c2;
     }
-    .text-four {
+    .TopText .text-four {
+      position: absolute;
+      font-size: 44px;
       color: #ffffff;
     }
   }
@@ -150,6 +165,7 @@ export const MainBand = styled.div`
   .MainBandText {
     position: absolute;
     font-size: 44px;
+    color: #ffffff;
   }
 `;
 
@@ -193,7 +209,6 @@ export const AboutPageEvent = styled.div`
 export const AboutEventCards = styled.div`
   position: relative;
   display: flex;
-  background-color: red;
 
   .EventCards {
     position: relative;
@@ -205,7 +220,10 @@ export const AboutEventCards = styled.div`
     height: 583px;
     padding-top: 14px;
   }
-  .EvenntButton {
+  .EventButton-wrap {
+    padding-top: 21px;
+  }
+  .EventButton {
     color: #d60117;
     font-size: 14px;
   }
@@ -216,6 +234,7 @@ export const AboutPageCommunity = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  padding-top: 312px;
   padding-bottom: 135px;
 
   .CommunityTitle {
@@ -224,16 +243,51 @@ export const AboutPageCommunity = styled.div`
 `;
 export const CommunityImages = styled.div`
   position: relative;
-  display: flex;
-  justify-content: center;
-  align-items: center;
+  display: grid;
+  padding-top: 22px;
+  grid-template-columns: repeat(8, 1fr);
+  grid-template-rows: repeat(4, 1fr);
+  grid-column-gap: 20px;
+  grid-row-gap: 20px;
 
   .BigImage {
-    width: 853px;
-    height: 853px;
+    position: relative;
+    grid-area: 1 / 1 / 5 / 5;
+    img {
+      width: 600px;
+      height: 600px;
+    }
   }
-  .smallImage {
-    width: 417px;
-    height: 417px;
+  .smallone {
+    position: relative;
+    grid-area: 1 / 5 / 3 / 7;
+    img {
+      width: 290px;
+      height: 290px;
+    }
+  }
+  .smalltwo {
+    position: relative;
+    grid-area: 1 / 7 / 3 / 9;
+    img {
+      width: 290px;
+      height: 290px;
+    }
+  }
+  .smallthree {
+    position: relative;
+    grid-area: 3 / 5 / 5 / 7;
+    img {
+      width: 290px;
+      height: 290px;
+    }
+  }
+  .smallfour {
+    position: relative;
+    grid-area: 3 / 7 / 5 / 9;
+    img {
+      width: 290px;
+      height: 290px;
+    }
   }
 `;
