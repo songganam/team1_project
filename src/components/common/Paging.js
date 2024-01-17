@@ -1,9 +1,8 @@
 import React, { useState } from "react";
-import { PagingBoxStyle } from "../community/styles/ListStyle";
+import { PagingBoxStyle, PagingNumStyle } from "../community/styles/ListStyle";
 import useCustomMove from "../hooks/useCustomMove";
 
-const Paging = ({ totalItem, itemPerPage, paginate }) => {
-  // 커스텀 훅
+const Paging = ({ totalItem, itemPerPage }) => {
   const { moveToList } = useCustomMove();
 
   const [currentPage, setCurrentPage] = useState(1);
@@ -19,21 +18,45 @@ const Paging = ({ totalItem, itemPerPage, paginate }) => {
     }
   }
 
+  const handlePrev = () => {
+    setCurrentPage(prevCurrentPage => prevCurrentPage - 1);
+    if ((currentPage - 1) % maxPageNumLimit === 0) {
+      setMaxPageNumLimit(prevMaxPageNumLimit => prevMaxPageNumLimit - 10);
+      setMinPageNumLimit(prevMinPageNumLimit => prevMinPageNumLimit - 10);
+    }
+  };
+  const handleNext = () => {
+    setCurrentPage(prevCurrentPage => prevCurrentPage + 1);
+    if (currentPage + 1 > maxPageNumLimit) {
+      setMaxPageNumLimit(prevMaxPageNumLimit => prevMaxPageNumLimit + 10);
+      setMinPageNumLimit(prevMinPageNumLimit => prevMinPageNumLimit + 10);
+    }
+  };
+
   return (
     <PagingBoxStyle>
       {/* 이전 버튼 */}
-      <button>이전</button>
-      <button>1</button>
-      <button>2</button>
-      <button>3</button>
-      <button>4</button>
-      <button>5</button>
-      <button>6</button>
-      <button>7</button>
-      <button>8</button>
-      <button>9</button>
-      <button>10</button>
-      <button>다음</button>
+      {minPageNumLimit >= 1 && (
+        <PagingNumStyle onClick={handlePrev}>이전</PagingNumStyle>
+      )}
+
+      {/* 페이지 번호 */}
+      {pageNum.map(num => (
+        <PagingNumStyle
+          key={num}
+          onClick={() => {
+            moveToList({ page: num });
+          }}
+          active={currentPage === num}
+        >
+          {num}
+        </PagingNumStyle>
+      ))}
+
+      {/* 다음 버튼 */}
+      {totalItem > maxPageNumLimit && (
+        <PagingNumStyle onClick={handleNext}>다음</PagingNumStyle>
+      )}
     </PagingBoxStyle>
   );
 };

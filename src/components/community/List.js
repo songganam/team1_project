@@ -15,6 +15,8 @@ import {
   InfoStyle,
   LargeImgStyle,
   NameStyle,
+  PagingBoxStyle,
+  PagingNumStyle,
   SummaryStyle,
   TableFootStyle,
   TagBoxStyle,
@@ -177,7 +179,8 @@ const List = () => {
         </div>
       ))}
 
-      <Paging />
+      {/* 페이지네이션 */}
+      <Paging totalItem={serverData.boardNum} itemPerPage={10} />
       <Search />
       <TableFootStyle>
         <Button bttext="글쓰기" />

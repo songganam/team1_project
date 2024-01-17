@@ -186,28 +186,19 @@ export const PagingBoxStyle = styled.div`
   justify-content: center;
   align-items: center;
   border-top: 1px solid ${ColorStyle.g500};
-  button {
+  /* button {
     background: none;
-    color: inherit;
     border: none;
     padding: 10px;
     margin: 0;
     font: inherit;
     font-size: ${FontSize.strong};
-    color: ${ColorStyle.g700};
+    color: ${props => (props.active ? ColorStyle.g900 : ColorStyle.g700)};
     cursor: pointer;
-    outline: inherit;
     &:hover {
       color: ${ColorStyle.g900};
       font-weight: bold;
     }
-
-    ${({ active }) =>
-      active &&
-      `
-      color: ${ColorStyle.g900};
-      font-weight: bold;
-    `}
 
     ${mediaQueries("tablet")`
       &:not(:first-of-type):not(:last-of-type) {
@@ -224,6 +215,19 @@ export const PagingBoxStyle = styled.div`
         }
       }
     `}
+  } */
+`;
+export const PagingNumStyle = styled.button`
+  background: none;
+  border: none;
+  padding: 10px;
+  margin: 0;
+  font-size: ${FontSize.strong};
+  color: ${props => (props.active ? ColorStyle.g900 : ColorStyle.g700)};
+  cursor: pointer;
+  &:hover {
+    color: ${ColorStyle.g900};
+    font-weight: bold;
   }
 `;
 
