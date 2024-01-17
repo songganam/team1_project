@@ -1,4 +1,6 @@
 import styled from "@emotion/styled";
+import TextareaAutosize from "react-textarea-autosize";
+import { ColorStyle } from "../../../styles/common/CommonStyle";
 
 export const ReviewWrap = styled.div`
   display: inline-flex;
@@ -98,6 +100,14 @@ export const ReviewRatingStar = styled.img`
   height: 50px;
   flex-shrink: 0;
 `;
+
+// ! 코멘트
+export const ReviewCommentItemWrap = styled.div`
+  display: flex;
+  align-items: flex-start;
+  width: 530px;
+  flex-shrink: 0;
+`;
 export const ReviewCommentWrap = styled.div`
   display: flex;
   flex-direction: column;
@@ -122,7 +132,7 @@ export const ReviewCommentItem = styled.div`
 export const ReviewCommentSubItem = styled.div`
   display: flex;
   width: 164px;
-  height: 20px;
+  height: auto;
   flex-direction: column;
   justify-content: center;
   span {
@@ -136,18 +146,19 @@ export const ReviewCommentSubItem = styled.div`
   }
 `;
 // ! Textarea
-export const ReviewInput = styled.textarea`
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: center;
-  width: 360px;
+export const ReviewInputWrap = styled.div`
+  padding-top: 10px;
+  width: 366px;
+`;
+export const ReviewCommentInput = styled(TextareaAutosize)`
+  width: 366px;
   resize: none;
-  max-height: 500px;
-  border: none;
-  border-bottom: 1px solid black;
   font-size: 14px;
   font-family: "Pretendard";
+  border: none;
+  border-bottom: 1px solid ${ColorStyle.g700};
+  padding-bottom: "5px";
+  overflow: hidden;
 `;
 
 export const ReviewImageWrap = styled.div`
@@ -164,16 +175,20 @@ export const ReivewMainImageWrap = styled.div`
   align-items: center;
   gap: 10px;
 `;
-export const ReviewMainImage = styled.div`
+export const ReviewMainImage = styled.label`
   display: flex;
   justify-content: center;
   align-items: center;
-  gap: 10px;
-  img {
-    width: 300px;
-    height: 300px;
-  }
+  width: 300px;
+  height: 300px;
+  background-image: ${({ Rating, rating }) =>
+    Rating <= rating ? "red" : "blue"};
+  background-image: url(${({ bcImage }) => bcImage});
+  background-size: cover;
+  background-repeat: no-repeat;
+  border: none;
 `;
+
 export const ReviewSubImageWrap = styled.div`
   display: flex;
   width: 300px;
