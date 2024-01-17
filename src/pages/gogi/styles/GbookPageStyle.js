@@ -161,49 +161,113 @@ export const ReviewCommentInput = styled(TextareaAutosize)`
   overflow: hidden;
 `;
 
+// ! UPLOAD IMAGE
 export const ReviewImageWrap = styled.div`
+  position: relative;
   display: flex;
+  width: 370px;
   height: 450px;
   flex-direction: column;
   align-items: center;
   gap: 30px;
 `;
-
-export const ReivewMainImageWrap = styled.div`
+export const ReviewInput = styled.input`
+  position: absolute;
+  top: 0;
+  left: 10px;
+  z-index: 9;
+  opacity: 0;
+  width: 350px;
+  height: 350px;
+  aspect-ratio: 1/1;
+  background: red;
+  border: 1px solid black;
+  transition: 0.3s;
+  /* background-image: url("../public/main_image_select.png"); */
+  background-repeat: no-repeat;
+  background-size: cover;
+  &:hover {
+    opacity: 1;
+  }
+`;
+export const ReviewMainImageWrap = styled.div`
+  position: relative;
+  width: 350px;
+  aspect-ratio: 1/1;
+  background-color: #000;
+  img {
+    width: 350px;
+    height: 350px;
+    aspect-ratio: 1/1;
+  }
+`;
+export const ReviewSubImageWrap = styled.div`
+  /* position: relative; */
+  padding-top: 10px;
   display: flex;
-  justify-content: center;
-  align-items: center;
   gap: 10px;
 `;
-export const ReviewMainImage = styled.label`
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  width: 300px;
-  height: 300px;
-  background-image: ${({ Rating, rating }) =>
-    Rating <= rating ? "red" : "blue"};
-  background-image: url(${({ bcImage }) => bcImage});
+export const ReviewSubImageItem = styled.div`
+  width: 60px;
+  height: 60px;
+  background: blue;
+  /* background-image: url("../public/sub_image_select.png"); */
+  background-repeat: no-repeat;
+  background-size: cover;
+  img {
+    width: 100%;
+    height: auto;
+  }
+`;
+export const ReviewImageDeleteBtn = styled.button`
+  position: absolute;
+  margin-left: -20px;
+  z-index: 100000000;
+  width: 20px;
+  height: 20px;
+  background: none;
+  background-image: url(${({ bgImg }) => bgImg});
   background-size: cover;
   background-repeat: no-repeat;
   border: none;
 `;
+// export const ReviewImageWrap = styled.div`
+//   display: flex;
+//   height: 450px;
+//   flex-direction: column;
+//   align-items: center;
+//   gap: 30px;
+// `;
 
-export const ReviewSubImageWrap = styled.div`
-  display: flex;
-  width: 300px;
-  justify-content: space-between;
-  align-items: center;
-`;
-export const ReviewSubImage = styled.div`
-  display: flex;
-  align-items: flex-start;
-  gap: 10px;
-  img {
-    width: 60px;
-    height: 60px;
-  }
-`;
+// export const ReivewMainImageWrap = styled.div`
+//   display: flex;
+//   justify-content: center;
+//   align-items: center;
+//   gap: 10px;
+// `;
+// export const ReviewMainImage = styled.label`
+//   display: flex;
+//   justify-content: center;
+//   align-items: center;
+//   width: 300px;
+//   height: 300px;
+//   background-image: ${({ Rating, rating }) =>
+//     Rating <= rating ? "red" : "blue"};
+//   background-image: url(${({ bcImage }) => bcImage});
+//   background-size: cover;
+//   background-repeat: no-repeat;
+//   border: none;
+// `;
+
+// export const ReviewSubImage = styled.div`
+//   display: flex;
+//   align-items: flex-start;
+//   gap: 10px;
+//   img {
+//     width: 60px;
+//     height: 60px;
+//   }
+// `;
 
 export const ReviewRefText = styled.div`
   display: flex;
