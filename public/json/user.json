@@ -1,0 +1,12 @@
+[
+  {
+    "email": "string",
+    "name": "string",
+    "nickname": "string",
+    "birth": "string",
+    "gender": "string",
+    "address": "string",
+    "pic": "string",
+    "tel": ""
+  }
+]
