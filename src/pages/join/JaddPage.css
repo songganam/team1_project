@@ -1,27 +1,4 @@
-.JoinPage-wrap {
-  position: relative;
-  display: block;
-}
-.JoinPage-main {
-  position: relative;
-  display: flex;
-  font-size: 19px;
-  flex-direction: column;
-  flex-wrap: wrap; /* 아이템을 여러 줄에 걸쳐 배치 */
-  justify-content: center; /* 가로 방향 중앙 정렬 */
-  align-items: center;
-  padding-top: 140px;
-}
-.JoinPage-img {
-  position: relative;
-  display: flex;
-  justify-content: flex-end;
-  align-items: flex-end;
-  background-color: green;
-  width: 280px;
-  height: 280px;
-  border-radius: 250px;
-}
+
 .JoinPage-img-button {
   position: relative;
   width: 68px;
@@ -81,7 +58,6 @@
   position: relative;
   display: flex;
   font-family: "DAEAM_LEE_TAE_JOON";
-  font-size: 14px;
   right: 0;
 }
 .gender-bt-man {
@@ -111,10 +87,8 @@
 .nickname-bt {
   position: absolute;
   font-family: "DAEAM_LEE_TAE_JOON";
-  font-size: 14px;
   color: #d60117;
-  width: 84px;
-  height: 38px;
+
   right: 0;
   /* bottom: 50%; 선 중앙에 위치하도록 조절 */
   /* transform: translateY(50%); */
@@ -143,7 +117,7 @@
   width: 100%;
   height: 55px;
   color: #d60117;
-  font-size: 19px;
+
   margin-bottom: 20px;
 }
 .cancel-button {
