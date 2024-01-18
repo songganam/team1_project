@@ -1,0 +1,26 @@
+[
+  {
+    "categoryPk": 1,
+    "categoryNm": "생필품"
+  },
+  {
+    "categoryPk": 2,
+    "categoryNm": "가구"
+  },
+  {
+    "categoryPk": 3,
+    "categoryNm": "야채"
+  },
+  {
+    "categoryPk": 4,
+    "categoryNm": "과일"
+  },
+  {
+    "categoryPk": 5,
+    "categoryNm": "기타"
+  },
+  {
+    "categoryPk": 7,
+    "categoryNm": "육류"
+  }
+]
