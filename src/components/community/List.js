@@ -4,9 +4,10 @@ import { ColorStyle } from "../../styles/common/CommonStyle";
 import Button from "../button/Button";
 import Fetching from "../common/Fetching";
 import Paging from "../common/Paging";
+import useCustomMove from "../hooks/useCustomMove";
+import Tag from "../tag/Tag";
 import Search from "./Search";
 import Thead from "./Thead";
-import useCustomMove from "../hooks/useCustomMove";
 import {
   BtnStyle,
   ContentInfoStyle,
@@ -15,8 +16,6 @@ import {
   InfoStyle,
   LargeImgStyle,
   NameStyle,
-  PagingBoxStyle,
-  PagingNumStyle,
   SummaryStyle,
   TableFootStyle,
   TagBoxStyle,
@@ -28,7 +27,6 @@ import {
   UserStyle,
   WrapStyle,
 } from "./styles/ListStyle";
-import Tag from "../tag/Tag";
 
 // 서버데이터 초기값 배열
 const initState = [
@@ -180,7 +178,7 @@ const List = () => {
       ))}
 
       {/* 페이지네이션 */}
-      <Paging totalItem={serverData.boardNum} itemPerPage={10} />
+      <Paging />
       <Search />
       <TableFootStyle>
         <Button bttext="글쓰기" />

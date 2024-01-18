@@ -15,13 +15,19 @@ const useCustomMove = () => {
   const page = urlSearchParams.get("page")
     ? parseInt(urlSearchParams.get("page"))
     : 1;
+  // 현재 search
+  const search = urlSearchParams.get("search")
+    ? parseInt(urlSearchParams.get("search"))
+    : "";
   // querystring 만들기
-  const queryStrDefault = createSearchParams({ page }).toString();
+  const queryStrDefault = createSearchParams({ page, search }).toString();
   // to list
   const moveToList = pageParam => {
     let queryStr = "";
     if (pageParam) {
       const pageNum = getNum(pageParam.page, page);
+
+      // 쿼리 만들기
       queryStr = createSearchParams({
         page: pageNum,
       }).toString();

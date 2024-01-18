@@ -1,62 +1,47 @@
-import React, { useState } from "react";
-import { PagingBoxStyle, PagingNumStyle } from "../community/styles/ListStyle";
+import React, { useEffect, useState } from "react";
 import useCustomMove from "../hooks/useCustomMove";
+import { getList } from "../../api/communityApi";
+import { PagingBoxStyle, PagingNumStyle } from "../community/styles/ListStyle";
 
-const Paging = ({ totalItem, itemPerPage }) => {
-  const { moveToList } = useCustomMove();
+const initState = [];
 
-  const [currentPage, setCurrentPage] = useState(1);
-  const [minPageNumLimit, setMinPageNumLimit] = useState(0);
-  const [maxPageNumLimit, setMaxPageNumLimit] = useState(10);
+const Paging = () => {
+  const { page, moveToList } = useCustomMove();
+  const [pageNum, setPageNum] = useState(initState);
 
-  const totalPages = Math.ceil(totalItem / itemPerPage);
-  const pageNum = [];
+  useEffect(() => {
+    const param = { page };
+    getList({ param, successFn, failFn, errorFn });
+  }, [page]);
 
-  for (let i = 1; i <= totalPages; i++) {
-    if (i > minPageNumLimit && i <= maxPageNumLimit) {
-      pageNum.push(i);
-    }
-  }
-
-  const handlePrev = () => {
-    setCurrentPage(prevCurrentPage => prevCurrentPage - 1);
-    if ((currentPage - 1) % maxPageNumLimit === 0) {
-      setMaxPageNumLimit(prevMaxPageNumLimit => prevMaxPageNumLimit - 10);
-      setMinPageNumLimit(prevMinPageNumLimit => prevMinPageNumLimit - 10);
-    }
+  // 데이터 연동 처리 결과
+  const successFn = result => {
+    setPageNum(result);
+    console.log(result);
   };
-  const handleNext = () => {
-    setCurrentPage(prevCurrentPage => prevCurrentPage + 1);
-    if (currentPage + 1 > maxPageNumLimit) {
-      setMaxPageNumLimit(prevMaxPageNumLimit => prevMaxPageNumLimit + 10);
-      setMinPageNumLimit(prevMinPageNumLimit => prevMinPageNumLimit + 10);
-    }
+  const failFn = result => {
+    console.log(result);
+  };
+  const errorFn = result => {
+    console.log(result);
   };
 
   return (
     <PagingBoxStyle>
-      {/* 이전 버튼 */}
-      {minPageNumLimit >= 1 && (
-        <PagingNumStyle onClick={handlePrev}>이전</PagingNumStyle>
-      )}
-
-      {/* 페이지 번호 */}
-      {pageNum.map(num => (
-        <PagingNumStyle
-          key={num}
-          onClick={() => {
-            moveToList({ page: num });
-          }}
-          active={currentPage === num}
-        >
-          {num}
-        </PagingNumStyle>
+      <PagingNumStyle>이전</PagingNumStyle>
+      {pageNum.map((item, index) => (
+        <div key={index}>
+          <PagingNumStyle
+            ac
+            onClick={() => {
+              moveToList({ page: index + 1 });
+            }}
+          >
+            {index + 1}
+          </PagingNumStyle>
+        </div>
       ))}
-
-      {/* 다음 버튼 */}
-      {totalItem > maxPageNumLimit && (
-        <PagingNumStyle onClick={handleNext}>다음</PagingNumStyle>
-      )}
+      <PagingNumStyle>다음</PagingNumStyle>
     </PagingBoxStyle>
   );
 };
