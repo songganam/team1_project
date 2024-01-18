@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect } from "react";
 import {
   MyModifyPageButton,
   MyModifyPageForm,
@@ -13,6 +13,8 @@ import Button from "../../components/button/Button";
 
 // 프로필 수정 페이지
 const MyModifyPage = () => {
+  useEffect(() => {});
+
   // input 휴대폰 번호 부분, 11자리 숫자만 입력 가능하도록 제한
   const handlePhoneNumberChange = e => {
     const value = e.target.value.replace(/[^0-9]/g, "").slice(0, 11);

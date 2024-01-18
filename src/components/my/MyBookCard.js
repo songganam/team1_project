@@ -1,5 +1,7 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { getMyBook } from "../../api/myApi/MyBookApi";
 import Button from "../../components/button/Button";
+import useCustomMove from "../hooks/useCustomMove";
 import {
   MyBookCardBookButton,
   MyBookCardContent,
@@ -15,7 +17,38 @@ import {
   MyBookmark,
 } from "./styles/MyBookCardStyle";
 
+const initialMyBook = {
+  checkShop: "",
+  ireser: "",
+  ishop: "",
+  date: "",
+  request: "",
+  cofirm: "",
+};
+
 const MyBookCard = props => {
+  const { page } = useCustomMove();
+  const [myBookData, setMyBookData] = useState(initialMyBook);
+
+  const getMyBookData = () => {};
+
+  useEffect(() => {
+    const param = { page };
+    getMyBook({ param, successFn, failFn, errorFn });
+    getMyBookData();
+  }, [page]);
+
+  const successFn = result => {
+    setMyBookData(result);
+    console.log(result);
+  };
+  const failFn = result => {
+    console.log(result);
+  };
+  const errorFn = result => {
+    console.log(result);
+  };
+
   const {
     storeimg,
     storeplace,
@@ -51,7 +84,7 @@ const MyBookCard = props => {
             <li>요청사항</li>
           </MyBookCardInfoTitle>
           <MyBookCardDateContent>
-            <li>날짜내용{bookdate}</li>
+            <li>날짜내용{myBookData.date}</li>
             <li>시간내용{booktime}</li>
             <li>인원내용{bookpeople}</li>
             <li>요청내용{bookmemo}</li>

@@ -16,22 +16,22 @@ const MyPage = () => {
   // 패스 이동
   const navigate = useNavigate();
   // 메뉴 버튼 활성화
-  const [activeButton, setActiveButton] = useState("/my/mybook");
+  const [activeButton, setActiveButton] = useState("/my/book");
 
   const handleClickMyBook = () => {
-    navigate("/my/mybook");
+    navigate("/my/book");
     setActiveButton("/my/book");
   };
   const handleClickMyList = () => {
-    navigate("/my/mylist");
+    navigate("/my/list");
     setActiveButton("/my/list");
   };
   const handleClickMyReview = () => {
-    navigate("/my/myreview");
+    navigate("/my/review");
     setActiveButton("/my/review");
   };
   const handleClickMyModify = () => {
-    navigate("/my/mymodify");
+    navigate("/my/modify");
     setActiveButton("/my/modify");
   };
 
@@ -52,13 +52,13 @@ const MyPage = () => {
                 }}
                 style={{
                   color:
-                    activeButton === "/my/mybook"
+                    activeButton === "/my/book"
                       ? `${ColorStyle.g1000}`
                       : `${ColorStyle.g600}`,
                 }}
               >
                 내 예약/픽업 내역 보기
-                {activeButton === "/my/mybook" && (
+                {activeButton === "/my/book" && (
                   <img
                     src={`${process.env.PUBLIC_URL}/assets/images/my_arrow.svg`}
                     alt=""
@@ -71,13 +71,13 @@ const MyPage = () => {
                 }}
                 style={{
                   color:
-                    activeButton === "/my/mylist"
+                    activeButton === "/my/list"
                       ? `${ColorStyle.g1000}`
                       : `${ColorStyle.g600}`,
                 }}
               >
                 내 북마크 보기
-                {activeButton === "/my/mylist" && (
+                {activeButton === "/my/list" && (
                   <img
                     src={`${process.env.PUBLIC_URL}/assets/images/my_arrow.svg`}
                     alt=""
@@ -90,13 +90,13 @@ const MyPage = () => {
                 }}
                 style={{
                   color:
-                    activeButton === "/my/myreview"
+                    activeButton === "/my/review"
                       ? `${ColorStyle.g1000}`
                       : `${ColorStyle.g600}`,
                 }}
               >
                 내가 쓴 리뷰 보기
-                {activeButton === "/my/myreview" && (
+                {activeButton === "/my/review" && (
                   <img
                     src={`${process.env.PUBLIC_URL}/assets/images/my_arrow.svg`}
                     alt=""
@@ -109,13 +109,13 @@ const MyPage = () => {
                 }}
                 style={{
                   color:
-                    activeButton === "/my/mymodify"
+                    activeButton === "/my/modify"
                       ? `${ColorStyle.g1000}`
                       : `${ColorStyle.g600}`,
                 }}
               >
                 프로필 수정
-                {activeButton === "/my/mymodify" && (
+                {activeButton === "/my/modify" && (
                   <img
                     src={`${process.env.PUBLIC_URL}/assets/images/my_arrow.svg`}
                     alt=""
