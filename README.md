@@ -6,7 +6,7 @@
 ## 1. state 배치 가능 장소
 
 - 컴포넌트 : useState, useEffect 관리
-- 리액트앱 전체 : index.js 또는 App.js 에서 관리가 됩니다. (전역상태관리)
+- 리액트앱 전체 : index.js 또는 App.js 에서 관리가 된다. (전역상태관리)
 
 ## 2. Redux-toolkit
 
@@ -542,6 +542,7 @@ const loginSlice = createSlice({
         // state : 기존 값(store 의 loginSate)
         // action : 받아온 값
         console.log("pending");
+
       })
       .addCase(loginPostAsync.rejected, (state, action) => {
         // 외부 연동 실패
