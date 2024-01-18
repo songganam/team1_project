@@ -10,48 +10,27 @@ export const AboutPageWrap = styled.div`
 // 맨 위 사진
 export const AboutPageTop = styled.div`
   position: relative;
-  display: flex;
-  justify-content: center;
-  align-items: flex-start;
+  /* display: flex; */
+  /* justify-content: center; */
+  /* align-items: flex-start; */
   width: 100%;
   height: 800px;
 
-  img {
-    position: relative;
-    align-items: center;
-    justify-content: center;
+  .TopImage {
+    position: absolute;
+    /* align-items: center; */
+    /* justify-content: center; */
     width: 100%;
     height: 100%;
   }
-
   .TopText {
-    display: flex;
-    flex-direction: column;
-    justify-content: space-between;
-    align-items: flex-start;
-    width: 371px;
+    position: absolute;
+    padding-left: 142px;
+    margin-top: 111px;
+    width: auto;
     height: 265px;
-
-    .TopText .text-one {
-      position: absolute;
-      font-size: 25px;
-      color: #a8a8a8;
-    }
-    .TopText .text-two {
-      position: absolute;
-      font-size: 10px;
-      color: #a8a8a8;
-    }
-    .TopText .text-three {
-      position: absolute;
-      font-size: px;
-      color: #c2c2c2;
-    }
-    .TopText .text-four {
-      position: absolute;
-      font-size: 44px;
-      color: #ffffff;
-    }
+    /* align-items: center; */
+    /* justify-content: center; */
   }
 `;
 
@@ -110,12 +89,12 @@ export const AboutCardButton = styled.div`
   display: flex;
   padding-top: 20px;
   .InfoButton {
-    font-size: 14px;
+    font-size: 19px;
     color: #d60117;
     margin-right: 38px;
   }
   .BookButton {
-    font-size: 14px;
+    font-size: 19px;
     color: #d60117;
   }
 `;
@@ -157,8 +136,8 @@ export const MainBand = styled.div`
     position: relative;
     align-items: center;
     justify-content: center;
-    width: 100%;
-    height: 270px;
+    width: 1920px;
+    height: 354px;
 
     /* z-index: 1; */
   }
@@ -168,7 +147,7 @@ export const MainBand = styled.div`
     color: #ffffff;
   }
 `;
-
+// 고깃집 홍보
 export const AboutPageShops = styled.div`
   position: relative;
   display: flex;
@@ -181,7 +160,28 @@ export const AboutPageShops = styled.div`
 
   .ShopTexts {
     position: relative;
-    height: 354px;
+    display: flex;
+    flex-direction: column;
+    padding-top: 134px;
+    padding-right: 60px;
+
+    .ShopTexts-one {
+      font-size: 33px;
+      margin-bottom: 9px;
+    }
+    .ShopTexts-two {
+      margin-bottom: 9px;
+      font-size: 44px;
+    }
+    .ShopTexts-three {
+      font-family: "Pretendard";
+      padding-top: 15px;
+      font-size: 19px;
+    }
+    .ShopTexts-four {
+      padding-top: 9px;
+      font-size: 33px;
+    }
   }
   img {
     position: relative;
@@ -225,7 +225,7 @@ export const AboutEventCards = styled.div`
   }
   .EventButton {
     color: #d60117;
-    font-size: 14px;
+    font-size: 19px;
   }
 `;
 

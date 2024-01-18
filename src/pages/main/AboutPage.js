@@ -28,13 +28,14 @@ const AboutPage = () => {
       <AboutPageWrap>
         {/* Top사진 */}
         <AboutPageTop>
-          <img src="/assets/images/aboutimages/main.png" />
-          <div className="TopText">
+          <img className="TopImage" src="/assets/images/aboutimages/main.png" />
+          <img className="TopText" src="/assets/images/aboutimages/toptext.png" />
+          {/* <div className="TopText">
             <span className="text-one">인생은 고기서 고기다.</span>
             <span className="text-two">기분이 저기앞일 땐 고기 앞으로 가자!</span>
             <span className="text-three">고기에 진심인 자들을 위한</span>
             <span className="text-four">고기-로</span>
-          </div>
+          </div> */}
         </AboutPageTop>
         {/* 중앙(메인) */}
         <AboutPageMain>
@@ -111,13 +112,13 @@ const AboutPage = () => {
           {/* 고깃집 홍보 */}
           <AboutPageShops>
             <div className="ShopTexts">
-              <span className="">미친 가성비 고깃집</span>
-              <br />
-              <span className="">:쎈밤</span>
-              <br />
-              <span className="">삼겹살/목살/막창 1인분(150g)</span>
-              <br />
-              <span className="">7,900원</span>
+              <span className="ShopTexts-one">미친 가성비 고깃집</span>
+               
+              <span className="ShopTexts-two">:쎈밤</span>
+              
+              <span className="ShopTexts-three">삼겹살/목살/막창 1인분(150g)</span>
+              
+              <span className="ShopTexts-four">7,900원</span>
             </div>
             <img src="/assets/images/aboutimages/shoppic.svg" />
           </AboutPageShops>

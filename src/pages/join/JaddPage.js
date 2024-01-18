@@ -3,102 +3,100 @@ import { Outlet, useNavigate } from "react-router-dom";
 import TitleHeader from "../../components/titleheader/TitleHeader";
 import "../join/JaddPage.css";
 import { DefaultBt } from "../../components/button/styles/ButtonStyle";
-
+import { GenderBtWrap, JaddAddressBts, JaddAddressWrap, JaddGenderWrap, JaddMailWrap, JaddMorePwWrap, JaddNameWrap, JaddNickNameInner, JaddNickNameWrap, JaddNicknameInner, JaddNumberWrap, JaddPageImage, JaddPageInfo, JaddPageMain, JaddPageWrap, JaddPwWrap } from "./styles/JaddPageStyle";
 // 회원가입 작성 페이지입니다.
 const JaddPage = () => {
   // 패스 이동하기
   const navigate = useNavigate();
-
   const handleClickJoin = () => {
     navigate("/join/jread");
   };
   const handleClickCancel = () => {
     navigate("/");
   };
-
   return (
-    <div className="JoinPage-wrap">
+    <JaddPageWrap>
       <TitleHeader
         timg="https://picsum.photos/1920/215/?category=meat"
         tname="회원가입"
         tcontent="오늘도 맛있는 고기와 함께하세요"
       ></TitleHeader>
-      <div className="JoinPage-main">
-        <div className="JoinPage-img">
-          <button className="JoinPage-img-button"></button>
-        </div>
-        <div className="JoinPage-info">
-          <div className="Join-mail-wrap">
-            <div>
+      <JaddPageMain>
+        <JaddPageImage>
+          <button className="JaddPage-img-button"></button>
+        </JaddPageImage>
+        <JaddPageInfo>
+          <div className="JaddMailInfo">
+            <JaddMailWrap>
               <label>이메일</label>
               <input
-                className="Join-mail"
+                className="JoinMail"
                 placeholder="@까지 정확하게 입력하세요."
               ></input>
-            </div>
+            </JaddMailWrap>
             <br />
-            <div className="Join-name-wrap">
+            <JaddNameWrap>
               <label>이름</label>
               <input
-                className="Join-name"
+                className="JaddName"
                 placeholder="본인 이름을 입력하세요."
               ></input>
-            </div>
+            </JaddNameWrap>
             <br />
-            <div className="Join-pw-wrap">
+            <JaddPwWrap>
               <label>비밀번호</label>
               <input
-                className="Join-pw"
+                className="JaddPw"
                 placeholder="비밀번호를 입력하세요.(특수문자 포함 4-8자)"
               ></input>
-            </div>
+            </JaddPwWrap>
             <br />
-            <div className="Join-morepw-wrap">
+            <JaddMorePwWrap>
               <label>비밀번호 확인</label>
               <input
-                className="Join-morepw"
+                className="JaddMorePw"
                 placeholder="입력한 비밀번호를 한번 더 확인하세요."
               ></input>
-            </div>
+            </JaddMorePwWrap>
             <br />
-            <div className="Join-gender-wrap">
-              <div className="Join-gender">
+            <JaddGenderWrap>
+              <div className="JaddGender">
                 성별
-                <div className="gender-bt-wrap">
+                <GenderBtWrap>
                   <DefaultBt className="gender-bt-man">남성</DefaultBt>
                   <DefaultBt className="gender-bt-woman">여성</DefaultBt>
-                </div>
+                </GenderBtWrap>
               </div>
-            </div>
+            </JaddGenderWrap>
             <br />
-            <div className="Join-nickname-wrap">
+            <JaddNickNameWrap>
               <label>닉네임</label>
-              <div className="nickname-inner">
+              <JaddNickNameInner>
                 <input
-                  className="Join-nickname"
+                  className="JaddNickName"
                   placeholder="사용할 닉네임을 입력하세요."
                 ></input>
-                <DefaultBt className="nickname-bt">중복확인</DefaultBt>
-              </div>
-            </div>
+                <DefaultBt className="JaddNickName-Bt">중복확인</DefaultBt>
+              </JaddNickNameInner>
+            </JaddNickNameWrap>
             <br />
-            <div className="Join-phonenumber-wrap">
+            <JaddNumberWrap>
               <label>휴대폰 번호</label>
               <input
-                className="Join-phonenumber"
+                className="JaddNumber"
                 placeholder="휴대폰 번호를 입력하세요."
               ></input>
-            </div>
+            </JaddNumberWrap>
             <br />
-            <div className="Join-address-wrap">
+            <JaddAddressWrap>
               <label>주소</label>
               <input
-                className="Join-address"
+                className="JaddAddress"
                 placeholder="거주 중인 주소를 입력하세요."
               ></input>
-            </div>
-            <div className="Join-buttons">
-              <DefaultBt className="Join-button">회원가입</DefaultBt>
+            </JaddAddressWrap>
+            <JaddAddressBts>
+              <DefaultBt className="Jadd-Join-Bt">회원가입</DefaultBt>
               <button
                 type="button"
                 className="cancel-button"
@@ -108,16 +106,14 @@ const JaddPage = () => {
               >
                 취소하기
               </button>
-            </div>
+            </JaddAddressBts>
           </div>
-        </div>
+        </JaddPageInfo>
         <div>
           <Outlet />
         </div>
-      </div>
-      <div className="JoinPage-footer"></div>
-    </div>
+      </JaddPageMain>
+    </JaddPageWrap>
   );
 };
-
 export default JaddPage;

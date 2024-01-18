@@ -7,7 +7,6 @@ const JoinPage = () => {
   return (
     <Layout>
       <div>
-        <h1>회원가입</h1>
         <div>
           <Outlet />
         </div>
