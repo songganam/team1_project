@@ -45,6 +45,7 @@ import {
 } from "./styles/GreadPageStyle";
 
 // 고깃집 정보 상세보기 페이지입니다.
+// TODO https://react-kakao-maps-sdk.jaeseokim.dev/docs/sample/map/addMapDragendEvent
 const GreadPage = () => {
   const [meatMenu, setMeatMenu] = useState([]);
 
@@ -136,7 +137,7 @@ const GreadPage = () => {
       {/* 
       // ! KAKAO MAP API
     */}
-    
+
       <MapApiWrapper>
         <Map
           center={{ lat: 33.5563, lng: 126.79581 }}

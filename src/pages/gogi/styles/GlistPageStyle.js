@@ -1,5 +1,5 @@
 import styled from "@emotion/styled";
-import { FontSize } from "../../../styles/common/CommonStyle";
+import { ColorStyle, FontSize } from "../../../styles/common/CommonStyle";
 
 export const KindOfMeatWrap = styled.div`
   display: flex;
@@ -23,8 +23,8 @@ export const KindOfMeat = styled.div`
   }
 `;
 export const SearchWrap = styled.div`
-  /* float: right; */
-  display: inline-flex;
+  position: relative;
+  display: flex;
   align-items: flex-start;
   gap: 3px;
 `;
@@ -61,18 +61,21 @@ export const SearchIconWrap = styled.div`
   }
 `;
 export const ListFilter = styled.div`
+  float: right;
   display: flex;
   align-items: flex-start;
   gap: 20px;
 `;
-export const ListFilterItem = styled.div`
+export const ListFilterItem = styled.button`
   display: flex;
+  border: none;
+  background: transparent;
   width: 50px;
   height: 30px;
   flex-direction: column;
   justify-content: center;
   span {
-    color: #000;
+    color: ${props => (props.active ? ColorStyle.g1000 : ColorStyle.g500)};
     text-align: center;
     font-feature-settings: "clig" off, "liga" off;
     font-family: DAEAM_LEE_TAE_JOON;

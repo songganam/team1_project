@@ -3,7 +3,7 @@ import { ColorStyle, FontSize } from "../../../styles/common/CommonStyle";
 
 // ! Wrapper
 export const ReserWrapper = styled.div`
-  display: inline-flex;
+  display: flex;
   padding: 30px 0px;
   flex-direction: column;
   align-items: center;
