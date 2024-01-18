@@ -8,19 +8,19 @@ const MartPage = () => {
   const navigate = useNavigate();
 
   const hnadleClickMbook = () => {
-    navigate("/mart/mbook");
+    navigate("/mart/book");
   };
   const hnadleClickMlist = () => {
-    navigate("/mart/mlist");
+    navigate("/mart/list");
   };
   const hnadleClickMread = () => {
-    navigate("/mart/mread");
+    navigate("/mart/read");
   };
   const handleClickMadd = () => {
-    navigate("/mart/madd");
+    navigate("/mart/add");
   };
   const handleClickMmodify = () => {
-    navigate("/mart/mmodify");
+    navigate("/mart/modify");
   };
 
   return (

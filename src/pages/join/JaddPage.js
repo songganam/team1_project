@@ -10,7 +10,7 @@ const JaddPage = () => {
   const navigate = useNavigate();
 
   const handleClickJoin = () => {
-    navigate("/join/jread");
+    navigate("/join/read");
   };
   const handleClickCancel = () => {
     navigate("/");

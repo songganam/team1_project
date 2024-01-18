@@ -20,19 +20,19 @@ const MyPage = () => {
 
   const handleClickMyBook = () => {
     navigate("/my/mybook");
-    setActiveButton("/my/mybook");
+    setActiveButton("/my/book");
   };
   const handleClickMyList = () => {
     navigate("/my/mylist");
-    setActiveButton("/my/mylist");
+    setActiveButton("/my/list");
   };
   const handleClickMyReview = () => {
     navigate("/my/myreview");
-    setActiveButton("/my/myreview");
+    setActiveButton("/my/review");
   };
   const handleClickMyModify = () => {
     navigate("/my/mymodify");
-    setActiveButton("/my/mymodify");
+    setActiveButton("/my/modify");
   };
 
   return (

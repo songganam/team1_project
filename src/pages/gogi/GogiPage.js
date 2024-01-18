@@ -10,19 +10,19 @@ const GogiPage = () => {
   const navigate = useNavigate();
 
   const handleClickGbook = () => {
-    navigate("/gogi/gbook");
+    navigate("/gogi/book");
   };
   const handleClickGlist = () => {
-    navigate("/gogi/glist");
+    navigate("/gogi/list");
   };
   const handleClickGread = () => {
-    navigate("/gogi/gread");
+    navigate("/gogi/read");
   };
   const handleClickGadd = () => {
-    navigate("/gogi/gadd");
+    navigate("/gogi/add");
   };
   const handleClickGmodify = () => {
-    navigate("/gogi/gmodify");
+    navigate("/gogi/modify");
   };
 
   // 페이지별 제어

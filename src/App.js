@@ -87,9 +87,9 @@ const App = () => {
           }
         >
           {/* 회원가입 페이지 첫화면 */}
-          <Route path="" element={<Navigate to="jadd" />}></Route>
+          <Route path="" element={<Navigate to="add" />}></Route>
           <Route
-            path="jadd"
+            path="add"
             element={
               <Suspense fallback={<Loading />}>
                 <LazyJoinAddPage />
@@ -106,9 +106,9 @@ const App = () => {
           }
         >
           {/* 회원가입 페이지 첫화면 */}
-          <Route path="" element={<Navigate to="mybook" />}></Route>
+          <Route path="" element={<Navigate to="book" />}></Route>
           <Route
-            path="mylist"
+            path="list"
             element={
               <Suspense fallback={<Loading />}>
                 <LazyMyListPage />
@@ -116,7 +116,7 @@ const App = () => {
             }
           ></Route>
           <Route
-            path="mybook"
+            path="book"
             element={
               <Suspense fallback={<Loading />}>
                 <LazyMyBookPage />
@@ -124,7 +124,7 @@ const App = () => {
             }
           ></Route>
           <Route
-            path="myreview"
+            path="review"
             element={
               <Suspense fallback={<Loading />}>
                 <LazyMyReviewPage />
@@ -132,7 +132,7 @@ const App = () => {
             }
           ></Route>
           <Route
-            path="mymodify"
+            path="modify"
             element={
               <Suspense fallback={<Loading />}>
                 <LazyMyModifyPage />
@@ -192,9 +192,9 @@ const App = () => {
           }
         >
           {/* 고깃집찾기 페이지 첫 화면 */}
-          <Route path="" element={<Navigate to="glist" />}></Route>
+          <Route path="" element={<Navigate to="list" />}></Route>
           <Route
-            path="gbook"
+            path="book"
             element={
               <Suspense fallback={<Loading />}>
                 <LazyGbookPage />
@@ -202,7 +202,7 @@ const App = () => {
             }
           ></Route>
           <Route
-            path="glist"
+            path="list"
             element={
               <Suspense fallback={<Loading />}>
                 <LazyGlistPage />
@@ -210,7 +210,7 @@ const App = () => {
             }
           ></Route>
           <Route
-            path="gread"
+            path="read"
             element={
               <Suspense fallback={<Loading />}>
                 <LazyGreadPage />
@@ -218,7 +218,7 @@ const App = () => {
             }
           ></Route>
           <Route
-            path="gadd"
+            path="add"
             element={
               <Suspense fallback={<Loading />}>
                 <LazyGaddPage />
@@ -226,7 +226,7 @@ const App = () => {
             }
           ></Route>
           <Route
-            path="gmodify"
+            path="modify"
             element={
               <Suspense fallback={<Loading />}>
                 <LazyGmodifyPage />
@@ -243,9 +243,9 @@ const App = () => {
           }
         >
           {/* 마트 페이지 첫 화면 */}
-          <Route path="" element={<Navigate to="mlist" />}></Route>
+          <Route path="" element={<Navigate to="list" />}></Route>
           <Route
-            path="mbook"
+            path="book"
             element={
               <Suspense fallback={<Loading />}>
                 <LazyMartBook />
@@ -253,7 +253,7 @@ const App = () => {
             }
           ></Route>
           <Route
-            path="mlist"
+            path="list"
             element={
               <Suspense fallback={<Loading />}>
                 <LazyMlistPage />
@@ -261,7 +261,7 @@ const App = () => {
             }
           ></Route>
           <Route
-            path="mread"
+            path="read"
             element={
               <Suspense fallback={<Loading />}>
                 <LazyMreadPage />
@@ -269,7 +269,7 @@ const App = () => {
             }
           ></Route>
           <Route
-            path="madd"
+            path="add"
             element={
               <Suspense fallback={<Loading />}>
                 <LazyMaddPage />
@@ -277,7 +277,7 @@ const App = () => {
             }
           ></Route>
           <Route
-            path="mmodify"
+            path="modify"
             element={
               <Suspense fallback={<Loading />}>
                 <LazyMmodifyPage />
@@ -294,9 +294,9 @@ const App = () => {
           }
         >
           {/* 마감세일 페이지 첫 화면 */}
-          <Route path="" element={<Navigate to="slist" />}></Route>
+          <Route path="" element={<Navigate to="list" />}></Route>
           <Route
-            path="slist"
+            path="list"
             element={
               <Suspense fallback={<Loading />}>
                 <LazySlistPage />
@@ -304,7 +304,7 @@ const App = () => {
             }
           ></Route>
           <Route
-            path="sread"
+            path="read"
             element={
               <Suspense fallback={<Loading />}>
                 <LazySreadPage />
