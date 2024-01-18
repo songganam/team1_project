@@ -175,15 +175,13 @@ export const ReviewInput = styled.input`
   position: absolute;
   top: 0;
   left: 10px;
-  z-index: 9;
-  opacity: 0;
+  z-index: 10;
+  /* opacity: 0; */
   width: 350px;
   height: 350px;
   aspect-ratio: 1/1;
-  background: red;
-  border: 1px solid black;
-  transition: 0.3s;
-  /* background-image: url("../public/main_image_select.png"); */
+  background-image: url(${({ mainImageSelect }) => mainImageSelect});
+  border: none;
   background-repeat: no-repeat;
   background-size: cover;
   &:hover {

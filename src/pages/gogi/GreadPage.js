@@ -136,6 +136,7 @@ const GreadPage = () => {
       {/* 
       // ! KAKAO MAP API
     */}
+    
       <MapApiWrapper>
         <Map
           center={{ lat: 33.5563, lng: 126.79581 }}
@@ -150,7 +151,7 @@ const GreadPage = () => {
       {/* 
       // ! NOTICE AREA
       */}
-      <NoticeWrap>
+      {/* <NoticeWrap>
         <NoticeTitle>
           <span>가게소식</span>
         </NoticeTitle>
@@ -177,7 +178,7 @@ const GreadPage = () => {
             </NoticeCardContent>
           </NoticeCard>
         </NoticeCardWrap>
-      </NoticeWrap>
+      </NoticeWrap> */}
 
       {/* 
       // ! REVIEW AREA

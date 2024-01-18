@@ -181,7 +181,12 @@ const GbookPage = () => {
             // TODO 이미지가 들어오면? 투명하게 보이도록
             */}
             <ReviewImageWrap>
-              <ReviewInput type="file" multiple onChange={handleImageChange} />
+              <ReviewInput
+                type="file"
+                multiple
+                onChange={handleImageChange}
+                mainImageSelect={mainImageSelect}
+              />
               <div>
                 {mainImage && (
                   <ReviewMainImageWrap>
