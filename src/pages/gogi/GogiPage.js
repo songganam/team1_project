@@ -27,15 +27,16 @@ const GogiPage = () => {
 
   // 페이지별 제어
   let timg, tname, tcontent;
+  let showTitleHeader = false;
   switch (location.pathname) {
-    case `/gogi/glist`:
+    case `/gogi/list`:
       timg = "https://picsum.photos/1920/215/?category=meat";
       tname = "고깃집찾기";
       tcontent = "고기자체로 행복이 되는 공간";
+      showTitleHeader = true;
       break;
   }
   // ! Title Header
-  const [showTitleHeader, setShowTitleHeader] = useState(false);
 
   return (
     <Layout>
@@ -49,7 +50,7 @@ const GogiPage = () => {
       <Wrapper>
         <div>
           <div>
-            <Outlet showTitleHeader={showTitleHeader} />
+            <Outlet />
           </div>
         </div>
       </Wrapper>

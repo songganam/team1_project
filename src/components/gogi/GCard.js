@@ -32,10 +32,7 @@ const GCard = ({ data }) => {
               </MeatStoreBox>
             </MeatStoreInfo>
             <MeatSotreCardImg>
-              <img
-                src="https://picsum.photos/380/210/?category=meat"
-                alt="고기 더미 이미지"
-              />
+              <img src={item.pics} alt="고기 더미 이미지" />
             </MeatSotreCardImg>
           </MeatStoreCard>
         ))}

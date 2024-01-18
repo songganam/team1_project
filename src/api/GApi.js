@@ -1,15 +1,16 @@
 import axios from "axios";
 
 export const API_SERVER_HOST = "";
-const reserHost = `${API_SERVER_HOST}/api/`;
+const host = `${API_SERVER_HOST}/api`;
 
 //! GET Gogi List Page
 export const getGList = async ({ param, successFn, failFn, errorFn }) => {
   try {
-    const res = await axios.get(`${reserHost}/shop`, { params: param });
+    const res = await axios.get(`${host}/shop`, { params: param });
     const status = res.status.toString();
     const httpSt = status.charAt(0).toString();
     if (httpSt == 2) {
+      console.log(res.data);
       successFn(res.data);
     } else {
       console.log("error");
