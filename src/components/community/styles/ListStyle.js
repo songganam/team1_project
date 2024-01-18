@@ -223,10 +223,11 @@ export const PagingNumStyle = styled.button`
   padding: 10px;
   margin: 0;
   font-size: ${FontSize.strong};
-  color: ${props => (props.active ? ColorStyle.g900 : ColorStyle.g700)};
+  color: ${props => (props.active ? ColorStyle.g800 : ColorStyle.g700)};
+  font-weight: ${props => (props.active ? "bold" : "normal")};
   cursor: pointer;
   &:hover {
-    color: ${ColorStyle.g900};
+    color: ${ColorStyle.g800};
     font-weight: bold;
   }
 `;

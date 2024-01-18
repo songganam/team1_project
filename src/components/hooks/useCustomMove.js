@@ -1,4 +1,3 @@
-import React from "react";
 import {
   createSearchParams,
   useNavigate,
@@ -26,7 +25,6 @@ const useCustomMove = () => {
     let queryStr = "";
     if (pageParam) {
       const pageNum = getNum(pageParam.page, page);
-
       // 쿼리 만들기
       queryStr = createSearchParams({
         page: pageNum,
@@ -44,7 +42,7 @@ const useCustomMove = () => {
   const moveToRead = num => {
     navigate({ pathname: `../read/${num}`, search: queryStrDefault });
   };
-  return { moveToList, moveToModify, moveToRead, page };
+  return { moveToList, moveToModify, moveToRead, page, search };
 };
 
 export default useCustomMove;

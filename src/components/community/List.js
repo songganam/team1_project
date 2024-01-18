@@ -43,7 +43,7 @@ const initState = [
 
 const List = () => {
   // 커스텀 훅
-  const { page, moveToRead } = useCustomMove();
+  const { page, search, moveToRead } = useCustomMove();
   // 서버 데이터 내용 상태 변경
   const [serverData, setServerData] = useState(initState);
   // 해당 글로 상태 변경
@@ -64,9 +64,9 @@ const List = () => {
 
   // page에 따라 최초 데이터 가져오기
   useEffect(() => {
-    const param = { page };
+    const param = { page, search };
     getList({ param, successFn, failFn, errorFn });
-  }, [page]);
+  }, [page, search]);
 
   // 데이터 연동 처리 결과
   const successFn = result => {
