@@ -3,7 +3,7 @@ import TextareaAutosize from "react-textarea-autosize";
 import { ColorStyle } from "../../../styles/common/CommonStyle";
 
 export const ReviewWrap = styled.div`
-  display: inline-flex;
+  display: flex;
   flex-direction: column;
   align-items: center;
   gap: 15px;
@@ -171,22 +171,21 @@ export const ReviewImageWrap = styled.div`
   align-items: center;
   gap: 30px;
 `;
-export const ReviewInput = styled.input`
+export const ReviewInputLabel = styled.label`
+  background-image: url(${({ mainImageSelect }) => mainImageSelect});
   position: absolute;
   top: 0;
   left: 10px;
   z-index: 10;
-  /* opacity: 0; */
   width: 350px;
   height: 350px;
   aspect-ratio: 1/1;
-  background-image: url(${({ mainImageSelect }) => mainImageSelect});
   border: none;
   background-repeat: no-repeat;
   background-size: cover;
-  &:hover {
-    opacity: 1;
-  }
+`;
+export const ReviewInput = styled.input`
+  display: none;
 `;
 export const ReviewMainImageWrap = styled.div`
   position: relative;
@@ -206,15 +205,18 @@ export const ReviewSubImageWrap = styled.div`
   gap: 10px;
 `;
 export const ReviewSubImageItem = styled.div`
+  border: 1px solid ${ColorStyle.g500};
+  border-radius: 5px;
   width: 60px;
   height: 60px;
-  background: blue;
+  /* background: blue; */
   /* background-image: url("../public/sub_image_select.png"); */
   background-repeat: no-repeat;
   background-size: cover;
   img {
     width: 100%;
     height: auto;
+    /* border-radius: 10px; */
   }
 `;
 export const ReviewImageDeleteBtn = styled.button`

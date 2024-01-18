@@ -11,6 +11,7 @@ import {
   ReviewImageDeleteBtn,
   ReviewImageWrap,
   ReviewInput,
+  ReviewInputLabel,
   ReviewInputWrap,
   ReviewItem,
   ReviewItemWrap,
@@ -181,12 +182,17 @@ const GbookPage = () => {
             // TODO 이미지가 들어오면? 투명하게 보이도록
             */}
             <ReviewImageWrap>
-              <ReviewInput
-                type="file"
-                multiple
-                onChange={handleImageChange}
+              <ReviewInputLabel
+                htmlFor="main-page"
                 mainImageSelect={mainImageSelect}
-              />
+              >
+                <ReviewInput
+                  type="file"
+                  multiple
+                  onChange={handleImageChange}
+                  id="main-page"
+                />
+              </ReviewInputLabel>
               <div>
                 {mainImage && (
                   <ReviewMainImageWrap>
@@ -200,12 +206,7 @@ const GbookPage = () => {
                 <ReviewSubImageWrap>
                   {subImages.map((image, index) => (
                     <ReviewSubImageItem key={index}>
-                      <img
-                        src={image}
-                        alt={`Sub ${index}`}
-                        width="370"
-                        height="370"
-                      />
+                      <img src={image} alt={`Sub ${index}`} />
                       <ReviewImageDeleteBtn
                         onClick={() => handleDeleteSubImage(index)}
                         bgImg={deleteBtn}

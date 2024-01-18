@@ -23,6 +23,7 @@ const GlistPage = () => {
     location: "",
     pics: [""],
   };
+  const [selectFilter, setSelectFilter] = useState("lastest");
   const [GlistData, setGlistData] = useState(initState);
   const { page } = useCustomMove();
   useEffect(() => {
@@ -79,10 +80,16 @@ const GlistPage = () => {
       </SearchWrap>
 
       <ListFilter>
-        <ListFilterItem>
+        <ListFilterItem
+          onClick={() => setSelectFilter("lastest")}
+          active={selectFilter === "lastest"}
+        >
           <span>최신순</span>
         </ListFilterItem>
-        <ListFilterItem>
+        <ListFilterItem
+          onClick={() => setSelectFilter("popularity")}
+          active={selectFilter === "popularity"}
+        >
           <span>인기순</span>
         </ListFilterItem>
       </ListFilter>
