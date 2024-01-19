@@ -20,17 +20,11 @@ export const getMyBook = async ({ param, successFn, failFn, errorFn }) => {
 };
 
 // 마이페이지 : 유저 정보 가져오기
-export const getUser = async ({ param, successFn, failFn, errorFn }) => {
+export const getUserProfile = async setProfileData => {
   try {
-    const res = await axios.get(`${host}/user`, { params: param });
-    const status = res.status.toString();
-    if (status.charAt(0) === "2") {
-      console.log("유저 정보 호출 성공");
-      successFn(res.data);
-    } else {
-      failFn("유저 정보 호출 오류");
-    }
+    const res = await axios.get(`${host}/user`);
+    setProfileData(res.data);
   } catch (error) {
-    errorFn(error);
+    console.log(error);
   }
 };

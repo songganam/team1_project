@@ -1,4 +1,4 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import {
   MyModifyPageButton,
   MyModifyPageForm,
@@ -10,10 +10,30 @@ import {
   ProfileImg,
 } from "./styles/MyModifyPageStyle";
 import Button from "../../components/button/Button";
+import { getUserProfile } from "../../api/myApi/MyBookApi";
+
+const initialProfile = {
+  email: "",
+  name: "",
+  nickname: "",
+  birth: "",
+  gender: "",
+  address: "",
+  pic: "",
+  tel: "",
+};
 
 // 프로필 수정 페이지
 const MyModifyPage = () => {
-  useEffect(() => {});
+  const [ProfileData, setProfileData] = useState(initialProfile);
+
+  const getUserInfo = () => {
+    getUserProfile(setProfileData);
+  };
+
+  useEffect(() => {
+    getUserInfo();
+  }, []);
 
   // input 휴대폰 번호 부분, 11자리 숫자만 입력 가능하도록 제한
   const handlePhoneNumberChange = e => {
@@ -35,13 +55,13 @@ const MyModifyPage = () => {
             ></img>
           </button>
         </ProfileImg>
-        <MyNickName>닉네임</MyNickName>
+        <MyNickName>{ProfileData.nickname}</MyNickName>
       </MyModifyPageProfile>
       <MyModifyPageInfo>
-        <span>이름</span>
-        <span>성별</span>
-        <span>생년월일</span>
-        <span>이메일</span>
+        <span>{ProfileData.name}</span>
+        <span>{ProfileData.gender}</span>
+        <span>{ProfileData.birth}</span>
+        <span>{ProfileData.email}</span>
       </MyModifyPageInfo>
       <MyModifyPageForm>
         <span>휴대폰 번호</span>
