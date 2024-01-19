@@ -2,11 +2,16 @@ import styled from "@emotion/styled";
 import { ColorStyle, FontSize } from "./CommonStyle";
 
 // 고깃집 가게 카드 컴포넌트
+export const CardWrapper = styled.div`
+  width: 1180px;
+  padding-top: 30px;
+`;
 export const MeatStoreCard = styled.div`
   font-family: "DAEAM_LEE_TAE_JOON";
   display: inline-flex;
   padding: 30px 0px;
   align-items: flex-start;
+  margin-right: 50px;
   /* background: red; */
 `;
 export const MeatStoreCardName = styled.div`
@@ -33,7 +38,6 @@ export const MeatStoreBox = styled.div`
   height: 210px;
   align-items: flex-start;
   align-content: flex-start;
-  gap: 28px 10px;
   flex-shrink: 0;
   flex-wrap: wrap;
 `;
@@ -42,15 +46,19 @@ export const MeatSotreCardImg = styled.div`
   width: 380px;
   height: 210px;
   /* background-color: blue; */
-  background: url("<path-to-image>"), lightgray 50% / cover no-repeat, #d9d9d9;
+  img {
+    width: 380px;
+    height: 210px;
+  }
 `;
 
 export const MeatstoreTag = styled.div``;
 
-export const MeatStoreTitle = styled.span`
+export const MeatStoreTitle = styled.div`
   color: #111;
+  height: 64px;
   /* font-family: DAEAM_LEE_TAE_JOON; */
-  font-size: 33px;
+  font-size: ${FontSize.sub_title};
   font-style: normal;
   font-weight: 400;
   line-height: 125%; /* 41.25px */
@@ -61,10 +69,10 @@ export const SubTitle = styled.span`
   color: ${ColorStyle.g500};
 `;
 
-export const reserveBtn = styled.div`
+export const ReserveBtn = styled.div`
+  padding-top: 30px;
   width: 73px;
   height: 25px;
-  flex-shrink: 0;
   span {
     color: #111;
     font-family: DAEAM_LEE_TAE_JOON;
@@ -78,6 +86,7 @@ export const reserveBtn = styled.div`
 export const InfoTagWrap = styled.div`
   display: flex;
   width: 138px;
+  height: 60px;
   align-items: flex-start;
   align-content: flex-start;
   gap: 10px;

@@ -1,6 +1,10 @@
 import styled from "@emotion/styled";
 import { ColorStyle, FontSize } from "../../../styles/common/CommonStyle";
 
+export const ListWrap = styled.div`
+  width: 1180px;
+  margin: 0 auto;
+`;
 export const KindOfMeatWrap = styled.div`
   display: flex;
   width: 1180px;

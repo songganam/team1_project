@@ -8,37 +8,28 @@ export const getGList = async ({ param, successFn, failFn, errorFn }) => {
   try {
     const res = await axios.get(`${host}/shop`, { params: param });
     const status = res.status.toString();
-    const httpSt = status.charAt(0).toString();
-    if (httpSt == 2) {
-      console.log(res.data);
+    if (status.charAt(0) === "2") {
+      console.log("목록 호출 성공");
       successFn(res.data);
     } else {
-      console.log("error");
+      failFn("목록 호출 오류");
     }
   } catch (error) {
-    console.log(error);
+    errorFn(error);
   }
 };
 
-export const MeatMenu = async () => {
+export const getGInfo = async ({ ishop, successFn, failFn, errorFn }) => {
   try {
-    const res = await axios.get("/json/menu.json");
+    const res = await axios.get(`${host}/shop/${ishop}`);
     const status = res.status.toString();
-    const httpSt = status.charAt(0).toString();
-    if (httpSt == 2) {
-      return res.data;
+    if (status.charAt(0) === "2") {
+      console.log("목록 호출 성공");
+      successFn(res.data);
     } else {
-      console.log("error");
+      failFn("목록 호출 오류");
     }
   } catch (error) {
-    console.log(error);
-  }
-};
-
-export const ReserPost = async () => {
-  try {
-    const res = await axios.post();
-  } catch (error) {
-    console.log(error);
+    errorFn(error);
   }
 };

@@ -48,11 +48,7 @@ const GogiPage = () => {
         ></TitleHeader>
       )}
       <Wrapper>
-        <div>
-          <div>
-            <Outlet />
-          </div>
-        </div>
+        <Outlet />
       </Wrapper>
     </Layout>
   );

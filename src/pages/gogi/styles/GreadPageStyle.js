@@ -1,8 +1,12 @@
 import styled from "@emotion/styled";
 
+export const ReadWrap = styled.div`
+  width: 1180px;
+  margin: 0 auto;
+`;
 // *  Info Area
 export const InfoWrap = styled.div`
-  display: inline-flex;
+  display: flex;
   padding: 30px 0px;
   flex-direction: column;
   align-items: flex-start;
