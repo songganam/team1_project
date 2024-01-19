@@ -14,9 +14,16 @@ import {
   MyReviewCardVisual,
   MyReviewCardWrapper,
 } from "./styles/MyReviewCardStyle";
+import useModal from "../hooks/useModal";
+import ResultModal from "../common/ResultModal";
 
 const MyReviewCard = props => {
   const { storeimg, storeplace, storename, reviewdate, reviewcont } = props;
+  const { useResultModal, openModal, closeModal } = useModal();
+  const handleDeleteReview = () => {
+    openModal();
+  };
+
   return (
     <MyReviewCardWrapper>
       <MyReviewCardVisual>
@@ -35,6 +42,7 @@ const MyReviewCard = props => {
           <MyReviewCardName>가게명{storename}</MyReviewCardName>
         </MyReviewCardTitle>
         <MyReviewCardInfo>
+          <div>별점</div>
           <MyReviewCardInfoTitle>
             <li>날짜</li>
             <li>리뷰</li>
@@ -45,8 +53,24 @@ const MyReviewCard = props => {
           </MyReviewCardDateContent>
         </MyReviewCardInfo>
         <MyBookCardBookButton>
-          <Button bttext="리뷰삭제"></Button>
+          <div
+            onClick={() => {
+              console.log("리뷰삭제 버튼 클릭");
+              handleDeleteReview();
+            }}
+          >
+            <Button bttext="리뷰삭제"></Button>
+          </div>
         </MyBookCardBookButton>
+        {useResultModal && (
+          <ResultModal
+            title="리뷰 삭제"
+            content="작성한 리뷰를 삭제하시겠습니까?"
+            callFn={() => {
+              closeModal();
+            }}
+          />
+        )}
       </MyReviewCardContent>
     </MyReviewCardWrapper>
   );
