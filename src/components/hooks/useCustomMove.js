@@ -3,7 +3,7 @@ import {
   useNavigate,
   useSearchParams,
 } from "react-router-dom";
-import { getNum } from "../util/utils";
+import { getNum, getSearch } from "../util/utils";
 
 const useCustomMove = () => {
   // path hook
@@ -16,7 +16,7 @@ const useCustomMove = () => {
     : 1;
   // 현재 search
   const search = urlSearchParams.get("search")
-    ? parseInt(urlSearchParams.get("search"))
+    ? toString(urlSearchParams.get("search"))
     : "";
   // querystring 만들기
   const queryStrDefault = createSearchParams({ page, search }).toString();
@@ -25,9 +25,11 @@ const useCustomMove = () => {
     let queryStr = "";
     if (pageParam) {
       const pageNum = getNum(pageParam.page, page);
+      const searchStr = getSearch(pageParam.search, search);
       // 쿼리 만들기
       queryStr = createSearchParams({
         page: pageNum,
+        search: searchStr,
       }).toString();
     } else {
       queryStr = queryStrDefault;
