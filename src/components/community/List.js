@@ -73,7 +73,7 @@ const List = () => {
   const successFn = result => {
     setServerData(result);
     setFetching(false);
-    console.log(result);
+    // console.log(result);
   };
   const failFn = result => {
     setFetching(false);

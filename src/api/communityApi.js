@@ -9,7 +9,7 @@ export const getList = async ({ param, successFn, failFn, errorFn }) => {
     const res = await axios.get(`${host}`, { params: param });
     const status = res.status.toString();
     if (status.charAt(0) === "2") {
-      console.log("커뮤니티 목록 호출 성공");
+      // console.log("커뮤니티 목록 호출 성공");
       successFn(res.data);
     } else {
       failFn("커뮤니티 목록 호출 오류");
