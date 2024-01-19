@@ -38,6 +38,7 @@ const initState = [
     title: "",
     contents: "",
     pics: [""],
+    count: 0,
   },
 ];
 
@@ -178,7 +179,7 @@ const List = () => {
       ))}
 
       {/* 페이지네이션 */}
-      <Paging />
+      <Paging totalItems={serverData[0].count} />
       <Search />
       <TableFootStyle>
         <Button bttext="글쓰기" />

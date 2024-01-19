@@ -186,7 +186,7 @@ export const PagingBoxStyle = styled.div`
   justify-content: center;
   align-items: center;
   border-top: 1px solid ${ColorStyle.g500};
-  /* button {
+  button {
     background: none;
     border: none;
     padding: 10px;
@@ -215,7 +215,7 @@ export const PagingBoxStyle = styled.div`
         }
       }
     `}
-  } */
+  }
 `;
 export const PagingNumStyle = styled.button`
   background: none;
