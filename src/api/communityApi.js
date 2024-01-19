@@ -1,6 +1,6 @@
 import axios from "axios";
+import { API_SERVER_HOST } from "./config";
 
-export const API_SERVER_HOST = "";
 const host = `${API_SERVER_HOST}/api/community`;
 
 // 게시판 전체 목록 가져오기

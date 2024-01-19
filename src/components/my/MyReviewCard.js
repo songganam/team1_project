@@ -14,7 +14,7 @@ import {
   MyReviewCardVisual,
   MyReviewCardWrapper,
 } from "./styles/MyReviewCardStyle";
-import useModal from "../hooks/useModal";
+import useModal from "../../hooks/useModal";
 import ResultModal from "../common/ResultModal";
 
 const MyReviewCard = props => {

@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { ColorStyle } from "../../styles/common/CommonStyle";
 import { PagingBoxStyle, PagingNumStyle } from "../community/styles/ListStyle";
-import useCustomMove from "../hooks/useCustomMove";
+import useCustomMove from "../../hooks/useCustomMove";
 
 const Paging = ({ totalItems, itemPerPage = 10 }) => {
-  const { page, search, moveToList } = useCustomMove();
+  const { moveToList } = useCustomMove();
 
   // 전체 페이지 수 계산
   const [totalPages, setTotalPages] = useState(0);

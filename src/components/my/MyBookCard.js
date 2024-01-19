@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { getMyBook } from "../../api/myApi/MyBookApi";
 import Button from "../../components/button/Button";
-import useCustomMove from "../hooks/useCustomMove";
+import useCustomMove from "../../hooks/useCustomMove";
 import {
   MyBookCardBookButton,
   MyBookCardContent,
