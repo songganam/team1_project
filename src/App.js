@@ -47,7 +47,7 @@ const LazyMyReviewPage = lazy(() => import("./pages/my/MyReviewPage"));
 const LazySalePage = lazy(() => import("./pages/sale/SalePage"));
 const LazySlistPage = lazy(() => import("./pages/sale/SlistPage"));
 const LazySreadPage = lazy(() => import("./pages/sale/SreadPage"));
-
+const LazyGaraLogin = lazy(() => import("./redux/GaraLogin"));
 const App = () => {
   return (
     <BrowserRouter>
@@ -210,7 +210,7 @@ const App = () => {
             }
           ></Route>
           <Route
-            path="read"
+            path="read/:ishop"
             element={
               <Suspense fallback={<Loading />}>
                 <LazyGreadPage />
@@ -312,6 +312,14 @@ const App = () => {
             }
           ></Route>
         </Route>
+        <Route
+          path="garalogin"
+          element={
+            <Suspense fallback={<Loading />}>
+              <LazyGaraLogin />
+            </Suspense>
+          }
+        ></Route>
       </Routes>
     </BrowserRouter>
   );

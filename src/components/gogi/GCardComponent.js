@@ -1,34 +1,41 @@
 import React from "react";
 import {
+  CardWrapper,
   InfoTagWrap,
   MeatSotreCardImg,
   MeatStoreBox,
   MeatStoreCard,
   MeatStoreInfo,
   MeatStoreTitle,
+  ReserveBtn,
 } from "../../styles/common/GCardStyle";
+import useCustomHook from "./hooks/useCustomHook";
 
-const GCard = ({ data }) => {
-  console.log("데이터임 :", data);
+const GCardComponent = ({ data }) => {
+  console.log(data);
+  const { moveToRead } = useCustomHook();
   return (
-    <div>
+    <CardWrapper>
       {data &&
         data.map(item => (
-          <MeatStoreCard key={item.ishop}>
+          <MeatStoreCard
+            key={item.ishop}
+            onClick={() => moveToRead(item.ishop)}
+          >
             <MeatStoreInfo>
               <MeatStoreBox>
                 <MeatStoreTitle>{item.name}</MeatStoreTitle>
                 <InfoTagWrap>
-                  {/* {item.tags.map((tag, index) => (
+                  {item.facilities.map((tag, index) => (
                     <button key={index}>
                       <span>{tag}</span>
                     </button>
-                  ))} */}
+                  ))}
                 </InfoTagWrap>
                 {/* 예약하기 */}
-                <reserveBtn>
+                <ReserveBtn>
                   <span>예약하기</span>
-                </reserveBtn>
+                </ReserveBtn>
               </MeatStoreBox>
             </MeatStoreInfo>
             <MeatSotreCardImg>
@@ -36,9 +43,7 @@ const GCard = ({ data }) => {
             </MeatSotreCardImg>
           </MeatStoreCard>
         ))}
-      ;
-    </div>
+    </CardWrapper>
   );
 };
-
-export default GCard;
+export default GCardComponent;
