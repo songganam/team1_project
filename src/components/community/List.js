@@ -4,7 +4,7 @@ import { ColorStyle } from "../../styles/common/CommonStyle";
 import Button from "../button/Button";
 import Fetching from "../common/Fetching";
 import Paging from "../common/Paging";
-import useCustomMove from "../hooks/useCustomMove";
+import useCustomMove from "../../hooks/useCustomMove";
 import Tag from "../tag/Tag";
 import Search from "./Search";
 import Thead from "./Thead";
@@ -73,7 +73,7 @@ const List = () => {
   const successFn = result => {
     setServerData(result);
     setFetching(false);
-    console.log(result);
+    // console.log(result);
   };
   const failFn = result => {
     setFetching(false);
