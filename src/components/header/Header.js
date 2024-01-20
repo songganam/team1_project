@@ -21,7 +21,7 @@ const Header = () => {
           <Link to="/join">회원가입</Link>
         </JoinStyle>
         <NavStyle>
-          <Link to="/gogi">고깃집찾기</Link>
+          <Link to="/meat">고깃집찾기</Link>
           <Link to="/mart">정육점찾기</Link>
           <Link to="/sale">마감세일</Link>
           <Link to="/community">고기잡담</Link>

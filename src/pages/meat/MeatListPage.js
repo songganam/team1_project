@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
-import { getGList } from "../../api/GApi";
-import GCardComponent from "../../components/gogi/GCardComponent";
-import useCustomHook from "../../components/gogi/hooks/useCustomHook";
+import { getGList } from "../../api/meatApi";
+import GCardComponent from "../../components/meat/GCardComponent";
+import useCustomHook from "../../components/meat/hooks/useCustomHook";
 import Loading from "../../components/loading/Loading";
 import {
   KindOfMeat,
@@ -15,18 +15,20 @@ import {
   SearchIconWrap,
   SearchInput,
   SearchWrap,
-} from "./styles/GlistPageStyle";
+} from "./styles/MeatListStyle";
 
 // 고깃집 목록보기 페이지입니다.
-const GlistPage = () => {
+const MeatListPage = () => {
   const { page, search, category, MoveToList } = useCustomHook();
   const [GlistData, setGlistData] = useState([]);
   const [loading, setLoading] = useState(false);
   const [selectFilter, setSelectFilter] = useState("lastest");
+
   useEffect(() => {
     const param = { page, search, category };
     getGList({ param, successFn, failFn, errorFn });
   }, [page, search, category]);
+
   const successFn = result => {
     setLoading(false);
     setGlistData(result);
@@ -44,8 +46,12 @@ const GlistPage = () => {
     console.log("필터링클릭댐");
     MoveToList({ page: 1, search: "", category });
   };
+
   return (
     <ListWrap>
+      {/* 
+      // ! 고기 종류별 필터링
+      */}
       <KindOfMeatWrap>
         <KindOfMeat onClick={() => handleFilterClick("0")}>
           <span>전체</span>
@@ -80,7 +86,9 @@ const GlistPage = () => {
           />
         </SearchIconWrap>
       </SearchWrap>
-
+      {/* 
+      // ! 최신순, 인기순(북마크 개수) 순
+      */}
       <ListFilter>
         <ListFilterItem
           onClick={() => setSelectFilter("lastest")}
@@ -105,4 +113,4 @@ const GlistPage = () => {
   );
 };
 
-export default GlistPage;
+export default MeatListPage;

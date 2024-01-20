@@ -25,7 +25,7 @@ const GogiPage = () => {
     navigate("/gogi/modify");
   };
 
-  // 페이지별 제어
+  // ! 페이지별 제어
   let timg, tname, tcontent;
   let showTitleHeader = false;
   switch (location.pathname) {

@@ -1,6 +1,6 @@
 import moment from "moment";
 import React, { useState } from "react";
-import ReserCalendar from "../../components/gogi/ReserCalendar";
+import ReserCalendar from "../../components/meat/ReserCalendar";
 import {
   ReserContent,
   ReserCountBox,
@@ -18,12 +18,11 @@ import {
   ReserTitle,
   ReserWrap,
   ReserWrapper,
-} from "./styles/GaddPageStyle";
+} from "./styles/MeatReservationStyle";
 
 // 고깃집 리뷰 쓰기 페이지입니다.
-const GaddPage = () => {
-  // 시간 카운팅
-  // 사람 카운팅
+const MeatReservationPage = () => {
+  // ! 사람 카운팅
   const [personCount, setPersonCount] = useState(1);
   const timeValue = [
     "17:00",
@@ -42,16 +41,17 @@ const GaddPage = () => {
   ? 상태를 저장할 useState 생성 안눌렀을때 A상태 눌렀을 때 B상태(!A)
   ? Map을 돌린다면 prop로 GaddPageStyle -> REserTimeBtn 진입
   ? (위 조건) ? color : "red" : "blue" 
-  
   */
+
   // const [isSwitched, setIsSwitched] = useState("");
-  const [clickedValue, setClickedValue] = useState(null);
+  const [clickedValue, setClickedValue] = useState("");
   // * 시간에 대한 로직(timeCount)
   const handleClickTCount = event => {
     const clickedValue = event.target.innerText;
     setTimeCount(clickedValue);
     setClickedValue(clickedValue);
   };
+
   // * 인원수에 관한 로직 (PersonCount)
   const handleClickPCountPlus = () => {
     setPersonCount(personCount + 1);
@@ -65,7 +65,7 @@ const GaddPage = () => {
     }
   };
   const handleClickPCountReset = () => {
-    setPersonCount(0);
+    setPersonCount(1);
   };
 
   const [requiredMsg, setRequiredMsg] = useState("");
@@ -74,12 +74,14 @@ const GaddPage = () => {
   };
 
   // * Calendar(예약달력)
-  const date = new Date();
-  const nowdata = moment(date).format("YYYY-MM-DD");
+  const createdate = new Date();
+  const nowdata = moment(createdate).format("YYYY-MM-DD");
   const [selectedDate, setSelectedDate] = useState(nowdata);
+
   const handleDateChange = formattedDate => {
-    console.log(formattedDate);
-    setSelectedDate(formattedDate);
+    const dateData = setSelectedDate(formattedDate);
+    console.log("값임 :", dateData);
+    return dateData;
   };
 
   // * submit 날짜 + 시간 Value 폼
@@ -88,13 +90,22 @@ const GaddPage = () => {
   console.log(timeCountvalue);
   const timeline = nowdata + " " + timeCountvalue;
   console.log(timeline);
+  console.log("timecount :", timeCount);
 
+  // ! postData => ireser(PK), date, request, headcount
   // * Submit
   const handleReserSubmit = () => {
+    // ! No exist Value
+    if (timeCount == "") {
+      alert("시간을 입력해주세요.");
+    } else if (!requiredMsg) {
+      alert("요청사항을 입력해주세요.");
+    }
+
     const reserData = {
-      selectedDate,
-      timeCount,
-      personCount,
+      date: timeline,
+      headcount: personCount,
+      request: requiredMsg,
     };
     console.log(reserData);
   };
@@ -139,17 +150,21 @@ const GaddPage = () => {
                 <span>예약가능시간</span>
               </ReserItem>
               {/* 에약 가능 시간대 버튼 */}
-              <ReserTimeItem>
-                {timeValue.map((item, index) => (
-                  <ReserTimeBtn
-                    key={index}
-                    onClick={handleClickTCount}
-                    clicked={clickedValue == item}
-                  >
-                    <span>{item}</span>
-                  </ReserTimeBtn>
-                ))}
-              </ReserTimeItem>
+              {createdate && createdate ? (
+                <ReserTimeItem>
+                  {timeValue.map((item, index) => (
+                    <ReserTimeBtn
+                      key={index}
+                      onClick={handleClickTCount}
+                      clicked={clickedValue == item}
+                    >
+                      <span>{item}</span>
+                    </ReserTimeBtn>
+                  ))}
+                </ReserTimeItem>
+              ) : (
+                <div></div>
+              )}
             </ReserTimeWrap>
             {/* 
             // * 인원 수 
@@ -208,4 +223,4 @@ const GaddPage = () => {
   );
 };
 
-export default GaddPage;
+export default MeatReservationPage;

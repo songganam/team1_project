@@ -24,10 +24,10 @@ import {
   ReviewTitle,
   ReviewWrap,
   ReviewWrapper,
-} from "./styles/GbookPageStyle";
+} from "./styles/MeatReviewStyle";
 
-// 고깃집 예약 페이지입니다.
-const GbookPage = () => {
+// ! 고깃집 예약 페이지입니다.
+const MeatReviewPage = () => {
   /* 
    ? 의사코드
    ? map으로 5개의 별이 있다.
@@ -227,4 +227,4 @@ const GbookPage = () => {
   );
 };
 
-export default GbookPage;
+export default MeatReviewPage;
