@@ -193,7 +193,7 @@ export const PagingBoxStyle = styled.div`
     margin: 0;
     font: inherit;
     font-size: ${FontSize.strong};
-    color: ${props => (props.active ? ColorStyle.g900 : ColorStyle.g700)};
+    color: ${ColorStyle.g700};
     cursor: pointer;
     &:hover {
       color: ${ColorStyle.g900};
@@ -223,13 +223,6 @@ export const PagingNumStyle = styled.button`
   padding: 10px;
   margin: 0;
   font-size: ${FontSize.strong};
-  color: ${props => (props.active ? ColorStyle.g800 : ColorStyle.g700)};
-  font-weight: ${props => (props.active ? "bold" : "normal")};
-  cursor: pointer;
-  &:hover {
-    color: ${ColorStyle.g800};
-    font-weight: bold;
-  }
 `;
 
 export const SearchStyle = styled.div`

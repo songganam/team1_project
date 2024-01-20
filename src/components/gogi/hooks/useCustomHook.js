@@ -3,7 +3,7 @@ import {
   useNavigate,
   useSearchParams,
 } from "react-router-dom";
-import { getNum } from "../../util/utils";
+import { getNum } from "../../../util/utils";
 const useCustomHook = () => {
   const navigate = useNavigate();
   const [urlSearchParams, setUrlSearchPrams] = useSearchParams();

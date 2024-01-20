@@ -1,11 +1,10 @@
 import React, { useEffect, useState } from "react";
-import useCustomMove from "../hooks/useCustomMove";
-import { getList } from "../../api/communityApi";
+import { ColorStyle } from "../../styles/common/CommonStyle";
 import { PagingBoxStyle, PagingNumStyle } from "../community/styles/ListStyle";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import useCustomMove from "../../hooks/useCustomMove";
 
 const Paging = ({ totalItems, itemPerPage = 10 }) => {
-  const { page, search, moveToList } = useCustomMove();
+  const { moveToList } = useCustomMove();
 
   // 전체 페이지 수 계산
   const [totalPages, setTotalPages] = useState(0);
@@ -25,30 +24,57 @@ const Paging = ({ totalItems, itemPerPage = 10 }) => {
     // 만든 정수를 1부터 시작하여 배열로 만든다. 배열의 개수는 무한대로 설정할 수 있다.
     const numbers = Array.from({ length: pages }, (_, i) => i + 1);
     setPageNumbers(numbers);
-    console.log(numbers);
+    // console.log(numbers);
   }, [totalItems, itemPerPage]);
 
   // 현재 페이지네여션을 렌더링할 페이지 번호들
   const renderPageNumbers = pageNumbers.slice(minPageLimit, maxPageLimit);
 
+  // 이전 버튼
+  const moveToPrev = () => {
+    setCurrentPage(currentPage - 1);
+    if (currentPage > 10 && (currentPage - 1) % 10 === 0) {
+      setMaxPageLimit(maxPageLimit - 10);
+      setMinpageLimit(minPageLimit - 10);
+    }
+    moveToList({ page: currentPage - 1 });
+  };
+  // 다음 버튼
+  const moveToNext = () => {
+    setCurrentPage(currentPage + 1);
+    if (currentPage >= 10 && currentPage % 10 === 0) {
+      setMaxPageLimit(maxPageLimit + 10);
+      setMinpageLimit(minPageLimit + 10);
+    }
+    moveToList({ page: currentPage + 1 });
+  };
+
   return (
     <PagingBoxStyle>
-      {currentPage > 1 && <PagingNumStyle>이전</PagingNumStyle>}
+      {currentPage > 1 && (
+        <PagingNumStyle onClick={moveToPrev}>이전</PagingNumStyle>
+      )}
 
       {renderPageNumbers.map(number => (
         <PagingNumStyle
           key={number}
           onClick={() => {
-            moveToList({ page: number });
             setCurrentPage(number);
+            moveToList({ page: number });
           }}
-          active={currentPage === number}
+          style={
+            currentPage === number
+              ? { color: ColorStyle.g900, fontWeight: "bold" }
+              : {}
+          }
         >
           {number}
         </PagingNumStyle>
       ))}
 
-      {currentPage < totalPages && <PagingNumStyle>다음</PagingNumStyle>}
+      {currentPage < totalPages && (
+        <PagingNumStyle onClick={moveToNext}>다음</PagingNumStyle>
+      )}
     </PagingBoxStyle>
   );
 };
