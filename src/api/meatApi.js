@@ -33,3 +33,20 @@ export const getGInfo = async ({ ishop, successFn, failFn, errorFn }) => {
     errorFn(error);
   }
 };
+// ! Post Reservation (/gogi/reservation)
+export const postReser = async ({ reserData, successFn, failFn, errorFn }) => {
+  try {
+    //
+    const header = { headers: { "Content-Type": "multipart/formdata" } };
+    const res = await axios.post(`${host}/`, reserData, header);
+    const status = res.status.toString();
+    if (status.charAt(0) === "2") {
+      successFn(res.data);
+    } else {
+      failFn("");
+    }
+  } catch (error) {
+    errorFn("");
+    //
+  }
+};

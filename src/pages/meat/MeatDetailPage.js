@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Map, MapMarker } from "react-kakao-maps-sdk";
 import { useParams } from "react-router";
-import { getGInfo } from "../../api/GApi";
+import { getGInfo } from "../../api/meatApi";
 import {
   InfoContent,
   InfoContentWrap,
@@ -34,12 +34,9 @@ import {
   ReviewSubImage,
   ReviewTitle,
   ReviewWrap,
-} from "./styles/GreadPageStyle";
-import Loading from "../../components/loading/Loading";
+} from "./styles/MeatDetailStyle";
 
-// 고깃집 정보 상세보기 페이지입니다.
-// TODO https://react-kakao-maps-sdk.jaeseokim.dev/docs/sample/map/addMapDragendEvent
-const GreadPage = () => {
+const MeatDetailPage = () => {
   const { ishop } = useParams();
   const [storeInfo, setStoreInfo] = useState({});
   const [loading, setLoading] = useState(false);
@@ -63,14 +60,18 @@ const GreadPage = () => {
     console.log(result);
     setLoading(true);
   };
-  console.log("받아온거임 : ", storeInfo);
-  console.log("받아온거임2 : ", storeInfo.menu);
-  console.log("x : ", storeInfo.x);
-  console.log("y : ", storeInfo.y);
-  let toX = storeInfo.x;
-  let toY = storeInfo.y;
-  console.log("x : ", toX);
-  console.log("y : ", toY);
+
+  // ! KAKAOMAP API X,Y value
+  const [draggable, setDraggable] = useState(false);
+  const x = storeInfo.x;
+  const y = storeInfo.y;
+  let toX = parseFloat(x);
+  let toY = parseFloat(y);
+  let comX = toX.toFixed(6);
+  let comY = toY.toFixed(6);
+  // !
+  // lat: 33.450701,
+  //       lng: 126.570667,
 
   return (
     <div>
@@ -154,18 +155,23 @@ const GreadPage = () => {
         {/* 
 // ! KAKAO MAP API
 */}
-
+        {/*
+//  ! 가게 
+*/}
         <MapApiWrapper>
-          <Map
-            center={{ lat: 126.57271612931089, lng: 33.45057261929441 }}
-            style={{ width: "1160px", height: "500px" }}
-          >
-            <MapMarker
-              position={{ lat: 126.57271612931089, lng: 33.45057261929441 }}
+          {storeInfo && x && y ? (
+            <Map
+              center={{ lat: comY, lng: comX }}
+              style={{ width: "100%", height: "360px" }}
+              draggable={draggable}
             >
-              <div style={{ color: "#000" }}>Hello World!</div>
-            </MapMarker>
-          </Map>
+              <MapMarker position={{ lat: comY, lng: comX }}>
+                <div style={{ color: "#000" }}>{storeInfo.name}</div>
+              </MapMarker>
+            </Map>
+          ) : (
+            <div></div>
+          )}
         </MapApiWrapper>
 
         {/* 
@@ -253,4 +259,4 @@ const GreadPage = () => {
   );
 };
 
-export default GreadPage;
+export default MeatDetailPage;

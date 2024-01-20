@@ -16,12 +16,12 @@ const LazyModifyPage = lazy(() => import("./pages/community/ModifyPage"));
 const LazyReadPage = lazy(() => import("./pages/community/ReadPage"));
 
 // 고깃집 페이지
-const LazyGogiPage = lazy(() => import("./pages/gogi/GogiPage"));
-const LazyGbookPage = lazy(() => import("./pages/gogi/GbookPage"));
-const LazyGlistPage = lazy(() => import("./pages/gogi/GlistPage"));
-const LazyGreadPage = lazy(() => import("./pages/gogi/GreadPage"));
-const LazyGaddPage = lazy(() => import("./pages/gogi/GaddPage"));
-const LazyGmodifyPage = lazy(() => import("./pages/gogi/GmodifyPage"));
+const LazyGogiPage = lazy(() => import("./pages/meat/GogiPage"));
+const LazyGbookPage = lazy(() => import("./pages/meat/MeatReviewPage"));
+const LazyGlistPage = lazy(() => import("./pages/meat/MeatListPage"));
+const LazyGreadPage = lazy(() => import("./pages/meat/MeatDetailPage"));
+const LazyGaddPage = lazy(() => import("./pages/meat/MeatReservationPage"));
+const LazyGmodifyPage = lazy(() => import("./pages/meat/GmodifyPage"));
 
 // 회원가입 페이지
 const LazyJoinPage = lazy(() => import("./pages/join/JoinPage"));
@@ -183,8 +183,11 @@ const App = () => {
             }
           ></Route>
         </Route>
+        {/* 
+        // ! Meat Router 
+        */}
         <Route
-          path="/gogi/"
+          path="/meat/"
           element={
             <Suspense fallback={<Loading />}>
               <LazyGogiPage />
@@ -194,7 +197,7 @@ const App = () => {
           {/* 고깃집찾기 페이지 첫 화면 */}
           <Route path="" element={<Navigate to="list" />}></Route>
           <Route
-            path="book"
+            path="review"
             element={
               <Suspense fallback={<Loading />}>
                 <LazyGbookPage />
@@ -210,7 +213,7 @@ const App = () => {
             }
           ></Route>
           <Route
-            path="read/:ishop"
+            path="detail/:ishop"
             element={
               <Suspense fallback={<Loading />}>
                 <LazyGreadPage />
@@ -218,7 +221,7 @@ const App = () => {
             }
           ></Route>
           <Route
-            path="add"
+            path="reservation"
             element={
               <Suspense fallback={<Loading />}>
                 <LazyGaddPage />
