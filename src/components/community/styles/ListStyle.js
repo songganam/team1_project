@@ -133,7 +133,9 @@ export const UserStyle = styled.div`
   align-items: flex-end;
   gap: 20px;
   img {
-    border-radius: 28px;
+    width: 56px;
+    height: 56px;
+    border-radius: 50%;
     box-shadow: 0px 4px 4px 0px rgba(0, 0, 0, 0.25);
   }
 `;
