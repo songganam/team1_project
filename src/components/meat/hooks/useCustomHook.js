@@ -4,9 +4,11 @@ import {
   useSearchParams,
 } from "react-router-dom";
 import { getNum } from "../../../util/utils";
+import useModal from "./useModal";
 const useCustomHook = () => {
   const navigate = useNavigate();
   const [urlSearchParams, setUrlSearchPrams] = useSearchParams();
+  const { isModal, openModal, closeModal } = useModal();
   const page = urlSearchParams.get("page")
     ? parseInt(urlSearchParams.get("page"))
     : 1;
@@ -40,6 +42,16 @@ const useCustomHook = () => {
   const moveToRead = ishop => {
     navigate({ pathname: `../read/${ishop}`, search: defaultQueryString });
   };
-  return { page, search, category, MoveToList, moveToRead };
+
+  return {
+    page,
+    search,
+    category,
+    MoveToList,
+    moveToRead,
+    isModal,
+    openModal,
+    closeModal,
+  };
 };
 export default useCustomHook;

@@ -94,6 +94,7 @@ export const ReserTimeItem = styled.div`
 `;
 // ! 시간 (19:00, 19:30 ...)
 export const ReserTimeBtn = styled.button`
+  cursor: pointer;
   display: flex;
   width: 50px;
   padding: 0px 5px;
@@ -167,6 +168,7 @@ export const ReserCountBtn = styled.div`
   }
 `;
 export const ReserCountResetBtn = styled.div`
+  cursor: pointer;
   display: flex;
   width: 70px;
   height: 25px;
@@ -202,6 +204,7 @@ export const ReserRequireInput = styled.input`
 `;
 // ! Submit Button
 export const ReserSubmitBtn = styled.button`
+  cursor: pointer;
   display: flex;
   padding: 10px 20px;
   flex-direction: column;

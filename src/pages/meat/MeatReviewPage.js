@@ -40,6 +40,11 @@ const MeatReviewPage = () => {
     setRating(e);
     console.log(e);
   };
+  const [requiredMsg, setRequiredMsg] = useState("");
+  const handleRequireMsg = e => {
+    setRequiredMsg(e.target.value);
+  };
+
   const noCountStar =
     process.env.PUBLIC_URL + `/assets/images/star_no_count.svg`;
   const countStar = process.env.PUBLIC_URL + `/assets/images/star_count.svg`;
@@ -50,55 +55,40 @@ const MeatReviewPage = () => {
 
   const deleteBtn = process.env.PUBLIC_URL + `/assets/images/delete_button.svg`;
   // * Image upload
-  const [mainImage, setMainImage] = useState(null);
-  const [subImages, setSubImages] = useState([]);
+  const [images, setImages] = useState([]);
 
   const handleImageChange = e => {
     const files = e.target.files;
-    const fileCount = mainImage ? files.length + 1 : files.length; // 메인 이미지가 이미 있다면 +1을 해준다.
 
-    if (fileCount + subImages.length > 5) {
+    if (files.length + images.length > 5) {
       alert("최대 5개의 이미지만 업로드 가능합니다.");
-      return; // 함수를 여기서 종료시켜 더 이상 진행하지 않음
+      return;
     }
 
-    let updatedMainImage = mainImage;
-    const updatedSubImages = [...subImages];
+    const updatedImages = [...images];
 
     for (let i = 0; i < files.length; i++) {
       const file = files[i];
       const imageUrl = URL.createObjectURL(file);
-
-      if (!updatedMainImage) {
-        updatedMainImage = imageUrl;
-      } else if (updatedSubImages.length < 4) {
-        // 서브 이미지가 4개 미만일 때만 추가
-        updatedSubImages.push(imageUrl);
-      }
+      updatedImages.push(imageUrl);
     }
 
-    setMainImage(updatedMainImage);
-    setSubImages(updatedSubImages);
+    setImages(updatedImages);
   };
 
-  const handleDeleteMainImage = () => {
-    if (subImages.length > 0) {
-      const newMainImage = subImages[0];
-      const updatedSubImages = subImages.slice(1);
-      setMainImage(newMainImage);
-      setSubImages(updatedSubImages);
-    } else {
-      setMainImage(null);
-    }
+  const handleDeleteImage = index => {
+    setImages(images.filter((_, i) => i !== index));
+  };
+  // star
+  const handleSubmitClick = () => {
+    const gogo = {
+      pic: images,
+      star: rating,
+      comment: requiredMsg,
+    };
+    console.log(gogo);
   };
 
-  const handleDeleteSubImage = index => {
-    if (index === 0 && !mainImage) {
-      // 첫 번째 서브 이미지를 메인 이미지로 설정
-      setMainImage(subImages[1] || null);
-    }
-    setSubImages(subImages.filter((_, i) => i !== index));
-  };
   return (
     <div>
       {/* <h2>고깃집 예약하기</h2> */}
@@ -170,6 +160,8 @@ const MeatReviewPage = () => {
                     minRows={1}
                     placeholder="리뷰를 작성해주세요."
                     height={375}
+                    onChange={e => handleRequireMsg(e)}
+                    value={requiredMsg}
                   />
                 </ReviewInputWrap>
               </ReviewCommentItemWrap>
@@ -194,32 +186,48 @@ const MeatReviewPage = () => {
                 />
               </ReviewInputLabel>
               <div>
-                {mainImage && (
-                  <ReviewMainImageWrap>
-                    <img src={mainImage} alt="Main" />
-                    <ReviewImageDeleteBtn
-                      onClick={handleDeleteMainImage}
-                      bgImg={deleteBtn}
+                <ReviewImageWrap>
+                  <ReviewInputLabel
+                    htmlFor="main-page"
+                    mainImageSelect={mainImageSelect}
+                  >
+                    <ReviewInput
+                      type="file"
+                      multiple
+                      onChange={handleImageChange}
+                      id="main-page"
                     />
-                  </ReviewMainImageWrap>
-                )}
-                <ReviewSubImageWrap>
-                  {subImages.map((image, index) => (
-                    <ReviewSubImageItem key={index}>
-                      <img src={image} alt={`Sub ${index}`} />
-                      <ReviewImageDeleteBtn
-                        onClick={() => handleDeleteSubImage(index)}
-                        bgImg={deleteBtn}
-                      />
-                    </ReviewSubImageItem>
-                  ))}
-                </ReviewSubImageWrap>
+                  </ReviewInputLabel>
+                  <div>
+                    {images.map((image, index) =>
+                      index === 0 ? (
+                        // 첫 번째 이미지(메인 이미지)는 크게 표시
+                        <ReviewMainImageWrap key={index}>
+                          <img src={image} alt={`Main ${index}`} />
+                          <ReviewImageDeleteBtn
+                            onClick={() => handleDeleteImage(index)}
+                            bgImg={deleteBtn}
+                          />
+                        </ReviewMainImageWrap>
+                      ) : (
+                        // 나머지 이미지(서브 이미지)는 작게 표시
+                        <ReviewSubImageItem key={index}>
+                          <img src={image} alt={`Sub ${index}`} />
+                          <ReviewImageDeleteBtn
+                            onClick={() => handleDeleteImage(index)}
+                            bgImg={deleteBtn}
+                          />
+                        </ReviewSubImageItem>
+                      ),
+                    )}
+                  </div>
+                </ReviewImageWrap>
               </div>
             </ReviewImageWrap>
           </ReviewContentWrap>
         </ReviewItemWrap>
         {/* submit button */}
-        <ReviewSubmitBtn>
+        <ReviewSubmitBtn onClick={handleSubmitClick}>
           <span>작성완료</span>
         </ReviewSubmitBtn>
       </ReviewWrap>

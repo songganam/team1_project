@@ -1,43 +1,71 @@
 import React, { useState } from "react";
-import { Map, MapMarker } from "react-kakao-maps-sdk";
-import { MapApiWrapper } from "../pages/meat/styles/MeatDetailStyle";
+import axios from "axios";
 
-const GaraLogin = () => {
-  const [draggable, setDraggable] = useState(false);
-  const [zoomable, setZoomable] = useState(true);
+function ImageUploader() {
+  const [pic, setPic] = useState([]);
+
+  const handleImageChange = e => {
+    const files = e.target.files;
+
+    if (files.length + pic.length > 5) {
+      alert("최대 5개의 이미지만 업로드 가능합니다.");
+      return;
+    }
+
+    const updatedPic = [...pic];
+
+    for (let i = 0; i < files.length; i++) {
+      const file = files[i];
+      const imageUrl = URL.createObjectURL(file);
+      updatedPic.push(imageUrl);
+    }
+
+    setPic(updatedPic);
+  };
+
+  const handleDeleteImage = index => {
+    setPic(pic.filter((_, i) => i !== index));
+  };
+
+  const uploadImages = async () => {
+    const formData = new FormData();
+
+    pic.forEach((image, index) => {
+      formData.append(`image${index}`, image);
+      console.log("보낼 데이터 : ", pic);
+    });
+
+    try {
+      const response = await axios.post("/upload", formData, {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      });
+
+      console.log(response.data);
+    } catch (error) {
+      console.error(error);
+    }
+    const handleClick = () => {};
+  };
+
   return (
     <div>
-      <MapApiWrapper>
-        <Map
-          center={{ lat: 33.450701, lng: 126.570667 }}
-          style={{ width: "100%", height: "360px" }}
-          draggable={draggable}
-          zoomable={zoomable}
-        >
-          <MapMarker // 마커를 생성합니다
-            position={{
-              // 마커가 표시될 위치입니다
-              lat: 33.450701,
-              lng: 126.570667,
-            }}
-            image={{
-              src: process.env.PUBLIC_URL + `/assets/images/favicon.png`, // 마커이미지의 주소입니다
-              size: {
-                width: 64,
-                height: 69,
-              }, // 마커이미지의 크기입니다
-              options: {
-                offset: {
-                  x: 27,
-                  y: 69,
-                }, // 마커이미지의 옵션입니다. 마커의 좌표와 일치시킬 이미지 안에서의 좌표를 설정합니다.
-              },
-            }}
-          />
-        </Map>
-      </MapApiWrapper>
+      <input type="file" multiple onChange={handleImageChange} />
+      {pic.map((image, index) => (
+        <div key={index}>
+          <img src={image} alt={`pic${index}`} />
+          <button onClick={() => handleDeleteImage(index)}>Delete</button>
+        </div>
+      ))}
+      <button
+        onClick={uploadImages}
+        style={{ width: "300px", height: "300px" }}
+      >
+        Upload
+      </button>
     </div>
   );
-};
+}
 
-export default GaraLogin;
+export default ImageUploader;

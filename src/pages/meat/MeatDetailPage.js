@@ -1,7 +1,9 @@
 import React, { useEffect, useState } from "react";
 import { Map, MapMarker } from "react-kakao-maps-sdk";
-import { useParams } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import { getGInfo } from "../../api/meatApi";
+import ResultModal from "../../components/common/ResultModal";
+import useCustomHook from "../../components/meat/hooks/useCustomHook";
 import {
   InfoContent,
   InfoContentWrap,
@@ -22,8 +24,12 @@ import {
   MenuContentWrap,
   MenuTitle,
   MenuWrap,
+  OverlayContent,
+  OverlayItem,
+  OverlayWrap,
   ReadWrap,
   ReivewImageWrap,
+  ReserBtn,
   ReviewContent,
   ReviewContentWrap,
   ReviewContentmWrap,
@@ -37,7 +43,9 @@ import {
 } from "./styles/MeatDetailStyle";
 
 const MeatDetailPage = () => {
+  const navigate = useNavigate();
   const { ishop } = useParams();
+  const { isModal, openModal, closeModal } = useCustomHook();
   const [storeInfo, setStoreInfo] = useState({});
   const [loading, setLoading] = useState(false);
 
@@ -60,9 +68,27 @@ const MeatDetailPage = () => {
     console.log(result);
     setLoading(true);
   };
+  // ! BookMark, Go Reservation Btn Logic
+  const [bookmark, setBookmark] = useState(0);
+  const handleBookmarkClick = () => {
+    if (bookmark == 0) {
+      openModal("북마크 등록완료", "북마크에 등록되었습니다.", closeModal);
+      setBookmark(1);
+      // console.log("북마크상태", bookmark);
+    } else if (bookmark == 1) {
+      openModal("북마크 해제", "북마크가 해제되었습니다.", closeModal);
+      setBookmark(0);
+      // console.log("북마크상태", bookmark);
+    }
+  };
+  const handleReserClick = () => {
+    // PATH랑 같이 보내야함 stireInfo.name
+    navigate("/meat/reservation");
+  };
 
   // ! KAKAOMAP API X,Y value
   const [draggable, setDraggable] = useState(false);
+  const [zoomable, setZoomable] = useState(false);
   const x = storeInfo.x;
   const y = storeInfo.y;
   let toX = parseFloat(x);
@@ -75,6 +101,13 @@ const MeatDetailPage = () => {
 
   return (
     <div>
+      {isModal.isOpen && (
+        <ResultModal
+          title={isModal.title}
+          content={isModal.content}
+          callFn={isModal.callFn}
+        />
+      )}
       <ReadWrap>
         {/* {loading ? <Loading /> : <div></div>} */}
         <InfoWrap>
@@ -86,7 +119,23 @@ const MeatDetailPage = () => {
           <InfoContentWrap>
             <InfoContent>
               <InfoName>
-                <span>{storeInfo.name}</span>
+                <div>
+                  <span>
+                    {/* {storeInfo.name} */}
+                    목구멍
+                  </span>
+                </div>
+                <div>
+                  <img
+                    src={
+                      process.env.PUBLIC_URL +
+                      (bookmark === 0
+                        ? "/assets/images/bk_no_check.png"
+                        : "/assets/images/bk_check.png")
+                    }
+                    onClick={handleBookmarkClick}
+                  />
+                </div>
               </InfoName>
               <InfoDescWrap>
                 <InfoDesc>
@@ -109,6 +158,9 @@ const MeatDetailPage = () => {
                 </InfoDesc>
               </InfoDescWrap>
             </InfoContent>
+            <ReserBtn onClick={handleReserClick}>
+              <span>예약하기</span>
+            </ReserBtn>
           </InfoContentWrap>
         </InfoWrap>
 
@@ -159,19 +211,66 @@ const MeatDetailPage = () => {
 //  ! 가게 
 */}
         <MapApiWrapper>
-          {storeInfo && x && y ? (
-            <Map
-              center={{ lat: comY, lng: comX }}
-              style={{ width: "100%", height: "360px" }}
-              draggable={draggable}
-            >
-              <MapMarker position={{ lat: comY, lng: comX }}>
-                <div style={{ color: "#000" }}>{storeInfo.name}</div>
-              </MapMarker>
-            </Map>
-          ) : (
-            <div></div>
-          )}
+          <Map
+            center={{ lat: 33.450701, lng: 126.570667 }}
+            style={{ width: "100%", height: "500px" }}
+            draggable={draggable}
+            zoomable={zoomable}
+          >
+            <MapMarker // 마커를 생성합니다
+              position={{
+                // 마커가 표시될 위치입니다
+                lat: 33.450701,
+                lng: 126.570667,
+              }}
+              image={{
+                src:
+                  process.env.PUBLIC_URL + `/assets/images/kakaomap_marker.png`, // 마커이미지의 주소입니다
+                size: {
+                  width: 52,
+                  height: 69,
+                }, // 마커이미지의 크기입니다
+                options: {
+                  offset: {
+                    x: 27,
+                    y: 69,
+                  }, // 마커이미지의 옵션입니다. 마커의 좌표와 일치시킬 이미지 안에서의 좌표를 설정합니다.
+                },
+              }}
+            />
+          </Map>
+          <OverlayWrap>
+            <InfoContent>
+              <InfoName color="${ColorStyle.g1000}">
+                <div>
+                  <span>
+                    {/* {storeInfo.name} */}
+                    목구멍
+                  </span>
+                </div>
+              </InfoName>
+              <InfoDescWrap>
+                <InfoDesc>
+                  <OverlayItem>주소</OverlayItem>
+                  <OverlayContent>대구광역시 그린구</OverlayContent>
+                </InfoDesc>
+                <InfoDesc>
+                  <OverlayItem>전화번호</OverlayItem>
+                  <OverlayContent>010-111-222</OverlayContent>
+                </InfoDesc>
+                <InfoDesc>
+                  <OverlayItem>영업시간</OverlayItem>
+                  <OverlayContent>11:00-12:00</OverlayContent>
+                </InfoDesc>
+                <InfoDesc>
+                  <OverlayItem>서비스</OverlayItem>
+                  <OverlayContent>
+                    무선인터넷, 유아의자, 남/녀화장실, 주차장
+                  </OverlayContent>
+                </InfoDesc>
+              </InfoDescWrap>
+            </InfoContent>
+          </OverlayWrap>
         </MapApiWrapper>
 
         {/* 
