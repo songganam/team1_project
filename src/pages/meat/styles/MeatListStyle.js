@@ -14,6 +14,7 @@ export const KindOfMeatWrap = styled.div`
   margin: 30px 10px;
 `;
 export const KindOfMeat = styled.div`
+  cursor: pointer;
   width: 70px;
   height: 50px;
   flex-shrink: 0;
@@ -71,6 +72,7 @@ export const ListFilter = styled.div`
   gap: 20px;
 `;
 export const ListFilterItem = styled.button`
+  cursor: pointer;
   display: flex;
   border: none;
   background: transparent;

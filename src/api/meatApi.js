@@ -3,7 +3,7 @@ import axios from "axios";
 export const API_SERVER_HOST = "";
 const host = `${API_SERVER_HOST}/api`;
 
-//! GET Gogi List Page
+//! GET Meat List Page
 export const getGList = async ({ param, successFn, failFn, errorFn }) => {
   try {
     const res = await axios.get(`${host}/shop`, { params: param });
@@ -33,6 +33,27 @@ export const getGInfo = async ({ ishop, successFn, failFn, errorFn }) => {
     errorFn(error);
   }
 };
+
+// ! POST Detail BookMark
+export const postBookmarkStatus = async ({
+  bookmark,
+  successFn,
+  failFn,
+  errorFn,
+}) => {
+  try {
+    const res = await axios.post(`${host}`, bookmark);
+    const status = res.status.toString();
+    if (status.charAt(0) === "2") {
+      successFn(res.data);
+    } else {
+      failFn("");
+    }
+  } catch (error) {
+    errorFn(error);
+  }
+};
+
 // ! Post Reservation (/gogi/reservation)
 export const postReser = async ({ reserData, successFn, failFn, errorFn }) => {
   try {

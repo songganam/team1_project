@@ -44,6 +44,9 @@ const MeatListPage = () => {
   };
   const handleFilterClick = category => {
     console.log("필터링클릭댐");
+    if (category == 6) {
+      alert("해산물은 준비중입니다.");
+    }
     MoveToList({ page: 1, search: "", category });
   };
 
@@ -71,7 +74,7 @@ const MeatListPage = () => {
         <KindOfMeat onClick={() => handleFilterClick("5")}>
           <span>양</span>
         </KindOfMeat>
-        <KindOfMeat onClick={() => handleFilterClick("0")}>
+        <KindOfMeat onClick={() => handleFilterClick("6")}>
           <span>해산물</span>
         </KindOfMeat>
       </KindOfMeatWrap>

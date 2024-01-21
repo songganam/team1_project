@@ -1,3 +1,3 @@
 <!-- TODO -->
 
-1. GReview
+1. Review, Reservation API Test

@@ -1,4 +1,5 @@
 import styled from "@emotion/styled";
+import { ColorStyle, FontSize } from "../../../styles/common/CommonStyle";
 
 export const ReadWrap = styled.div`
   width: 1180px;
@@ -39,15 +40,23 @@ export const InfoContent = styled.div`
   gap: 30px;
 `;
 export const InfoName = styled.div`
+  display: flex;
   width: 90px;
   height: 36px;
+  gap: 10px;
+  align-items: center;
   span {
-    color: #fff;
+    color: ${props => props.color || ColorStyle.grayScale};
     font-family: DAEAM_LEE_TAE_JOON;
     font-size: 33px;
     font-style: normal;
     font-weight: 400;
     line-height: 125%; /* 41.25px */
+  }
+  img {
+    cursor: pointer;
+    width: 21px;
+    height: 30px;
   }
 `;
 export const InfoDescWrap = styled.div`
@@ -65,23 +74,33 @@ export const InfoDesc = styled.div`
 // Content description Item + Content
 export const InfoDescItem = styled.span`
   /* width: 50px; */
-  color: var(--gray-scale-100, #f5f5f5);
+  color: ${ColorStyle.g100};
   /* Bold 14 */
-  font-family: Pretendard;
+  font-family: "Pretendard";
   font-size: 14px;
   font-style: normal;
   font-weight: 700;
   line-height: 125%; /* 17.5px */
 `;
 export const InfoDescContent = styled.span`
-  color: var(--gray-scale-100, #f5f5f5);
-
+  color: ${ColorStyle.g100};
   /* Rugular 14 */
   font-family: Pretendard;
   font-size: 14px;
   font-style: normal;
   font-weight: 400;
   line-height: 125%; /* 17.5px */
+`;
+export const ReserBtn = styled.div`
+  margin-top: -50px;
+  margin-left: auto;
+  padding-right: 30px;
+  span {
+    cursor: pointer;
+    font-family: "DAEAM_LEE_TAE_JOON";
+    font-size: ${FontSize.sub_title};
+    color: ${ColorStyle.grayScale};
+  }
 `;
 
 // ! Menu Layout
@@ -414,4 +433,36 @@ export const ReviewContent = styled.div`
     font-weight: 400;
     line-height: 125%; /* 23.75px */
   }
+`;
+
+// ! KAKAOMAP OVER_RAY
+
+export const OverlayWrap = styled.div`
+  margin-top: -450px;
+  margin-left: -750px;
+  width: 350px;
+  height: 300px;
+  background-color: white;
+  z-index: 100;
+  box-shadow: 0px 4px 10px rgba(0, 0, 0, 0.1);
+`;
+
+export const OverlayItem = styled.span`
+  /* width: 50px; */
+  color: ${ColorStyle.g1000};
+  /* Bold 14 */
+  font-family: Pretendard;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 700;
+  line-height: 125%; /* 17.5px */
+`;
+export const OverlayContent = styled.span`
+  color: ${ColorStyle.g500};
+  /* Rugular 14 */
+  font-family: Pretendard;
+  font-size: 14px;
+  font-style: normal;
+  font-weight: 400;
+  line-height: 125%; /* 17.5px */
 `;

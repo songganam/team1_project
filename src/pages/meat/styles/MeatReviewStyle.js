@@ -205,6 +205,7 @@ export const ReviewSubImageWrap = styled.div`
   gap: 10px;
 `;
 export const ReviewSubImageItem = styled.div`
+  /* display: flex;  */
   border: 1px solid ${ColorStyle.g500};
   border-radius: 5px;
   width: 60px;

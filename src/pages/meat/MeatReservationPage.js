@@ -19,9 +19,29 @@ import {
   ReserWrap,
   ReserWrapper,
 } from "./styles/MeatReservationStyle";
+import ResultModal from "../../components/common/ResultModal";
+import { useNavigate } from "react-router-dom";
 
 // 고깃집 리뷰 쓰기 페이지입니다.
 const MeatReservationPage = () => {
+  // ! Modal Control
+  const navigate = useNavigate();
+  const [isModal, setIsModal] = useState({
+    isOpen: false,
+    title: "",
+    content: "",
+    callFn: null,
+  });
+  const openModal = (title, content, callFn) => {
+    setIsModal({ isOpen: true, title, content, callFn });
+  };
+  const closeModal = () => {
+    setIsModal(prev => ({ ...prev, isOpen: false }));
+  };
+  const submitModal = () => {
+    setIsModal(prev => ({ ...prev, isOpen: false }));
+    navigate("/meat/list");
+  };
   // ! 사람 카운팅
   const [personCount, setPersonCount] = useState(1);
   const timeValue = [
@@ -43,7 +63,6 @@ const MeatReservationPage = () => {
   ? (위 조건) ? color : "red" : "blue" 
   */
 
-  // const [isSwitched, setIsSwitched] = useState("");
   const [clickedValue, setClickedValue] = useState("");
   // * 시간에 대한 로직(timeCount)
   const handleClickTCount = event => {
@@ -61,7 +80,11 @@ const MeatReservationPage = () => {
       setPersonCount(personCount - 1);
     } else {
       // TODO MODAL로 변경하여야 함
-      alert("인원 수가 1명보다 적을 수없습니다.");
+      openModal(
+        "인원 수 오류",
+        "인원 수가 1명보다 적을 수 없습니다.",
+        closeModal,
+      );
     }
   };
   const handleClickPCountReset = () => {
@@ -79,16 +102,21 @@ const MeatReservationPage = () => {
   const [selectedDate, setSelectedDate] = useState(nowdata);
 
   const handleDateChange = formattedDate => {
-    const dateData = setSelectedDate(formattedDate);
-    console.log("값임 :", dateData);
-    return dateData;
+    if (formattedDate) {
+      const dateData = moment(formattedDate).format("YYYY-MM-DD");
+      setSelectedDate(dateData);
+      console.log("값임 :", dateData);
+      return dateData;
+    } else {
+      console.log("formattedDate is undefined");
+    }
   };
 
   // * submit 날짜 + 시간 Value 폼
   const timeCountvalue =
     timeCount.split(":")[0] + "-" + timeCount.split(":")[1];
   console.log(timeCountvalue);
-  const timeline = nowdata + " " + timeCountvalue;
+  const timeline = selectedDate + " " + timeCountvalue;
   console.log(timeline);
   console.log("timecount :", timeCount);
 
@@ -97,9 +125,11 @@ const MeatReservationPage = () => {
   const handleReserSubmit = () => {
     // ! No exist Value
     if (timeCount == "") {
-      alert("시간을 입력해주세요.");
-    } else if (!requiredMsg) {
-      alert("요청사항을 입력해주세요.");
+      openModal(
+        "예약시간오류",
+        "예약시간을 입력하지 않았습니다. 시간을 입력해주세요.",
+        closeModal,
+      );
     }
 
     const reserData = {
@@ -107,10 +137,24 @@ const MeatReservationPage = () => {
       headcount: personCount,
       request: requiredMsg,
     };
-    console.log(reserData);
+    // const content = [
+    //   "예약이 완료되었습니다.",
+    //   `날짜: ${reserData.date}`,
+    //   `인원 수: ${reserData.headcount}`,
+    //   `요청사항: ${reserData.request}`,
+    // ].map((line, index) => <div key={index}>{line}</div>);
+
+    openModal("예약완료", "예약이 완료되었습니다.", submitModal);
   };
   return (
     <div>
+      {isModal.isOpen && (
+        <ResultModal
+          title={isModal.title}
+          content={isModal.content}
+          callFn={isModal.callFn}
+        />
+      )}
       <ReserWrapper>
         {/* title */}
         <ReserTitle>
