@@ -1,9 +1,24 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
+import { getOne } from "../../api/communityApi";
+import useCustomMove from "../../hooks/useCustomMove";
 import Button from "../button/Button";
-import More from "./More";
-import { WrapStyle } from "./styles/ListStyle";
+import Fetching from "../common/Fetching";
+import Tag from "../tag/Tag";
+import {
+  ContentInfoStyle,
+  ContentStyle,
+  ImgStyle,
+  LargeImgStyle,
+  NameStyle,
+  TagBoxStyle,
+  ThumbnailStyle,
+  UserStyle,
+  WrapStyle,
+} from "./styles/ListStyle";
 import {
   BtnBoxStyle,
+  MoreBoxStyle,
+  MoreStyle,
   MoreTitleStyle,
   PrnvContentStyle,
   ReviewBox,
@@ -11,16 +26,51 @@ import {
   WriterBoxStyle,
 } from "./styles/ReadStyle";
 
-const Read = () => {
+// 서버데이터 초기값
+const initState = {
+  iboard: 0,
+  iuser: 0,
+  name: "",
+  writerPic: "",
+  title: "",
+  contents: "",
+  createdAt: "",
+  pics: [],
+  comments: "",
+};
+
+const Read = ({ iboard }) => {
+  const { moveToList, moveToModify, page } = useCustomMove();
+  const [content, setContent] = useState(initState);
+  const [fetching, setFetching] = useState(false);
+
+  useEffect(() => {
+    setFetching(true);
+    getOne({ iboard, successFn, failFn, errorFn });
+  }, []);
+
+  const successFn = result => {
+    setFetching(false);
+    console.log(result);
+    setContent(result);
+  };
+  const failFn = result => {
+    setFetching(false);
+    console.log(result);
+  };
+  const errorFn = result => {
+    setFetching(false);
+    console.log(result);
+  };
+
   return (
     <WrapStyle>
+      {fetching ? <Fetching /> : null}
       <TitleBoxStyle>
-        <MoreTitleStyle>
-          고기로 너무 좋아요!! 중구에 고깃집 하나 추천합니다.
-        </MoreTitleStyle>
+        <MoreTitleStyle>{content.title}</MoreTitleStyle>
         <WriterBoxStyle>
-          <div className="userName">어쭈구리고기봐라</div>
-          <div className="date">2024.01.08 오후 10:30:47</div>
+          <div className="userName">{content.name}</div>
+          <div className="date">{content.createdAt}</div>
           <div className="viewBox">
             <img
               src={`${process.env.PUBLIC_URL}/assets/images/view_eye.svg`}
@@ -30,7 +80,43 @@ const Read = () => {
           </div>
         </WriterBoxStyle>
       </TitleBoxStyle>
-      <More />
+      <MoreBoxStyle>
+        <ImgStyle>
+          <LargeImgStyle>
+            <img src={content.pics[0]} alt="업로드 이미지" />
+          </LargeImgStyle>
+          <ThumbnailStyle>
+            <div className="thumbnail">
+              <img src={content.pics[1]} alt="업로드 이미지" />
+            </div>
+            <div className="thumbnail">
+              <img src={content.pics[2]} alt="업로드 이미지" />
+            </div>
+            <div className="thumbnail">
+              <img src={content.pics[3]} alt="업로드 이미지" />
+            </div>
+            <div className="thumbnail">
+              <img src={content.pics[4]} alt="업로드 이미지" />
+            </div>
+          </ThumbnailStyle>
+        </ImgStyle>
+        <ContentInfoStyle>
+          <ContentStyle>
+            <UserStyle>
+              <img src={content.writerPic} alt="프로필사진" />
+              <NameStyle>
+                <div>{content.name}</div>
+                <TagBoxStyle>
+                  <Tag tagtext="#동성로" />
+                  <Tag tagtext="#모듬한판" />
+                  <Tag tagtext="#퇴근길" />
+                </TagBoxStyle>
+              </NameStyle>
+            </UserStyle>
+            <MoreStyle>{content.contents}</MoreStyle>
+          </ContentStyle>
+        </ContentInfoStyle>
+      </MoreBoxStyle>
       <PrnvContentStyle>
         <div className="prnv">
           <div className="prnvIcon">

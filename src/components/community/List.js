@@ -35,9 +35,11 @@ const initState = [
     boardNum: 0,
     iuser: 0,
     writerName: "",
+    writerPic: "",
     title: "",
     contents: "",
-    pics: [""],
+    createdAt: "",
+    pics: [],
     count: 0,
   },
 ];
@@ -55,10 +57,12 @@ const List = () => {
     boardNum: 0,
     iuser: 0,
     writerName: "",
+    writerPic: "",
     title: "",
-    createdAt: "",
     contents: "",
-    pics: [""],
+    createdAt: "",
+    pics: [],
+    count: 0,
   });
   // 로딩창
   const [fetching, setFetching] = useState(false);
@@ -95,10 +99,12 @@ const List = () => {
         boardNum: item.boardNum,
         iuser: item.iuser,
         writerName: item.writerName,
+        writerPic: item.writerPic,
         title: item.title,
         createdAt: item.createdAt,
         contents: item.contents,
         pics: item.pics,
+        count: item.count,
       });
     }
   };
@@ -150,7 +156,7 @@ const List = () => {
               <ContentInfoStyle>
                 <ContentStyle>
                   <UserStyle>
-                    <img src="/assets/images/avatar.svg" alt="프로필사진" />
+                    <img src={preview.writerPic} alt="프로필사진" />
                     <NameStyle>
                       <div>{preview.writerName}</div>
                       {/* 더미 태그 */}
@@ -166,7 +172,7 @@ const List = () => {
                 <BtnStyle>
                   <div
                     onClick={() => {
-                      moveToRead();
+                      moveToRead(preview.iboard);
                     }}
                   >
                     <Button bttext="더보기" />
