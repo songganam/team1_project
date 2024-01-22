@@ -7,7 +7,10 @@ const host = `${API_SERVER_HOST}/api`;
 // 마이페이지 : 예약 내역 가져오기
 export const getMyBook = async ({ param, successFn, failFn, errorFn }) => {
   try {
-    const res = await axios.get(`${host}/user/reservation`, {
+
+    // const res = await axios.get(`${host}/user/reservation`, { params: param });
+    const res = await axios.get("/json/mybook.json", {
+
       params: param,
     });
     const status = res.status.toString();
