@@ -10,6 +10,7 @@ export const MyBookCardWrapper = styled.div`
   background: #fff;
   border-radius: 10px;
   box-shadow: 4px 4px 4px 0px rgba(0, 0, 0, 0.25);
+  margin-bottom: 30px;
 `;
 
 export const MyBookCardVisual = styled.div`
@@ -38,18 +39,6 @@ export const MyBookCardSubTitle = styled.div`
   position: relative;
   display: flex;
   margin-bottom: 10px;
-`;
-
-export const MyBookmark = styled.button`
-  position: relative;
-  margin-right: 5px;
-  background: none;
-  border: none;
-  cursor: pointer;
-  img {
-    width: 12px;
-    height: 15px;
-  }
 `;
 
 export const MyBookCardPlace = styled.p`

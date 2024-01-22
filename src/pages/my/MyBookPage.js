@@ -12,7 +12,6 @@ const MyBookPage = () => {
         <span>내 예약/픽업 내역 보기</span>
       </MyBookPageTitle>
       <MyBookCard storeimg="https://picsum.photos/331/228/?category=meat"></MyBookCard>
-      <Paging></Paging>
     </MyBookPageWrapper>
   );
 };

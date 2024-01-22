@@ -2,7 +2,6 @@ import React from "react";
 import Button from "../../components/button/Button";
 import {
   MyBookCardBookButton,
-  MyBookmark,
   MyReviewCardContent,
   MyReviewCardDateContent,
   MyReviewCardInfo,
@@ -16,6 +15,7 @@ import {
 } from "./styles/MyReviewCardStyle";
 import useModal from "../../hooks/useModal";
 import ResultModal from "../common/ResultModal";
+import Bookmark from "../bookmark/Bookmark";
 
 const MyReviewCard = props => {
   const { storeimg, storeplace, storename, reviewdate, reviewcont } = props;
@@ -32,11 +32,7 @@ const MyReviewCard = props => {
       <MyReviewCardContent>
         <MyReviewCardTitle>
           <MyReviewCardSubTitle>
-            <MyBookmark>
-              <img
-                src={`${process.env.PUBLIC_URL}/assets/images/bookmark_null.svg`}
-              ></img>
-            </MyBookmark>
+            <Bookmark></Bookmark>
             <MyReviewCardPlace>지점명{storeplace}</MyReviewCardPlace>
           </MyReviewCardSubTitle>
           <MyReviewCardName>가게명{storename}</MyReviewCardName>

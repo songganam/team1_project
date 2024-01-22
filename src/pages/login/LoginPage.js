@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import TitleHeader from "../../components/titleheader/TitleHeader";
 import Layout from "../../layouts/Layout";
@@ -14,13 +14,41 @@ import {
 } from "./styles/LoginPageStyle";
 
 // 로그인 페이지입니다.
+
+// const initState = {
+//   id: "",
+//   password: "",
+// };
+
 const LoginPage = () => {
-  const navigate = useNavigate();
-  const handleClickLogin = () => {
-    console.log("로그인이 되었습니다.");
-    console.log("아이디  : 1234")
-    console.log("비밀번호  : 1234")
+  // ! 훅이든 기능이든 이런 건 몰라도 되는데, 어떻게 하면 댈까 라는 생각은 해야대요
+  // ! 로그인을 한다. => 아이디 비밀번호 적는 란이 필요하죠. console.log, 적는란에 적은걸 저장해주수? 가 필요해요.는 변
+  // ! 로그인을 한다
+  // ! 로그인을 한다
+  // ! 로그인을 한다
+  // ! 로그인을 한다
+  // ! 뭔가를 해야한다. 뭔가를 넣어야한다 등등 행위가 들어가면 함수가 필요해요 그때마다.
+
+  const [바뀌게될값, 바뀔값] = useState({});
+  const [todo, setTodo] = useState("");
+
+  // 얘도 함수고
+  const handleChange = e => {
+    바뀌게될값[e.target.name] = e.target.value;
+    바뀔값({ ...바뀌게될값 });
   };
+  // ? handle !!!! Click => 누르는거 onClick handle!!!!Change  => 값이 함수에 의해서 변하는거에요 onChange
+  // 얘도 함수
+  const handleClickLogin = () => {
+    // 콘솔로그
+    console.log("로그인이 되었습니다.");
+
+    console.log(바뀌게될값.id);
+    console.log(바뀌게될값.password);
+
+  };
+
+  const navigate = useNavigate();
   const handleClickJoin = () => {
     navigate("/join");
   };
@@ -34,12 +62,26 @@ const LoginPage = () => {
         ></TitleHeader>
         <LoginPageMain>
           <LoginPageInfo>
-            <LoginPageID placeholder="이메일 아이디"></LoginPageID>
-            <LoginPagePW placeholder="비밀번호"></LoginPagePW>
+            {/* 적는 란 */}
+            <LoginPageID
+              type="text"
+              name="id"
+              value={바뀌게될값.id}
+              placeholder="아이디"
+              onChange={e => handleChange(e)}
+            />
+
+            <LoginPagePW
+              type="password"
+              name="password"
+              value={바뀌게될값.password}
+              placeholder="비밀번호"
+              onChange={e => handleChange(e)}
+            />
           </LoginPageInfo>
           <LoginPageCheckbox>
             <img src="../assets/images/Checkboxes.svg"></img>
-            로그인 상태 유지
+            아이디 기억하기
           </LoginPageCheckbox>
           <LoginPageBts>
             <button

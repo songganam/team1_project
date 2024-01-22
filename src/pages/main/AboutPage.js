@@ -1,5 +1,5 @@
 import React from "react";
-import AboutCard from "../../components/About/AboutCard";
+import { DefaultBt } from "../../components/button/styles/ButtonStyle";
 import Layout from "../../layouts/Layout";
 import {
   AboutCardButton,
@@ -11,16 +11,13 @@ import {
   AboutPageShops,
   AboutPageTop,
   AboutPageWrap,
-  ButcherCard,
   ButcherCards,
   CommunityImages,
   GogishopCard,
   MainBand,
   MainButcher,
-  MainGogiShop,
-  TodayEvent,
+  MainGogiShop
 } from "./styles/AboutPageStyle";
-import { DefaultBt } from "../../components/button/styles/ButtonStyle";
 
 const AboutPage = () => {
   return (

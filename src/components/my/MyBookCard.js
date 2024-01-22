@@ -14,21 +14,27 @@ import {
   MyBookCardTitle,
   MyBookCardVisual,
   MyBookCardWrapper,
-  MyBookmark,
 } from "./styles/MyBookCardStyle";
+import Bookmark from "../bookmark/Bookmark";
+import { useNavigate } from "react-router-dom";
+import Paging from "../common/Paging";
 
-const initialMyBook = {
-  checkShop: "",
-  ireser: "",
-  ishop: "",
-  date: "",
-  request: "",
-  cofirm: "",
-};
+// const initialMyBook = {
+//   checkShop: "",
+//   ireser: "",
+//   ishop: "",
+//   date: "",
+//   request: "",
+//   cofirm: "",
+//   headCount: "",
+//   pic: "",
+//   isBook: "",
+//   createdAt: "",
+// };
 
 const MyBookCard = props => {
   const { page } = useCustomMove();
-  const [myBookData, setMyBookData] = useState(initialMyBook);
+  const [myBookList, setMyBookList] = useState([]);
 
   const getMyBookData = () => {};
 
@@ -39,7 +45,7 @@ const MyBookCard = props => {
   }, [page]);
 
   const successFn = result => {
-    setMyBookData(result);
+    setMyBookList(result);
     console.log(result);
   };
   const failFn = result => {
@@ -49,53 +55,48 @@ const MyBookCard = props => {
     console.log(result);
   };
 
-  const {
-    storeimg,
-    storeplace,
-    storename,
-    bookdate,
-    booktime,
-    bookpeople,
-    bookmemo,
-  } = props;
+  const navigate = useNavigate();
+
+  const { storeimg, storeplace, storename, booktime } = props;
 
   return (
-    <MyBookCardWrapper>
-      <MyBookCardVisual>
-        <img src={storeimg} alt="가게 이미지"></img>
-      </MyBookCardVisual>
-      <MyBookCardContent>
-        <MyBookCardTitle>
-          <MyBookCardSubTitle>
-            <MyBookmark>
-              <img
-                src={`${process.env.PUBLIC_URL}/assets/images/bookmark_null.svg`}
-              ></img>
-            </MyBookmark>
-            <MyBookCardPlace>지점명{storeplace}</MyBookCardPlace>
-          </MyBookCardSubTitle>
-          <MyBookCardName>가게명{storename}</MyBookCardName>
-        </MyBookCardTitle>
-        <MyBookCardInfo>
-          <MyBookCardInfoTitle>
-            <li>날짜</li>
-            <li>시간</li>
-            <li>인원 수</li>
-            <li>요청사항</li>
-          </MyBookCardInfoTitle>
-          <MyBookCardDateContent>
-            <li>날짜내용{myBookData.date}</li>
-            <li>시간내용{booktime}</li>
-            <li>인원내용{bookpeople}</li>
-            <li>요청내용{bookmemo}</li>
-          </MyBookCardDateContent>
-        </MyBookCardInfo>
-        <MyBookCardBookButton>
-          <Button bttext="예약변경"></Button>
-          <Button bttext="예약취소"></Button>
-        </MyBookCardBookButton>
-      </MyBookCardContent>
-    </MyBookCardWrapper>
+    <>
+      {myBookList.map((myBookList, index) => (
+        <MyBookCardWrapper key={index}>
+          <MyBookCardVisual>
+            <img src={storeimg} alt="가게 이미지"></img>
+          </MyBookCardVisual>
+          <MyBookCardContent>
+            <MyBookCardTitle>
+              <MyBookCardSubTitle>
+                <Bookmark></Bookmark>
+                <MyBookCardPlace>지점명{storeplace}</MyBookCardPlace>
+              </MyBookCardSubTitle>
+              <MyBookCardName>가게명{storename}</MyBookCardName>
+            </MyBookCardTitle>
+            <MyBookCardInfo>
+              <MyBookCardInfoTitle>
+                <li>날짜</li>
+                <li>시간</li>
+                <li>인원 수</li>
+                <li>요청사항</li>
+              </MyBookCardInfoTitle>
+              <MyBookCardDateContent>
+                <li>{myBookList.date}</li>
+                <li>값</li>
+                <li>{myBookList.headCount}</li>
+                <li>{myBookList.request}</li>
+              </MyBookCardDateContent>
+            </MyBookCardInfo>
+            <MyBookCardBookButton>
+              <Button bttext="예약변경"></Button>
+              <Button bttext="예약취소"></Button>
+            </MyBookCardBookButton>
+          </MyBookCardContent>
+        </MyBookCardWrapper>
+      ))}
+      <Paging totalItems={10} itemPerPage={5}></Paging>
+    </>
   );
 };
 

@@ -175,7 +175,7 @@ const App = () => {
             }
           ></Route>
           <Route
-            path="read"
+            path="read/:iboard"
             element={
               <Suspense fallback={<Loading />}>
                 <LazyReadPage />

@@ -1,4 +1,5 @@
 import React, { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 import { getOne } from "../../api/communityApi";
 import useCustomMove from "../../hooks/useCustomMove";
 import Button from "../button/Button";
@@ -25,7 +26,9 @@ import {
   TitleBoxStyle,
   WriterBoxStyle,
 } from "./styles/ReadStyle";
+import { API_SERVER_HOST } from "../../api/config";
 
+const host = API_SERVER_HOST;
 // 서버데이터 초기값
 const initState = {
   iboard: 0,
@@ -39,8 +42,9 @@ const initState = {
   comments: "",
 };
 
-const Read = ({ iboard }) => {
-  const { moveToList, moveToModify, page } = useCustomMove();
+const Read = () => {
+  const { moveToRead, moveToList, moveToModify, page } = useCustomMove();
+  const { iboard } = useParams();
   const [content, setContent] = useState(initState);
   const [fetching, setFetching] = useState(false);
 
@@ -83,20 +87,35 @@ const Read = ({ iboard }) => {
       <MoreBoxStyle>
         <ImgStyle>
           <LargeImgStyle>
-            <img src={content.pics[0]} alt="업로드 이미지" />
+            <img
+              src={`${host}/pic/community/${content.iboard}/${content.pics[0]}`}
+              alt="업로드 이미지"
+            />
           </LargeImgStyle>
           <ThumbnailStyle>
             <div className="thumbnail">
-              <img src={content.pics[1]} alt="업로드 이미지" />
+              <img
+                src={`${host}/pic/community/${content.iboard}/${content.pics[1]}`}
+                alt="업로드 이미지"
+              />
             </div>
             <div className="thumbnail">
-              <img src={content.pics[2]} alt="업로드 이미지" />
+              <img
+                src={`${host}/pic/community/${content.iboard}/${content.pics[2]}`}
+                alt="업로드 이미지"
+              />
             </div>
             <div className="thumbnail">
-              <img src={content.pics[3]} alt="업로드 이미지" />
+              <img
+                src={`${host}/pic/community/${content.iboard}/${content.pics[3]}`}
+                alt="업로드 이미지"
+              />
             </div>
             <div className="thumbnail">
-              <img src={content.pics[4]} alt="업로드 이미지" />
+              <img
+                src={`${host}/pic/community/${content.iboard}/${content.pics[4]}`}
+                alt="업로드 이미지"
+              />
             </div>
           </ThumbnailStyle>
         </ImgStyle>
@@ -127,7 +146,12 @@ const Read = ({ iboard }) => {
           </div>
           <div className="prnvText">이전글</div>
         </div>
-        <div className="prnvTitle">
+        <div
+          className="prnvTitle"
+          onClick={() => {
+            moveToRead(content.iboard - 1);
+          }}
+        >
           고기로 너무 좋아요!! 중구에 고깃집 하나 추천합니다.
         </div>
       </PrnvContentStyle>
@@ -141,7 +165,12 @@ const Read = ({ iboard }) => {
           </div>
           <div className="prnvText">다음글</div>
         </div>
-        <div className="prnvTitle">
+        <div
+          className="prnvTitle"
+          onClick={() => {
+            moveToRead(content.iboard + 1);
+          }}
+        >
           고기로 너무 좋아요!! 중구에 고깃집 하나 추천합니다.
         </div>
       </PrnvContentStyle>
