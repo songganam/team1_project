@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { getList } from "../../api/communityApi";
+import useCustomMove from "../../hooks/useCustomMove";
 import { ColorStyle } from "../../styles/common/CommonStyle";
 import Button from "../button/Button";
 import Fetching from "../common/Fetching";
 import Paging from "../common/Paging";
-import useCustomMove from "../../hooks/useCustomMove";
 import Tag from "../tag/Tag";
 import Search from "./Search";
 import Thead from "./Thead";
@@ -27,6 +27,9 @@ import {
   UserStyle,
   WrapStyle,
 } from "./styles/ListStyle";
+import { API_SERVER_HOST } from "../../api/config";
+
+const host = API_SERVER_HOST;
 
 // 서버데이터 초기값 배열
 const initState = [
@@ -136,21 +139,24 @@ const List = () => {
             <TopenStyle>
               <ImgStyle>
                 <LargeImgStyle>
-                  <img src={preview.pics[0]} alt="img_1" />
+                  {preview.pics[0] && (
+                    <img
+                      src={`${host}/pic/community/${preview.iboard}/${preview.pics[0]}`}
+                      alt="img_1"
+                    />
+                  )}
                 </LargeImgStyle>
                 <ThumbnailStyle>
-                  <div className="thumbnail">
-                    <img src={preview.pics[1]} alt="img_2" />
-                  </div>
-                  <div className="thumbnail">
-                    <img src={preview.pics[2]} alt="img_3" />
-                  </div>
-                  <div className="thumbnail">
-                    <img src={preview.pics[3]} alt="img_4" />
-                  </div>
-                  <div className="thumbnail">
-                    <img src={preview.pics[4]} alt="img_5" />
-                  </div>
+                  {preview.pics.slice(1).map((pic, index) => {
+                    pic && (
+                      <div className="thumbnail" key={index}>
+                        <img
+                          src={`${host}/pic/community/${preview.iboard}/${pic}`}
+                          alt={`img_${index + 2}`}
+                        />
+                      </div>
+                    );
+                  })}
                 </ThumbnailStyle>
               </ImgStyle>
               <ContentInfoStyle>

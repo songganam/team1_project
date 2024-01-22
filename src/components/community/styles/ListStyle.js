@@ -95,6 +95,7 @@ export const LargeImgStyle = styled.div`
   img {
     width: 100%;
     border-radius: 5px;
+    box-shadow: 4px 4px 4px 0px rgba(0, 0, 0, 0.25);
   }
 `;
 export const ThumbnailStyle = styled.div`
@@ -105,8 +106,10 @@ export const ThumbnailStyle = styled.div`
   flex-wrap: wrap;
   gap: 20px;
   img {
-    width: 100%;
+    max-width: 60px;
+    height: 50px;
     border-radius: 5px;
+    box-shadow: 4px 4px 4px 0px rgba(0, 0, 0, 0.25);
   }
 `;
 export const ContentInfoStyle = styled.div`
