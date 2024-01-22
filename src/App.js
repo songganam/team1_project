@@ -221,7 +221,7 @@ const App = () => {
             }
           ></Route>
           <Route
-            path="reservation"
+            path="reservation/:ishop"
             element={
               <Suspense fallback={<Loading />}>
                 <LazyGaddPage />

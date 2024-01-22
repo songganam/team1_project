@@ -1,4 +1,5 @@
 import { Link } from "react-router-dom";
+import { useSelector } from "react-redux";
 import {
   BarStyle,
   HeaderStyle,
@@ -8,6 +9,7 @@ import {
 } from "./styles/HeaderStyle";
 
 const Header = () => {
+  const loginState = useSelector(state => state.loginSlice);
   return (
     <HeaderStyle>
       <LogoStyle>
@@ -17,7 +19,11 @@ const Header = () => {
       </LogoStyle>
       <BarStyle>
         <JoinStyle>
-          <Link to="/login">로그인</Link>
+          {loginState.email ? (
+            <Link to="/logout">로그아웃</Link>
+          ) : (
+            <Link to="/garalogin">로그인</Link>
+          )}
           <Link to="/join">회원가입</Link>
         </JoinStyle>
         <NavStyle>

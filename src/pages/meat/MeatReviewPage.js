@@ -19,7 +19,6 @@ import {
   ReviewRating,
   ReviewRatingStar,
   ReviewSubImageItem,
-  ReviewSubImageWrap,
   ReviewSubmitBtn,
   ReviewTitle,
   ReviewWrap,
@@ -34,6 +33,7 @@ const MeatReviewPage = () => {
    ? 예를들어 3개를 누르면 count가 3개가 되어야하고 3개는 불이 들어오고, 2개는 불이 안들어와야함
    ? 별이 누르면
   */
+
   // * Rating Count (초기값 : 1점)
   const [rating, setRating] = useState(1);
   const handleStarClick = e => {

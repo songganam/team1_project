@@ -42,8 +42,10 @@ const LoginPage = () => {
   const handleClickLogin = () => {
     // 콘솔로그
     console.log("로그인이 되었습니다.");
+
     console.log(바뀌게될값.id);
     console.log(바뀌게될값.password);
+
   };
 
   const navigate = useNavigate();
