@@ -11,7 +11,7 @@ import {
   MyListCardVisual,
   MyListCardWrapper,
 } from "./styles/MyListCardStyle";
-import { MyBookmark } from "./styles/MyBookCardStyle";
+import Bookmark from "../bookmark/Bookmark";
 
 const MyListCard = props => {
   const {
@@ -31,11 +31,7 @@ const MyListCard = props => {
       <MyListCardContent>
         <MyListCardTitle>
           <MyListCardSubTitle>
-            <MyBookmark>
-              <img
-                src={`${process.env.PUBLIC_URL}/assets/images/bookmark_null.svg`}
-              ></img>
-            </MyBookmark>
+            <Bookmark></Bookmark>
             <MyListCardPlace>지점명{storeplace}</MyListCardPlace>
           </MyListCardSubTitle>
           <MyListCardName>가게명{storename}</MyListCardName>

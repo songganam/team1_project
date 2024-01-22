@@ -40,18 +40,6 @@ export const MyReviewCardSubTitle = styled.div`
   margin-bottom: 10px;
 `;
 
-export const MyBookmark = styled.button`
-  position: relative;
-  margin-right: 5px;
-  background: none;
-  border: none;
-  cursor: pointer;
-  img {
-    width: 12px;
-    height: 15px;
-  }
-`;
-
 export const MyReviewCardPlace = styled.p`
   font-family: DAEAM_LEE_TAE_JOON;
   font-size: 19px;
