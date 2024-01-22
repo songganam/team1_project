@@ -20,8 +20,8 @@ export const AboutPageTop = styled.div`
     position: absolute;
     /* align-items: center; */
     /* justify-content: center; */
-    width: 100%;
-    height: 100%;
+    width: 1920px;
+    height: 800px;
   }
   .TopText {
     position: absolute;
