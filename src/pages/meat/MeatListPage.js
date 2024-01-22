@@ -16,13 +16,24 @@ import {
   SearchInput,
   SearchWrap,
 } from "./styles/MeatListStyle";
+import ResultModal from "../../components/common/ResultModal";
 
 // 고깃집 목록보기 페이지입니다.
 const MeatListPage = () => {
-  const { page, search, category, MoveToList } = useCustomHook();
+  const {
+    page,
+    search,
+    category,
+    MoveToList,
+    isModal,
+    openModal,
+    closeModal,
+    moveToSearch,
+  } = useCustomHook();
   const [GlistData, setGlistData] = useState([]);
   const [loading, setLoading] = useState(false);
   const [selectFilter, setSelectFilter] = useState("lastest");
+  const [catesearch, setCateSearch] = useState("");
 
   useEffect(() => {
     const param = { page, search, category };
@@ -43,15 +54,28 @@ const MeatListPage = () => {
     console.log(result);
   };
   const handleFilterClick = category => {
-    console.log("필터링클릭댐");
     if (category == 6) {
-      alert("해산물은 준비중입니다.");
+      openModal("해산물", "해산물 메뉴는 준비중입니다.", closeModal);
     }
     MoveToList({ page: 1, search: "", category });
+  };
+  const handleSearchChange = e => {
+    setCateSearch(e.target.value);
+  };
+  const handleSearchSubmit = e => {
+    moveToSearch({ page: 1, search: catesearch });
+    e.preventDefault();
   };
 
   return (
     <ListWrap>
+      {isModal.isOpen && (
+        <ResultModal
+          title={isModal.title}
+          content={isModal.content}
+          callFn={isModal.callFn}
+        />
+      )}
       {/* 
       // ! 고기 종류별 필터링
       */}
@@ -80,9 +104,12 @@ const MeatListPage = () => {
       </KindOfMeatWrap>
       <SearchWrap>
         <SearchBar>
-          <SearchInput placeholder="고깃집을 검색해보세요" />
+          <SearchInput
+            placeholder="고깃집을 검색해보세요"
+            onChange={handleSearchChange}
+          />
         </SearchBar>
-        <SearchIconWrap>
+        <SearchIconWrap onClick={handleSearchSubmit}>
           <img
             src={process.env.PUBLIC_URL + `/assets/images/search.svg`}
             alt=""

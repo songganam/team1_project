@@ -36,11 +36,23 @@ const useCustomHook = () => {
     }
     // ! category
     navigate({ pathname: "../list", search: queryStr });
-
-    // ! Read Page hook
   };
+  // ! Read Page hook
   const moveToRead = ishop => {
-    navigate({ pathname: `../read/${ishop}`, search: defaultQueryString });
+    navigate({ pathname: `../detail/${ishop}`, search: defaultQueryString });
+  };
+
+  const moveToSearch = SearchParam => {
+    let queryStr = "";
+    if (SearchParam) {
+      const SearchStr = getNum(SearchParam.search, search);
+      queryStr = createSearchParams({
+        search: SearchStr,
+      }).toString();
+    } else {
+      queryStr = defaultQueryString;
+    }
+    navigate({ pathname: "../list", search: queryStr });
   };
 
   return {
@@ -49,6 +61,7 @@ const useCustomHook = () => {
     category,
     MoveToList,
     moveToRead,
+    moveToSearch,
     isModal,
     openModal,
     closeModal,

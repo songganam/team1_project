@@ -18,6 +18,8 @@ const LoginPage = () => {
   const navigate = useNavigate();
   const handleClickLogin = () => {
     console.log("로그인이 되었습니다.");
+    console.log("아이디  : 1234")
+    console.log("비밀번호  : 1234")
   };
   const handleClickJoin = () => {
     navigate("/join");

@@ -53,6 +53,7 @@ export const SearchInput = styled.input`
   border: none;
 `;
 export const SearchIconWrap = styled.div`
+  cursor: pointer;
   display: flex;
   width: 35px;
   height: 35px;

@@ -41,7 +41,6 @@ export const InfoContent = styled.div`
 `;
 export const InfoName = styled.div`
   display: flex;
-  width: 90px;
   height: 36px;
   gap: 10px;
   align-items: center;
@@ -105,7 +104,7 @@ export const ReserBtn = styled.div`
 
 // ! Menu Layout
 export const MenuWrap = styled.div`
-  display: inline-flex;
+  display: flex;
   padding-bottom: 30px;
   flex-direction: column;
   align-items: center;
@@ -130,10 +129,10 @@ export const MenuTitle = styled.div`
 export const MenuContentWrap = styled.div`
   display: flex;
   width: 1180px;
-  justify-content: center;
+  /* justify-content: center;
   align-items: center;
-  align-content: center;
-  flex-wrap: wrap;
+  align-content: center; */
+  /* flex-wrap: wrap;  */
 `;
 
 export const MenuCardWrap = styled.div`
@@ -331,6 +330,8 @@ export const ReviewWrap = styled.div`
   padding: 30px 0px;
 `;
 export const ReviewTitle = styled.div`
+  margin-top: 150px;
+  position: relative;
   display: flex;
   width: 157px;
   height: 60px;
@@ -396,8 +397,9 @@ export const ReviewContentmWrap = styled.div`
 `;
 export const ReviewProfileWrap = styled.div`
   display: flex;
+  gap: 20px;
   align-items: center;
-  gap: 17px;
+  /* gap: 17px; */
   span {
     color: var(--gray-scale-900, #292929);
 
@@ -465,4 +467,8 @@ export const OverlayContent = styled.span`
   font-style: normal;
   font-weight: 400;
   line-height: 125%; /* 17.5px */
+`;
+
+export const ReviewUserProfile = styled.div`
+  gap: 5px;
 `;

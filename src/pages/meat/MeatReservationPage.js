@@ -20,10 +20,12 @@ import {
   ReserWrapper,
 } from "./styles/MeatReservationStyle";
 import ResultModal from "../../components/common/ResultModal";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 
 // 고깃집 리뷰 쓰기 페이지입니다.
 const MeatReservationPage = () => {
+  const location = useLocation();
+  const storeName = location.state?.storeName;
   // ! Modal Control
   const navigate = useNavigate();
   const [isModal, setIsModal] = useState({
@@ -172,7 +174,7 @@ const MeatReservationPage = () => {
                 <span>가게명</span>
               </ReserItem>
               <ReserContent>
-                <span>목구멍</span>
+                <span>{storeName}</span>
               </ReserContent>
             </ReserFormWrap>
             {/* 

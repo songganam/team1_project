@@ -39,8 +39,10 @@ import {
   ReviewProfileWrap,
   ReviewSubImage,
   ReviewTitle,
+  ReviewUserProfile,
   ReviewWrap,
 } from "./styles/MeatDetailStyle";
+import CountingStar from "../../components/common/CountingStar";
 
 const MeatDetailPage = () => {
   const navigate = useNavigate();
@@ -58,7 +60,7 @@ const MeatDetailPage = () => {
     console.log(result);
     setStoreInfo(result);
     setLoading(false);
-    console.log("왔다잇! : ", storeInfo);
+    console.log("DPage res : ", storeInfo);
   };
   const failFn = result => {
     console.log(result);
@@ -83,21 +85,17 @@ const MeatDetailPage = () => {
   };
   const handleReserClick = () => {
     // PATH랑 같이 보내야함 stireInfo.name
-    navigate("/meat/reservation");
+    navigate(`/meat/reservation/${ishop}`, {
+      state: {
+        storeName: storeInfo.name,
+      },
+    });
   };
+  console.log("챱", storeInfo.reviews);
 
   // ! KAKAOMAP API X,Y value
   const [draggable, setDraggable] = useState(false);
   const [zoomable, setZoomable] = useState(false);
-  const x = storeInfo.x;
-  const y = storeInfo.y;
-  let toX = parseFloat(x);
-  let toY = parseFloat(y);
-  let comX = toX.toFixed(6);
-  let comY = toY.toFixed(6);
-  // !
-  // lat: 33.450701,
-  //       lng: 126.570667,
 
   return (
     <div>
@@ -120,10 +118,7 @@ const MeatDetailPage = () => {
             <InfoContent>
               <InfoName>
                 <div>
-                  <span>
-                    {/* {storeInfo.name} */}
-                    목구멍
-                  </span>
+                  <span> {storeInfo.name}</span>
                 </div>
                 <div>
                   <img
@@ -172,13 +167,10 @@ const MeatDetailPage = () => {
             <span>메 뉴</span>
           </MenuTitle>
 
-          {storeInfo.menus &&
-            storeInfo.menus.map((item, index) => (
-              <MenuContentWrap key={index}>
-                {/* 
-  // TODO Mapper Menu
-*/}
-                <MenuCardWrap>
+          <MenuContentWrap>
+            {storeInfo.menus &&
+              storeInfo.menus.slice(0, 6).map((item, index) => (
+                <MenuCardWrap key={index}>
                   {/* 그림 */}
                   <MenuCardImageWrap>
                     <img
@@ -200,8 +192,8 @@ const MeatDetailPage = () => {
                     </MenuCardContent>
                   </MenuCardContentWrap>
                 </MenuCardWrap>
-              </MenuContentWrap>
-            ))}
+              ))}
+          </MenuContentWrap>
         </MenuWrap>
 
         {/* 
@@ -210,68 +202,56 @@ const MeatDetailPage = () => {
         {/*
 //  ! 가게 
 */}
-        <MapApiWrapper>
-          <Map
-            center={{ lat: 33.450701, lng: 126.570667 }}
-            style={{ width: "100%", height: "500px" }}
-            draggable={draggable}
-            zoomable={zoomable}
-          >
-            <MapMarker // 마커를 생성합니다
-              position={{
-                // 마커가 표시될 위치입니다
-                lat: 33.450701,
-                lng: 126.570667,
-              }}
-              image={{
-                src:
-                  process.env.PUBLIC_URL + `/assets/images/kakaomap_marker.png`, // 마커이미지의 주소입니다
-                size: {
-                  width: 52,
-                  height: 69,
-                }, // 마커이미지의 크기입니다
-                options: {
-                  offset: {
-                    x: 27,
-                    y: 69,
-                  }, // 마커이미지의 옵션입니다. 마커의 좌표와 일치시킬 이미지 안에서의 좌표를 설정합니다.
-                },
-              }}
-            />
-          </Map>
-          <OverlayWrap>
-            <InfoContent>
-              <InfoName color="${ColorStyle.g1000}">
-                <div>
-                  <span>
-                    {/* {storeInfo.name} */}
-                    목구멍
-                  </span>
-                </div>
-              </InfoName>
-              <InfoDescWrap>
-                <InfoDesc>
-                  <OverlayItem>주소</OverlayItem>
-                  <OverlayContent>대구광역시 그린구</OverlayContent>
-                </InfoDesc>
-                <InfoDesc>
-                  <OverlayItem>전화번호</OverlayItem>
-                  <OverlayContent>010-111-222</OverlayContent>
-                </InfoDesc>
-                <InfoDesc>
-                  <OverlayItem>영업시간</OverlayItem>
-                  <OverlayContent>11:00-12:00</OverlayContent>
-                </InfoDesc>
-                <InfoDesc>
-                  <OverlayItem>서비스</OverlayItem>
-                  <OverlayContent>
-                    무선인터넷, 유아의자, 남/녀화장실, 주차장
-                  </OverlayContent>
-                </InfoDesc>
-              </InfoDescWrap>
-            </InfoContent>
-          </OverlayWrap>
-        </MapApiWrapper>
+        {storeInfo.x && storeInfo.y && (
+          <MapApiWrapper>
+            <Map
+              center={{ lat: storeInfo.y, lng: storeInfo.x }}
+              style={{ width: "100%", height: "500px" }}
+              draggable={draggable}
+              zoomable={zoomable}
+            >
+              <MapMarker
+                position={{ lat: storeInfo.y, lng: storeInfo.x }}
+                image={{
+                  src:
+                    process.env.PUBLIC_URL +
+                    `/assets/images/kakaomap_marker.png`,
+                  size: { width: 52, height: 69 },
+                  options: { offset: { x: 27, y: 69 } },
+                }}
+              />
+            </Map>
+            <OverlayWrap>
+              <InfoContent>
+                <InfoName color="${ColorStyle.g1000}">
+                  <div>
+                    <span>{storeInfo.name}</span>
+                  </div>
+                </InfoName>
+                <InfoDescWrap>
+                  <InfoDesc>
+                    <OverlayItem>주소</OverlayItem>
+                    <OverlayContent> {storeInfo.location} </OverlayContent>
+                  </InfoDesc>
+                  <InfoDesc>
+                    <OverlayItem>전화번호</OverlayItem>
+                    <OverlayContent>{storeInfo.tel}</OverlayContent>
+                  </InfoDesc>
+                  <InfoDesc>
+                    <OverlayItem>영업시간</OverlayItem>
+                    <OverlayContent>{storeInfo.open}</OverlayContent>
+                  </InfoDesc>
+                  <InfoDesc>
+                    <OverlayItem>서비스</OverlayItem>
+                    <OverlayContent>
+                      무선인터넷, 유아의자, 남/녀화장실, 주차장
+                    </OverlayContent>
+                  </InfoDesc>
+                </InfoDescWrap>
+              </InfoContent>
+            </OverlayWrap>
+          </MapApiWrapper>
+        )}
 
         {/* 
 // ! NOTICE AREA
@@ -308,6 +288,7 @@ const MeatDetailPage = () => {
         {/* 
 // ! REVIEW AREA
 */}
+
         <ReviewWrap>
           <ReviewTitle>
             <span>리 뷰</span>
@@ -339,14 +320,20 @@ const MeatDetailPage = () => {
                       alt=""
                     />
                   </ReviewProfileImage>
-                  <span>기무소스</span>
+                  <ReviewUserProfile>
+                    <div>
+                      <span>
+                        손씨
+                        {/* {storeInfo.reviews.nickname} */}
+                      </span>
+                    </div>
+                    <CountingStar star={4} />
+                  </ReviewUserProfile>
                 </ReviewProfileWrap>
                 <ReviewContent>
                   <p>
-                    퇴근하고 집에 가는데 고기가 너무 먹고싶어서 들렀음!! 요즘에
-                    다 구워주긴 하지만 여기는 아예 주방에서 구워서 나옴, 근데 다
-                    식으면 어쩌나 했는데, 따뜻하게 먹을 수 있게 그거 뭐라 그러냐
-                    고체 연료 같은거 같이 나와서 그릇 계속 ...
+                    {/* {storeInfo.reviews.review} */}
+                    JMT
                   </p>
                 </ReviewContent>
               </ReviewContentmWrap>
