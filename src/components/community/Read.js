@@ -39,7 +39,15 @@ const initState = {
   contents: "",
   createdAt: "",
   pics: [],
-  comments: "",
+  comments: [
+    {
+      icomment: 0,
+      writerPk: 0,
+      writerName: "",
+      comment: "",
+      createdAt: "",
+    },
+  ],
 };
 
 const Read = () => {
@@ -87,42 +95,34 @@ const Read = () => {
       <MoreBoxStyle>
         <ImgStyle>
           <LargeImgStyle>
-            <img
-              src={`${host}/pic/community/${content.iboard}/${content.pics[0]}`}
-              alt="업로드 이미지"
-            />
+            {content.pics[0] && (
+              <img
+                src={`${host}/pic/community/${content.iboard}/${content.pics[0]}`}
+                alt="img_1"
+              />
+            )}
           </LargeImgStyle>
           <ThumbnailStyle>
-            <div className="thumbnail">
-              <img
-                src={`${host}/pic/community/${content.iboard}/${content.pics[1]}`}
-                alt="업로드 이미지"
-              />
-            </div>
-            <div className="thumbnail">
-              <img
-                src={`${host}/pic/community/${content.iboard}/${content.pics[2]}`}
-                alt="업로드 이미지"
-              />
-            </div>
-            <div className="thumbnail">
-              <img
-                src={`${host}/pic/community/${content.iboard}/${content.pics[3]}`}
-                alt="업로드 이미지"
-              />
-            </div>
-            <div className="thumbnail">
-              <img
-                src={`${host}/pic/community/${content.iboard}/${content.pics[4]}`}
-                alt="업로드 이미지"
-              />
-            </div>
+            {content.pics.slice(1).map(
+              (pic, index) =>
+                pic && (
+                  <div className="thumbnail" key={index}>
+                    <img
+                      src={`${host}/pic/community/${content.iboard}/${pic}`}
+                      alt={`img_${index + 2}`}
+                    />
+                  </div>
+                ),
+            )}
           </ThumbnailStyle>
         </ImgStyle>
         <ContentInfoStyle>
           <ContentStyle>
             <UserStyle>
-              <img src={content.writerPic} alt="프로필사진" />
+              <img
+                src={`${host}/pic/community/${content.iboard}/${content.writerPic}`}
+                alt="프로필사진"
+              />
               <NameStyle>
                 <div>{content.name}</div>
                 <TagBoxStyle>
@@ -149,10 +149,10 @@ const Read = () => {
         <div
           className="prnvTitle"
           onClick={() => {
-            moveToRead(content.iboard - 1);
+            moveToRead();
           }}
         >
-          고기로 너무 좋아요!! 중구에 고깃집 하나 추천합니다.
+          이전 글 제목
         </div>
       </PrnvContentStyle>
       <PrnvContentStyle>
@@ -168,18 +168,32 @@ const Read = () => {
         <div
           className="prnvTitle"
           onClick={() => {
-            moveToRead(content.iboard + 1);
+            moveToRead();
           }}
         >
-          고기로 너무 좋아요!! 중구에 고깃집 하나 추천합니다.
+          다음 글 제목
         </div>
       </PrnvContentStyle>
       <BtnBoxStyle>
         <div className="editBtn">
-          <Button bttext="수정하기" />
-          <Button bttext="삭제하기" />
+          <div
+            onClick={() => {
+              moveToModify(content.iboard);
+            }}
+          >
+            <Button bttext="수정하기" />
+          </div>
+          <div>
+            <Button bttext="삭제하기" />
+          </div>
         </div>
-        <Button bttext="목록보기" />
+        <div
+          onClick={() => {
+            moveToList({ page });
+          }}
+        >
+          <Button bttext="목록보기" />
+        </div>
       </BtnBoxStyle>
       <ReviewBox>
         <div className="readReviewBox">
@@ -193,16 +207,12 @@ const Read = () => {
                       src={`${process.env.PUBLIC_URL}/assets/images/speech.svg`}
                     />
                   </div>
-                  <div className="nickName">막내손씨</div>
+                  <div className="nickName">{content.comments.writerName}</div>
                 </div>
-                <div className="date">2024-01-09 16:27:48</div>
+                <div className="date">{content.comments.createdAt}</div>
               </div>
             </div>
-            <div className="reviewContent">
-              오!! 여기 양도 혜자 그잡채임
-              <br />
-              대박 나만 알고 싶은 곳 인정!!! 나도 고기먹고잡다
-            </div>
+            <div className="reviewContent">{content.comments.comment}</div>
           </div>
           <div className="deleteBtn">삭제</div>
         </div>
