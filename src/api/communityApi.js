@@ -102,6 +102,7 @@ export const deleteComment = async ({ iboard, successFn, failFn, errorFn }) => {
 export const getOne = async ({ iboard, successFn, failFn, errorFn }) => {
   try {
     const response = await axios.get(`${host}/${iboard}`);
+
     const status = response.status.toString();
     if (status.charAt(0) === "2") {
       successFn(response.data);
