@@ -49,7 +49,7 @@ const initState = [
 
 const List = () => {
   // 커스텀 훅
-  const { page, search, moveToRead } = useCustomMove();
+  const { page, search, moveToRead, moveToAdd } = useCustomMove();
   // 서버 데이터 내용 상태 변경
   const [serverData, setServerData] = useState(initState);
   // 해당 글로 상태 변경
@@ -147,16 +147,17 @@ const List = () => {
                   )}
                 </LargeImgStyle>
                 <ThumbnailStyle>
-                  {preview.pics.slice(1).map((pic, index) => {
-                    pic && (
-                      <div className="thumbnail" key={index}>
-                        <img
-                          src={`${host}/pic/community/${preview.iboard}/${pic}`}
-                          alt={`img_${index + 2}`}
-                        />
-                      </div>
-                    );
-                  })}
+                  {preview.pics.slice(1).map(
+                    (pic, index) =>
+                      pic && (
+                        <div className="thumbnail" key={index}>
+                          <img
+                            src={`${host}/pic/community/${preview.iboard}/${pic}`}
+                            alt={`img_${index + 2}`}
+                          />
+                        </div>
+                      ),
+                  )}
                 </ThumbnailStyle>
               </ImgStyle>
               <ContentInfoStyle>
@@ -194,7 +195,9 @@ const List = () => {
       <Paging totalItems={serverData[0].count} />
       <Search />
       <TableFootStyle>
-        <Button bttext="글쓰기" />
+        <div onClick={moveToAdd}>
+          <Button bttext="글쓰기" />
+        </div>
       </TableFootStyle>
     </WrapStyle>
   );

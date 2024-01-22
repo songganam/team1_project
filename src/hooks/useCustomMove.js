@@ -44,7 +44,11 @@ const useCustomMove = () => {
   const moveToRead = num => {
     navigate({ pathname: `../read/${num}`, search: queryStrDefault });
   };
-  return { moveToList, moveToModify, moveToRead, page, search };
+  // to add
+  const moveToAdd = () => {
+    navigate("/community/add");
+  };
+  return { moveToList, moveToModify, moveToRead, moveToAdd, page, search };
 };
 
 export default useCustomMove;
