@@ -1,5 +1,6 @@
 import axios from "axios";
 import jwtAxios from "../util/jwtUtil";
+import { setCookie } from "../util/cookieUtil";
 
 export const API_SERVER_HOST = "";
 const host = `${API_SERVER_HOST}/api`;
@@ -22,7 +23,8 @@ export const getGList = async ({ param, successFn, failFn, errorFn }) => {
 
 export const getGInfo = async ({ ishop, successFn, failFn, errorFn }) => {
   try {
-    const res = await axios.get(`${host}/shop/${ishop}`);
+    const header = { headers: { "Content-Type": "application/json" } };
+    const res = await jwtAxios.get(`${host}/shop/${ishop}`, header);
     const status = res.status.toString();
     if (status.charAt(0) === "2") {
       console.log("목록 호출 성공");
@@ -56,11 +58,11 @@ export const postBookmarkStatus = async ({
 };
 
 // ! Post Reservation (/gogi/reservation)
-export const postReser = async ({ loginParam, successFn, failFn, errorFn }) => {
+export const postReser = async ({ reserData, successFn, failFn, errorFn }) => {
   try {
     //
-    const header = { headers: { "Content-Type": "multipart/formdata" } };
-    const res = await jwtAxios.post(`${host}/`, loginParam, header);
+    // const header = { headers: { "Content-Type": "multipart/formdata" } };
+    const res = await jwtAxios.post(`${host}/reservation`, reserData);
     const status = res.status.toString();
     if (status.charAt(0) === "2") {
       successFn(res.data);
@@ -74,17 +76,31 @@ export const postReser = async ({ loginParam, successFn, failFn, errorFn }) => {
 };
 
 // ! GaraLogin
-export const postUser = async ({ loginParam, successFn, failFn, errorFn }) => {
+export const loginPost = async ({ loginParam, successFn, failFn, errorFn }) => {
   try {
-    const res = await axios.post(`${host}/user/signin`, loginParam);
+    // 만약에 API 서버가 JSON 을 원한다면
+    const header = { headers: { "Content-Type": "application/json" } };
+
+    const data = {
+      email: loginParam.email,
+      upw: loginParam.upw,
+    };
+
+    const res = await axios.post(`${host}/user/signin`, data, header);
+
     const status = res.status.toString();
+
     if (status.charAt(0) === "2") {
+      // 화면 처리용
+      setCookie("rt", res.data.token);
       successFn(res.data);
+
+      // RTK 업데이트 하기위해서는 리턴을 해서 값을 전달해야 해
+      return res.data;
     } else {
-      failFn("");
+      failFn("로그인에 실패하였습니다. 다시 시도해주세요.");
     }
   } catch (error) {
-    errorFn("");
-    //
+    errorFn("로그인에 실패하였습니다. 서버가 불안정합니다.다시 시도해주세요.");
   }
 };

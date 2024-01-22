@@ -20,10 +20,12 @@ import {
   ReserWrapper,
 } from "./styles/MeatReservationStyle";
 import ResultModal from "../../components/common/ResultModal";
-import { useLocation, useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
+import { postReser } from "../../api/meatApi";
 
 // 고깃집 리뷰 쓰기 페이지입니다.
 const MeatReservationPage = () => {
+  const { ishop } = useParams();
   const location = useLocation();
   const storeName = location.state?.storeName;
   // ! Modal Control
@@ -116,12 +118,18 @@ const MeatReservationPage = () => {
 
   // * submit 날짜 + 시간 Value 폼
   const timeCountvalue =
-    timeCount.split(":")[0] + "-" + timeCount.split(":")[1];
+    timeCount.split(":")[0] + ":" + timeCount.split(":")[1] + ":00";
   console.log(timeCountvalue);
   const timeline = selectedDate + " " + timeCountvalue;
   console.log(timeline);
   console.log("timecount :", timeCount);
 
+  const reserData = {
+    ishop: ishop,
+    date: timeline,
+    headcount: personCount,
+    request: requiredMsg,
+  };
   // ! postData => ireser(PK), date, request, headcount
   // * Submit
   const handleReserSubmit = () => {
@@ -133,20 +141,19 @@ const MeatReservationPage = () => {
         closeModal,
       );
     }
-
-    const reserData = {
-      date: timeline,
-      headcount: personCount,
-      request: requiredMsg,
-    };
-    // const content = [
-    //   "예약이 완료되었습니다.",
-    //   `날짜: ${reserData.date}`,
-    //   `인원 수: ${reserData.headcount}`,
-    //   `요청사항: ${reserData.request}`,
-    // ].map((line, index) => <div key={index}>{line}</div>);
-
+    postReser({ reserData, successFn, failFn, errorFn });
     openModal("예약완료", "예약이 완료되었습니다.", submitModal);
+    console.log("내용 :", reserData);
+    return reserData;
+  };
+  const successFn = result => {
+    console.log(result);
+  };
+  const failFn = result => {
+    console.log(result);
+  };
+  const errorFn = result => {
+    console.log(result);
   };
   return (
     <div>

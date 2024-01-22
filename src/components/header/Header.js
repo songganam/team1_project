@@ -1,5 +1,5 @@
 import { Link } from "react-router-dom";
-import { useSelector } from "react-redux";
+import useCustomLogin from "../meat/hooks/useCustomLogin";
 import {
   BarStyle,
   HeaderStyle,
@@ -9,7 +9,13 @@ import {
 } from "./styles/HeaderStyle";
 
 const Header = () => {
-  const loginState = useSelector(state => state.loginSlice);
+  const { isLogin, doLogout, loginState } = useCustomLogin();
+  console.log("스테이트 :", loginState);
+
+  const handleLogout = () => {
+    doLogout();
+  };
+
   return (
     <HeaderStyle>
       <LogoStyle>
@@ -19,8 +25,10 @@ const Header = () => {
       </LogoStyle>
       <BarStyle>
         <JoinStyle>
-          {loginState.email ? (
-            <Link to="/logout">로그아웃</Link>
+          {isLogin() ? (
+            <div onClick={handleLogout}>
+              <span>로그아웃</span>
+            </div>
           ) : (
             <Link to="/garalogin">로그인</Link>
           )}

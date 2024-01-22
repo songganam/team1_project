@@ -1,22 +1,16 @@
-import { createSlice } from "@reduxjs/toolkit";
-
-// API 서버 연동
-// reducer (store 상태 변경) 를 호출할때 지금은 API 호출
-import { createAsyncThunk } from "@reduxjs/toolkit";
-import { postUser } from "../api/meatApi";
+import { createAsyncThunk, createSlice } from "@reduxjs/toolkit";
+import { loginPost } from "../api/meatApi";
 import { getCookie, removeCookie, setCookie } from "../util/cookieUtil";
 
-// export const 외부함수 = createAsyncThunk("이름", 리듀서함수);
 export const loginPostAsync = createAsyncThunk(
   "loginPostAsync",
   async ({ loginParam, successFn, failFn, errorFn }) => {
     try {
-      const res = await postUser({ loginParam, successFn, failFn, errorFn });
-
-      // 결과값을 리턴을 해야 action 에 값이 담기지...
+      const res = await loginPost({ loginParam, successFn, failFn, errorFn });
       return res;
     } catch (error) {
-      return error;
+      console.log(error);
+      throw error; // 예외를 다시 던져서 실패 처리를 수행하도록 함
     }
   },
 );
@@ -25,58 +19,45 @@ const initState = {
   email: "",
 };
 
-// 쿠키 정보 읽어와서 initState 변경하기
 const loadMemberCookie = () => {
   const memberInfo = getCookie("rt");
-  return memberInfo;
+  return memberInfo ? JSON.parse(memberInfo) : null; // 문자열을 객체로 변환
 };
 
 const loginSlice = createSlice({
   name: "loginSlice",
   initialState: loadMemberCookie() || initState,
-
-  // store 의 state 를 업데이트 하는 함수 모음
   reducers: {
     login: (state, action) => {
-      console.log("login.....");
-      return { email: action.payload.email };
+      console.log("login");
+      console.log("payload :", action.payload);
+      return { ...state, result: action.payload.result }; // 상태 업데이트
     },
-    // 로그아웃
     logout: (state, action) => {
-      console.log("logout.....");
+      console.log("logout");
       removeCookie("rt", "/");
       return { ...initState };
     },
   },
-  // 외부 API 연동을 통해 store 의 state 를 업데이트 함수 모음
-  extraReducers: bulder => {
-    bulder
+  extraReducers: builder => {
+    builder
       .addCase(loginPostAsync.fulfilled, (state, action) => {
-        // 외부 연동 성공
-        // state : 기존 값(store 의 loginSate)
-        // action : 받아온 값
-        console.log("fulfilled");
-        // console.log(action);
         const payload = action.payload;
-        console.log("payload", payload);
+        console.log("fulfilled");
+        console.log("payload :", payload);
         if (!payload.error) {
-          // 이때 필요한 정보를 보관한다.
-          // 쿠키는 문자열입니다. 객체를 JSON 문자로 변환
           setCookie("rt", JSON.stringify(payload));
         }
-        return payload;
+        console.log("체크용 :", { ...state, ...payload });
+        return { ...state, ...payload }; // 상태 업데이트
       })
       .addCase(loginPostAsync.pending, (state, action) => {
-        // 외부 연동 시도중..
-        // state : 기존 값(store 의 loginSate)
-        // action : 받아온 값
         console.log("pending");
+        // 필요에 따라 로딩 상태를 업데이트할 수 있음
       })
       .addCase(loginPostAsync.rejected, (state, action) => {
-        // 외부 연동 실패
-        // state : 기존 값(store 의 loginSate)
-        // action : 받아온 값
-        console.log("rejected");
+        console.log("reject");
+        // 필요에 따라 실패 상태를 업데이트할 수 있음
       });
   },
 });
