@@ -1,5 +1,6 @@
 import axios from "axios";
 import { API_SERVER_HOST } from "./config";
+import jwtAxios from "../util/jwtUtil";
 
 const host = `${API_SERVER_HOST}/api/community`;
 

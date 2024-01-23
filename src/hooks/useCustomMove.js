@@ -1,6 +1,7 @@
 import {
   createSearchParams,
   useNavigate,
+  useParams,
   useSearchParams,
 } from "react-router-dom";
 import { getNum, getSearch } from "../util/utils";
