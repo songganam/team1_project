@@ -11,6 +11,9 @@ import {
 } from "./styles/MyModifyPageStyle";
 import Button from "../../components/button/Button";
 import { getUserInfo } from "../../api/MyApi";
+import DaumPost from "../../components/daumpost/DaumPost";
+import useModal from "../../hooks/useModal";
+import ResultModal from "../../components/common/ResultModal";
 
 const initialProfie = {
   email: "",
@@ -25,7 +28,8 @@ const initialProfie = {
 
 // 프로필 수정 페이지
 const MyModifyPage = () => {
-  const [myProfileData, setmyProfileData] = useState(initialProfie);
+  const [myProfileData, setMyProfileData] = useState(initialProfie);
+  const [isDaumPostOpen, setIsDaumPostOpen] = useState(false);
 
   useEffect(() => {
     const param = {};
@@ -33,7 +37,7 @@ const MyModifyPage = () => {
   }, []);
 
   const successFn = result => {
-    setmyProfileData(result);
+    setMyProfileData(result);
     console.log(result);
   };
   const failFn = result => {
@@ -47,6 +51,27 @@ const MyModifyPage = () => {
   const handlePhoneNumberChange = e => {
     const value = e.target.value.replace(/[^0-9]/g, "").slice(0, 11);
     e.target.value = value;
+  };
+
+  const { useResultModal, openModal, closeModal } = useModal();
+  const handleDeleteUser = () => {
+    openModal();
+  };
+
+  const handleDaumPostOpen = () => {
+    setIsDaumPostOpen(true);
+  };
+
+  const handleDaumPostClose = () => {
+    setIsDaumPostOpen(false);
+  };
+
+  const handleDaumPostComplete = newAddress => {
+    setMyProfileData(prevProfile => ({
+      ...prevProfile,
+      address: newAddress,
+    }));
+    setIsDaumPostOpen(false);
   };
 
   return (
@@ -87,12 +112,34 @@ const MyModifyPage = () => {
         <span>모지</span>
         <input type="text" placeholder="변경할 닉네임을 입력하세요."></input>
         <p>주소</p>
-        <span>{myProfileData.address}</span>
+        <span>현재 주소{myProfileData.address}</span>
+        <Button bttext="우편번호 찾기" onClick={handleDaumPostOpen}></Button>
         <input type="text" placeholder="변경할 주소를 입력하세요."></input>
       </MyModifyPageForm>
+      {isDaumPostOpen && (
+        <DaumPost
+          onClose={handleDaumPostClose}
+          onComplete={handleDaumPostComplete}
+        />
+      )}
       <MyModifyPageButton>
         <Button bttext="저장하기"></Button>
-        <Button bttext="회원탈퇴"></Button>
+        <div
+          onClick={() => {
+            handleDeleteUser();
+          }}
+        >
+          <Button bttext="회원탈퇴"></Button>
+        </div>
+        {useResultModal && (
+          <ResultModal
+            title="회원 탈퇴"
+            content="모든 회원 정보가 삭제됩니다."
+            callFn={() => {
+              closeModal();
+            }}
+          />
+        )}
       </MyModifyPageButton>
     </MyModifyPageWrapper>
   );
