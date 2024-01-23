@@ -77,7 +77,6 @@ const MyReviewCard = props => {
             <MyBookCardBookButton>
               <div
                 onClick={() => {
-                  console.log("리뷰삭제 버튼 클릭");
                   handleDeleteReview();
                 }}
               >
