@@ -126,7 +126,7 @@ export const ReviewBox = styled.div`
   .userInfo {
     display: flex;
     align-items: center;
-    gap: 10px;
+    gap: 30px;
     align-self: stretch;
   }
   .user {
@@ -136,9 +136,7 @@ export const ReviewBox = styled.div`
     gap: 2px;
   }
   .nickName {
-    display: flex;
     align-items: center;
-    gap: 10px;
     flex: 1 0 0;
     color: ${ColorStyle.primary};
     font-size: ${FontSize.default};
@@ -150,6 +148,12 @@ export const ReviewBox = styled.div`
     flex: 1 0 0;
     color: ${ColorStyle.g500};
     font-size: 11px;
+  }
+  .reviewContentBox {
+    position: relative;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
   }
   .reviewContent {
     display: flex;

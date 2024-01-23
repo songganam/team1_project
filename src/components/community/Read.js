@@ -1,9 +1,11 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
-import { getOne } from "../../api/communityApi";
+import { useParams } from "react-router-dom";
+import { getOne, postComment } from "../../api/communityApi";
+import { API_SERVER_HOST } from "../../api/config";
 import useCustomMove from "../../hooks/useCustomMove";
 import Button from "../button/Button";
 import Fetching from "../common/Fetching";
+import ResultModal from "../common/ResultModal";
 import Tag from "../tag/Tag";
 import {
   ContentInfoStyle,
@@ -26,7 +28,6 @@ import {
   TitleBoxStyle,
   WriterBoxStyle,
 } from "./styles/ReadStyle";
-import { API_SERVER_HOST } from "../../api/config";
 
 const host = API_SERVER_HOST;
 // 서버데이터 초기값
@@ -55,17 +56,21 @@ const initState = {
     },
   ],
 };
+const initComment = {
+  iboard: 0,
+  contents: "",
+};
 
 const Read = () => {
+  const [fetching, setFetching] = useState(false);
   const { moveToRead, moveToList, moveToModify, page } = useCustomMove();
   const { iboard } = useParams();
   const [content, setContent] = useState(initState);
-  const [fetching, setFetching] = useState(false);
 
   useEffect(() => {
     setFetching(true);
     getOne({ iboard, successFn, failFn, errorFn });
-  }, [iboard]);
+  }, [iboard, page]);
 
   const successFn = result => {
     setFetching(false);
@@ -81,6 +86,7 @@ const Read = () => {
     console.log(result);
   };
 
+  // 글 미리보기 이미지 관련
   const [selectedImg, setSlectedImg] = useState(content.pics[0]?.pic);
 
   // content.pics가 변경될 때마다 실행됩니다.
@@ -93,6 +99,50 @@ const Read = () => {
   const handleThumbnailClick = pic => {
     setSlectedImg(pic);
   };
+
+  // 댓글 관련
+  const [comment, setComment] = useState(initComment);
+  const handleChange = e => {
+    comment[e.target.name] = e.target.value;
+    setComment({ ...comment });
+  };
+  const handleClick = () => {
+    postComment({
+      iboard,
+      successFn: successFnAdd,
+      failFn: failFnAdd,
+      errorFn: errorFnAdd,
+    });
+  };
+  const successFnAdd = result => {
+    setPopRedirect(1);
+    setResult(true);
+    setPopTitle("댓글 등록");
+    setPopContent("댓글을 등록하였습니다.");
+  };
+  const failFnAdd = result => {
+    setPopRedirect(1);
+    setResult(true);
+    setPopTitle("댓글 등록 실패");
+    setPopContent("댓글을 등록에 실패하였습니다. 다시 등록 해주세요.");
+  };
+  const errorFnAdd = result => {
+    setPopRedirect(1);
+    setResult(true);
+    setPopTitle("댓글 등록 실패");
+    setPopContent("서버가 불안정합니다. 잠시 후 다시 등록 해주세요.");
+  };
+
+  const closeModal = () => {
+    // 모달창 숨기기
+    setResult(false);
+  };
+
+  // 모달창 관련
+  const [result, setResult] = useState(false);
+  const [popTitle, setPopTitle] = useState("");
+  const [popContent, setPopContent] = useState(false);
+  const [popRedirect, setPopRedirect] = useState(false);
 
   return (
     <WrapStyle>
@@ -226,30 +276,55 @@ const Read = () => {
         <div className="readReviewBox">
           <div className="readReview">
             <div className="reviewInfo">
-              <div className="reviewCount">댓글 1개</div>
-              <div className="userInfo">
-                <div className="user">
-                  <div className="icon">
-                    <img
-                      src={`${process.env.PUBLIC_URL}/assets/images/speech.svg`}
-                    />
-                  </div>
-                  <div className="nickName">{content.comments.writerName}</div>
-                </div>
-                <div className="date">{content.comments.createdAt}</div>
+              <div className="reviewCount">
+                댓글 {content.comments.length}개
               </div>
+              {content.comments.length > 0 &&
+                content.comments.map(comment => (
+                  <>
+                    <div className="userInfo" key={comment.icomment}>
+                      <div className="user">
+                        <div className="icon">
+                          <img
+                            src={`${process.env.PUBLIC_URL}/assets/images/speech.svg`}
+                          />
+                        </div>
+                        <div className="nickName">{comment.writerName}</div>
+                      </div>
+                      <div className="date">{comment.createdAt}</div>
+                    </div>
+                    <div className="reviewContentBox">
+                      <div className="reviewContent">{comment.comment}</div>
+                      <div className="deleteBtn">삭제</div>
+                    </div>
+                  </>
+                ))}
             </div>
-            <div className="reviewContent">{content.comments.comment}</div>
           </div>
-          <div className="deleteBtn">삭제</div>
         </div>
         <div className="inputReviewBox">
           <div className="inputReview">
-            <input type="text" placeholder="댓글을 입력해보세요" />
+            <input
+              type="text"
+              name="comments"
+              value={comment.comments}
+              onChange={e => handleChange(e)}
+              placeholder="댓글을 입력해보세요"
+            />
           </div>
-          <Button bttext="댓글입력" />
+          <div onClick={() => handleClick()}>
+            <Button bttext="댓글입력" />
+          </div>
         </div>
       </ReviewBox>
+      {/* 모달창 */}
+      {result ? (
+        <ResultModal
+          title={popTitle}
+          content={popContent}
+          callFn={closeModal}
+        />
+      ) : null}
     </WrapStyle>
   );
 };
