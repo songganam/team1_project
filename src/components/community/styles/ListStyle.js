@@ -104,12 +104,13 @@ export const ThumbnailStyle = styled.div`
   max-height: 180px;
   display: flex;
   flex-wrap: wrap;
-  gap: 20px;
+  justify-content: space-between;
+  gap: 5px;
   img {
     max-width: 60px;
-    height: 50px;
     border-radius: 5px;
     box-shadow: 4px 4px 4px 0px rgba(0, 0, 0, 0.25);
+    cursor: pointer;
   }
 `;
 export const ContentInfoStyle = styled.div`

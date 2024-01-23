@@ -6,7 +6,7 @@ export const MoreBoxStyle = styled.div`
   padding: 30px 60px;
   display: flex;
   flex-wrap: wrap;
-  gap: 100px;
+  gap: 50px;
 `;
 
 export const TitleBoxStyle = styled.div`
