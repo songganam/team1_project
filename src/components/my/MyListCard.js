@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import {
   MyListCardContent,
   MyListCardDateContent,
@@ -12,47 +12,68 @@ import {
   MyListCardWrapper,
 } from "./styles/MyListCardStyle";
 import Bookmark from "../bookmark/Bookmark";
+import { getMyList } from "../../api/MyApi";
+import Paging from "../common/Paging";
 
 const MyListCard = props => {
-  const {
-    storeimg,
-    storeplace,
-    storename,
-    listplace,
-    listnum,
-    listmeat,
-    listservice,
-  } = props;
+  const [myList, setMyList] = useState([]);
+
+  const getMyListData = () => {};
+
+  useEffect(() => {
+    const param = {};
+    getMyList({ param, successFn, failFn, errorFn });
+    getMyListData();
+  }, []);
+
+  const successFn = result => {
+    setMyList(result);
+    console.log(result);
+  };
+  const failFn = result => {
+    console.log(result);
+  };
+  const errorFn = result => {
+    console.log(result);
+  };
+
+  const { storeimg, storeplace } = props;
   return (
-    <MyListCardWrapper>
-      <MyListCardVisual>
-        <img src={storeimg} alt="가게 이미지"></img>
-      </MyListCardVisual>
-      <MyListCardContent>
-        <MyListCardTitle>
-          <MyListCardSubTitle>
-            <Bookmark></Bookmark>
-            <MyListCardPlace>지점명{storeplace}</MyListCardPlace>
-          </MyListCardSubTitle>
-          <MyListCardName>가게명{storename}</MyListCardName>
-        </MyListCardTitle>
-        <MyListCardInfo>
-          <MyListCardInfoTitle>
-            <li>주소</li>
-            <li>전화번호</li>
-            <li>종류</li>
-            <li>서비스</li>
-          </MyListCardInfoTitle>
-          <MyListCardDateContent>
-            <li>주소내용{listplace}</li>
-            <li>전화번호내용{listnum}</li>
-            <li>종류내용{listmeat}</li>
-            <li>서비스내용{listservice}</li>
-          </MyListCardDateContent>
-        </MyListCardInfo>
-      </MyListCardContent>
-    </MyListCardWrapper>
+    <>
+      {myList.map((myList, index) => (
+        <MyListCardWrapper key={index}>
+          <MyListCardVisual>
+            <img src={storeimg} alt="가게 이미지"></img>
+          </MyListCardVisual>
+          <MyListCardContent>
+            <MyListCardTitle>
+              <MyListCardSubTitle>
+                <Bookmark></Bookmark>
+                <MyListCardPlace>지점명{storeplace}</MyListCardPlace>
+              </MyListCardSubTitle>
+              <MyListCardName>{myList.name}</MyListCardName>
+            </MyListCardTitle>
+            <MyListCardInfo>
+              <MyListCardInfoTitle>
+                <li>주소</li>
+                <li>전화번호</li>
+                <li>영업시간</li>
+                <li>종류</li>
+                <li>서비스</li>
+              </MyListCardInfoTitle>
+              <MyListCardDateContent>
+                <li>{myList.location}</li>
+                <li>{myList.tel}</li>
+                <li>{myList.open}</li>
+                <li>{myList.mtype}</li>
+                <li>{myList.facilities}</li>
+              </MyListCardDateContent>
+            </MyListCardInfo>
+          </MyListCardContent>
+        </MyListCardWrapper>
+      ))}
+      <Paging totalItems={10} itemPerPage={5}></Paging>
+    </>
   );
 };
-
 export default MyListCard;

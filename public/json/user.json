@@ -1,12 +1,12 @@
 [
   {
-    "email": "string",
-    "name": "string",
-    "nickname": "string",
-    "birth": "string",
-    "gender": "string",
-    "address": "string",
-    "pic": "string",
-    "tel": ""
+    "email": "abc@naver.com",
+    "name": "김고기",
+    "nickname": "고기냠냠",
+    "birth": "2000-01-01",
+    "gender": "여자",
+    "address": "대구 북구 어쩌구로 45길 52",
+    "pic": "https://picsum.photos/280/280/?category=meat",
+    "tel": "01012345678"
   }
 ]

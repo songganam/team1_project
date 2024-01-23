@@ -10,9 +10,9 @@ import {
   ProfileImg,
 } from "./styles/MyModifyPageStyle";
 import Button from "../../components/button/Button";
-import { getUserProfile } from "../../api/myApi/MyBookApi";
+import { getUserInfo } from "../../api/MyApi";
 
-const initialProfile = {
+const initialProfie = {
   email: "",
   name: "",
   nickname: "",
@@ -25,15 +25,23 @@ const initialProfile = {
 
 // 프로필 수정 페이지
 const MyModifyPage = () => {
-  const [ProfileData, setProfileData] = useState(initialProfile);
-
-  const getUserInfo = () => {
-    getUserProfile(setProfileData);
-  };
+  const [myProfileData, setmyProfileData] = useState(initialProfie);
 
   useEffect(() => {
-    getUserInfo();
+    const param = {};
+    getUserInfo({ param, successFn, failFn, errorFn });
   }, []);
+
+  const successFn = result => {
+    setmyProfileData(result);
+    console.log(result);
+  };
+  const failFn = result => {
+    console.log(result);
+  };
+  const errorFn = result => {
+    console.log(result);
+  };
 
   // input 휴대폰 번호 부분, 11자리 숫자만 입력 가능하도록 제한
   const handlePhoneNumberChange = e => {
@@ -48,31 +56,38 @@ const MyModifyPage = () => {
       </MyModifyPageTitle>
       <MyModifyPageProfile>
         <ProfileImg>
-          <img src="https://picsum.photos/280/280/?category=meat" alt=""></img>
+          <img src="" alt=""></img>
           <button>
             <img
               src={`${process.env.PUBLIC_URL}/assets/images/profile_camera.svg`}
             ></img>
           </button>
         </ProfileImg>
-        <MyNickName>{ProfileData.nickname}</MyNickName>
+        <MyNickName>{myProfileData.nickname}</MyNickName>
       </MyModifyPageProfile>
       <MyModifyPageInfo>
-        <span>{ProfileData.name}</span>
-        <span>{ProfileData.gender}</span>
-        <span>{ProfileData.birth}</span>
-        <span>{ProfileData.email}</span>
+        <p>이름</p>
+        <span>{myProfileData.name}</span>
+        <p>성별</p>
+        <span>{myProfileData.gender}</span>
+        <p>생년월일</p>
+        <span>{myProfileData.birth}</span>
+        <p>이메일</p>
+        <span>{myProfileData.email}</span>
       </MyModifyPageInfo>
       <MyModifyPageForm>
-        <span>휴대폰 번호</span>
+        <p>휴대폰 번호</p>
+        <span>{myProfileData.tel}</span>
         <input
           type="text"
           placeholder="변경할 휴대폰 번호를 입력하세요."
           onChange={handlePhoneNumberChange}
         ></input>
-        <span>닉네임</span>
+        <p>닉네임</p>
+        <span>모지</span>
         <input type="text" placeholder="변경할 닉네임을 입력하세요."></input>
-        <span>현재주소</span>
+        <p>주소</p>
+        <span>{myProfileData.address}</span>
         <input type="text" placeholder="변경할 주소를 입력하세요."></input>
       </MyModifyPageForm>
       <MyModifyPageButton>

@@ -1,7 +1,6 @@
 import React, { useEffect, useState } from "react";
-import { getMyBook } from "../../api/myApi/MyBookApi";
+import { useNavigate } from "react-router-dom";
 import Button from "../../components/button/Button";
-import useCustomMove from "../../hooks/useCustomMove";
 import {
   MyBookCardBookButton,
   MyBookCardContent,
@@ -16,33 +15,19 @@ import {
   MyBookCardWrapper,
 } from "./styles/MyBookCardStyle";
 import Bookmark from "../bookmark/Bookmark";
-import { useNavigate } from "react-router-dom";
 import Paging from "../common/Paging";
-
-// const initialMyBook = {
-//   checkShop: "",
-//   ireser: "",
-//   ishop: "",
-//   date: "",
-//   request: "",
-//   cofirm: "",
-//   headCount: "",
-//   pic: "",
-//   isBook: "",
-//   createdAt: "",
-// };
+import { getMyBook } from "../../api/MyApi";
 
 const MyBookCard = props => {
-  const { page } = useCustomMove();
   const [myBookList, setMyBookList] = useState([]);
 
   const getMyBookData = () => {};
 
   useEffect(() => {
-    const param = { page };
+    const param = {};
     getMyBook({ param, successFn, failFn, errorFn });
     getMyBookData();
-  }, [page]);
+  }, []);
 
   const successFn = result => {
     setMyBookList(result);
@@ -57,7 +42,11 @@ const MyBookCard = props => {
 
   const navigate = useNavigate();
 
-  const { storeimg, storeplace, storename, booktime } = props;
+  const handelModifyBook = () => {
+    navigate("/meat/reservation");
+  };
+
+  const { storeimg, storeplace, storename } = props;
 
   return (
     <>
@@ -89,7 +78,7 @@ const MyBookCard = props => {
               </MyBookCardDateContent>
             </MyBookCardInfo>
             <MyBookCardBookButton>
-              <Button bttext="예약변경"></Button>
+              <Button bttext="예약변경" onClick={handelModifyBook}></Button>
               <Button bttext="예약취소"></Button>
             </MyBookCardBookButton>
           </MyBookCardContent>
