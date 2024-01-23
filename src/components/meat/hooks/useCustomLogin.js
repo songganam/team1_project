@@ -1,73 +1,30 @@
-import { useCallback } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Navigate, useNavigate } from "react-router-dom";
-import { loginPostAsync, logout } from "../../../redux/loginSlice";
-import axios from "axios";
-import { API_SERVER_HOST } from "../../../api/meatApi";
+import { loginPostAsync, logout } from "../../../redux/authSlice";
 
 const useCustomLogin = () => {
-  // 패스 이동하기
   const navigate = useNavigate();
-
-  // RTK 상태값 업데이트
   const dispatch = useDispatch();
-
-  // RTK 상태값 읽기
-  const loginState = useSelector(state => state.loginSlice);
-  // console.log(loginState);
+  const authState = useSelector(state => state.authSlice);
 
   // 로그인 상태값 파악
-  // const isLogin = () => {
-  //   const token = getCookie("rt");
-  //   if (!token) {
-  //     return false;
-  //   }
+  const isLogin = authState.result == 0 ? true : false;
 
-  //   try {
-  //     const decoded = jwtDecode(token);
-  //     const currentTime = Date.now() / 1000;
-  //     if (decoded.exp < currentTime) {
-  //       // 토큰이 만료되었는지 확인
-  //       doLogout();
-  //       return false;
-  //     }
-  //     return true;
-  //   } catch (error) {
-  //     console.error(error);
-  //     return false;
-  //   }
-  // };
-  const isLogin = useCallback(() => {
-    return loginState.result === 1; // 로그인 상태 확인
-  }, [loginState]);
   // 로그인 기능
-  const doLogin = async ({ loginParam, successFn, failFn, errorFn }) => {
+  const doLogin = async ({ authParam, successFn, failFn, errorFn }) => {
+    // 로그인 어느화면에서 실행이 될 소지가 높아요.
+    // 로그인 상태 업데이트
     const action = await dispatch(
-      loginPostAsync({ loginParam, successFn, failFn, errorFn }),
+      loginPostAsync({ authParam, successFn, failFn, errorFn }),
     );
+    // 결과값
     return action.payload;
   };
 
   // 로그아웃 기능
-  const doLogout = useCallback(() => {
-    // 로그아웃 API 호출
-    axios
-      .post(`${API_SERVER_HOST}/api/user/signout`)
-      .then(response => {
-        if (response.data.result === 0) {
-          // 로그아웃 성공
-          dispatch(logout());
-          console.log();
-        } else {
-          // 로그아웃 실패
-          console.log("로그아웃 실패");
-        }
-        console.log(response.data.result);
-      })
-      .catch(error => {
-        console.log("로그아웃 에러", error);
-      });
-  }, [dispatch]);
+  const doLogout = () => {
+    dispatch(logout());
+  };
 
   // 패스이동 기능
   const moveToPath = path => {
@@ -78,11 +35,10 @@ const useCustomLogin = () => {
 
   // 로그인 페이동 기능
   const moveToLogin = () => {
-    console.log("페이지 이동");
-    return <Navigate replace to="/list" />;
+    return <Navigate replace to="/" />;
   };
 
-  return { loginState, isLogin, doLogin, doLogout, moveToPath, moveToLogin };
+  return { authState, isLogin, doLogin, doLogout, moveToPath, moveToLogin };
 };
 
 export default useCustomLogin;

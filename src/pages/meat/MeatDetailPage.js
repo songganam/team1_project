@@ -1,7 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { Map, MapMarker } from "react-kakao-maps-sdk";
 import { useNavigate, useParams } from "react-router";
-import { getGInfo } from "../../api/meatApi";
+import { changeBookmark, getGInfo } from "../../api/meatApi";
+import CountingStar from "../../components/common/CountingStar";
 import ResultModal from "../../components/common/ResultModal";
 import useCustomHook from "../../components/meat/hooks/useCustomHook";
 import {
@@ -42,7 +43,6 @@ import {
   ReviewUserProfile,
   ReviewWrap,
 } from "./styles/MeatDetailStyle";
-import CountingStar from "../../components/common/CountingStar";
 
 const MeatDetailPage = () => {
   const navigate = useNavigate();
@@ -55,12 +55,15 @@ const MeatDetailPage = () => {
     setLoading(true);
     getGInfo({ ishop, successFn, failFn, errorFn });
   }, []);
+  useEffect(() => {
+    setBookmark(storeInfo.isBook);
+  }, [storeInfo.isBook]);
 
   const successFn = result => {
     console.log(result);
     setStoreInfo(result);
     setLoading(false);
-    console.log("DPage res : ", storeInfo);
+    // console.log("DPage res : ", storeInfo);
   };
   const failFn = result => {
     console.log(result);
@@ -71,15 +74,22 @@ const MeatDetailPage = () => {
     setLoading(true);
   };
   // ! BookMark, Go Reservation Btn Logic
-  const [bookmark, setBookmark] = useState(0);
+  const [bookmark, setBookmark] = useState(storeInfo?.isBook || 0);
+
+  // console.log(ishop);
+  const storeNum = ishop;
+
   const handleBookmarkClick = () => {
     if (bookmark == 0) {
       openModal("북마크 등록완료", "북마크에 등록되었습니다.", closeModal);
       setBookmark(1);
+      changeBookmark(storeNum);
+
       // console.log("북마크상태", bookmark);
     } else if (bookmark == 1) {
       openModal("북마크 해제", "북마크가 해제되었습니다.", closeModal);
       setBookmark(0);
+      changeBookmark(storeNum);
       // console.log("북마크상태", bookmark);
     }
   };

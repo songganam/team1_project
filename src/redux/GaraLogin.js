@@ -1,27 +1,36 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
-
-
-
+import useCustomLogin from "../components/meat/hooks/useCustomLogin";
 
 const initState = {
   email: "",
   upw: "",
 };
-
 const GaraLogin = () => {
-  const [signinParam, setSigninParam] = useState(initState);
-
+  const [authParam, setAuthParam] = useState(initState);
+  const { doLogin, moveToPath } = useCustomLogin();
   const handleChange = e => {
-    signinParam[e.target.name] = e.target.value;
-    setSigninParam({ ...signinParam });
+    authParam[e.target.name] = e.target.value;
+    setAuthParam({ ...authParam });
   };
-
   const dispatch = useDispatch();
   const handleClick = () => {
-    dispatch;
+    doLogin({ authParam, successFn, failFn, errorFn });
   };
 
+  const successFn = result => {
+    console.log("성공", result);
+    moveToPath("/meat/detail/3");
+  };
+
+  const failFn = result => {
+    console.log("실패", result);
+    alert("이메일 및 비밀번호 확인하세요.");
+  };
+
+  const errorFn = result => {
+    console.log("서버 에러", result);
+  };
   return (
     <div>
       <div>
@@ -30,7 +39,7 @@ const GaraLogin = () => {
           <input
             type="email"
             name="email"
-            value={signinParam.email}
+            value={authParam.email}
             onChange={e => handleChange(e)}
           />
         </div>
@@ -42,7 +51,7 @@ const GaraLogin = () => {
           <input
             type="password"
             name="upw"
-            value={signinParam.upw}
+            value={authParam.upw}
             onChange={e => handleChange(e)}
           />
         </div>
