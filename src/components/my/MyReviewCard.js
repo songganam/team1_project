@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useEffect, useState } from "react";
 import Button from "../../components/button/Button";
 import {
   MyBookCardBookButton,
@@ -16,60 +16,88 @@ import {
 import useModal from "../../hooks/useModal";
 import ResultModal from "../common/ResultModal";
 import Bookmark from "../bookmark/Bookmark";
+import { getMyReview } from "../../api/MyApi";
+import Paging from "../common/Paging";
+import CountingStar from "../common/CountingStar";
 
 const MyReviewCard = props => {
-  const { storeimg, storeplace, storename, reviewdate, reviewcont } = props;
+  const [myReviewList, setMyReviewList] = useState([]);
+
+  const getMyReviewData = () => {};
+
+  useEffect(() => {
+    const param = {};
+    getMyReview({ param, successFn, failFn, errorFn });
+    getMyReviewData();
+  }, []);
+
+  const successFn = result => {
+    setMyReviewList(result);
+    console.log(result);
+  };
+  const failFn = result => {
+    console.log(result);
+  };
+  const errorFn = result => {
+    console.log(result);
+  };
+
+  const { storeimg, storeplace } = props;
   const { useResultModal, openModal, closeModal } = useModal();
   const handleDeleteReview = () => {
     openModal();
   };
 
   return (
-    <MyReviewCardWrapper>
-      <MyReviewCardVisual>
-        <img src={storeimg} alt="가게 이미지"></img>
-      </MyReviewCardVisual>
-      <MyReviewCardContent>
-        <MyReviewCardTitle>
-          <MyReviewCardSubTitle>
-            <Bookmark></Bookmark>
-            <MyReviewCardPlace>지점명{storeplace}</MyReviewCardPlace>
-          </MyReviewCardSubTitle>
-          <MyReviewCardName>가게명{storename}</MyReviewCardName>
-        </MyReviewCardTitle>
-        <MyReviewCardInfo>
-          <div>별점</div>
-          <MyReviewCardInfoTitle>
-            <li>날짜</li>
-            <li>리뷰</li>
-          </MyReviewCardInfoTitle>
-          <MyReviewCardDateContent>
-            <li>날짜내용{reviewdate}</li>
-            <li>리뷰내용{reviewcont}</li>
-          </MyReviewCardDateContent>
-        </MyReviewCardInfo>
-        <MyBookCardBookButton>
-          <div
-            onClick={() => {
-              console.log("리뷰삭제 버튼 클릭");
-              handleDeleteReview();
-            }}
-          >
-            <Button bttext="리뷰삭제"></Button>
-          </div>
-        </MyBookCardBookButton>
-        {useResultModal && (
-          <ResultModal
-            title="리뷰 삭제"
-            content="작성한 리뷰를 삭제하시겠습니까?"
-            callFn={() => {
-              closeModal();
-            }}
-          />
-        )}
-      </MyReviewCardContent>
-    </MyReviewCardWrapper>
+    <>
+      {myReviewList.map((myReviewList, index) => (
+        <MyReviewCardWrapper key={index}>
+          <MyReviewCardVisual>
+            <img src={storeimg} alt="가게 이미지"></img>
+          </MyReviewCardVisual>
+          <MyReviewCardContent>
+            <MyReviewCardTitle>
+              <MyReviewCardSubTitle>
+                <Bookmark></Bookmark>
+                <MyReviewCardPlace>지점명{storeplace}</MyReviewCardPlace>
+              </MyReviewCardSubTitle>
+              <MyReviewCardName>{myReviewList.name}</MyReviewCardName>
+            </MyReviewCardTitle>
+            <MyReviewCardInfo>
+              <CountingStar star={myReviewList.star}></CountingStar>
+              <MyReviewCardInfoTitle>
+                <li>날짜</li>
+                <li>리뷰</li>
+              </MyReviewCardInfoTitle>
+              <MyReviewCardDateContent>
+                <li>{myReviewList.createdAt}</li>
+                <li>{myReviewList.review}</li>
+              </MyReviewCardDateContent>
+            </MyReviewCardInfo>
+            <MyBookCardBookButton>
+              <div
+                onClick={() => {
+                  console.log("리뷰삭제 버튼 클릭");
+                  handleDeleteReview();
+                }}
+              >
+                <Button bttext="리뷰삭제"></Button>
+              </div>
+            </MyBookCardBookButton>
+            {useResultModal && (
+              <ResultModal
+                title="리뷰 삭제"
+                content="작성한 리뷰를 삭제하시겠습니까?"
+                callFn={() => {
+                  closeModal();
+                }}
+              />
+            )}
+          </MyReviewCardContent>
+        </MyReviewCardWrapper>
+      ))}
+      <Paging totalItems={10} itemPerPage={5}></Paging>
+    </>
   );
 };
-
 export default MyReviewCard;
