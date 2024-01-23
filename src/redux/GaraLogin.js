@@ -1,35 +1,25 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
-import { useNavigate } from "react-router-dom";
-import { loginPostAsync } from "./loginSlice";
-import useCustomLogin from "../components/meat/hooks/useCustomLogin";
+
+
+
+
 const initState = {
   email: "",
   upw: "",
 };
 
 const GaraLogin = () => {
-  const navigate = useNavigate();
-  const [loginParam, setLoginParam] = useState(initState);
-  const handleChange = e => {
-    loginParam[e.target.name] = e.target.value;
-    setLoginParam({ ...loginParam });
-  };
-  const { doLogin, moveToPath } = useCustomLogin();
-  const dispatch = useDispatch();
+  const [signinParam, setSigninParam] = useState(initState);
 
-  const handleClick = e => {
-    doLogin({ loginParam, successFn, failFn, errorFn });
+  const handleChange = e => {
+    signinParam[e.target.name] = e.target.value;
+    setSigninParam({ ...signinParam });
   };
-  const successFn = result => {
-    console.log(result);
-    moveToPath("/");
-  };
-  const failFn = result => {
-    console.log(result);
-  };
-  const errorFn = result => {
-    console.log(result);
+
+  const dispatch = useDispatch();
+  const handleClick = () => {
+    dispatch;
   };
 
   return (
@@ -40,7 +30,7 @@ const GaraLogin = () => {
           <input
             type="email"
             name="email"
-            value={loginParam.email}
+            value={signinParam.email}
             onChange={e => handleChange(e)}
           />
         </div>
@@ -52,7 +42,7 @@ const GaraLogin = () => {
           <input
             type="password"
             name="upw"
-            value={loginParam.upw}
+            value={signinParam.upw}
             onChange={e => handleChange(e)}
           />
         </div>

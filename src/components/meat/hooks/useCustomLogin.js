@@ -3,6 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { Navigate, useNavigate } from "react-router-dom";
 import { loginPostAsync, logout } from "../../../redux/loginSlice";
 import axios from "axios";
+import { API_SERVER_HOST } from "../../../api/meatApi";
 
 const useCustomLogin = () => {
   // 패스 이동하기
@@ -51,15 +52,17 @@ const useCustomLogin = () => {
   const doLogout = useCallback(() => {
     // 로그아웃 API 호출
     axios
-      .post("/api/user/signout")
+      .post(`${API_SERVER_HOST}/api/user/signout`)
       .then(response => {
         if (response.data.result === 0) {
           // 로그아웃 성공
           dispatch(logout());
+          console.log();
         } else {
           // 로그아웃 실패
           console.log("로그아웃 실패");
         }
+        console.log(response.data.result);
       })
       .catch(error => {
         console.log("로그아웃 에러", error);

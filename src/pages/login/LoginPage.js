@@ -42,6 +42,7 @@ const LoginPage = () => {
     // 콘솔로그
     console.log("로그인이 되었습니다.");
 
+
     console.log(todo.id);
     console.log(todo.password);
     console.log(loginData);
@@ -54,6 +55,7 @@ const LoginPage = () => {
       email: email,
       upw: upw,
     };
+
   };
 
   const navigate = useNavigate();
