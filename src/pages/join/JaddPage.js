@@ -23,7 +23,6 @@ import {
 // 회원가입 작성 페이지입니다.
 
 const JaddPage = () => {
-  const [성별, 딸깍] = useState("");
   const [todo, setTodo] = useState({});
 
   const handleClick = e => {
@@ -42,16 +41,40 @@ const JaddPage = () => {
   };
   const handleClickJadd = () => {
     console.log("회원가입이 완료되었습니다.");
-    console.log(todo.id);
-    console.log(todo.password);
+    // console.log(todo.id);
+    // console.log(todo.password);
+
+    const email = todo.email;
+    const upw = todo.upw;
+
+    const checkUpw = todo.checkUpw;
+    const name = todo.name;
+    const nickname = todo.nickname;
+    // const birth = todo.birth
+    const gender = todo.gender;
+    const address = todo.address;
+    const tel = todo.tel;
+
+    const JaddData = {
+      pic: "profile image",
+      dto: {
+        email: email,
+        upw: upw,
+        checkUpw: checkUpw,
+        name: name,
+        nickname: nickname,
+        gender: gender,
+        address: address,
+        tel: tel,
+      },
+    };
+    console.log(JaddData);
+    // console.log(todo.password);
+    // console.log(upw);
   };
   // 패스 이동하기
   const navigate = useNavigate();
-  const handleClickJoin = () => {
-    console.log(todo);
 
-    navigate("/join/read");
-  };
   const handleClickCancel = () => {
     navigate("/");
   };
@@ -72,8 +95,8 @@ const JaddPage = () => {
               <label>이메일</label>
               <input
                 type="text"
-                name="id"
-                value={todo.id}
+                name="email"
+                value={todo.email}
                 className="JoinMail"
                 placeholder="@까지 정확하게 입력하세요."
                 onChange={e => handleChange(e)}
@@ -96,8 +119,8 @@ const JaddPage = () => {
               <label>비밀번호</label>
               <input
                 type="text"
-                name="password"
-                value={todo.password}
+                name="upw"
+                value={todo.upw}
                 className="JaddPw"
                 placeholder="비밀번호를 입력하세요.(특수문자 포함 4-8자)"
                 onChange={e => handleChange(e)}
@@ -108,8 +131,8 @@ const JaddPage = () => {
               <label>비밀번호 확인</label>
               <input
                 type="text"
-                name="confirm"
-                value={todo.confirm}
+                name="checkUpw"
+                value={todo.checkUpw}
                 className="JaddMorePw"
                 placeholder="입력한 비밀번호를 한번 더 확인하세요."
                 onChange={e => handleChange(e)}
@@ -154,7 +177,7 @@ const JaddPage = () => {
                 ></input>
                 <DefaultBt
                   className="JaddNickName-Bt"
-                  onClick={e => handleClick()}
+                  onClick={e => handleClick(e)}
                 >
                   중복확인
                 </DefaultBt>
@@ -166,7 +189,7 @@ const JaddPage = () => {
               <input
                 type="text"
                 name="number"
-                value={todo.number}
+                value={todo.tel}
                 className="JaddNumber"
                 placeholder="휴대폰 번호를 입력하세요."
                 onChange={e => handleChange(e)}
@@ -176,8 +199,11 @@ const JaddPage = () => {
             <JaddAddressWrap>
               <label>주소</label>
               <input
+                type="text"
+                name="address"
                 className="JaddAddress"
                 placeholder="거주 중인 주소를 입력하세요."
+                onChange={e => handleChange(e)}
               ></input>
             </JaddAddressWrap>
             <JaddAddressBts>
@@ -185,7 +211,7 @@ const JaddPage = () => {
                 type="button"
                 className="Jadd-Join-Bt"
                 onClick={() => {
-                  handleClickJoin();
+                  handleClickJadd();
                 }}
               >
                 회원가입
