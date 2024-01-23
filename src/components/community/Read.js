@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { getOne } from "../../api/communityApi";
 import useCustomMove from "../../hooks/useCustomMove";
 import Button from "../button/Button";
@@ -39,6 +39,12 @@ const initState = {
   contents: "",
   createdAt: "",
   pics: [],
+  beAf: [
+    {
+      iboard: 0,
+      title: "",
+    },
+  ],
   comments: [
     {
       icomment: 0,
@@ -59,12 +65,12 @@ const Read = () => {
   useEffect(() => {
     setFetching(true);
     getOne({ iboard, successFn, failFn, errorFn });
-  }, []);
+  }, [iboard]);
 
   const successFn = result => {
     setFetching(false);
-    console.log(result);
     setContent(result);
+    console.log(result);
   };
   const failFn = result => {
     setFetching(false);
@@ -73,6 +79,19 @@ const Read = () => {
   const errorFn = result => {
     setFetching(false);
     console.log(result);
+  };
+
+  const [selectedImg, setSlectedImg] = useState(content.pics[0]?.pic);
+
+  // content.pics가 변경될 때마다 실행됩니다.
+  useEffect(() => {
+    if (content.pics && content.pics.length > 0 && content.pics[0].pic) {
+      setSlectedImg(content.pics[0].pic);
+    }
+  }, [content.pics]);
+
+  const handleThumbnailClick = pic => {
+    setSlectedImg(pic);
   };
 
   return (
@@ -95,20 +114,24 @@ const Read = () => {
       <MoreBoxStyle>
         <ImgStyle>
           <LargeImgStyle>
-            {content.pics[0] && (
-              <img
-                src={`${host}/pic/community/${content.iboard}/${content.pics[0]}`}
-                alt="img_1"
-              />
-            )}
+            <img
+              src={`${host}/pic/community/${content.iboard}/${selectedImg}`}
+              alt="Large image"
+            />
           </LargeImgStyle>
           <ThumbnailStyle>
             {content.pics.slice(1).map(
               (pic, index) =>
                 pic && (
-                  <div className="thumbnail" key={index}>
+                  <div
+                    className="thumbnail"
+                    key={index}
+                    onClick={() => {
+                      handleThumbnailClick(pic.pic);
+                    }}
+                  >
                     <img
-                      src={`${host}/pic/community/${content.iboard}/${pic}`}
+                      src={`${host}/pic/community/${content.iboard}/${pic.pic}`}
                       alt={`img_${index + 2}`}
                     />
                   </div>
@@ -149,30 +172,34 @@ const Read = () => {
         <div
           className="prnvTitle"
           onClick={() => {
-            moveToRead();
+            moveToRead(content.beAf[0].iboard);
           }}
         >
-          이전 글 제목
+          {content.beAf[0].title}
         </div>
       </PrnvContentStyle>
       <PrnvContentStyle>
-        <div className="prnv">
-          <div className="prnvIcon">
-            <img
-              src={`${process.env.PUBLIC_URL}/assets/images/mingcute_down-line.svg`}
-              alt="img"
-            />
-          </div>
-          <div className="prnvText">다음글</div>
-        </div>
-        <div
-          className="prnvTitle"
-          onClick={() => {
-            moveToRead();
-          }}
-        >
-          다음 글 제목
-        </div>
+        {content.beAf[1] && (
+          <>
+            <div className="prnv">
+              <div className="prnvIcon">
+                <img
+                  src={`${process.env.PUBLIC_URL}/assets/images/mingcute_down-line.svg`}
+                  alt="img"
+                />
+              </div>
+              <div className="prnvText">다음글</div>
+            </div>
+            <div
+              className="prnvTitle"
+              onClick={() => {
+                moveToRead(content.beAf[1].iboard);
+              }}
+            >
+              {content.beAf[1].title}
+            </div>
+          </>
+        )}
       </PrnvContentStyle>
       <BtnBoxStyle>
         <div className="editBtn">

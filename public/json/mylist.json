@@ -1,0 +1,62 @@
+[
+  {
+    "imeat": "소고기",
+    "ishop": 201,
+    "name": "고깃집",
+    "location": "서울시 강남구",
+    "open": "10:00 AM - 10:00 PM",
+    "tel": "02-1234-5678",
+    "mtype": "한우",
+    "pic": "https://picsum.photos/331/228/?category=meat",
+    "count": 8,
+    "facilities": ["무료 와이파이", "주차 가능"]
+  },
+  {
+    "imeat": "돼지고기",
+    "ishop": 202,
+    "name": "돼지먹방",
+    "location": "인천시 중구",
+    "open": "11:30 AM - 9:00 PM",
+    "tel": "032-8765-4321",
+    "mtype": "삼겹살",
+    "pic": "https://picsum.photos/331/228/?category=meat",
+    "count": 12,
+    "facilities": ["카드 결제 가능", "야외 테라스"]
+  },
+  {
+    "imeat": "닭고기",
+    "ishop": 203,
+    "name": "닭한마리",
+    "location": "대전시 유성구",
+    "open": "12:00 PM - 11:00 PM",
+    "tel": "042-1111-2222",
+    "mtype": "통닭",
+    "pic": "https://picsum.photos/331/228/?category=meat",
+    "count": 6,
+    "facilities": ["무료 주차", "배달 서비스"]
+  },
+  {
+    "imeat": "소고기",
+    "ishop": 204,
+    "name": "한우마을",
+    "location": "부산시 해운대구",
+    "open": "11:00 AM - 10:30 PM",
+    "tel": "051-3333-4444",
+    "mtype": "한우",
+    "pic": "https://picsum.photos/331/228/?category=meat",
+    "count": 15,
+    "facilities": ["무료 와이파이", "예약 가능"]
+  },
+  {
+    "imeat": "돼지고기",
+    "ishop": 205,
+    "name": "삼겹살마당",
+    "location": "광주시 남구",
+    "open": "5:00 PM - 2:00 AM",
+    "tel": "062-5555-6666",
+    "mtype": "삼겹살",
+    "pic": "https://picsum.photos/331/228/?category=meat",
+    "count": 10,
+    "facilities": ["카드 결제 가능", "포장 서비스"]
+  }
+]

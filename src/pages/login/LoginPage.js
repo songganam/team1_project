@@ -29,13 +29,12 @@ const LoginPage = () => {
   // ! 로그인을 한다
   // ! 뭔가를 해야한다. 뭔가를 넣어야한다 등등 행위가 들어가면 함수가 필요해요 그때마다.
 
-  const [바뀌게될값, 바뀔값] = useState({});
-  const [todo, setTodo] = useState("");
+  const [todo, setTodo] = useState({});
 
   // 얘도 함수고
   const handleChange = e => {
-    바뀌게될값[e.target.name] = e.target.value;
-    바뀔값({ ...바뀌게될값 });
+    todo[e.target.name] = e.target.value;
+    setTodo({ ...todo });
   };
   // ? handle !!!! Click => 누르는거 onClick handle!!!!Change  => 값이 함수에 의해서 변하는거에요 onChange
   // 얘도 함수
@@ -43,8 +42,20 @@ const LoginPage = () => {
     // 콘솔로그
     console.log("로그인이 되었습니다.");
 
-    console.log(바뀌게될값.id);
-    console.log(바뀌게될값.password);
+
+    console.log(todo.id);
+    console.log(todo.password);
+    console.log(loginData);
+
+
+    const email = todo.id;
+    const upw = todo.password;
+
+    const loginData = {
+      email: email,
+      upw: upw,
+    };
+
   };
 
   const navigate = useNavigate();
@@ -65,7 +76,7 @@ const LoginPage = () => {
             <LoginPageID
               type="text"
               name="id"
-              value={바뀌게될값.id}
+              value={todo.id}
               placeholder="아이디"
               onChange={e => handleChange(e)}
             />
@@ -73,7 +84,7 @@ const LoginPage = () => {
             <LoginPagePW
               type="password"
               name="password"
-              value={바뀌게될값.password}
+              value={todo.password}
               placeholder="비밀번호"
               onChange={e => handleChange(e)}
             />

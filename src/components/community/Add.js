@@ -93,14 +93,27 @@ const Add = () => {
 
   const handleFileChange = e => {
     const files = e.target.files;
+    if (files) {
+      const totalImages = images.length + files.length;
+      if (totalImages > 5) {
+        alert("최대 5장까지만 업로드 가능합니다.");
+        return;
+      }
 
-    Array.from(files).forEach(file => {
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        setImages(prevImages => [...prevImages, reader.result]);
-      };
-      reader.readAsDataURL(file);
-    });
+      Array.from(files).forEach(file => {
+        const reader = new FileReader();
+        reader.onloadend = () => {
+          setImages(prevImages => [...prevImages, reader.result]);
+        };
+        reader.readAsDataURL(file);
+      });
+    }
+  };
+
+  const deleteImage = indexToDelete => {
+    setImages(prevImages =>
+      prevImages.filter((_, index) => index !== indexToDelete),
+    );
   };
 
   return (
@@ -150,9 +163,25 @@ const Add = () => {
             type="file"
             ref={uploadRef}
             multiple={true}
-            onChange={handleFileChange}
             style={{ display: "none" }}
+            onChange={handleFileChange}
           />
+          <div className="previewBox">
+            {images.map((src, index) => (
+              <img
+                key={index}
+                src={src}
+                alt={`미리보기${index}`}
+                style={{
+                  maxWidth: "60px",
+                  margin: "5px",
+                  cursor: "pointer",
+                  borderRadius: "5px",
+                }}
+                onClick={() => deleteImage(index)}
+              />
+            ))}
+          </div>
         </div>
       </ImageBoxStyle>
       <FootStyle>
