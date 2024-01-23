@@ -1,5 +1,5 @@
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
-import { useSelector } from "react-redux";
 import {
   BarStyle,
   HeaderStyle,
@@ -7,9 +7,18 @@ import {
   LogoStyle,
   NavStyle,
 } from "./styles/HeaderStyle";
+import useCustomLogin from "../meat/hooks/useCustomLogin";
 
 const Header = () => {
-  const signinState = useSelector(state => state.signinSlice);
+  const authState = useSelector(state => state.authSlice);
+  const dispatch = useDispatch();
+  const { isLogin, moveToPath, doLogout } = useCustomLogin();
+  const handleClick = () => {
+    doLogout();
+    moveToPath("/");
+  };
+
+  console.log(authState);
   return (
     <HeaderStyle>
       <LogoStyle>
@@ -19,8 +28,11 @@ const Header = () => {
       </LogoStyle>
       <BarStyle>
         <JoinStyle>
-          <Link to="/garalogin">로그인</Link>
-
+          {isLogin ? (
+            <Link to="/garalogin">로그인</Link>
+          ) : (
+            <div onClick={handleClick}>로그아웃</div>
+          )}
           <Link to="/join">회원가입</Link>
         </JoinStyle>
         <NavStyle>
@@ -28,7 +40,7 @@ const Header = () => {
           <Link to="/mart">정육점찾기</Link>
           <Link to="/sale">마감세일</Link>
           <Link to="/community">고기잡담</Link>
-          <Link to="/my">마이페이지</Link>
+          {isLogin ? null : <Link to="/my">마이페이지</Link>}
         </NavStyle>
       </BarStyle>
     </HeaderStyle>

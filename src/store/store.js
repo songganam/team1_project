@@ -1,7 +1,7 @@
 import { configureStore } from "@reduxjs/toolkit";
-import signinSlice from "../redux/signinSlice";
+import authSlice from "../redux/authSlice";
 export default configureStore({
   reducer: {
-    signinSlice: signinSlice,
+    authSlice: authSlice,
   },
 });
