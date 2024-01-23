@@ -45,7 +45,6 @@ const LoginPage = () => {
 
     console.log(바뀌게될값.id);
     console.log(바뀌게될값.password);
-
   };
 
   const navigate = useNavigate();
