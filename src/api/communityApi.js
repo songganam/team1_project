@@ -84,9 +84,14 @@ export const postComment = async ({ iboard, successFn, failFn, errorFn }) => {
 };
 
 // 해당 글 댓글 삭제(커뮤니티 댓글 삭제)
-export const deleteComment = async ({ iboard, successFn, failFn, errorFn }) => {
+export const deleteComment = async ({
+  icomment,
+  successFn,
+  failFn,
+  errorFn,
+}) => {
   try {
-    const response = await axios.delete(`${host}/comment`, iboard);
+    const response = await axios.delete(`${host}/comment`, icomment);
     const status = response.status.toString();
     if (status.charAt(0) === "2") {
       successFn(response.data);

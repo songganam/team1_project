@@ -25,7 +25,7 @@ const Paging = ({ totalItems, itemPerPage = 10 }) => {
     const numbers = Array.from({ length: pages }, (_, i) => i + 1);
     setPageNumbers(numbers);
     // console.log(numbers);
-  }, [totalItems, itemPerPage]);
+  }, [totalItems, itemPerPage, currentPage]);
 
   // 현재 페이지네여션을 렌더링할 페이지 번호들
   const renderPageNumbers = pageNumbers.slice(minPageLimit, maxPageLimit);
