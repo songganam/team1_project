@@ -1,8 +1,10 @@
 import React, { useEffect, useState } from "react";
+import { useParams } from "react-router";
 import { getGList } from "../../api/meatApi";
+import ResultModal from "../../components/common/ResultModal";
+import Loading from "../../components/loading/Loading";
 import GCardComponent from "../../components/meat/GCardComponent";
 import useCustomHook from "../../components/meat/hooks/useCustomHook";
-import Loading from "../../components/loading/Loading";
 import {
   KindOfMeat,
   KindOfMeatWrap,
@@ -16,8 +18,6 @@ import {
   SearchInput,
   SearchWrap,
 } from "./styles/MeatListStyle";
-import ResultModal from "../../components/common/ResultModal";
-import { useNavigate, useParams } from "react-router";
 
 // 고깃집 목록보기 페이지입니다.
 const MeatListPage = () => {
@@ -26,6 +26,7 @@ const MeatListPage = () => {
     search,
     category,
     MoveToList,
+    MoveToPage,
     refresh,
     isModal,
     openModal,
@@ -47,7 +48,7 @@ const MeatListPage = () => {
 
   const successFn = result => {
     setLoading(false);
-    setGlistData(result);
+    setGlistData([...GlistData, ...result]);
     console.log(result);
   };
   const failFn = result => {
@@ -62,16 +63,20 @@ const MeatListPage = () => {
     if (category == 6) {
       openModal("해산물", "해산물 메뉴는 준비중입니다.", closeModal);
     }
+    setGlistData([]);
     MoveToList({ page: 1, search: "", category });
   };
   const handleSearchChange = e => {
     setCateSearch(e.target.value);
   };
   const handleSearchSubmit = e => {
-    moveToSearch({ search: cateSearch });
+    setGlistData([]);
+    moveToSearch({ page: 1, search: cateSearch });
     e.preventDefault();
   };
-  const hnadleMoreView = () => {};
+  const handleMoreView = () => {
+    MoveToPage({ page: page + 1 });
+  };
   return (
     <ListWrap>
       {isModal.isOpen && (
@@ -144,7 +149,7 @@ const MeatListPage = () => {
         <GCardComponent data={GlistData} ishop={ishop} />
       )}
       <ListMoreViewBtnWrap>
-        <ListMoreViewBtn onClick={hnadleMoreView}>
+        <ListMoreViewBtn onClick={handleMoreView}>
           <span>더보기</span>
         </ListMoreViewBtn>
       </ListMoreViewBtnWrap>

@@ -1,4 +1,5 @@
 import React from "react";
+import { useParams } from "react-router";
 import {
   CardWrapper,
   InfoTagWrap,
@@ -9,13 +10,33 @@ import {
   MeatStoreTitle,
   ReserveBtn,
 } from "../../styles/common/GCardStyle";
+import ResultModal from "../common/ResultModal";
 import useCustomHook from "./hooks/useCustomHook";
+import useCustomLogin from "./hooks/useCustomLogin";
 
-const GCardComponent = ({ data, ishop }) => {
+const GCardComponent = ({ data }) => {
   console.log(data);
+  const { ishop } = useParams();
   const { moveToRead, moveToReser } = useCustomHook();
+  const { isModal, openModal, moveToLogin } = useCustomHook();
+  const { isLogin } = useCustomLogin();
+  const handleReserClick = (e, ishop) => {
+    e.stopPropagation();
+    if (isLogin) {
+      moveToReser(ishop);
+    } else {
+      openModal("로그인 필요", "로그인이 필요한 서비스입니다.", moveToLogin);
+    }
+  };
   return (
     <CardWrapper>
+      {isModal.isOpen && (
+        <ResultModal
+          title={isModal.title}
+          content={isModal.content}
+          callFn={isModal.callFn}
+        />
+      )}
       {data &&
         data.map(item => (
           <MeatStoreCard
@@ -33,12 +54,7 @@ const GCardComponent = ({ data, ishop }) => {
                   ))}
                 </InfoTagWrap>
                 {/* 예약하기 */}
-                <ReserveBtn
-                  onClick={e => {
-                    e.stopPropagation();
-                    moveToReser(item.ishop);
-                  }}
-                >
+                <ReserveBtn onClick={e => handleReserClick(e, item.ishop)}>
                   <span>예약하기</span>
                 </ReserveBtn>
               </MeatStoreBox>

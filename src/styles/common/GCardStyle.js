@@ -70,6 +70,7 @@ export const SubTitle = styled.span`
 `;
 
 export const ReserveBtn = styled.div`
+  cursor: pointer;
   padding-top: 30px;
   width: 73px;
   height: 25px;

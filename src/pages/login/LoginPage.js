@@ -1,5 +1,6 @@
 import React, { useState } from "react";
 import { useDispatch } from "react-redux";
+import useCustomHook from "../../components/meat/hooks/useCustomHook";
 import useCustomLogin from "../../components/meat/hooks/useCustomLogin";
 import TitleHeader from "../../components/titleheader/TitleHeader";
 import Layout from "../../layouts/Layout";
@@ -13,7 +14,7 @@ import {
   LoginPagePW,
   LoginPageWrap,
 } from "./styles/LoginPageStyle";
-import { postLogin } from "../../api/loginApi";
+import { useNavigate } from "react-router-dom";
 
 // 로그인 페이지입니다.
 
@@ -29,31 +30,36 @@ const initState = {
 const LoginPage = () => {
   const [authParam, setAuthParam] = useState(initState);
   const { doLogin, moveToPath, loginComplete } = useCustomLogin();
+  const { isModal, openModal, closeModal } = useCustomHook();
+  const navigate = useNavigate();
   const handleChange = e => {
     authParam[e.target.name] = e.target.value;
     setAuthParam({ ...authParam });
   };
   const dispatch = useDispatch();
-  const handleClick = () => {
-    doLogin({ authParam, successFn, failFn, errorFn });
-    loginComplete();
+  const handleClick = async () => {
+    try {
+      await doLogin({ authParam, successFn, failFn, errorFn });
+      loginComplete();
+    } catch (error) {
+      console.log(error);
+      // navigate(-1);
+    }
   };
-
 
   const successFn = result => {
     console.log("성공", result);
-    moveToPath("/meat/detail/3");
+    moveToPath("/");
   };
 
   const failFn = result => {
     console.log("실패", result);
     alert("이메일 및 비밀번호 확인하세요.");
-
- 
   };
 
   const errorFn = result => {
     console.log("서버 에러", result);
+    openModal("비밀번호 에러", "비밀번호를 확인해주세요.", closeModal);
   };
   return (
     <Layout>
