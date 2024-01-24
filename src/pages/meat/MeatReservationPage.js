@@ -127,7 +127,7 @@ const MeatReservationPage = () => {
   const reserData = {
     ishop: ishop,
     date: timeline,
-    headcount: personCount,
+    headCount: personCount,
     request: requiredMsg,
   };
   // ! postData => ireser(PK), date, request, headcount

@@ -17,6 +17,7 @@ import {
   SearchWrap,
 } from "./styles/MeatListStyle";
 import ResultModal from "../../components/common/ResultModal";
+import { useNavigate, useParams } from "react-router";
 
 // 고깃집 목록보기 페이지입니다.
 const MeatListPage = () => {
@@ -25,20 +26,24 @@ const MeatListPage = () => {
     search,
     category,
     MoveToList,
+    refresh,
     isModal,
     openModal,
     closeModal,
     moveToSearch,
   } = useCustomHook();
   const [GlistData, setGlistData] = useState([]);
+  const { ishop } = useParams();
   const [loading, setLoading] = useState(false);
   const [selectFilter, setSelectFilter] = useState("lastest");
-  const [catesearch, setCateSearch] = useState("");
+  const [cateSearch, setCateSearch] = useState("");
+
+  console.log("ref :", refresh);
 
   useEffect(() => {
     const param = { page, search, category };
     getGList({ param, successFn, failFn, errorFn });
-  }, [page, search, category]);
+  }, [page, search, category, refresh]);
 
   const successFn = result => {
     setLoading(false);
@@ -63,10 +68,10 @@ const MeatListPage = () => {
     setCateSearch(e.target.value);
   };
   const handleSearchSubmit = e => {
-    moveToSearch({ page: 1, search: catesearch });
+    moveToSearch({ search: cateSearch });
     e.preventDefault();
   };
-
+  const hnadleMoreView = () => {};
   return (
     <ListWrap>
       {isModal.isOpen && (
@@ -133,9 +138,13 @@ const MeatListPage = () => {
           <span>인기순</span>
         </ListFilterItem>
       </ListFilter>
-      {loading ? <Loading /> : <GCardComponent data={GlistData} />}
+      {loading ? (
+        <Loading />
+      ) : (
+        <GCardComponent data={GlistData} ishop={ishop} />
+      )}
       <ListMoreViewBtnWrap>
-        <ListMoreViewBtn>
+        <ListMoreViewBtn onClick={hnadleMoreView}>
           <span>더보기</span>
         </ListMoreViewBtn>
       </ListMoreViewBtnWrap>

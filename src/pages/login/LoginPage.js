@@ -1,5 +1,6 @@
 import React, { useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useDispatch } from "react-redux";
+import useCustomLogin from "../../components/meat/hooks/useCustomLogin";
 import TitleHeader from "../../components/titleheader/TitleHeader";
 import Layout from "../../layouts/Layout";
 import "../login/LoginPage.css";
@@ -21,45 +22,38 @@ import { postLogin } from "../../api/loginApi";
 //   password: "",
 // };
 
+const initState = {
+  email: "",
+  upw: "",
+};
 const LoginPage = () => {
-  // ! 훅이든 기능이든 이런 건 몰라도 되는데, 어떻게 하면 댈까 라는 생각은 해야대요
-  // ! 로그인을 한다. => 아이디 비밀번호 적는 란이 필요하죠. console.log, 적는란에 적은걸 저장해주수? 가 필요해요.는 변
-  // ! 로그인을 한다
-  // ! 로그인을 한다
-  // ! 로그인을 한다
-  // ! 로그인을 한다
-  // ! 뭔가를 해야한다. 뭔가를 넣어야한다 등등 행위가 들어가면 함수가 필요해요 그때마다.
-
-  const [todo, setTodo] = useState({});
-
-  // 얘도 함수고
+  const [authParam, setAuthParam] = useState(initState);
+  const { doLogin, moveToPath, loginComplete } = useCustomLogin();
   const handleChange = e => {
-    todo[e.target.name] = e.target.value;
-    setTodo({ ...todo });
+    authParam[e.target.name] = e.target.value;
+    setAuthParam({ ...authParam });
   };
-  // ? handle !!!! Click => 누르는거 onClick handle!!!!Change  => 값이 함수에 의해서 변하는거에요 onChange
-  // 얘도 함수
-  const handleClickLogin = () => {
-    // 콘솔로그
-    console.log("로그인이 되었습니다.");
-
-    console.log(todo.id);
-    console.log(todo.password);
-    
-    const email = todo.id;
-    const upw = todo.password;
-    // console.log(iLog);
-
-    const iLog = {
-      email: email,
-      upw: upw,
-    };
-    postLogin(iLog);
+  const dispatch = useDispatch();
+  const handleClick = () => {
+    doLogin({ authParam, successFn, failFn, errorFn });
+    loginComplete();
   };
 
-  const navigate = useNavigate();
-  const handleClickJoin = () => {
-    navigate("/join");
+
+  const successFn = result => {
+    console.log("성공", result);
+    moveToPath("/meat/detail/3");
+  };
+
+  const failFn = result => {
+    console.log("실패", result);
+    alert("이메일 및 비밀번호 확인하세요.");
+
+ 
+  };
+
+  const errorFn = result => {
+    console.log("서버 에러", result);
   };
   return (
     <Layout>
@@ -74,16 +68,16 @@ const LoginPage = () => {
             {/* 적는 란 */}
             <LoginPageID
               type="text"
-              name="id"
-              value={todo.id}
+              name="email"
+              value={authParam.email}
               placeholder="아이디"
               onChange={e => handleChange(e)}
             />
 
             <LoginPagePW
               type="password"
-              name="password"
-              value={todo.password}
+              name="upw"
+              value={authParam.upw}
               placeholder="비밀번호"
               onChange={e => handleChange(e)}
             />
@@ -97,18 +91,12 @@ const LoginPage = () => {
               type="button"
               className="Loginbutton"
               onClick={() => {
-                handleClickLogin();
+                handleClick();
               }}
             >
               로그인
             </button>
-            <button
-              type="button"
-              className="Joinbutton"
-              onClick={() => {
-                handleClickJoin();
-              }}
-            >
+            <button type="button" className="Joinbutton" onClick={() => {}}>
               회원가입
             </button>
           </LoginPageBts>

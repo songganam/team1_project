@@ -8,7 +8,7 @@ const initState = {
 };
 const GaraLogin = () => {
   const [authParam, setAuthParam] = useState(initState);
-  const { doLogin, moveToPath } = useCustomLogin();
+  const { doLogin, moveToPath, loginComplete } = useCustomLogin();
   const handleChange = e => {
     authParam[e.target.name] = e.target.value;
     setAuthParam({ ...authParam });
@@ -16,6 +16,7 @@ const GaraLogin = () => {
   const dispatch = useDispatch();
   const handleClick = () => {
     doLogin({ authParam, successFn, failFn, errorFn });
+    loginComplete();
   };
 
   const successFn = result => {

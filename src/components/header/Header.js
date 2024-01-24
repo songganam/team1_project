@@ -1,5 +1,6 @@
 import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
+import useCustomLogin from "../meat/hooks/useCustomLogin";
 import {
   BarStyle,
   HeaderStyle,
@@ -7,7 +8,6 @@ import {
   LogoStyle,
   NavStyle,
 } from "./styles/HeaderStyle";
-import useCustomLogin from "../meat/hooks/useCustomLogin";
 
 const Header = () => {
   const authState = useSelector(state => state.authSlice);
@@ -31,7 +31,9 @@ const Header = () => {
           {isLogin ? (
             <div onClick={handleClick}>로그아웃</div>
           ) : (
-            <Link to="/garalogin">로그인</Link>
+            <Link to="/login">로그인</Link>
+
+
           )}
           <Link to="/join">회원가입</Link>
         </JoinStyle>

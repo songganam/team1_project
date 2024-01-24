@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from "react-redux";
-import { Navigate, useNavigate } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { loginPostAsync, logout } from "../../../redux/authSlice";
 
 const useCustomLogin = () => {
@@ -33,12 +33,24 @@ const useCustomLogin = () => {
     navigate({ pathname: path }, { replace: true });
   };
 
-  // 로그인 페이동 기능
+  // 로그인 페이지 이동 기능
   const moveToLogin = () => {
-    return <Navigate replace to="/" />;
+    // return <Navigate replace to="/login" />;
+    navigate("/login");
+  };
+  const loginComplete = () => {
+    navigate(-1);
   };
 
-  return { authState, isLogin, doLogin, doLogout, moveToPath, moveToLogin };
+  return {
+    authState,
+    isLogin,
+    doLogin,
+    doLogout,
+    moveToPath,
+    moveToLogin,
+    loginComplete,
+  };
 };
 
 export default useCustomLogin;
