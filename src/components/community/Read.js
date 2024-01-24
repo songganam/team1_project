@@ -28,6 +28,7 @@ import {
   TitleBoxStyle,
   WriterBoxStyle,
 } from "./styles/ReadStyle";
+import SelectedModal from "../common/SelectedModal";
 
 const host = API_SERVER_HOST;
 // 서버데이터 초기값
@@ -59,9 +60,6 @@ const initState = {
 const initComment = {
   contents: "",
 };
-const initIcomm = {
-  icomment: 0,
-};
 
 const Read = () => {
   const [fetching, setFetching] = useState(false);
@@ -70,7 +68,6 @@ const Read = () => {
   const [content, setContent] = useState(initState);
   const [contents, setcontents] = useState(initComment);
   const [comments, setComments] = useState([]);
-  const [icomm, setIcomm] = useState(initIcomm);
 
   const getOneData = () => {
     getOne({ iboard, successFn, failFn, errorFn });
@@ -151,36 +148,27 @@ const Read = () => {
   };
 
   // 댓글 삭제 관련
+  const [currentCommentId, setCurrentCommentId] = useState(null);
+  const [showModal, setShowModal] = useState(false);
   const handleDelComment = icomment => {
-    setIcomm(icomment);
-    delComment();
+    setCurrentCommentId(icomment);
+    setShowModal(true);
   };
-  const delComment = () => {
-    deleteComment({
-      icomment,
-      successFn: successFnDel,
-      failFn: failFnDel,
-      errorFn: errorFnDel,
-    });
-    console.log(icomm);
-  };
+
   const successFnDel = result => {
-    console.log(result);
+    console.log("댓글 삭제 성공", result);
     setPopRedirect(1);
-    setResult(true);
-    setPopTitle("댓글 삭제");
-    setPopContent("댓글을 삭제하였습니다.");
     getOneData();
   };
   const failFnDel = result => {
-    console.log(result);
+    console.log("댓글 삭제 실패", result);
     setPopRedirect(1);
-    setResult(true);
+    setResult(false);
     setPopTitle("댓글 삭제 실패");
     setPopContent("댓글 삭제에 실패하였습니다. 다시 시도 해주세요.");
   };
   const errorFnDel = result => {
-    console.log(result);
+    console.log("댓글 삭제 실패", result);
     setPopRedirect(1);
     setResult(true);
     setPopTitle("댓글 삭제 실패");
@@ -191,6 +179,21 @@ const Read = () => {
   const closeModal = () => {
     // 모달창 숨기기
     setResult(false);
+  };
+  const cancelModal = () => {
+    // selectedModal 취소 버튼
+    setShowModal(false);
+  };
+  const confirmModal = () => {
+    if (currentCommentId) {
+      deleteComment({
+        icomment: currentCommentId,
+        successFn: successFnDel,
+        failFn: failFnDel,
+        errorFn: errorFnDel,
+      });
+    }
+    setShowModal(false);
   };
 
   const [result, setResult] = useState(false);
@@ -352,7 +355,7 @@ const Read = () => {
                       <div
                         className="deleteBtn"
                         onClick={() => {
-                          handleDelComment(icomment);
+                          handleDelComment(comment.icomment);
                         }}
                       >
                         삭제
@@ -379,6 +382,14 @@ const Read = () => {
         </div>
       </ReviewBox>
       {/* 모달창 */}
+      {showModal ? (
+        <SelectedModal
+          title="댓글 삭제"
+          content="정말 댓글을 삭제하시겠습니까?"
+          confirmFn={confirmModal}
+          cancelFn={cancelModal}
+        />
+      ) : null}
       {result ? (
         <ResultModal
           title={popTitle}

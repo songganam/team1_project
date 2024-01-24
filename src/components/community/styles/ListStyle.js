@@ -79,7 +79,9 @@ export const TopenStyle = styled.div`
   padding: 30px 60px;
   display: flex;
   flex-wrap: wrap;
-  gap: 100px;
+  justify-content: space-between;
+  align-items: center;
+  gap: 50px;
   border: 1px solid ${ColorStyle.g500};
 `;
 export const ImgStyle = styled.div`

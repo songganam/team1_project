@@ -137,7 +137,7 @@ const List = () => {
           {/* 해당 글 미리보기 */}
           {topenIboard === item.iboard && (
             <TopenStyle>
-              <ImgStyle>
+              {/* <ImgStyle>
                 <LargeImgStyle>
                   {preview.pics[0] && (
                     <img
@@ -159,7 +159,7 @@ const List = () => {
                       ),
                   )}
                 </ThumbnailStyle>
-              </ImgStyle>
+              </ImgStyle> */}
               <ContentInfoStyle>
                 <ContentStyle>
                   <UserStyle>
@@ -176,16 +176,16 @@ const List = () => {
                   </UserStyle>
                   <SummaryStyle>{preview.contents}</SummaryStyle>
                 </ContentStyle>
-                <BtnStyle>
-                  <div
-                    onClick={() => {
-                      moveToRead(preview.iboard);
-                    }}
-                  >
-                    <Button bttext="더보기" />
-                  </div>
-                </BtnStyle>
               </ContentInfoStyle>
+              <BtnStyle>
+                <div
+                  onClick={() => {
+                    moveToRead(preview.iboard);
+                  }}
+                >
+                  <Button bttext="더보기" />
+                </div>
+              </BtnStyle>
             </TopenStyle>
           )}
         </div>

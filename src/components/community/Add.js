@@ -15,9 +15,11 @@ import Fetching from "../common/Fetching";
 
 // 글 쓰기 초기값
 const initState = {
-  title: "",
-  contents: "",
   pics: [],
+  dto: {
+    title: "",
+    contents: "",
+  },
 };
 
 const Add = () => {
@@ -43,7 +45,7 @@ const Add = () => {
 
     // 글 정보 전송하기
     setFetching(true);
-    postAdd({ dto: formData, successFn, failFn, errorFn });
+    postAdd({ product: formData, successFn, failFn, errorFn });
   };
 
   const [resultTiltle, setResultTiltle] = useState("");
