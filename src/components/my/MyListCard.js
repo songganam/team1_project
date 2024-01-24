@@ -13,7 +13,7 @@ import {
 } from "./styles/MyListCardStyle";
 import Bookmark from "../bookmark/Bookmark";
 import { getMyList } from "../../api/MyApi";
-import Paging from "../common/Paging";
+import MyPaging from "../common/MyPaging";
 
 const MyListCard = props => {
   const [myList, setMyList] = useState([]);
@@ -37,7 +37,7 @@ const MyListCard = props => {
     console.log(result);
   };
 
-  const { storeimg, storeplace } = props;
+  const { storeimg } = props;
   return (
     <>
       {myList.map((myList, index) => (
@@ -49,7 +49,9 @@ const MyListCard = props => {
             <MyListCardTitle>
               <MyListCardSubTitle>
                 <Bookmark></Bookmark>
-                <MyListCardPlace>지점명{storeplace}</MyListCardPlace>
+                <MyListCardPlace>
+                  <span>{myList.checkShop === 0 ? "고깃집" : "정육점"}</span>
+                </MyListCardPlace>
               </MyListCardSubTitle>
               <MyListCardName>{myList.name}</MyListCardName>
             </MyListCardTitle>
@@ -72,7 +74,7 @@ const MyListCard = props => {
           </MyListCardContent>
         </MyListCardWrapper>
       ))}
-      <Paging totalItems={10} itemPerPage={5}></Paging>
+      <MyPaging totalItems={myList.count}></MyPaging>
     </>
   );
 };
