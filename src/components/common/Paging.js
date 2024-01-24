@@ -3,7 +3,7 @@ import { ColorStyle } from "../../styles/common/CommonStyle";
 import { PagingBoxStyle, PagingNumStyle } from "../community/styles/ListStyle";
 import useCustomMove from "../../hooks/useCustomMove";
 
-const Paging = ({ totalItems, itemPerPage = 10 }) => {
+const Paging = ({ totalItems, itemPerPage }) => {
   const { moveToList } = useCustomMove();
 
   // 전체 페이지 수 계산
@@ -13,7 +13,6 @@ const Paging = ({ totalItems, itemPerPage = 10 }) => {
   // 표시할 페이지 번호 배열
   const [pageNumbers, setPageNumbers] = useState([]);
   // 최대 보여지는 페이지 번호 범위
-  const [pageLimit, setPageLimit] = useState(10);
   const [maxPageLimit, setMaxPageLimit] = useState(10);
   const [minPageLimit, setMinpageLimit] = useState(0);
 

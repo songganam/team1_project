@@ -192,7 +192,7 @@ const List = () => {
       ))}
 
       {/* 페이지네이션 */}
-      <Paging totalItems={serverData[0].count} />
+      <Paging totalItems={serverData[0].count} itemPerPage={10} />
       <Search />
       <TableFootStyle>
         <div onClick={moveToAdd}>

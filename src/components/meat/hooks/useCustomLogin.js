@@ -8,7 +8,7 @@ const useCustomLogin = () => {
   const authState = useSelector(state => state.authSlice);
 
   // 로그인 상태값 파악
-  const isLogin = authState.result == 0 ? true : false;
+  const isLogin = authState.result == 1 ? true : false;
 
   // 로그인 기능
   const doLogin = async ({ authParam, successFn, failFn, errorFn }) => {
