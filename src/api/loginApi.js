@@ -7,21 +7,42 @@ import axios from "axios";
 
 // proxy를 가져온다.
 export const API_SERVER_HOST = "";
-const loginJadd = `${API_SERVER_HOST}/api/user`;
+const signHost = `${API_SERVER_HOST}/api/user`;
 
-export const postLogin = async iLog => {
+export const loginPost = async ({ authParam, successFn, failFn, errorFn }) => {
   try {
-    const response = await axios.post(`${loginJadd}/signin`, iLog);
-    console.log("데이터임 ", response.data);
+    // 만약에 API 서버가 JSON 을 원한다면
+    const header = { headers: { "Content-Type": "application/json" } };
+    const data = {
+      email: authParam.email,
+      upw: authParam.upw,
+    };
+    const res = await axios.post(`${signHost}/signin`, data, header);
+    const status = res.status.toString();
+    if (status.charAt(0) === "2") {
+      successFn(res.data);
+      return res.data;
+    } else {
+      if (res.status === 404) {
+        console.log("비밀번호가 틀렸습니다.");
+        failFn("비밀번호가 틀렸습니다.");
+      } else {
+        failFn("로그인에 실패하였습니다. 다시 시도해주세요.");
+      }
+    }
   } catch (error) {
-    console.log(error);
+    if (error.response.data === 404) {
+      errorFn(
+        "로그인에 실패하였습니다. 서버가 불안정합니다.다시 시도해주세요.",
+      );
+    }
   }
 };
 
 export const postJadd = async iJadd => {
   console.log("회원정보임", iJadd);
   try {
-    const response = await axios.post(`${loginJadd}/signup`, iJadd);
+    const response = await axios.post(`${signHost}/signup`, iJadd);
   } catch (error) {
     console.log(error);
   }

@@ -1,11 +1,11 @@
+import { useState } from "react";
 import {
   createSearchParams,
   useNavigate,
   useSearchParams,
 } from "react-router-dom";
-import { getNum, getSearch } from "../../../util/utils";
+import { getNum } from "../../../util/utils";
 import useModal from "./useModal";
-import { useState } from "react";
 const useCustomHook = () => {
   const navigate = useNavigate();
   const [urlSearchParams, setUrlSearchPrams] = useSearchParams();
@@ -13,9 +13,7 @@ const useCustomHook = () => {
   const page = urlSearchParams.get("page")
     ? parseInt(urlSearchParams.get("page"))
     : 1;
-  const search = urlSearchParams.get("search")
-    ? parseInt(urlSearchParams.get("search"))
-    : "";
+  const search = urlSearchParams.get("search") || "";
   const category = urlSearchParams.get("category")
     ? parseInt(urlSearchParams.get("category"))
     : 0;
@@ -24,6 +22,20 @@ const useCustomHook = () => {
     search,
     category,
   }).toString();
+
+  const MoveToPage = PageParam => {
+    let queryStr = "";
+    if (PageParam) {
+      const PageNum = getNum(PageParam.page, page);
+      queryStr = createSearchParams({
+        page: PageNum,
+      }).toString();
+    } else {
+      queryStr = defaultQueryString;
+    }
+    // ! category
+    navigate({ pathname: "../list", search: queryStr });
+  };
 
   const MoveToList = CategoryParam => {
     let queryStr = "";
@@ -80,6 +92,7 @@ const useCustomHook = () => {
     closeModal,
     moveToLogin,
     moveToReser,
+    MoveToPage,
   };
 };
 export default useCustomHook;

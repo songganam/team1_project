@@ -8,19 +8,32 @@ import {
   LogoStyle,
   NavStyle,
 } from "./styles/HeaderStyle";
+import useCustomHook from "../meat/hooks/useCustomHook";
+import ResultModal from "../common/ResultModal";
 
 const Header = () => {
   const authState = useSelector(state => state.authSlice);
   const dispatch = useDispatch();
   const { isLogin, moveToPath, doLogout } = useCustomLogin();
+  const { isModal, openModal, closeModal, moveToLogin } = useCustomHook();
   const handleClick = () => {
-    doLogout();
-    moveToPath("/");
+    openModal("로그아웃", "로그아웃이 완료되었습니다.", () => {
+      doLogout();
+      moveToPath("/");
+      closeModal;
+    });
   };
 
   console.log(authState);
   return (
     <HeaderStyle>
+      {isModal.isOpen && (
+        <ResultModal
+          title={isModal.title}
+          content={isModal.content}
+          callFn={isModal.callFn}
+        />
+      )}
       <LogoStyle>
         <Link to="/main">
           <img src="/assets/images/logo_1.svg" alt="logo" />
@@ -29,18 +42,18 @@ const Header = () => {
       <BarStyle>
         <JoinStyle>
           {isLogin ? (
-            <div onClick={handleClick}>로그아웃</div>
+            <div onClick={handleClick} style={{ cursor: "pointer" }}>
+              로그아웃
+            </div>
           ) : (
             <Link to="/login">로그인</Link>
-
-
           )}
           <Link to="/join">회원가입</Link>
         </JoinStyle>
         <NavStyle>
           <Link to="/meat">고깃집찾기</Link>
-          <Link to="/mart">정육점찾기</Link>
-          <Link to="/sale">마감세일</Link>
+          {/* <Link to="/mart">정육점찾기</Link>
+          <Link to="/sale">마감세일</Link> */}
           <Link to="/community">고기잡담</Link>
           {isLogin ? <Link to="/my">마이페이지</Link> : null}
         </NavStyle>
