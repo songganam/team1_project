@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { getOne, postComment } from "../../api/communityApi";
+import { deleteComment, getOne, postComment } from "../../api/communityApi";
 import { API_SERVER_HOST } from "../../api/config";
 import useCustomMove from "../../hooks/useCustomMove";
 import Button from "../button/Button";
@@ -57,24 +57,29 @@ const initState = {
   ],
 };
 const initComment = {
-  iboard: 0,
   contents: "",
+};
+const initIcomm = {
+  icomment: 0,
 };
 
 const Read = () => {
   const [fetching, setFetching] = useState(false);
   const { moveToRead, moveToList, moveToModify, page } = useCustomMove();
-  const { iboard } = useParams();
+  const { iboard, icomment } = useParams();
   const [content, setContent] = useState(initState);
+  const [contents, setcontents] = useState(initComment);
+  const [comments, setComments] = useState([]);
+  const [icomm, setIcomm] = useState(initIcomm);
 
-  useEffect(() => {
-    setFetching(true);
+  const getOneData = () => {
     getOne({ iboard, successFn, failFn, errorFn });
-  }, [iboard, page]);
+  };
 
   const successFn = result => {
     setFetching(false);
     setContent(result);
+    setComments(result.comments);
     console.log(result);
   };
   const failFn = result => {
@@ -85,6 +90,11 @@ const Read = () => {
     setFetching(false);
     console.log(result);
   };
+
+  useEffect(() => {
+    setFetching(true);
+    getOneData();
+  }, [iboard, page]);
 
   // 글 미리보기 이미지 관련
   const [selectedImg, setSlectedImg] = useState(content.pics[0]?.pic);
@@ -100,45 +110,89 @@ const Read = () => {
     setSlectedImg(pic);
   };
 
-  // 댓글 관련
-  const [comment, setComment] = useState(initComment);
+  // 댓글 등록 관련
   const handleChange = e => {
-    comment[e.target.name] = e.target.value;
-    setComment({ ...comment });
+    contents[e.target.name] = e.target.value;
+    setcontents({ ...contents });
   };
-  const handleClick = () => {
+
+  const addComment = () => {
     postComment({
       iboard,
+      contents,
       successFn: successFnAdd,
       failFn: failFnAdd,
       errorFn: errorFnAdd,
     });
+    console.log(contents);
+    console.log(iboard);
   };
   const successFnAdd = result => {
+    console.log(result);
     setPopRedirect(1);
     setResult(true);
     setPopTitle("댓글 등록");
     setPopContent("댓글을 등록하였습니다.");
+    getOneData();
   };
   const failFnAdd = result => {
+    console.log(result);
     setPopRedirect(1);
     setResult(true);
     setPopTitle("댓글 등록 실패");
     setPopContent("댓글을 등록에 실패하였습니다. 다시 등록 해주세요.");
   };
   const errorFnAdd = result => {
+    console.log(result);
     setPopRedirect(1);
     setResult(true);
     setPopTitle("댓글 등록 실패");
     setPopContent("서버가 불안정합니다. 잠시 후 다시 등록 해주세요.");
   };
 
+  // 댓글 삭제 관련
+  const handleDelComment = icomment => {
+    setIcomm(icomment);
+    delComment();
+  };
+  const delComment = () => {
+    deleteComment({
+      icomment,
+      successFn: successFnDel,
+      failFn: failFnDel,
+      errorFn: errorFnDel,
+    });
+    console.log(icomm);
+  };
+  const successFnDel = result => {
+    console.log(result);
+    setPopRedirect(1);
+    setResult(true);
+    setPopTitle("댓글 삭제");
+    setPopContent("댓글을 삭제하였습니다.");
+    getOneData();
+  };
+  const failFnDel = result => {
+    console.log(result);
+    setPopRedirect(1);
+    setResult(true);
+    setPopTitle("댓글 삭제 실패");
+    setPopContent("댓글 삭제에 실패하였습니다. 다시 시도 해주세요.");
+  };
+  const errorFnDel = result => {
+    console.log(result);
+    setPopRedirect(1);
+    setResult(true);
+    setPopTitle("댓글 삭제 실패");
+    setPopContent("서버가 불안정합니다. 잠시 후 다시 시도 해주세요.");
+  };
+
+  // 모달창 관련
   const closeModal = () => {
     // 모달창 숨기기
     setResult(false);
   };
 
-  // 모달창 관련
   const [result, setResult] = useState(false);
   const [popTitle, setPopTitle] = useState("");
   const [popContent, setPopContent] = useState(false);
@@ -295,7 +349,14 @@ const Read = () => {
                     </div>
                     <div className="reviewContentBox">
                       <div className="reviewContent">{comment.comment}</div>
-                      <div className="deleteBtn">삭제</div>
+                      <div
+                        className="deleteBtn"
+                        onClick={() => {
+                          handleDelComment(icomment);
+                        }}
+                      >
+                        삭제
+                      </div>
                     </div>
                   </>
                 ))}
@@ -306,13 +367,13 @@ const Read = () => {
           <div className="inputReview">
             <input
               type="text"
-              name="comments"
-              value={comment.comments}
+              name="contents"
+              value={contents.contents}
               onChange={e => handleChange(e)}
               placeholder="댓글을 입력해보세요"
             />
           </div>
-          <div onClick={() => handleClick()}>
+          <div onClick={addComment}>
             <Button bttext="댓글입력" />
           </div>
         </div>

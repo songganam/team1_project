@@ -32,6 +32,8 @@ const Header = () => {
             <div onClick={handleClick}>로그아웃</div>
           ) : (
             <Link to="/login">로그인</Link>
+
+
           )}
           <Link to="/join">회원가입</Link>
         </JoinStyle>
@@ -40,7 +42,7 @@ const Header = () => {
           <Link to="/mart">정육점찾기</Link>
           <Link to="/sale">마감세일</Link>
           <Link to="/community">고기잡담</Link>
-          {isLogin ? null : <Link to="/my">마이페이지</Link>}
+          {isLogin ? <Link to="/my">마이페이지</Link> : null}
         </NavStyle>
       </BarStyle>
     </HeaderStyle>

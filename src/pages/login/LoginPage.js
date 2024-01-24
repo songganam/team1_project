@@ -13,6 +13,7 @@ import {
   LoginPagePW,
   LoginPageWrap,
 } from "./styles/LoginPageStyle";
+import { postLogin } from "../../api/loginApi";
 
 // 로그인 페이지입니다.
 
@@ -38,6 +39,7 @@ const LoginPage = () => {
     loginComplete();
   };
 
+
   const successFn = result => {
     console.log("성공", result);
     moveToPath("/meat/detail/3");
@@ -46,6 +48,8 @@ const LoginPage = () => {
   const failFn = result => {
     console.log("실패", result);
     alert("이메일 및 비밀번호 확인하세요.");
+
+ 
   };
 
   const errorFn = result => {

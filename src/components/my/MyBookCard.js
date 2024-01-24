@@ -15,19 +15,18 @@ import {
   MyBookCardWrapper,
 } from "./styles/MyBookCardStyle";
 import Bookmark from "../bookmark/Bookmark";
-import Paging from "../common/Paging";
+import MyPaging from "../common/MyPaging";
 import { getMyBook } from "../../api/MyApi";
+import useCustomMove from "../../hooks/useCustomMove";
 
 const MyBookCard = props => {
+  const { page } = useCustomMove();
   const [myBookList, setMyBookList] = useState([]);
 
-  const getMyBookData = () => {};
-
   useEffect(() => {
-    const param = {};
+    const param = { page };
     getMyBook({ param, successFn, failFn, errorFn });
-    getMyBookData();
-  }, []);
+  }, [page]);
 
   const successFn = result => {
     setMyBookList(result);
@@ -46,7 +45,7 @@ const MyBookCard = props => {
     navigate("/meat/reservation");
   };
 
-  const { storeimg, storeplace, storename } = props;
+  const { storeimg } = props;
 
   return (
     <>
@@ -58,21 +57,25 @@ const MyBookCard = props => {
           <MyBookCardContent>
             <MyBookCardTitle>
               <MyBookCardSubTitle>
-                <Bookmark></Bookmark>
-                <MyBookCardPlace>지점명{storeplace}</MyBookCardPlace>
+                <Bookmark isBook={myBookList.isBook}></Bookmark>
+                <MyBookCardPlace>
+                  <span>
+                    {myBookList.checkShop === 0 ? "고깃집" : "정육점"}
+                  </span>
+                </MyBookCardPlace>
               </MyBookCardSubTitle>
-              <MyBookCardName>가게명{storename}</MyBookCardName>
+              <MyBookCardName>{myBookList.name}</MyBookCardName>
             </MyBookCardTitle>
             <MyBookCardInfo>
               <MyBookCardInfoTitle>
-                <li>날짜</li>
-                <li>시간</li>
+                <li>예약일시</li>
+                <li>예약상황</li>
                 <li>인원 수</li>
                 <li>요청사항</li>
               </MyBookCardInfoTitle>
               <MyBookCardDateContent>
                 <li>{myBookList.date}</li>
-                <li>값</li>
+                <li> {myBookList.confirm === 0 ? "대기" : "확정"}</li>
                 <li>{myBookList.headCount}</li>
                 <li>{myBookList.request}</li>
               </MyBookCardDateContent>
@@ -84,7 +87,7 @@ const MyBookCard = props => {
           </MyBookCardContent>
         </MyBookCardWrapper>
       ))}
-      <Paging totalItems={10} itemPerPage={5}></Paging>
+      <MyPaging totalItems={myBookList.count}></MyPaging>
     </>
   );
 };

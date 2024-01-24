@@ -90,7 +90,7 @@ export const loginPost = async ({ authParam, successFn, failFn, errorFn }) => {
   }
 };
 
-// ! BookMark Change API
+
 export const changeBookmark = async storeNum => {
   try {
     //

@@ -3,7 +3,7 @@ import { ColorStyle } from "../../styles/common/CommonStyle";
 import { PagingBoxStyle, PagingNumStyle } from "../community/styles/ListStyle";
 import useCustomMove from "../../hooks/useCustomMove";
 
-const Paging = ({ totalItems, itemPerPage }) => {
+const Paging = ({ totalItems, itemPerPage = 5 }) => {
   const { moveToList } = useCustomMove();
 
   // 전체 페이지 수 계산
@@ -13,7 +13,8 @@ const Paging = ({ totalItems, itemPerPage }) => {
   // 표시할 페이지 번호 배열
   const [pageNumbers, setPageNumbers] = useState([]);
   // 최대 보여지는 페이지 번호 범위
-  const [maxPageLimit, setMaxPageLimit] = useState(10);
+  const [pageLimit, setPageLimit] = useState(5);
+  const [maxPageLimit, setMaxPageLimit] = useState(5);
   const [minPageLimit, setMinpageLimit] = useState(0);
 
   useEffect(() => {
@@ -32,18 +33,18 @@ const Paging = ({ totalItems, itemPerPage }) => {
   // 이전 버튼
   const moveToPrev = () => {
     setCurrentPage(currentPage - 1);
-    if (currentPage > 10 && (currentPage - 1) % 10 === 0) {
-      setMaxPageLimit(maxPageLimit - 10);
-      setMinpageLimit(minPageLimit - 10);
+    if (currentPage > 5 && (currentPage - 1) % 5 === 0) {
+      setMaxPageLimit(maxPageLimit - 5);
+      setMinpageLimit(minPageLimit - 5);
     }
     moveToList({ page: currentPage - 1 });
   };
   // 다음 버튼
   const moveToNext = () => {
     setCurrentPage(currentPage + 1);
-    if (currentPage >= 10 && currentPage % 10 === 0) {
-      setMaxPageLimit(maxPageLimit + 10);
-      setMinpageLimit(minPageLimit + 10);
+    if (currentPage >= 5 && currentPage % 5 === 0) {
+      setMaxPageLimit(maxPageLimit + 5);
+      setMinpageLimit(minPageLimit + 5);
     }
     moveToList({ page: currentPage + 1 });
   };
