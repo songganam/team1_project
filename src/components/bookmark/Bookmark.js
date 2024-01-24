@@ -1,23 +1,19 @@
 import React, { useState } from "react";
 import { Bookmarkbt } from "./styles/BookmarkStyle";
 
-// 북마크 버튼 컴포넌트
-const Bookmark = () => {
-  const [isFull, setIsFull] = useState(false);
-
-  const toggleBookmark = () => setIsFull(prev => !prev);
-
+// 북마크 컴포넌트
+const Bookmark = ({ isBook }) => {
   return (
-    <Bookmarkbt onClick={toggleBookmark}>
-      {isFull ? (
-        <img
-          src={`${process.env.PUBLIC_URL}/assets/images/bookmark_full.svg`}
-        ></img>
-      ) : (
-        <img
-          src={`${process.env.PUBLIC_URL}/assets/images/bookmark_null.svg`}
-        ></img>
-      )}
+    <Bookmarkbt>
+      <img
+        src={
+          process.env.PUBLIC_URL +
+          (isBook === 0
+            ? "/assets/images/bk_no_check.png"
+            : "/assets/images/bk_check.png")
+        }
+        alt={isBook === 1 ? "북마크 완료" : "북마크 해제"}
+      />
     </Bookmarkbt>
   );
 };

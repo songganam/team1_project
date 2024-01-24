@@ -11,9 +11,9 @@ import {
 } from "./styles/MyModifyPageStyle";
 import Button from "../../components/button/Button";
 import { getUserInfo } from "../../api/MyApi";
-import DaumPost from "../../components/daumpost/DaumPost";
 import useModal from "../../hooks/useModal";
 import ResultModal from "../../components/common/ResultModal";
+import DaumPostcodeEmbed from "react-daum-postcode";
 
 const initialProfie = {
   email: "",
@@ -29,7 +29,6 @@ const initialProfie = {
 // 프로필 수정 페이지
 const MyModifyPage = () => {
   const [myProfileData, setMyProfileData] = useState(initialProfie);
-  const [isDaumPostOpen, setIsDaumPostOpen] = useState(false);
 
   useEffect(() => {
     const param = {};
@@ -47,6 +46,31 @@ const MyModifyPage = () => {
     console.log(result);
   };
 
+  useEffect(() => {
+    // Daum 우편번호 서비스 스크립트 로딩
+    const script = document.createElement("script");
+    script.src =
+      "//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js";
+    script.async = true;
+    document.head.appendChild(script);
+
+    script.onload = () => {
+      // Daum 우편번호 서비스 초기화
+      const daum = window.daum;
+      new daum.Postcode({
+        oncomplete: function (data) {
+          // 팝업에서 검색결과 항목을 클릭했을 때 실행할 코드
+          console.log(data);
+        },
+      }).open();
+    };
+
+    return () => {
+      // 컴포넌트가 언마운트될 때 스크립트 제거
+      document.head.removeChild(script);
+    };
+  }, []); // 빈 배열은 마운트될 때만 실행
+
   // input 휴대폰 번호 부분, 11자리 숫자만 입력 가능하도록 제한
   const handlePhoneNumberChange = e => {
     const value = e.target.value.replace(/[^0-9]/g, "").slice(0, 11);
@@ -56,22 +80,6 @@ const MyModifyPage = () => {
   const { useResultModal, openModal, closeModal } = useModal();
   const handleDeleteUser = () => {
     openModal();
-  };
-
-  const handleDaumPostOpen = () => {
-    setIsDaumPostOpen(true);
-  };
-
-  const handleDaumPostClose = () => {
-    setIsDaumPostOpen(false);
-  };
-
-  const handleDaumPostComplete = newAddress => {
-    setMyProfileData(prevProfile => ({
-      ...prevProfile,
-      address: newAddress,
-    }));
-    setIsDaumPostOpen(false);
   };
 
   return (
@@ -109,19 +117,14 @@ const MyModifyPage = () => {
           onChange={handlePhoneNumberChange}
         ></input>
         <p>닉네임</p>
-        <span>모지</span>
+        <span>{myProfileData.nickname}</span>
         <input type="text" placeholder="변경할 닉네임을 입력하세요."></input>
         <p>주소</p>
-        <span>현재 주소{myProfileData.address}</span>
-        <Button bttext="우편번호 찾기" onClick={handleDaumPostOpen}></Button>
+        <span>{myProfileData.address}</span>
+        <Button bttext="우편번호 찾기"></Button>
         <input type="text" placeholder="변경할 주소를 입력하세요."></input>
       </MyModifyPageForm>
-      {isDaumPostOpen && (
-        <DaumPost
-          onClose={handleDaumPostClose}
-          onComplete={handleDaumPostComplete}
-        />
-      )}
+
       <MyModifyPageButton>
         <Button bttext="저장하기"></Button>
         <div

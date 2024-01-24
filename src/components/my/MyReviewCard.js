@@ -17,7 +17,7 @@ import useModal from "../../hooks/useModal";
 import ResultModal from "../common/ResultModal";
 import Bookmark from "../bookmark/Bookmark";
 import { getMyReview } from "../../api/MyApi";
-import Paging from "../common/Paging";
+import MyPaging from "../common/MyPaging";
 import CountingStar from "../common/CountingStar";
 
 const MyReviewCard = props => {
@@ -42,7 +42,7 @@ const MyReviewCard = props => {
     console.log(result);
   };
 
-  const { storeimg, storeplace } = props;
+  const { storeimg } = props;
   const { useResultModal, openModal, closeModal } = useModal();
   const handleDeleteReview = () => {
     openModal();
@@ -58,8 +58,12 @@ const MyReviewCard = props => {
           <MyReviewCardContent>
             <MyReviewCardTitle>
               <MyReviewCardSubTitle>
-                <Bookmark></Bookmark>
-                <MyReviewCardPlace>지점명{storeplace}</MyReviewCardPlace>
+                <Bookmark isBook={myReviewList.isBook}></Bookmark>
+                <MyReviewCardPlace>
+                  <span>
+                    {myReviewList.checkShop === 0 ? "고깃집" : "정육점"}
+                  </span>
+                </MyReviewCardPlace>
               </MyReviewCardSubTitle>
               <MyReviewCardName>{myReviewList.name}</MyReviewCardName>
             </MyReviewCardTitle>
@@ -95,7 +99,7 @@ const MyReviewCard = props => {
           </MyReviewCardContent>
         </MyReviewCardWrapper>
       ))}
-      <Paging totalItems={10} itemPerPage={5}></Paging>
+      <MyPaging totalItems={myReviewList.count}></MyPaging>
     </>
   );
 };

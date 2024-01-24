@@ -2,7 +2,7 @@ import styled from "@emotion/styled";
 
 export const Bookmarkbt = styled.button`
   position: relative;
-  margin-right: 5px;
+  margin-right: 7px;
   background: none;
   border: none;
   cursor: pointer;

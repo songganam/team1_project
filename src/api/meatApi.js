@@ -99,6 +99,8 @@ export const loginPost = async ({ authParam, successFn, failFn, errorFn }) => {
     errorFn("로그인에 실패하였습니다. 서버가 불안정합니다.다시 시도해주세요.");
   }
 };
+
+// !  북마크 API
 export const changeBookmark = async storeNum => {
   try {
     //
