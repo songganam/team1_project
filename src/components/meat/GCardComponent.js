@@ -11,9 +11,9 @@ import {
 } from "../../styles/common/GCardStyle";
 import useCustomHook from "./hooks/useCustomHook";
 
-const GCardComponent = ({ data }) => {
+const GCardComponent = ({ data, ishop }) => {
   console.log(data);
-  const { moveToRead } = useCustomHook();
+  const { moveToRead, moveToReser } = useCustomHook();
   return (
     <CardWrapper>
       {data &&
@@ -33,7 +33,12 @@ const GCardComponent = ({ data }) => {
                   ))}
                 </InfoTagWrap>
                 {/* 예약하기 */}
-                <ReserveBtn>
+                <ReserveBtn
+                  onClick={e => {
+                    e.stopPropagation();
+                    moveToReser(item.ishop);
+                  }}
+                >
                   <span>예약하기</span>
                 </ReserveBtn>
               </MeatStoreBox>

@@ -3,12 +3,13 @@ import {
   useNavigate,
   useSearchParams,
 } from "react-router-dom";
-import { getNum } from "../../../util/utils";
+import { getNum, getSearch } from "../../../util/utils";
 import useModal from "./useModal";
+import { useState } from "react";
 const useCustomHook = () => {
   const navigate = useNavigate();
   const [urlSearchParams, setUrlSearchPrams] = useSearchParams();
-  const { isModal, openModal, closeModal } = useModal();
+  const { isModal, openModal, closeModal, moveToLogin } = useModal();
   const page = urlSearchParams.get("page")
     ? parseInt(urlSearchParams.get("page"))
     : 1;
@@ -41,6 +42,15 @@ const useCustomHook = () => {
   const moveToRead = ishop => {
     navigate({ pathname: `../detail/${ishop}`, search: defaultQueryString });
   };
+  // ! Read Page hook
+  const moveToReser = ishop => {
+    navigate({
+      pathname: `../reservation/${ishop}`,
+      search: defaultQueryString,
+    });
+  };
+
+  const [refresh, setRefresh] = useState(false);
 
   const moveToSearch = SearchParam => {
     let queryStr = "";
@@ -49,6 +59,8 @@ const useCustomHook = () => {
       queryStr = createSearchParams({
         search: SearchStr,
       }).toString();
+      console.log("queryStr:", queryStr);
+      setRefresh(!refresh);
     } else {
       queryStr = defaultQueryString;
     }
@@ -62,9 +74,12 @@ const useCustomHook = () => {
     MoveToList,
     moveToRead,
     moveToSearch,
+    refresh,
     isModal,
     openModal,
     closeModal,
+    moveToLogin,
+    moveToReser,
   };
 };
 export default useCustomHook;

@@ -5,6 +5,7 @@ import { changeBookmark, getGInfo } from "../../api/meatApi";
 import CountingStar from "../../components/common/CountingStar";
 import ResultModal from "../../components/common/ResultModal";
 import useCustomHook from "../../components/meat/hooks/useCustomHook";
+import useCustomLogin from "../../components/meat/hooks/useCustomLogin";
 import {
   InfoContent,
   InfoContentWrap,
@@ -47,17 +48,17 @@ import {
 const MeatDetailPage = () => {
   const navigate = useNavigate();
   const { ishop } = useParams();
-  const { isModal, openModal, closeModal } = useCustomHook();
+  const { isModal, openModal, closeModal, moveToLogin } = useCustomHook();
   const [storeInfo, setStoreInfo] = useState({});
   const [loading, setLoading] = useState(false);
+  const { isLogin } = useCustomLogin();
+  const isBookInfo = storeInfo.isBook;
 
   useEffect(() => {
     setLoading(true);
-    getGInfo({ ishop, successFn, failFn, errorFn });
-  }, []);
-  useEffect(() => {
-    setBookmark(storeInfo.isBook);
-  }, [storeInfo.isBook]);
+    getGInfo({ isLogin, ishop, successFn, failFn, errorFn });
+    setBookmark(isBookInfo);
+  }, [isLogin, ishop, isBookInfo]);
 
   const successFn = result => {
     console.log(result);
@@ -74,34 +75,43 @@ const MeatDetailPage = () => {
     setLoading(true);
   };
   // ! BookMark, Go Reservation Btn Logic
-  const [bookmark, setBookmark] = useState(storeInfo?.isBook || 0);
+  const [bookmark, setBookmark] = useState(isBookInfo || 0);
 
   // console.log(ishop);
   const storeNum = ishop;
 
+  // ! BookMark 선택
   const handleBookmarkClick = () => {
-    if (bookmark == 0) {
-      openModal("북마크 등록완료", "북마크에 등록되었습니다.", closeModal);
-      setBookmark(1);
-      changeBookmark(storeNum);
+    if (isLogin) {
+      if (bookmark == 0) {
+        openModal("북마크 등록완료", "북마크에 등록되었습니다.", closeModal);
+        setBookmark(1);
+        changeBookmark(storeNum);
 
-      // console.log("북마크상태", bookmark);
-    } else if (bookmark == 1) {
-      openModal("북마크 해제", "북마크가 해제되었습니다.", closeModal);
-      setBookmark(0);
-      changeBookmark(storeNum);
-      // console.log("북마크상태", bookmark);
+        // console.log("북마크상태", bookmark);
+      } else if (bookmark == 1) {
+        openModal("북마크 해제", "북마크가 해제되었습니다.", closeModal);
+        setBookmark(0);
+        changeBookmark(storeNum);
+        // console.log("북마크상태", bookmark);
+      }
+    } else {
+      openModal("로그인 필요", "로그인이 필요한 서비스입니다.", moveToLogin);
     }
   };
   const handleReserClick = () => {
-    // PATH랑 같이 보내야함 stireInfo.name
-    navigate(`/meat/reservation/${ishop}`, {
-      state: {
-        storeName: storeInfo.name,
-      },
-    });
+    if (isLogin) {
+      // PATH랑 같이 보내야함 stireInfo.name
+      navigate(`/meat/reservation/${ishop}`, {
+        state: {
+          storeName: storeInfo.name,
+        },
+      });
+    } else {
+      openModal("로그인 필요", "로그인이 필요한 서비스입니다.", moveToLogin);
+    }
   };
-  console.log("챱", storeInfo.reviews);
+  // console.log("챱", storeInfo.reviews[0]);
 
   // ! KAKAOMAP API X,Y value
   const [draggable, setDraggable] = useState(false);
@@ -299,55 +309,69 @@ const MeatDetailPage = () => {
 // ! REVIEW AREA
 */}
 
+        {/* 
+ireview
+: 
+19
+nickname
+: 
+"똥퍼아저씨"
+pic
+: 
+['e0c9f247-ced5-42ed-9ce2-1e870d8c94eb.jpg']
+review
+: 
+"아아아아ㅏ"
+star
+: 
+1 */}
+
         <ReviewWrap>
           <ReviewTitle>
             <span>리 뷰</span>
           </ReviewTitle>
           <ReviewContentWrap>
-            <ReviewItemWrap>
-              {/* Image */}
-              <ReivewImageWrap>
-                {/* main image */}
-                <ReviewMainImage>
-                  <img
-                    src="https://picsum.photos/370/350/?category=meat"
-                    alt=""
-                  />
-                </ReviewMainImage>
-                {/* sub image */}
-                <ReviewSubImage>
-                  <img
-                    src="https://picsum.photos/370/350/?category=meat"
-                    alt=""
-                  />
-                </ReviewSubImage>
-              </ReivewImageWrap>
-              <ReviewContentmWrap>
-                <ReviewProfileWrap>
-                  <ReviewProfileImage>
-                    <img
-                      src="https://picsum.photos/370/350/?category=meat"
-                      alt=""
-                    />
-                  </ReviewProfileImage>
-                  <ReviewUserProfile>
-                    <div>
-                      <span>
-                        손씨
-                        {/* {storeInfo.reviews.nickname} */}
-                      </span>
-                    </div>
-                    <CountingStar star={4} />
-                  </ReviewUserProfile>
-                </ReviewProfileWrap>
-                <ReviewContent>
-                  <p>
-                    {/* {storeInfo.reviews.review} */}
-                    JMT
-                  </p>
-                </ReviewContent>
-              </ReviewContentmWrap>
-            </ReviewItemWrap>
+            {storeInfo?.reviews &&
+              storeInfo?.reviews.map((review, index) => (
+                <ReviewItemWrap key={index}>
+                  {/* Image */}
+                  <ReivewImageWrap>
+                    {/* main image */}
+                    <ReviewMainImage>
+                      <img
+                        src="https://picsum.photos/370/350/?category=meat"
+                        alt=""
+                      />
+                    </ReviewMainImage>
+                    {/* sub image */}
+                    <ReviewSubImage>
+                      <img
+                        src="https://picsum.photos/370/350/?category=meat"
+                        alt=""
+                      />
+                    </ReviewSubImage>
+                  </ReivewImageWrap>
+                  <ReviewContentmWrap>
+                    <ReviewProfileWrap>
+                      <ReviewProfileImage>
+                        <img
+                          src="https://picsum.photos/370/350/?category=meat"
+                          alt=""
+                        />
+                      </ReviewProfileImage>
+                      <ReviewUserProfile>
+                        <div>
+                          <span>{review.nickname}</span>
+                        </div>
+                        <CountingStar star={review.star} />
+                      </ReviewUserProfile>
+                    </ReviewProfileWrap>
+                    <ReviewContent>
+                      <p>{review.review}</p>
+                    </ReviewContent>
+                  </ReviewContentmWrap>
+                </ReviewItemWrap>
+              ))}
           </ReviewContentWrap>
         </ReviewWrap>
       </ReadWrap>

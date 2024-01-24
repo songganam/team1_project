@@ -1,4 +1,5 @@
 import { useState } from "react";
+import { useNavigate } from "react-router-dom";
 
 function useModal() {
   const [isModal, setIsModal] = useState({
@@ -7,6 +8,7 @@ function useModal() {
     content: "",
     callFn: null,
   });
+  const navgate = useNavigate();
 
   const openModal = (title, content, callFn) => {
     setIsModal({ isOpen: true, title, content, callFn });
@@ -15,8 +17,11 @@ function useModal() {
   const closeModal = () => {
     setIsModal(prev => ({ ...prev, isOpen: false }));
   };
-
-  return { isModal, openModal, closeModal };
+  const moveToLogin = () => {
+    setIsModal(prev => ({ ...prev, isOpen: false }));
+    navgate("/login");
+  };
+  return { isModal, openModal, closeModal, moveToLogin };
 }
 
 export default useModal;

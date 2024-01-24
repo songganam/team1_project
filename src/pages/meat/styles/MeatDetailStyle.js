@@ -350,7 +350,7 @@ export const ReviewTitle = styled.div`
 export const ReviewContentWrap = styled.div`
   display: flex;
   width: 1180px;
-  height: 360px;
+  /* height: 360px; */
   padding: 0px 10px;
   flex-direction: column;
   justify-content: center;
