@@ -37,11 +37,11 @@ export const putOne = async ({ iboard, dto, successFn, failFn, errorFn }) => {
 };
 
 // 글, 사진 등록(비동기 통신)(커뮤니티 등록)
-export const postAdd = async ({ dto, successFn, failFn, errorFn }) => {
+export const postAdd = async ({ product, successFn, failFn, errorFn }) => {
   try {
-    console.log(dto);
+    console.log(product);
     const header = { headers: { "Content-Type": "multipart/form-data" } };
-    const response = await axios.post(`${host}`, dto, header);
+    const response = await authAxios.post(`${host}`, header, product);
     const status = response.status.toString();
     if (status.charAt(0) === "2") {
       successFn(response.data);
@@ -105,12 +105,11 @@ export const deleteComment = async ({
 }) => {
   console.log(icomment);
   try {
-    const header = { headers: { "Content-Type": "application/json" } };
-    const response = await authAxios.delete(
-      `${host}/comment`,
-      icomment,
-      header,
-    );
+    const header = {
+      headers: { "Content-Type": "application/json" },
+      data: { icomment },
+    };
+    const response = await authAxios.delete(`${host}/comment`, header);
     const status = response.status.toString();
     if (status.charAt(0) === "2") {
       successFn(response.data);
