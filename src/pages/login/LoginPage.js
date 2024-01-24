@@ -12,6 +12,7 @@ import {
   LoginPagePW,
   LoginPageWrap,
 } from "./styles/LoginPageStyle";
+import { postLogin } from "../../api/loginApi";
 
 // 로그인 페이지입니다.
 
@@ -42,20 +43,18 @@ const LoginPage = () => {
     // 콘솔로그
     console.log("로그인이 되었습니다.");
 
-
     console.log(todo.id);
     console.log(todo.password);
-    console.log(loginData);
-
-
+    
     const email = todo.id;
     const upw = todo.password;
+    // console.log(iLog);
 
-    const loginData = {
+    const iLog = {
       email: email,
       upw: upw,
     };
-
+    postLogin(iLog);
   };
 
   const navigate = useNavigate();

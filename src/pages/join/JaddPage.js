@@ -20,10 +20,23 @@ import {
   JaddPageWrap,
   JaddPwWrap,
 } from "./styles/JaddPageStyle";
+import { postJadd } from "../../api/loginApi";
 // 회원가입 작성 페이지입니다.
 
 const JaddPage = () => {
   const [todo, setTodo] = useState({});
+
+
+  function passCheckForm() {
+    var upw = document.getElementById("upw").value;
+    var checkUpw = document.getElementById("checkUpw")
+
+    if (upw != checkUpw) {
+      alert("비밀번호가 일치하지 않습니다.")
+      return false
+    }
+    return true;
+  }
 
   const handleClick = e => {
     if (e == 1) {
@@ -55,7 +68,7 @@ const JaddPage = () => {
     const address = todo.address;
     const tel = todo.tel;
 
-    const JaddData = {
+    const iJadd = {
       pic: "profile image",
       dto: {
         email: email,
@@ -68,9 +81,10 @@ const JaddPage = () => {
         tel: tel,
       },
     };
-    console.log(JaddData);
+    console.log(iJadd);
     // console.log(todo.password);
     // console.log(upw);
+    postJadd(iJadd)
   };
   // 패스 이동하기
   const navigate = useNavigate();
@@ -115,6 +129,7 @@ const JaddPage = () => {
               ></input>
             </JaddNameWrap>
             <br />
+            <form action="" method="post" onSubmit="return passCheckForm()">
             <JaddPwWrap>
               <label>비밀번호</label>
               <input
@@ -137,7 +152,9 @@ const JaddPage = () => {
                 placeholder="입력한 비밀번호를 한번 더 확인하세요."
                 onChange={e => handleChange(e)}
               ></input>
+              
             </JaddMorePwWrap>
+              </form>
             <br />
             <JaddGenderWrap>
               <div className="JaddGender">
