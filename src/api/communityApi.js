@@ -1,5 +1,6 @@
 import axios from "axios";
 import { API_SERVER_HOST } from "./config";
+import authAxios from "../util/tokenUtil";
 
 const host = `${API_SERVER_HOST}/api/community`;
 
@@ -68,10 +69,22 @@ export const deleteOne = async ({ iboard, successFn, failFn, errorFn }) => {
 };
 
 // 해당 글 댓글 작성(커뮤니티 댓글 작성)
-export const postComment = async ({ iboard, successFn, failFn, errorFn }) => {
+export const postComment = async ({
+  iboard,
+  contents,
+  successFn,
+  failFn,
+  errorFn,
+}) => {
   try {
-    console.log(iboard);
-    const response = await axios.post(`${host}/comment`, iboard);
+    console.log(contents);
+    const header = { headers: { "Content-Type": "application/json" } };
+    const data = {
+      iboard: iboard,
+      contents: contents.contents,
+    };
+    console.log("입력 폼 ", data);
+    const response = await authAxios.post(`${host}/comment`, data, header);
     const status = response.status.toString();
     if (status.charAt(0) === "2") {
       successFn(response.data);
@@ -90,8 +103,14 @@ export const deleteComment = async ({
   failFn,
   errorFn,
 }) => {
+  console.log(icomment);
   try {
-    const response = await axios.delete(`${host}/comment`, icomment);
+    const header = { headers: { "Content-Type": "application/json" } };
+    const response = await authAxios.delete(
+      `${host}/comment`,
+      icomment,
+      header,
+    );
     const status = response.status.toString();
     if (status.charAt(0) === "2") {
       successFn(response.data);
