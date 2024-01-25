@@ -5,6 +5,7 @@ import {
   TitleStyle,
   TnoStyle,
 } from "./styles/ListStyle";
+import { ColorStyle } from "../../styles/common/CommonStyle";
 
 const Thead = () => {
   return (

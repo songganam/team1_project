@@ -18,10 +18,8 @@ import ResultModal from "../common/ResultModal";
 // 글 쓰기 초기값
 const initState = {
   pics: [],
-  dto: {
-    title: "",
-    contents: "",
-  },
+  title: "",
+  contents: "",
 };
 
 const initProfile = {
@@ -68,15 +66,26 @@ const Add = () => {
   // 파일 업로드 실행
   const handleClick = product => {
     const files = uploadRef.current.files;
-    const picsTotal = files.length;
-    console.log("파일업로드 할때 이미지 배열 요소 개수", picsTotal);
+    console.log("파일업로드 할때 이미지 배열 요소 개수", files.length);
     const formData = new FormData();
-    for (let i = 0; i < picsTotal; i++) {
+    // dto 객체 생성
+    const dto = new Blob(
+      [
+        JSON.stringify({
+          title: product.title,
+          contents: product.contents,
+        }),
+      ],
+      { type: "application/json" },
+    );
+
+    // dto 객체를 FormData에 추가
+    formData.append("dto", dto);
+
+    for (let i = 0; i < files.length; i++) {
       console.log(files[i]);
       formData.append("pics", files[i]);
     }
-    formData.append("title", product.dto.title);
-    formData.append("contents", product.dto.contents);
 
     // 글 정보 전송하기
     setFetching(true);
@@ -87,21 +96,17 @@ const Add = () => {
   const [showModal, setShowModal] = useState(false);
 
   // 확인 버튼 클릭 시
-  const handleConfirm = () => {
-    // 글 등록 로직
+  const handleConfirm = product => {
+    // 글 등록 로직 실행
     handleClick(product);
     // 모달 닫기
     setShowModal(false);
-    if (popRedirect === 0) {
-      // 목록가기
-      moveToList({ page: 1 });
-    } else {
-      // 팝업닫기
-    }
   };
+
   const closeModal = () => {
     // 모달창 닫기
     setAddResult(false);
+    moveToList({ page: 1 });
   };
   // 취소 버튼 클릭 시
   const handleCancel = () => {
@@ -124,7 +129,10 @@ const Add = () => {
   const successFn = addResult => {
     console.log("글 등록 성공", addResult);
     setFetching(false);
-    setPopRedirect(0);
+    setAddResult(true);
+    setPopTitle("글 등록 성공");
+    setPopContent("글 등록에 성공하였습니다.");
+    setPopRedirect(true);
   };
   const failFn = addResult => {
     console.log("글 등록 실패", addResult);
@@ -132,7 +140,7 @@ const Add = () => {
     setAddResult(false);
     setPopTitle("글 등록 실패");
     setPopContent("오류가 발생하였습니다. 잠시 후 다시 시도해주세요");
-    setPopRedirect(1);
+    setPopRedirect(false);
   };
   const errorFn = addResult => {
     console.log("글 등록 실패", addResult);
@@ -140,7 +148,7 @@ const Add = () => {
     setAddResult(true);
     setPopTitle("서버 오류");
     setPopContent("서버가 불안정합니다. 관리자에게 문의해주세요.");
-    setPopRedirect(1);
+    setPopRedirect(false);
   };
 
   const { moveToList } = useCustomMove();
@@ -251,7 +259,7 @@ const Add = () => {
         <SelectedModal
           title="글 등록 확인"
           content="글을 등록하시겠습니까?"
-          confirmFn={handleConfirm}
+          confirmFn={() => handleConfirm(product)}
           cancelFn={handleCancel}
         />
       ) : null}
