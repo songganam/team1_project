@@ -1,4 +1,6 @@
 import React, { useEffect, useState } from "react";
+import { getMyList } from "../../api/MyApi";
+import Bookmark from "../bookmark/Bookmark";
 import {
   MyListCardContent,
   MyListCardDateContent,
@@ -10,24 +12,21 @@ import {
   MyListCardTitle,
   MyListCardVisual,
   MyListCardWrapper,
+  MyMoreViewButton,
 } from "./styles/MyListCardStyle";
-import Bookmark from "../bookmark/Bookmark";
-import { getMyList } from "../../api/MyApi";
-import MyPaging from "../common/MyPaging";
+import useCustomMy from "./hooks/useCustomMy";
 
 const MyListCard = props => {
   const [myList, setMyList] = useState([]);
-
-  const getMyListData = () => {};
+  const { page, MoveToListPage } = useCustomMy();
 
   useEffect(() => {
-    const param = {};
+    const param = { page };
     getMyList({ param, successFn, failFn, errorFn });
-    getMyListData();
-  }, []);
+  }, [page]);
 
   const successFn = result => {
-    setMyList(result);
+    setMyList([...myList, ...result]);
     console.log(result);
   };
   const failFn = result => {
@@ -35,6 +34,10 @@ const MyListCard = props => {
   };
   const errorFn = result => {
     console.log(result);
+  };
+
+  const handleMyListView = () => {
+    MoveToListPage({ page: page + 1 });
   };
 
   const { storeimg } = props;
@@ -74,7 +77,9 @@ const MyListCard = props => {
           </MyListCardContent>
         </MyListCardWrapper>
       ))}
-      <MyPaging totalItems={myList.count}></MyPaging>
+      <MyMoreViewButton onClick={handleMyListView}>
+        <span>더보기</span>
+      </MyMoreViewButton>
     </>
   );
 };

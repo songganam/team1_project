@@ -1,7 +1,13 @@
 import React, { useEffect, useState } from "react";
+import { getMyReview } from "../../api/MyApi";
 import Button from "../../components/button/Button";
+import useModal from "../../hooks/useModal";
+import Bookmark from "../bookmark/Bookmark";
+import CountingStar from "../common/CountingStar";
+import ResultModal from "../common/ResultModal";
 import {
   MyBookCardBookButton,
+  MyMoreViewButton,
   MyReviewCardContent,
   MyReviewCardDateContent,
   MyReviewCardInfo,
@@ -13,23 +19,16 @@ import {
   MyReviewCardVisual,
   MyReviewCardWrapper,
 } from "./styles/MyReviewCardStyle";
-import useModal from "../../hooks/useModal";
-import ResultModal from "../common/ResultModal";
-import Bookmark from "../bookmark/Bookmark";
-import { getMyReview } from "../../api/MyApi";
-import MyPaging from "../common/MyPaging";
-import CountingStar from "../common/CountingStar";
+import useCustomMy from "./hooks/useCustomMy";
 
 const MyReviewCard = props => {
   const [myReviewList, setMyReviewList] = useState([]);
-
-  const getMyReviewData = () => {};
+  const { page, MoveToReviewPage } = useCustomMy();
 
   useEffect(() => {
-    const param = {};
+    const param = { page };
     getMyReview({ param, successFn, failFn, errorFn });
-    getMyReviewData();
-  }, []);
+  }, [page]);
 
   const successFn = result => {
     setMyReviewList(result);
@@ -46,6 +45,10 @@ const MyReviewCard = props => {
   const { useResultModal, openModal, closeModal } = useModal();
   const handleDeleteReview = () => {
     openModal();
+  };
+
+  const handleMyReviewView = () => {
+    MoveToReviewPage({ page: page + 1 });
   };
 
   return (
@@ -99,7 +102,9 @@ const MyReviewCard = props => {
           </MyReviewCardContent>
         </MyReviewCardWrapper>
       ))}
-      <MyPaging totalItems={myReviewList.count}></MyPaging>
+      <MyMoreViewButton onClick={handleMyReviewView}>
+        <span>더보기</span>
+      </MyMoreViewButton>
     </>
   );
 };
