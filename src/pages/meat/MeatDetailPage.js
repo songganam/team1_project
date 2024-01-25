@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Map, MapMarker } from "react-kakao-maps-sdk";
 import { useNavigate, useParams } from "react-router";
-import { changeBookmark, getGInfo } from "../../api/meatApi";
+import { API_SERVER_HOST, changeBookmark, getGInfo } from "../../api/meatApi";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/navigation";
@@ -56,6 +56,7 @@ const MeatDetailPage = () => {
   const [loading, setLoading] = useState(false);
   const { isLogin } = useCustomLogin();
   const isBookInfo = storeInfo.isBook;
+  const host = `http://192.168.0.144:5221/pic/shop/${ishop}/shop_pic/`;
 
   useEffect(() => {
     setLoading(true);
@@ -79,6 +80,7 @@ const MeatDetailPage = () => {
   };
   // ! BookMark, Go Reservation Btn Logic
   const [bookmark, setBookmark] = useState(isBookInfo || 0);
+  console.log("호출 ", host);
 
   // console.log(ishop);
   const storeNum = ishop;
@@ -116,7 +118,6 @@ const MeatDetailPage = () => {
       openModal("로그인 필요", "로그인이 필요한 서비스입니다.", moveToLogin);
     }
   };
-  // console.log("챱", storeInfo.reviews[0]);
 
   // ! KAKAOMAP API X,Y value
   const [draggable, setDraggable] = useState(false);
@@ -146,7 +147,7 @@ const MeatDetailPage = () => {
               {storeInfo.pics &&
                 storeInfo.pics.map((pic, index) => (
                   <SwiperSlide key={index}>
-                    <img src={pic} alt="" />
+                    <img src={`${host}${pic}`} alt="" />
                   </SwiperSlide>
                 ))}
             </Swiper>

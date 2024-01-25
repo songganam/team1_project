@@ -27,6 +27,7 @@ const JaddPage = () => {
   const [todo, setTodo] = useState({});
   // const [passCheckError,setPassCheckError] = useState(false)
 
+
   const passCheckForm = () => {
     const upw = todo.upw;
     const checkUpw = todo.checkUpw;
@@ -34,6 +35,7 @@ const JaddPage = () => {
       return <div>비밀번호가 일치합니다.</div>;
     } else {
       return <div>비밀번호가 일치하지 않습니다.</div>;
+
     }
   };
 
@@ -90,12 +92,14 @@ const JaddPage = () => {
     // console.log(todo.password);
     // console.log(upw);
     postJadd(iJadd);
+
   };
   // 닉네임 중복확인
   const handleNicknameCheck = () => {
     console.log("테스트");
     const iNickCheck = { nickname: todo.nickname };
     nickNameCheck({ iNickCheck });
+
   };
   // 패스 이동하기
   const navigate = useNavigate();
@@ -163,6 +167,7 @@ const JaddPage = () => {
                   placeholder="입력한 비밀번호를 한번 더 확인하세요."
                   onChange={e => handleChange(e)}
                 ></input>
+
                 <div className="passCheck">
                 {passCheckForm()}
                 </div>
@@ -174,6 +179,7 @@ const JaddPage = () => {
                     </label>
                   )} */}
                 </div>
+
               </JaddMorePwWrap>
             </form>
             <br />

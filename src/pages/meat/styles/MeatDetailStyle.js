@@ -23,6 +23,7 @@ export const InfoImageWrap = styled.div`
 `;
 export const InfoContentWrap = styled.div`
   display: flex;
+  z-index: 200;
   width: 1180px;
   height: 258px;
   flex-direction: column;
