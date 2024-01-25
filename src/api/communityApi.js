@@ -39,9 +39,9 @@ export const putOne = async ({ iboard, dto, successFn, failFn, errorFn }) => {
 // 글, 사진 등록(비동기 통신)(커뮤니티 등록)
 export const postAdd = async ({ product, successFn, failFn, errorFn }) => {
   try {
-    console.log(product);
+    console.log("Add 컴포넌트에서 글 작성한거", product);
     const header = { headers: { "Content-Type": "multipart/form-data" } };
-    const response = await authAxios.post(`${host}`, header, product);
+    const response = await authAxios.post(`${host}`, product, header);
     const status = response.status.toString();
     if (status.charAt(0) === "2") {
       successFn(response.data);

@@ -155,20 +155,20 @@ const Read = () => {
     setShowModal(true);
   };
 
-  const successFnDel = result => {
-    console.log("댓글 삭제 성공", result);
+  const successFnDel = delResult => {
+    console.log("댓글 삭제 성공", delResult);
     setPopRedirect(1);
     getOneData();
   };
-  const failFnDel = result => {
-    console.log("댓글 삭제 실패", result);
+  const failFnDel = delResult => {
+    console.log("댓글 삭제 실패", delResult);
     setPopRedirect(1);
     setResult(false);
     setPopTitle("댓글 삭제 실패");
     setPopContent("댓글 삭제에 실패하였습니다. 다시 시도 해주세요.");
   };
-  const errorFnDel = result => {
-    console.log("댓글 삭제 실패", result);
+  const errorFnDel = delResult => {
+    console.log("댓글 삭제 실패", delResult);
     setPopRedirect(1);
     setResult(true);
     setPopTitle("댓글 삭제 실패");
@@ -197,6 +197,7 @@ const Read = () => {
   };
 
   const [result, setResult] = useState(false);
+  const [delResult, setDelResult] = useState(false);
   const [popTitle, setPopTitle] = useState("");
   const [popContent, setPopContent] = useState(false);
   const [popRedirect, setPopRedirect] = useState(false);
