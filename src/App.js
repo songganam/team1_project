@@ -21,7 +21,7 @@ const LazyGbookPage = lazy(() => import("./pages/meat/MeatReviewPage"));
 const LazyGlistPage = lazy(() => import("./pages/meat/MeatListPage"));
 const LazyGreadPage = lazy(() => import("./pages/meat/MeatDetailPage"));
 const LazyGaddPage = lazy(() => import("./pages/meat/MeatReservationPage"));
-const LazyGmodifyPage = lazy(() => import("./pages/meat/GmodifyPage"));
+const LazyGmodifyPage = lazy(() => import("./pages/meat/MeatModifyPage"));
 
 // 회원가입 페이지
 const LazyJoinPage = lazy(() => import("./pages/join/JoinPage"));
@@ -47,13 +47,23 @@ const LazyMyReviewPage = lazy(() => import("./pages/my/MyReviewPage"));
 const LazySalePage = lazy(() => import("./pages/sale/SalePage"));
 const LazySlistPage = lazy(() => import("./pages/sale/SlistPage"));
 const LazySreadPage = lazy(() => import("./pages/sale/SreadPage"));
-const LazyGaraLogin = lazy(() => import("./redux/GaraLogin"));
+// const LazyGaraLogin = lazy(() => import("./redux/GaraLogin"));
+
+const LazyNotFoundPage = lazy(() => import("./pages/notfound/NotFound"));
 const App = () => {
   return (
     <BrowserRouter>
       <GoTop />
       <Routes>
-        <Route path="*" element={<h1>페이지가 없어요</h1>}></Route>
+        <Route
+          path="*"
+          element={
+            <Suspense fallback={<Loading />}>
+              <LazyNotFoundPage />
+            </Suspense>
+          }
+        ></Route>
+
         <Route
           path="/"
           element={
@@ -315,14 +325,14 @@ const App = () => {
             }
           ></Route>
         </Route>
-        <Route
+        {/* <Route
           path="garalogin"
           element={
             <Suspense fallback={<Loading />}>
               <LazyGaraLogin />
             </Suspense>
           }
-        ></Route>
+        ></Route> */}
       </Routes>
     </BrowserRouter>
   );

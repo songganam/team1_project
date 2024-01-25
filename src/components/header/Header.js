@@ -5,6 +5,7 @@ import {
   BarStyle,
   HeaderStyle,
   JoinStyle,
+  LoginProfile,
   LogoStyle,
   NavStyle,
 } from "./styles/HeaderStyle";
@@ -18,13 +19,14 @@ const Header = () => {
   const { isModal, openModal, closeModal, moveToLogin } = useCustomHook();
   const handleClick = () => {
     openModal("로그아웃", "로그아웃이 완료되었습니다.", () => {
+      closeModal();
       doLogout();
       moveToPath("/");
-      closeModal;
     });
   };
 
   console.log(authState);
+  console.log(authState.nickname);
   return (
     <HeaderStyle>
       {isModal.isOpen && (
@@ -40,16 +42,23 @@ const Header = () => {
         </Link>
       </LogoStyle>
       <BarStyle>
-        <JoinStyle>
-          {isLogin ? (
+        {isLogin ? (
+          <JoinStyle>
+            <LoginProfile>
+              <span>
+                <p>{authState.nickname}</p> 님, 고기로 방문을 환영합니다.
+              </span>
+            </LoginProfile>
             <div onClick={handleClick} style={{ cursor: "pointer" }}>
               로그아웃
             </div>
-          ) : (
+          </JoinStyle>
+        ) : (
+          <JoinStyle>
             <Link to="/login">로그인</Link>
-          )}
-          <Link to="/join">회원가입</Link>
-        </JoinStyle>
+            <Link to="/join">회원가입</Link>
+          </JoinStyle>
+        )}
         <NavStyle>
           <Link to="/meat">고깃집찾기</Link>
           {/* <Link to="/mart">정육점찾기</Link>

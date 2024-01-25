@@ -19,6 +19,7 @@ export const JoinStyle = styled.div`
   justify-content: flex-end;
   gap: 2vw;
   font-size: ${FontSize.default};
+
   color: ${ColorStyle.g700};
   a {
     text-decoration: none;
@@ -60,4 +61,14 @@ export const HeaderStyle = styled.div`
   padding: 2.1rem 2%;
   border-bottom: 1px solid ${ColorStyle.g700};
   align-items: center;
+`;
+export const LoginProfile = styled.div`
+  span {
+    white-space: nowrap;
+    /* width: 200px; */
+  }
+  p {
+    display: inline;
+    color: red;
+  }
 `;
