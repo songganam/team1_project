@@ -13,7 +13,6 @@ import Button from "../../components/button/Button";
 import { getUserInfo } from "../../api/MyApi";
 import useModal from "../../hooks/useModal";
 import ResultModal from "../../components/common/ResultModal";
-import DaumPostcodeEmbed from "react-daum-postcode";
 
 const initialProfie = {
   email: "",
@@ -29,6 +28,7 @@ const initialProfie = {
 // 프로필 수정 페이지
 const MyModifyPage = () => {
   const [myProfileData, setMyProfileData] = useState(initialProfie);
+  const [selectedAddress, setSelectedAddress] = useState("");
 
   useEffect(() => {
     const param = {};
@@ -46,32 +46,31 @@ const MyModifyPage = () => {
     console.log(result);
   };
 
+  // 우편번호 찾기 (Daum Postcode)
   useEffect(() => {
-    // Daum 우편번호 서비스 스크립트 로딩
     const script = document.createElement("script");
     script.src =
       "//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js";
     script.async = true;
     document.head.appendChild(script);
 
-    script.onload = () => {
-      // Daum 우편번호 서비스 초기화
-      const daum = window.daum;
-      new daum.Postcode({
-        oncomplete: function (data) {
-          // 팝업에서 검색결과 항목을 클릭했을 때 실행할 코드
-          console.log(data);
-        },
-      }).open();
-    };
-
     return () => {
-      // 컴포넌트가 언마운트될 때 스크립트 제거
       document.head.removeChild(script);
     };
-  }, []); // 빈 배열은 마운트될 때만 실행
+  }, []);
 
-  // input 휴대폰 번호 부분, 11자리 숫자만 입력 가능하도록 제한
+  // 우편번호 찾기 버튼
+  const handleFindPostcode = () => {
+    const daum = window.daum;
+    new daum.Postcode({
+      oncomplete: function (data) {
+        console.log(data);
+        setSelectedAddress(data.address);
+      },
+    }).open();
+  };
+
+  // input 휴대폰 번호 부분 (11자리 숫자만 입력 가능하도록 제한)
   const handlePhoneNumberChange = e => {
     const value = e.target.value.replace(/[^0-9]/g, "").slice(0, 11);
     e.target.value = value;
@@ -121,8 +120,19 @@ const MyModifyPage = () => {
         <input type="text" placeholder="변경할 닉네임을 입력하세요."></input>
         <p>주소</p>
         <span>{myProfileData.address}</span>
-        <Button bttext="우편번호 찾기"></Button>
-        <input type="text" placeholder="변경할 주소를 입력하세요."></input>
+        <div
+          onClick={() => {
+            handleFindPostcode();
+          }}
+        >
+          <Button bttext="우편번호 찾기"></Button>
+        </div>
+        <input
+          type="text"
+          placeholder="변경할 주소를 입력하세요."
+          value={selectedAddress} // 선택한 주소를 입력란에 표시
+          onChange={e => setSelectedAddress(e.target.value)}
+        ></input>
       </MyModifyPageForm>
 
       <MyModifyPageButton>
