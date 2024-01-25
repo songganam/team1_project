@@ -28,7 +28,8 @@
     "react-spinners": "^0.13.8",
     "react-textarea-autosize": "^8.5.3",
     "redux": "^5.0.1",
-    "sass": "^1.69.6"
+    "sass": "^1.69.6",
+    "swiper": "^11.0.4"
   },
   "scripts": {
     "start": "react-scripts start",

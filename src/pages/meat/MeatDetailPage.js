@@ -2,6 +2,9 @@ import React, { useEffect, useState } from "react";
 import { Map, MapMarker } from "react-kakao-maps-sdk";
 import { useNavigate, useParams } from "react-router";
 import { changeBookmark, getGInfo } from "../../api/meatApi";
+import { Swiper, SwiperSlide } from "swiper/react";
+import "swiper/css";
+import "swiper/css/navigation";
 import CountingStar from "../../components/common/CountingStar";
 import ResultModal from "../../components/common/ResultModal";
 import useCustomHook from "../../components/meat/hooks/useCustomHook";
@@ -81,7 +84,8 @@ const MeatDetailPage = () => {
   const storeNum = ishop;
 
   // ! BookMark 선택
-  const handleBookmarkClick = () => {
+  const handleBookmarkClick = e => {
+    e.stopPropagation();
     if (isLogin) {
       if (bookmark == 0) {
         openModal("북마크 등록완료", "북마크에 등록되었습니다.", closeModal);
@@ -99,7 +103,8 @@ const MeatDetailPage = () => {
       openModal("로그인 필요", "로그인이 필요한 서비스입니다.", moveToLogin);
     }
   };
-  const handleReserClick = () => {
+  const handleReserClick = e => {
+    e.stopPropagation();
     if (isLogin) {
       // PATH랑 같이 보내야함 stireInfo.name
       navigate(`/meat/reservation/${ishop}`, {
@@ -116,7 +121,7 @@ const MeatDetailPage = () => {
   // ! KAKAOMAP API X,Y value
   const [draggable, setDraggable] = useState(false);
   const [zoomable, setZoomable] = useState(false);
-
+  console.log(storeInfo.pics);
   return (
     <div>
       {isModal.isOpen && (
@@ -131,7 +136,22 @@ const MeatDetailPage = () => {
         <InfoWrap>
           {/* 이미지 */}
           <InfoImageWrap>
-            <img src="https://picsum.photos/1180/800/?category=meat" alt="" />
+            <Swiper
+              preventClicks={false}
+              preventClicksPropagation={false}
+              slidesPerView={1}
+              spaceBetween={0}
+              pagination={true}
+            >
+              {storeInfo.pics &&
+                storeInfo.pics.map((pic, index) => (
+                  <SwiperSlide key={index}>
+                    <img src={pic} alt="" />
+                  </SwiperSlide>
+                ))}
+            </Swiper>
+            {/* 비상용 이미지 */}
+            {/* <img src="https://picsum.photos/1180/800/?category=meat" alt="" /> */}
           </InfoImageWrap>
           {/* 컨텐츠 */}
           <InfoContentWrap>
@@ -167,9 +187,7 @@ const MeatDetailPage = () => {
                 </InfoDesc>
                 <InfoDesc>
                   <InfoDescItem>서비스</InfoDescItem>
-                  <InfoDescContent>
-                    무선인터넷, 유아의자, 남/녀화장실, 주차장
-                  </InfoDescContent>
+                  <InfoDescContent>{storeInfo.facilities}</InfoDescContent>
                 </InfoDesc>
               </InfoDescWrap>
             </InfoContent>
@@ -263,9 +281,7 @@ const MeatDetailPage = () => {
                   </InfoDesc>
                   <InfoDesc>
                     <OverlayItem>서비스</OverlayItem>
-                    <OverlayContent>
-                      무선인터넷, 유아의자, 남/녀화장실, 주차장
-                    </OverlayContent>
+                    <OverlayContent>{storeInfo.facilities}</OverlayContent>
                   </InfoDesc>
                 </InfoDescWrap>
               </InfoContent>

@@ -55,6 +55,7 @@ export const MeatSotreCardImg = styled.div`
 export const MeatstoreTag = styled.div``;
 
 export const MeatStoreTitle = styled.div`
+  cursor: pointer;
   color: #111;
   height: 64px;
   /* font-family: DAEAM_LEE_TAE_JOON; */
