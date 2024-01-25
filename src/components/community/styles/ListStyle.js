@@ -19,6 +19,7 @@ export const TableStyle = styled.div`
   padding-bottom: 0.3rem;
   font-family: "DAEAM_LEE_TAE_JOON";
   font-size: ${FontSize.strong};
+  background: ${props => props.background};
   @media (max-width: 980px) {
     display: none;
   }
