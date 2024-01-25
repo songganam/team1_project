@@ -18,10 +18,12 @@ import {
 import Bookmark from "../bookmark/Bookmark";
 import { patchMyBook, getMyBook } from "../../api/MyApi";
 import useCustomMy from "./hooks/useCustomMy";
+import useCustomHook from "../meat/hooks/useCustomHook";
 
 const MyBookCard = props => {
   const { ireser } = useParams();
   const { page, MoveToBookPage } = useCustomMy();
+  const { moveToReview } = useCustomHook();
   const [myBookList, setMyBookList] = useState([]);
 
   useEffect(() => {
@@ -57,6 +59,9 @@ const MyBookCard = props => {
 
   const handleMyBookView = () => {
     MoveToBookPage({ page: page + 1 });
+  };
+  const handleMoveReview = e => {
+    moveToReview(e);
   };
 
   const { storeimg } = props;
@@ -97,6 +102,11 @@ const MyBookCard = props => {
             </MyBookCardInfo>
             <MyBookCardBookButton>
               {/* 예약 변경 기능 추가 필요 */}
+              <button
+                onClick={e => moveToReview(myBookList.ishop, myBookList.name)}
+              >
+                리뷰쓰기다!
+              </button>
               <Button bttext="예약변경" onClick={handelModifyBook}></Button>
               <div
                 onClick={() => {

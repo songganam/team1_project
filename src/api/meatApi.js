@@ -1,5 +1,6 @@
 import axios from "axios";
 import authAxios from "../util/tokenUtil";
+import accessToken from "../util/tokenUtil";
 
 export const API_SERVER_HOST = "";
 const host = `${API_SERVER_HOST}/api`;
@@ -66,8 +67,6 @@ export const postReser = async ({ reserData, successFn, failFn, errorFn }) => {
 };
 
 // ! GaraLogin
-
-
 export const changeBookmark = async storeNum => {
   try {
     //
@@ -80,5 +79,22 @@ export const changeBookmark = async storeNum => {
   } catch (error) {
     console.log(error);
     //
+  }
+};
+
+export const postReview = async formData => {
+  console.log("axios", formData);
+
+  try {
+    const headers = { headers: { "Content-Type": "multipart/form-data" } };
+
+    const res = await authAxios.post(
+      `${API_SERVER_HOST}/shop`,
+      formData,
+      headers,
+    );
+    console.log("성공");
+  } catch (error) {
+    console.log("실패");
   }
 };

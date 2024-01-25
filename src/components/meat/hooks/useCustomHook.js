@@ -62,6 +62,14 @@ const useCustomHook = () => {
     });
   };
 
+  const moveToReview = (ishop, name) => {
+    console.log(name);
+    navigate({
+      pathname: `../../meat/review/${ishop}`,
+      search: `name=${name}&${defaultQueryString}`,
+    });
+  };
+
   const [refresh, setRefresh] = useState(false);
 
   const moveToSearch = SearchParam => {
@@ -93,6 +101,7 @@ const useCustomHook = () => {
     moveToLogin,
     moveToReser,
     MoveToPage,
+    moveToReview,
   };
 };
 export default useCustomHook;
