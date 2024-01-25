@@ -20,31 +20,36 @@ import {
   JaddPageWrap,
   JaddPwWrap,
 } from "./styles/JaddPageStyle";
-import { postJadd } from "../../api/loginApi";
+import { nickNameCheck, postJadd } from "../../api/loginApi";
 // 회원가입 작성 페이지입니다.
 
 const JaddPage = () => {
   const [todo, setTodo] = useState({});
+  // const [passCheckError,setPassCheckError] = useState(false)
 
-
-  function passCheckForm() {
-    var upw = document.getElementById("upw").value;
-    var checkUpw = document.getElementById("checkUpw")
-
-    if (upw != checkUpw) {
-      alert("비밀번호가 일치하지 않습니다.")
-      return false
+  const passCheckForm = () => {
+    const upw = todo.upw;
+    const checkUpw = todo.checkUpw;
+    if (upw === checkUpw) {
+      return <div>비밀번호가 일치합니다.</div>;
+    } else {
+      return <div>비밀번호가 일치하지 않습니다.</div>;
     }
-    return true;
-  }
+  };
+
+  const genderChoice = () => {
+    console.log("성별");
+  };
 
   const handleClick = e => {
+    todo.gender;
+
     if (e == 1) {
-      console.log("남자임");
-      // 딸깍(성별);
+      todo.gender = "남";
+      console.log("남");
     } else if (e == 2) {
-      console.log("여자임");
-      // 딸깍(성별);
+      todo.gender = "여";
+      console.log("여");
     }
   };
 
@@ -84,7 +89,13 @@ const JaddPage = () => {
     console.log(iJadd);
     // console.log(todo.password);
     // console.log(upw);
-    postJadd(iJadd)
+    postJadd(iJadd);
+  };
+  // 닉네임 중복확인
+  const handleNicknameCheck = () => {
+    console.log("테스트");
+    const iNickCheck = { nickname: todo.nickname };
+    nickNameCheck({ iNickCheck });
   };
   // 패스 이동하기
   const navigate = useNavigate();
@@ -130,31 +141,41 @@ const JaddPage = () => {
             </JaddNameWrap>
             <br />
             <form action="" method="post" onSubmit="return passCheckForm()">
-            <JaddPwWrap>
-              <label>비밀번호</label>
-              <input
-                type="text"
-                name="upw"
-                value={todo.upw}
-                className="JaddPw"
-                placeholder="비밀번호를 입력하세요.(특수문자 포함 4-8자)"
-                onChange={e => handleChange(e)}
-              ></input>
-            </JaddPwWrap>
-            <br />
-            <JaddMorePwWrap>
-              <label>비밀번호 확인</label>
-              <input
-                type="text"
-                name="checkUpw"
-                value={todo.checkUpw}
-                className="JaddMorePw"
-                placeholder="입력한 비밀번호를 한번 더 확인하세요."
-                onChange={e => handleChange(e)}
-              ></input>
-              
-            </JaddMorePwWrap>
-              </form>
+              <JaddPwWrap>
+                <label>비밀번호</label>
+                <input
+                  type="text"
+                  name="upw"
+                  value={todo.upw}
+                  className="JaddPw"
+                  placeholder="비밀번호를 입력하세요.(특수문자 포함 4-8자)"
+                  onChange={e => handleChange(e)}
+                ></input>
+              </JaddPwWrap>
+              <br />
+              <JaddMorePwWrap>
+                <label>비밀번호 확인</label>
+                <input
+                  type="text"
+                  name="checkUpw"
+                  value={todo.checkUpw}
+                  className="JaddMorePw"
+                  placeholder="입력한 비밀번호를 한번 더 확인하세요."
+                  onChange={e => handleChange(e)}
+                ></input>
+                <div className="passCheck">
+                {passCheckForm()}
+                </div>
+
+                <div>
+                  {/* {passCheckError && (
+                    <label style={{ color: "red" }}>
+                      비밀번호가 일치하지 않습니다.
+                    </label>
+                  )} */}
+                </div>
+              </JaddMorePwWrap>
+            </form>
             <br />
             <JaddGenderWrap>
               <div className="JaddGender">
@@ -192,13 +213,17 @@ const JaddPage = () => {
                   placeholder="사용할 닉네임을 입력하세요."
                   onChange={e => handleChange(e)}
                 ></input>
+
                 <DefaultBt
                   className="JaddNickName-Bt"
-                  onClick={e => handleClick(e)}
+                  onClick={handleNicknameCheck}
                 >
                   중복확인
                 </DefaultBt>
               </JaddNickNameInner>
+              <div>
+                <label>중복된 닉네임입니다.</label>
+              </div>
             </JaddNickNameWrap>
             <br />
             <JaddNumberWrap>
