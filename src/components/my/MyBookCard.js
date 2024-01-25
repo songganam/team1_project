@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import Button from "../../components/button/Button";
 import {
   MyBookCardBookButton,
@@ -13,14 +13,15 @@ import {
   MyBookCardTitle,
   MyBookCardVisual,
   MyBookCardWrapper,
+  MyMoreViewButton,
 } from "./styles/MyBookCardStyle";
 import Bookmark from "../bookmark/Bookmark";
-import MyPaging from "../common/MyPaging";
-import { getMyBook } from "../../api/MyApi";
-import useCustomMove from "../../hooks/useCustomMove";
+import { patchMyBook, getMyBook } from "../../api/MyApi";
+import useCustomMy from "./hooks/useCustomMy";
 
 const MyBookCard = props => {
-  const { page } = useCustomMove();
+  const { ireser } = useParams();
+  const { page, MoveToBookPage } = useCustomMy();
   const [myBookList, setMyBookList] = useState([]);
 
   useEffect(() => {
@@ -29,7 +30,7 @@ const MyBookCard = props => {
   }, [page]);
 
   const successFn = result => {
-    setMyBookList(result);
+    setMyBookList([...myBookList, ...result]);
     console.log(result);
   };
   const failFn = result => {
@@ -39,10 +40,23 @@ const MyBookCard = props => {
     console.log(result);
   };
 
+  const handleDeleteMyBook = ireser => {
+    const deleteBookmark = {
+      ireser: ireser,
+    };
+    // 예약 삭제 함수 호출
+    patchMyBook({ deleteBookmark });
+    console.log(deleteBookmark);
+  };
+
   const navigate = useNavigate();
 
   const handelModifyBook = () => {
     navigate("/meat/reservation");
+  };
+
+  const handleMyBookView = () => {
+    MoveToBookPage({ page: page + 1 });
   };
 
   const { storeimg } = props;
@@ -75,19 +89,29 @@ const MyBookCard = props => {
               </MyBookCardInfoTitle>
               <MyBookCardDateContent>
                 <li>{myBookList.date}</li>
+                {/* 아래 코드 수정 필요 */}
                 <li> {myBookList.confirm === 0 ? "대기" : "확정"}</li>
                 <li>{myBookList.headCount}</li>
                 <li>{myBookList.request}</li>
               </MyBookCardDateContent>
             </MyBookCardInfo>
             <MyBookCardBookButton>
+              {/* 예약 변경 기능 추가 필요 */}
               <Button bttext="예약변경" onClick={handelModifyBook}></Button>
-              <Button bttext="예약취소"></Button>
+              <div
+                onClick={() => {
+                  handleDeleteMyBook(myBookList.ishop);
+                }}
+              >
+                <Button bttext="예약취소"></Button>
+              </div>
             </MyBookCardBookButton>
           </MyBookCardContent>
         </MyBookCardWrapper>
       ))}
-      <MyPaging totalItems={myBookList.count}></MyPaging>
+      <MyMoreViewButton onClick={handleMyBookView}>
+        <span>더보기</span>
+      </MyMoreViewButton>
     </>
   );
 };

@@ -48,8 +48,14 @@ export const postJadd = async iJadd => {
   }
 };
 
-// export const postNickname = async iNickname => {
-//     try {
-//         const response = await axios.post(`${}`)
-//     }
-// }
+export const nickNameCheck = async ({ iNickCheck }) => {
+  console.log("닉네임중복체크", iNickCheck);
+  const nickname = iNickCheck.nickname;
+  console.log("닉네임중복체크", iNickCheck.nickname);
+  try {
+    const response = await axios.post(`${signHost}/signup/${nickname}`);
+    console.log(response.data);
+  } catch (error) {
+    console.log(error);
+  }
+};

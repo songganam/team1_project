@@ -1,5 +1,9 @@
-import React, { useRef, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
+import { getUserInfo } from "../../api/MyApi";
+import { postAdd } from "../../api/communityApi";
+import useCustomMove from "../../hooks/useCustomMove";
 import Button from "../button/Button";
+import Fetching from "../common/Fetching";
 import {
   AddBoxStyle,
   ContentBoxStyle,
@@ -8,10 +12,8 @@ import {
   UserBoxStyle,
 } from "./styles/AddStyle";
 import { WrapStyle } from "./styles/ListStyle";
-import { postAdd } from "../../api/communityApi";
-import useCustomMove from "../../hooks/useCustomMove";
+import SelectedModal from "../common/SelectedModal";
 import ResultModal from "../common/ResultModal";
-import Fetching from "../common/Fetching";
 
 // 글 쓰기 초기값
 const initState = {
@@ -22,70 +24,126 @@ const initState = {
   },
 };
 
+const initProfile = {
+  nickname: "",
+};
+
 const Add = () => {
-  const [write, setWrite] = useState(initState);
-  // 글 쓰기 업데이트
-  const handleChange = e => {
-    write[e.target.name] = e.target.value;
-    setWrite({ ...write });
+  const [profileData, setProfileData] = useState(initProfile);
+  useEffect(() => {
+    const param = {};
+    getUserInfo({
+      param,
+      successFn: successFnProfile,
+      failFn: failFnProfile,
+      errorFn: errorFnProfile,
+    });
+  }, []);
+
+  const successFnProfile = result => {
+    setProfileData(result);
+    console.log(result);
   };
+  const failFnProfile = result => {
+    console.log(result);
+  };
+  const errorFnProfile = result => {
+    console.log(result);
+  };
+
+  const [product, setProduct] = useState(initState);
+  // 정보 업데이트
+  const handleChange = e => {
+    product[e.target.name] = e.target.value;
+    setProduct({ ...product });
+  };
+
+  // useRef(DOM 요소를 참조한다.)
+  // useRef를 만든 후 반드 시 태그랑 연결
   const uploadRef = useRef(null);
+
+  // 로딩창 연결
   const [fetching, setFetching] = useState(false);
+
   // 파일 업로드 실행
-  const handleClick = () => {
-    const pics = uploadRef.current.pics;
-    const picsTotal = pics.length;
+  const handleClick = product => {
+    const files = uploadRef.current.files;
+    const picsTotal = files.length;
+    console.log("파일업로드 할때 이미지 배열 요소 개수", picsTotal);
     const formData = new FormData();
     for (let i = 0; i < picsTotal; i++) {
-      console.log(pics[i]);
-      formData.append("pics", pics[i]);
+      console.log(files[i]);
+      formData.append("pics", files[i]);
     }
-    formData.append("title", write.title);
-    formData.append("contents", write.contents);
+    formData.append("title", product.dto.title);
+    formData.append("contents", product.dto.contents);
 
     // 글 정보 전송하기
     setFetching(true);
     postAdd({ product: formData, successFn, failFn, errorFn });
   };
 
-  const [resultTiltle, setResultTiltle] = useState("");
-  const [resultContent, setResultContent] = useState("");
-  const [redirect, setRedirect] = useState(0);
+  // 모달창 관련
+  const [showModal, setShowModal] = useState(false);
 
-  const successFn = result => {
-    setFetching(false);
-    setResultTiltle("글 등록");
-    setResultContent("글 등록에 성공하였습니다");
-    setRedirect(0);
-    console.log(result);
-  };
-  const failFn = result => {
-    setFetching(false);
-    setResultTiltle("글 등록 실패");
-    setResultContent("오류가 발생하였습니다. 잠시 후 다시 시도해주세요");
-    setRedirect(1);
-    console.log(result);
-  };
-  const errorFn = result => {
-    setFetching(false);
-    setResultTiltle("서버 오류");
-    setResultContent("서버가 불안정합니다. 관리자에게 문의해주세요.");
-    setRedirect(1);
-    console.log(result);
-  };
-
-  const { moveToList } = useCustomMove();
-
-  const closeModal = () => {
+  // 확인 버튼 클릭 시
+  const handleConfirm = () => {
+    // 글 등록 로직
+    handleClick(product);
     // 모달 닫기
-    setResultTiltle("");
-    if (redirect === 0) {
+    setShowModal(false);
+    if (popRedirect === 0) {
       // 목록가기
       moveToList({ page: 1 });
     } else {
       // 팝업닫기
     }
   };
+  const closeModal = () => {
+    // 모달창 닫기
+    setAddResult(false);
+  };
+  // 취소 버튼 클릭 시
+  const handleCancel = () => {
+    // 모달 닫기
+    setShowModal(false);
+  };
+
+  // 글 등록 버튼 클릭 핸들러
+  const handleAddClick = () => {
+    // 모달 띄우기
+    setShowModal(true);
+  };
+
+  const [result, setResult] = useState(false);
+  const [addResult, setAddResult] = useState(false);
+  const [popTitle, setPopTitle] = useState("");
+  const [popContent, setPopContent] = useState(false);
+  const [popRedirect, setPopRedirect] = useState(false);
+
+  const successFn = addResult => {
+    console.log("글 등록 성공", addResult);
+    setFetching(false);
+    setPopRedirect(0);
+  };
+  const failFn = addResult => {
+    console.log("글 등록 실패", addResult);
+    setFetching(false);
+    setAddResult(false);
+    setPopTitle("글 등록 실패");
+    setPopContent("오류가 발생하였습니다. 잠시 후 다시 시도해주세요");
+    setPopRedirect(1);
+  };
+  const errorFn = addResult => {
+    console.log("글 등록 실패", addResult);
+    setFetching(false);
+    setAddResult(true);
+    setPopTitle("서버 오류");
+    setPopContent("서버가 불안정합니다. 관리자에게 문의해주세요.");
+    setPopRedirect(1);
+  };
+
+  const { moveToList } = useCustomMove();
 
   const [images, setImages] = useState([]);
 
@@ -120,13 +178,6 @@ const Add = () => {
 
   return (
     <WrapStyle>
-      {resultTiltle !== "" ? (
-        <ResultModal
-          title={resultTiltle}
-          content={resultContent}
-          callFn={closeModal}
-        />
-      ) : null}
       {fetching ? <Fetching /> : null}
       <AddBoxStyle>
         <div className="titleBox">제목</div>
@@ -135,13 +186,13 @@ const Add = () => {
             type="text"
             name="title"
             onChange={e => handleChange(e)}
-            value={write.title}
+            value={product.title}
           />
         </div>
       </AddBoxStyle>
       <UserBoxStyle>
         <div className="titleBox">작성자</div>
-        <div className="writerBox">어쭈구리고기봐라</div>
+        <div className="writerBox">{profileData.nickname}</div>
       </UserBoxStyle>
       <ContentBoxStyle>
         <div className="titleBox">내용</div>
@@ -150,7 +201,7 @@ const Add = () => {
             type="text"
             name="contents"
             onChange={e => handleChange(e)}
-            value={write.contents}
+            value={product.contents}
           />
         </div>
       </ContentBoxStyle>
@@ -188,7 +239,7 @@ const Add = () => {
       </ImageBoxStyle>
       <FootStyle>
         <div className="btnBox">
-          <div onClick={handleClick}>
+          <div onClick={handleAddClick}>
             <Button bttext="확인" />
           </div>
           <div onClick={moveToList}>
@@ -196,6 +247,21 @@ const Add = () => {
           </div>
         </div>
       </FootStyle>
+      {showModal ? (
+        <SelectedModal
+          title="글 등록 확인"
+          content="글을 등록하시겠습니까?"
+          confirmFn={handleConfirm}
+          cancelFn={handleCancel}
+        />
+      ) : null}
+      {addResult ? (
+        <ResultModal
+          title={popTitle}
+          content={popContent}
+          callFn={closeModal}
+        />
+      ) : null}
     </WrapStyle>
   );
 };

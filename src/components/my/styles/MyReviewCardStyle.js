@@ -94,3 +94,25 @@ export const MyBookCardBookButton = styled.div`
     }
   }
 `;
+
+export const MyMoreViewButton = styled.button`
+  display: flex;
+  padding: 10px 20px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  border-radius: 10px;
+  border: 2px solid var(--sub, #066e52);
+  background: #fff;
+  cursor: pointer;
+  span {
+    color: var(--primary, #d60117);
+    text-align: center;
+    font-family: DAEAM_LEE_TAE_JOON;
+    font-size: 19px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 125%; /* 23.75px */
+  }
+`;

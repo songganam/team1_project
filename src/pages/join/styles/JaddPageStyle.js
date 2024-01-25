@@ -76,11 +76,15 @@ export const JaddMorePwWrap = styled.div`
   .JaddMorePw {
     position: relative;
     font-size: 14px;
-
     padding: 20px 0 19px 0;
     border: none;
     width: 100%;
     border-bottom: 1px solid #000000;
+  }
+  .passCheck {
+    padding-top: 10px;
+    font-size: 14px;
+    color: #d60117;
   }
 `;
 export const JaddGenderWrap = styled.div`
@@ -115,6 +119,7 @@ export const JaddNickNameWrap = styled.div`
   flex-direction: column;
   justify-content: flex-end;
 `;
+
 export const JaddNickNameInner = styled.div`
   display: flex;
   align-items: center;
