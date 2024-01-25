@@ -13,6 +13,7 @@ import Button from "../../components/button/Button";
 import { getUserInfo } from "../../api/MyApi";
 import useModal from "../../hooks/useModal";
 import ResultModal from "../../components/common/ResultModal";
+import DaumPostcodeEmbed from "react-daum-postcode";
 
 const initialProfie = {
   email: "",
@@ -44,30 +45,6 @@ const MyModifyPage = () => {
   };
   const errorFn = result => {
     console.log(result);
-  };
-
-  // 우편번호 찾기 (Daum Postcode)
-  useEffect(() => {
-    const script = document.createElement("script");
-    script.src =
-      "//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js";
-    script.async = true;
-    document.head.appendChild(script);
-
-    return () => {
-      document.head.removeChild(script);
-    };
-  }, []);
-
-  // 우편번호 찾기 버튼
-  const handleFindPostcode = () => {
-    const daum = window.daum;
-    new daum.Postcode({
-      oncomplete: function (data) {
-        console.log(data);
-        setSelectedAddress(data.address);
-      },
-    }).open();
   };
 
   // input 휴대폰 번호 부분 (11자리 숫자만 입력 가능하도록 제한)
@@ -120,13 +97,7 @@ const MyModifyPage = () => {
         <input type="text" placeholder="변경할 닉네임을 입력하세요."></input>
         <p>주소</p>
         <span>{myProfileData.address}</span>
-        <div
-          onClick={() => {
-            handleFindPostcode();
-          }}
-        >
-          <Button bttext="우편번호 찾기"></Button>
-        </div>
+        <Button bttext="우편번호 찾기"></Button>
         <input
           type="text"
           placeholder="변경할 주소를 입력하세요."
