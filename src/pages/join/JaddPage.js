@@ -26,14 +26,13 @@ import { postJadd } from "../../api/loginApi";
 const JaddPage = () => {
   const [todo, setTodo] = useState({});
 
-
   function passCheckForm() {
     var upw = document.getElementById("upw").value;
-    var checkUpw = document.getElementById("checkUpw")
+    var checkUpw = document.getElementById("checkUpw");
 
     if (upw != checkUpw) {
-      alert("비밀번호가 일치하지 않습니다.")
-      return false
+      alert("비밀번호가 일치하지 않습니다.");
+      return false;
     }
     return true;
   }
@@ -84,7 +83,7 @@ const JaddPage = () => {
     console.log(iJadd);
     // console.log(todo.password);
     // console.log(upw);
-    postJadd(iJadd)
+    postJadd(iJadd);
   };
   // 패스 이동하기
   const navigate = useNavigate();
@@ -130,31 +129,30 @@ const JaddPage = () => {
             </JaddNameWrap>
             <br />
             <form action="" method="post" onSubmit="return passCheckForm()">
-            <JaddPwWrap>
-              <label>비밀번호</label>
-              <input
-                type="text"
-                name="upw"
-                value={todo.upw}
-                className="JaddPw"
-                placeholder="비밀번호를 입력하세요.(특수문자 포함 4-8자)"
-                onChange={e => handleChange(e)}
-              ></input>
-            </JaddPwWrap>
-            <br />
-            <JaddMorePwWrap>
-              <label>비밀번호 확인</label>
-              <input
-                type="text"
-                name="checkUpw"
-                value={todo.checkUpw}
-                className="JaddMorePw"
-                placeholder="입력한 비밀번호를 한번 더 확인하세요."
-                onChange={e => handleChange(e)}
-              ></input>
-              
-            </JaddMorePwWrap>
-              </form>
+              <JaddPwWrap>
+                <label>비밀번호</label>
+                <input
+                  type="text"
+                  name="upw"
+                  value={todo.upw}
+                  className="JaddPw"
+                  placeholder="비밀번호를 입력하세요.(특수문자 포함 4-8자)"
+                  onChange={e => handleChange(e)}
+                ></input>
+              </JaddPwWrap>
+              <br />
+              <JaddMorePwWrap>
+                <label>비밀번호 확인</label>
+                <input
+                  type="text"
+                  name="checkUpw"
+                  value={todo.checkUpw}
+                  className="JaddMorePw"
+                  placeholder="입력한 비밀번호를 한번 더 확인하세요."
+                  onChange={e => handleChange(e)}
+                ></input>
+              </JaddMorePwWrap>
+            </form>
             <br />
             <JaddGenderWrap>
               <div className="JaddGender">

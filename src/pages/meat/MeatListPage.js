@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router";
-import { getGList } from "../../api/meatApi";
+import { API_SERVER_HOST, getGList } from "../../api/meatApi";
 import ResultModal from "../../components/common/ResultModal";
 import Loading from "../../components/loading/Loading";
 import GCardComponent from "../../components/meat/GCardComponent";
@@ -18,9 +18,9 @@ import {
   SearchInput,
   SearchWrap,
 } from "./styles/MeatListStyle";
-
 // 고깃집 목록보기 페이지입니다.
 const MeatListPage = () => {
+  const API_SERVER_HOST = "";
   const {
     page,
     search,
@@ -49,6 +49,8 @@ const MeatListPage = () => {
   const successFn = result => {
     setLoading(false);
     setGlistData([...GlistData, ...result]);
+
+    setGlistData(result);
     console.log(result);
   };
   const failFn = result => {
