@@ -82,7 +82,9 @@ export const TopenStyle = styled.div`
   justify-content: space-between;
   align-items: center;
   gap: 50px;
-  border: 1px solid ${ColorStyle.g500};
+  border-top: 1px solid ${ColorStyle.g500};
+  border-right: 1px solid ${ColorStyle.g500};
+  border-left: 1px solid ${ColorStyle.g500};
 `;
 export const ImgStyle = styled.div`
   position: relative;
@@ -106,8 +108,9 @@ export const ThumbnailStyle = styled.div`
   max-height: 180px;
   display: flex;
   flex-wrap: wrap;
-  justify-content: space-between;
-  gap: 5px;
+  /* justify-content: space-between; */
+  align-items: center;
+  gap: 20px;
   img {
     max-width: 60px;
     border-radius: 5px;
