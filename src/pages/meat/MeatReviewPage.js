@@ -1,4 +1,5 @@
 import React, { useState } from "react";
+import { useParams } from "react-router-dom";
 import {
   ReviewCommentInput,
   ReviewCommentItem,
@@ -24,6 +25,7 @@ import {
   ReviewWrap,
   ReviewWrapper,
 } from "./styles/MeatReviewStyle";
+import { postReview } from "../../api/meatApi";
 
 // ! 고깃집 예약 페이지입니다.
 const MeatReviewPage = () => {
@@ -33,7 +35,12 @@ const MeatReviewPage = () => {
    ? 예를들어 3개를 누르면 count가 3개가 되어야하고 3개는 불이 들어오고, 2개는 불이 안들어와야함
    ? 별이 누르면
   */
+  const { ishop } = useParams();
+  const queryParams = new URLSearchParams(location.search);
+  const name = queryParams.get("name");
 
+  console.log("name : ", name);
+  console.log("ishop : ", ishop);
   // * Rating Count (초기값 : 1점)
   const [rating, setRating] = useState(1);
   const handleStarClick = e => {
@@ -56,37 +63,55 @@ const MeatReviewPage = () => {
   const deleteBtn = process.env.PUBLIC_URL + `/assets/images/delete_button.svg`;
   // * Image upload
   const [images, setImages] = useState([]);
+  const [mainImage, setMainImage] = useState(null);
+  const [subImages, setSubImages] = useState([]);
 
   const handleImageChange = e => {
-    const files = e.target.files;
+    const files = Array.from(e.target.files);
 
     if (files.length + images.length > 5) {
       alert("최대 5개의 이미지만 업로드 가능합니다.");
       return;
     }
 
-    const updatedImages = [...images];
-
-    for (let i = 0; i < files.length; i++) {
-      const file = files[i];
-      const imageUrl = URL.createObjectURL(file);
-      updatedImages.push(imageUrl);
-    }
+    const updatedImages = [...images, ...files];
 
     setImages(updatedImages);
+    setMainImage(updatedImages[0]);
+    setSubImages(updatedImages.slice(1));
   };
 
   const handleDeleteImage = index => {
-    setImages(images.filter((_, i) => i !== index));
+    const updatedImages = images.filter((_, i) => i !== index);
+    setImages(updatedImages);
+    setMainImage(updatedImages[0]);
+    setSubImages(updatedImages.slice(1));
   };
-  // star
-  const handleSubmitClick = () => {
-    const gogo = {
-      pic: images,
+
+  const handleSubmitClick = product => {
+    const formData = new FormData();
+
+    // dto 객체 생성
+    const dto = {
+      ishop: ishop,
       star: rating,
-      comment: requiredMsg,
+      review: requiredMsg,
+      pics: subImages.map((subImg, index) => `subImage${index}`), // 상대 경로나 URL을 사용해야 합니다.
     };
-    console.log(gogo);
+
+    // dto 객체를 FormData에 추가
+    formData.append("dto", JSON.stringify(dto));
+
+    // mainImage 추가
+    formData.append("pics", mainImage);
+
+    // subImages 배열 추가
+    subImages.forEach((subImg, index) => {
+      formData.append("pics", subImg);
+    });
+
+    postReview(formData);
+    console.log("review page ", formData);
   };
 
   return (
@@ -109,7 +134,7 @@ const MeatReviewPage = () => {
                   <span>가게명</span>
                 </ReviewItem>
                 <ReviewContent>
-                  <span>목구멍</span>
+                  <span>{name}</span>
                 </ReviewContent>
               </ReviewFormWrap>
               {/* 
@@ -199,27 +224,34 @@ const MeatReviewPage = () => {
                     />
                   </ReviewInputLabel>
                   <div>
-                    {images.map((image, index) =>
-                      index === 0 ? (
-                        // 첫 번째 이미지(메인 이미지)는 크게 표시
-                        <ReviewMainImageWrap key={index}>
-                          <img src={image} alt={`Main ${index}`} />
+                    <div>
+                      {mainImage && (
+                        <ReviewMainImageWrap key={0}>
+                          <img
+                            src={URL.createObjectURL(mainImage)}
+                            alt={`Main 0`}
+                          />
                           <ReviewImageDeleteBtn
-                            onClick={() => handleDeleteImage(index)}
+                            onClick={() => handleDeleteImage(0)}
                             bgImg={deleteBtn}
                           />
                         </ReviewMainImageWrap>
-                      ) : (
-                        // 나머지 이미지(서브 이미지)는 작게 표시
-                        <ReviewSubImageItem key={index}>
-                          <img src={image} alt={`Sub ${index}`} />
+                      )}
+                    </div>
+                    <div style={{ display: "flex" }}>
+                      {subImages.map((image, index) => (
+                        <ReviewSubImageItem key={index + 1}>
+                          <img
+                            src={URL.createObjectURL(image)}
+                            alt={`Sub ${index + 1}`}
+                          />
                           <ReviewImageDeleteBtn
-                            onClick={() => handleDeleteImage(index)}
+                            onClick={() => handleDeleteImage(index + 1)}
                             bgImg={deleteBtn}
                           />
                         </ReviewSubImageItem>
-                      ),
-                    )}
+                      ))}
+                    </div>
                   </div>
                 </ReviewImageWrap>
               </div>
