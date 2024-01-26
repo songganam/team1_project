@@ -177,7 +177,7 @@ const App = () => {
             }
           ></Route>
           <Route
-            path="modify"
+            path="modify/:iboard"
             element={
               <Suspense fallback={<Loading />}>
                 <LazyModifyPage />
