@@ -29,12 +29,12 @@ const LazyJoinAddPage = lazy(() => import("./pages/join/JaddPage"));
 const LazyLoginPage = lazy(() => import("./pages/login/LoginPage"));
 
 // 정육점 페이지
-const LazyMartPage = lazy(() => import("./pages/mart/MartPage"));
-const LazyMartBook = lazy(() => import("./pages/mart/MbookPage"));
-const LazyMlistPage = lazy(() => import("./pages/mart/MlistPage"));
-const LazyMreadPage = lazy(() => import("./pages/mart/MreadPage"));
-const LazyMaddPage = lazy(() => import("./pages/mart/MaddPage"));
-const LazyMmodifyPage = lazy(() => import("./pages/mart/MmodifyPage"));
+const LazyMartPage = lazy(() => import("./pages/butcher/MartPage"));
+const LazyMartBook = lazy(() => import("./pages/butcher/ButcherReviewPage"));
+const LazyMlistPage = lazy(() => import("./pages/butcher/ButcherListPage"));
+const LazyMreadPage = lazy(() => import("./pages/butcher/ButcherDetailPage"));
+const LazyMaddPage = lazy(() => import("./pages/butcher/ButcherPickupPage"));
+const LazyMmodifyPage = lazy(() => import("./pages/butcher/MmodifyPage"));
 
 // 마이페이지
 const LazyMyPage = lazy(() => import("./pages/my/MyPage"));
@@ -47,7 +47,7 @@ const LazyMyReviewPage = lazy(() => import("./pages/my/MyReviewPage"));
 const LazySalePage = lazy(() => import("./pages/sale/SalePage"));
 const LazySlistPage = lazy(() => import("./pages/sale/SlistPage"));
 const LazySreadPage = lazy(() => import("./pages/sale/SreadPage"));
-// const LazyGaraLogin = lazy(() => import("./redux/GaraLogin"));
+const LazyGaraLogin = lazy(() => import("./redux/GaraLogin"));
 
 const LazyNotFoundPage = lazy(() => import("./pages/notfound/NotFound"));
 const App = () => {
@@ -248,7 +248,7 @@ const App = () => {
           ></Route>
         </Route>
         <Route
-          path="/mart/"
+          path="/butcher/"
           element={
             <Suspense fallback={<Loading />}>
               <LazyMartPage />
@@ -258,7 +258,7 @@ const App = () => {
           {/* 마트 페이지 첫 화면 */}
           <Route path="" element={<Navigate to="list" />}></Route>
           <Route
-            path="book"
+            path="review"
             element={
               <Suspense fallback={<Loading />}>
                 <LazyMartBook />
@@ -274,7 +274,7 @@ const App = () => {
             }
           ></Route>
           <Route
-            path="read"
+            path="detail/:ibutcher"
             element={
               <Suspense fallback={<Loading />}>
                 <LazyMreadPage />
@@ -282,7 +282,7 @@ const App = () => {
             }
           ></Route>
           <Route
-            path="add"
+            path="pickup"
             element={
               <Suspense fallback={<Loading />}>
                 <LazyMaddPage />
@@ -325,14 +325,14 @@ const App = () => {
             }
           ></Route>
         </Route>
-        {/* <Route
-          path="garalogin"
+        <Route
+          path="test"
           element={
             <Suspense fallback={<Loading />}>
               <LazyGaraLogin />
             </Suspense>
           }
-        ></Route> */}
+        ></Route>
       </Routes>
     </BrowserRouter>
   );
