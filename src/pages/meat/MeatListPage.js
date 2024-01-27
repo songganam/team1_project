@@ -8,8 +8,6 @@ import useCustomHook from "../../components/meat/hooks/useCustomHook";
 import {
   KindOfMeat,
   KindOfMeatWrap,
-  ListFilter,
-  ListFilterItem,
   ListMoreViewBtn,
   ListMoreViewBtnWrap,
   ListWrap,
@@ -36,7 +34,7 @@ const MeatListPage = () => {
   const [GlistData, setGlistData] = useState([]);
   const { ishop } = useParams();
   const [loading, setLoading] = useState(false);
-  const [selectFilter, setSelectFilter] = useState("lastest");
+  // const [selectFilter, setSelectFilter] = useState("lastest");
   const [cateSearch, setCateSearch] = useState("");
 
   console.log("ref :", refresh);
@@ -49,8 +47,7 @@ const MeatListPage = () => {
   const successFn = result => {
     setLoading(false);
     setGlistData([...GlistData, ...result]);
-
-    setGlistData(result);
+    // setGlistData(result);
     console.log(result);
   };
   const failFn = result => {
@@ -128,9 +125,7 @@ const MeatListPage = () => {
           />
         </SearchIconWrap>
       </SearchWrap>
-      {/* 
-      // ! 최신순, 인기순(북마크 개수) 순
-      */}
+      {/*     
       <ListFilter>
         <ListFilterItem
           onClick={() => setSelectFilter("lastest")}
@@ -144,7 +139,7 @@ const MeatListPage = () => {
         >
           <span>인기순</span>
         </ListFilterItem>
-      </ListFilter>
+      </ListFilter> */}
       {loading ? (
         <Loading />
       ) : (

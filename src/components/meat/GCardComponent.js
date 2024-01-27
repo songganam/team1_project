@@ -1,5 +1,8 @@
 import React from "react";
-import { useParams } from "react-router";
+import { useNavigate, useParams } from "react-router";
+import ResultModal from "../common/ResultModal";
+import useCustomHook from "./hooks/useCustomHook";
+import useCustomLogin from "./hooks/useCustomLogin";
 import {
   CardWrapper,
   InfoTagWrap,
@@ -10,20 +13,25 @@ import {
   MeatStoreTitle,
   ReserveBtn,
 } from "./styles/GCardStyle";
-import ResultModal from "../common/ResultModal";
-import useCustomHook from "./hooks/useCustomHook";
-import useCustomLogin from "./hooks/useCustomLogin";
 
 const GCardComponent = ({ data }) => {
+  const navigate = useNavigate();
   console.log(data);
   const { ishop } = useParams();
-  const { moveToRead, moveToReser } = useCustomHook();
-  const { isModal, openModal, moveToLogin } = useCustomHook();
+  const { moveToRead, moveToReser, isModal, openModal, moveToLogin } =
+    useCustomHook();
+
   const { isLogin } = useCustomLogin();
-  const handleReserClick = (e, ishop) => {
+  const handleReserClick = (e, ishop, name) => {
     e.stopPropagation();
     if (isLogin) {
-      moveToReser(ishop);
+      // PATH랑 같이 보내야함 stireInfo.name
+      // console.log("가게이름 ",   name);
+      navigate(`/meat/reservation/${ishop}`, {
+        state: {
+          storeName: name,
+        },
+      });
     } else {
       openModal("로그인 필요", "로그인이 필요한 서비스입니다.", moveToLogin);
     }
@@ -47,14 +55,16 @@ const GCardComponent = ({ data }) => {
               <MeatStoreBox>
                 <MeatStoreTitle>{item.name}</MeatStoreTitle>
                 <InfoTagWrap>
-                  {item.facilities.map((tag, index) => (
+                  {item.facilities.slice(0, 4).map((tag, index) => (
                     <button key={index}>
                       <span>{tag}</span>
                     </button>
                   ))}
                 </InfoTagWrap>
                 {/* 예약하기 */}
-                <ReserveBtn onClick={e => handleReserClick(e, item.ishop)}>
+                <ReserveBtn
+                  onClick={e => handleReserClick(e, item.ishop, item.name)}
+                >
                   <span>예약하기</span>
                 </ReserveBtn>
               </MeatStoreBox>

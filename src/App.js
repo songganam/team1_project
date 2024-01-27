@@ -282,7 +282,7 @@ const App = () => {
             }
           ></Route>
           <Route
-            path="pickup"
+            path="pickup/:ibutcher"
             element={
               <Suspense fallback={<Loading />}>
                 <LazyMaddPage />

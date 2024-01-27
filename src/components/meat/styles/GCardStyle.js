@@ -4,14 +4,14 @@ import { ColorStyle, FontSize } from "../../../styles/common/CommonStyle";
 // 고깃집 가게 카드 컴포넌트
 export const CardWrapper = styled.div`
   width: 1180px;
-  padding-top: 30px;
+  margin-top: 80px;
 `;
 export const MeatStoreCard = styled.div`
   font-family: "DAEAM_LEE_TAE_JOON";
   display: inline-flex;
   padding: 30px 0px;
   align-items: flex-start;
-  margin-right: 50px;
+  /* margin-right: 50px; */
   /* background: red; */
 `;
 export const MeatStoreCardName = styled.div`
@@ -24,7 +24,7 @@ export const MeatStoreCardName = styled.div`
 `;
 export const MeatStoreInfo = styled.div`
   display: flex;
-  width: 158px;
+  width: 200px;
   height: 230px;
   padding: 10px;
   align-items: flex-start;
@@ -34,7 +34,7 @@ export const MeatStoreInfo = styled.div`
 `;
 export const MeatStoreBox = styled.div`
   display: flex;
-  width: 138px;
+  width: 150px;
   height: 210px;
   align-items: flex-start;
   align-content: flex-start;
@@ -87,7 +87,7 @@ export const ReserveBtn = styled.div`
 `;
 export const InfoTagWrap = styled.div`
   display: flex;
-  width: 138px;
+  width: 150px;
   height: 60px;
   align-items: flex-start;
   align-content: flex-start;
@@ -95,8 +95,8 @@ export const InfoTagWrap = styled.div`
   flex-wrap: wrap;
   button {
     display: flex;
-    width: 64px;
-    height: 25px;
+    width: 70px;
+    height: 30px;
     justify-content: center;
     align-items: center;
     gap: 10px;
@@ -106,12 +106,12 @@ export const InfoTagWrap = styled.div`
     background: #fff;
 
     span {
-      width: 64px;
+      width: 70px;
       flex-shrink: 0;
       color: var(--primary, #d60117);
       text-align: center;
       font-family: DAEAM_LEE_TAE_JOON;
-      font-size: 14px;
+      font-size: 11px;
       font-style: normal;
       font-weight: 400;
       line-height: 125%; /* 17.5px */

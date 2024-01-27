@@ -1,15 +1,20 @@
 import moment from "moment";
-import React, { useState } from "react";
-import ReserCalendar from "../../components/meat/ReserCalendar";
-
+import React, { useEffect, useState } from "react";
+import { useLocation, useNavigate, useParams } from "react-router";
+import { getBInfo } from "../../api/butcherApi";
 import ResultModal from "../../components/common/ResultModal";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
-import { postReser } from "../../api/meatApi";
+import ReserCalendar from "../../components/meat/ReserCalendar";
+import useCustomHook from "../../components/meat/hooks/useCustomHook";
+
 import {
+  MenuWrapper,
+  PickupItemCount,
+  PickupItemCountWrap,
+  PickupItemOption,
+  PickupItemSelect,
+  PickupItemWrap,
+  PickupMenuAddBtn,
   ReserContent,
-  ReserCountBox,
-  ReserCountBtn,
-  ReserCountResetBtn,
   ReserCountWrap,
   ReserFormWrap,
   ReserItem,
@@ -22,31 +27,78 @@ import {
   ReserTitle,
   ReserWrap,
   ReserWrapper,
+  ReviewImageDeleteBtn,
 } from "./styles/ButcherPickupStyle";
-// 고깃집 리뷰 쓰기 페이지입니다.
-const MeatReservationPage = () => {
-  const { ishop } = useParams();
+
+const MeatDetailPage = () => {
+  const { openModal, isModal, closeModal } = useCustomHook();
+  const navigate = useNavigate();
+  const { ibutcher } = useParams();
   const location = useLocation();
   const storeName = location.state?.storeName;
-  // ! Modal Control
-  const navigate = useNavigate();
-  const [isModal, setIsModal] = useState({
-    isOpen: false,
-    title: "",
-    content: "",
-    callFn: null,
-  });
-  const openModal = (title, content, callFn) => {
-    setIsModal({ isOpen: true, title, content, callFn });
+  const [loading, setLoading] = useState(false);
+  const [storeInfo, setStoreInfo] = useState({});
+  const [selectedItems, setSelectedItems] = useState([
+    { item: "", quantity: 1 },
+  ]);
+  const deleteBtn = process.env.PUBLIC_URL + `/assets/images/delete_button.svg`;
+  const addBtn = process.env.PUBLIC_URL + `/assets/images/add_menu.png`;
+  const disableBtn = process.env.PUBLIC_URL + `/assets/images/disable.png`;
+  console.log(storeInfo);
+  console.log(storeInfo.menus);
+  // 가게 정보를 가져와서 성공하면 setStoreInfo를 사용하여 상태를 업데이트합니다.
+  useEffect(() => {
+    getBInfo({ ibutcher, successFn, failFn, errorFn });
+  }, []);
+  const successFn = result => {
+    console.log(result);
+    setStoreInfo(result);
+    setLoading(false);
   };
-  const closeModal = () => {
-    setIsModal(prev => ({ ...prev, isOpen: false }));
+  const failFn = result => {
+    console.log(result);
+    setStoreInfo(result);
+    setLoading(false);
   };
-  const submitModal = () => {
-    setIsModal(prev => ({ ...prev, isOpen: false }));
-    navigate("/meat/list");
+  const errorFn = result => {
+    console.log(result);
+    setStoreInfo(result);
+    setLoading(false);
   };
-  // ! 사람 카운팅
+
+  const handleAddForm = () => {
+    setSelectedItems([...selectedItems, { item: "", quantity: 1 }]);
+  };
+
+  const handleRemoveForm = index => {
+    const values = [...selectedItems];
+    values.splice(index, 1);
+    setSelectedItems(values);
+  };
+
+  const handleChange = (index, event) => {
+    const values = [...selectedItems];
+    values[index][event.target.name] = event.target.value;
+    setSelectedItems(values);
+  };
+
+  const handleIncrease = index => {
+    const values = [...selectedItems];
+    values[index].quantity++;
+    setSelectedItems(values);
+  };
+
+  const handleDecrease = index => {
+    const values = [...selectedItems];
+    if (values[index].quantity > 1) {
+      values[index].quantity--;
+    } else {
+      alert("수량은 1 이상이어야 합니다.");
+    }
+    setSelectedItems(values);
+  };
+  const storeNum = ibutcher;
+
   const [personCount, setPersonCount] = useState(1);
   const timeValue = [
     "17:00",
@@ -59,25 +111,22 @@ const MeatReservationPage = () => {
     "20:30",
   ];
   const [timeCount, setTimeCount] = useState("");
-  // * 시간 버튼에 대한 로직
-
   const [clickedValue, setClickedValue] = useState("");
-  // * 시간에 대한 로직(timeCount)
+
   const handleClickTCount = event => {
     const clickedValue = event.target.innerText;
     setTimeCount(clickedValue);
     setClickedValue(clickedValue);
   };
 
-  // * 인원수에 관한 로직 (PersonCount)
   const handleClickPCountPlus = () => {
     setPersonCount(personCount + 1);
   };
+
   const handleClickPCountMinus = () => {
     if (personCount > 1) {
       setPersonCount(personCount - 1);
     } else {
-      // TODO MODAL로 변경하여야 함
       openModal(
         "인원 수 오류",
         "인원 수가 1명보다 적을 수 없습니다.",
@@ -85,6 +134,7 @@ const MeatReservationPage = () => {
       );
     }
   };
+
   const handleClickPCountReset = () => {
     setPersonCount(1);
   };
@@ -94,7 +144,6 @@ const MeatReservationPage = () => {
     setRequiredMsg(e.target.value);
   };
 
-  // * Calendar(예약달력)
   const createdate = new Date();
   const nowdata = moment(createdate).format("YYYY-MM-DD");
   const [selectedDate, setSelectedDate] = useState(nowdata);
@@ -110,7 +159,6 @@ const MeatReservationPage = () => {
     }
   };
 
-  // * submit 날짜 + 시간 Value 폼
   const timeCountvalue =
     timeCount.split(":")[0] + ":" + timeCount.split(":")[1] + ":00";
   console.log(timeCountvalue);
@@ -119,15 +167,13 @@ const MeatReservationPage = () => {
   console.log("timecount :", timeCount);
 
   const reserData = {
-    ishop: ishop,
+    ishop: ibutcher,
     date: timeline,
     headCount: personCount,
     request: requiredMsg,
   };
-  // ! postData => ireser(PK), date, request, headcount
-  // * Submit
+
   const handleReserSubmit = () => {
-    // ! No exist Value
     if (timeCount == "") {
       openModal(
         "예약시간오류",
@@ -135,20 +181,20 @@ const MeatReservationPage = () => {
         closeModal,
       );
     }
-    postReser({ reserData, successFn, failFn, errorFn });
-    openModal("예약완료", "예약이 완료되었습니다.", submitModal);
     console.log("내용 :", reserData);
     return reserData;
   };
-  const successFn = result => {
-    console.log(result);
+
+  const handleSubmit = () => {
+    const menus = selectedItems.map(item => ({
+      ibutMenu: item.item,
+      count: item.quantity,
+    }));
+    console.log("menus:", menus);
   };
-  const failFn = result => {
-    console.log(result);
-  };
-  const errorFn = result => {
-    console.log(result);
-  };
+
+  // return을 이용해 UI를 렌더링합니다.
+
   return (
     <div>
       {isModal.isOpen && (
@@ -161,7 +207,7 @@ const MeatReservationPage = () => {
       <ReserWrapper>
         {/* title */}
         <ReserTitle>
-          <span>예약하기</span>
+          <span>픽업하기</span>
         </ReserTitle>
         {/* wrapper */}
         <ReserWrap>
@@ -218,23 +264,90 @@ const MeatReservationPage = () => {
             */}
             <ReserCountWrap>
               <ReserItem>
-                <span>인원 수</span>
+                <span>메뉴</span>
               </ReserItem>
               {/* Counting Box */}
-              <ReserCountBox>
-                <ReserCountBtn onClick={handleClickPCountMinus}>
-                  <button>-</button>
-                </ReserCountBtn>
-                <ReserCountBtn>
-                  <span>{personCount}</span>
-                </ReserCountBtn>
-                <ReserCountBtn onClick={handleClickPCountPlus}>
-                  <button>+</button>
-                </ReserCountBtn>
-              </ReserCountBox>
-              <ReserCountResetBtn onClick={handleClickPCountReset}>
-                <span>다시작성</span>
-              </ReserCountResetBtn>
+              <div>
+                <MenuWrapper>
+                  {selectedItems.map((selectedItem, index) => (
+                    <PickupItemWrap key={index}>
+                      <PickupItemSelect
+                        name="item"
+                        value={selectedItem.item || undefined}
+                        onChange={event => handleChange(index, event)}
+                      >
+                        <PickupItemOption value="">
+                          메뉴를 선택해주세요
+                        </PickupItemOption>
+                        {Array.isArray(storeInfo.menus) &&
+                          storeInfo.menus
+                            .filter(
+                              menu =>
+                                !selectedItems
+                                  .slice(0, index)
+                                  .concat(selectedItems.slice(index + 1))
+                                  .map(item => item.item)
+                                  .includes(menu.menu),
+                            )
+                            .map(menu => (
+                              <PickupItemOption
+                                key={menu.menu}
+                                value={menu.menu}
+                              >
+                                {menu.menu}
+                              </PickupItemOption>
+                            ))}
+                      </PickupItemSelect>
+                      <PickupItemCountWrap>
+                        <PickupItemCount onClick={() => handleDecrease(index)}>
+                          <span>-</span>
+                        </PickupItemCount>
+                        <PickupItemCount>
+                          <span>{selectedItem.quantity}</span>
+                        </PickupItemCount>
+                        <PickupItemCount onClick={() => handleIncrease(index)}>
+                          <span>+</span>
+                        </PickupItemCount>
+                      </PickupItemCountWrap>
+
+                      {index !== 0 && (
+                        <ReviewImageDeleteBtn
+                          onClick={() => handleRemoveForm(index)}
+                          bgImg={deleteBtn}
+                        ></ReviewImageDeleteBtn>
+                      )}
+                    </PickupItemWrap>
+                  ))}
+                  <div style={{ display: "flex", alignItems: "center" }}>
+                    <PickupMenuAddBtn
+                      onClick={handleAddForm}
+                      disabled={
+                        storeInfo.menus &&
+                        selectedItems.length === storeInfo.menus.length
+                      }
+                      bgImg={addBtn}
+                      disblaImg={disableBtn}
+                    />
+                  </div>
+                </MenuWrapper>
+              </div>
+
+              {/* <PickupItemWrap>
+                <PickupItemLabel>
+                  <span>한우종합선물셋트</span>
+                </PickupItemLabel>
+                <PickupItemCountWrap>
+                  <PickupItemCount>
+                    <span>-</span>
+                  </PickupItemCount>
+                  <PickupItemCount>
+                    <span>1</span>
+                  </PickupItemCount>
+                  <PickupItemCount>
+                    <span>+</span>
+                  </PickupItemCount>
+                </PickupItemCountWrap>
+              </PickupItemWrap> */}
             </ReserCountWrap>
 
             {/* 
@@ -270,4 +383,4 @@ const MeatReservationPage = () => {
   );
 };
 
-export default MeatReservationPage;
+export default MeatDetailPage;

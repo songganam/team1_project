@@ -32,7 +32,7 @@ const MeatListPage = () => {
   const [BlistData, setBlistData] = useState([]);
   const { ishop } = useParams();
   const [loading, setLoading] = useState(false);
-  const [selectFilter, setSelectFilter] = useState("lastest");
+  // const [selectFilter, setSelectFilter] = useState("lastest");
   const [cateSearch, setCateSearch] = useState("");
 
   console.log("ref :", refresh);
@@ -45,8 +45,6 @@ const MeatListPage = () => {
   const successFn = result => {
     setLoading(false);
     setBlistData([...BlistData, ...result]);
-
-    setBlistData(result);
     console.log(result);
   };
   const failFn = result => {
