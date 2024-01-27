@@ -1,6 +1,12 @@
+
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
-import { deleteComment, getOne, postComment } from "../../api/communityApi";
+import {
+  deleteComment,
+  deleteOne,
+  getOne,
+  postComment,
+} from "../../api/communityApi";
 import { API_SERVER_HOST } from "../../api/config";
 import useCustomMove from "../../hooks/useCustomMove";
 import Button from "../button/Button";
@@ -57,18 +63,25 @@ const initState = {
     },
   ],
 };
+// 댓글 등록을 위한 초기값
 const initComment = {
   contents: "",
 };
 
 const Read = () => {
-  const [fetching, setFetching] = useState(false);
+  // 커스텀 훅
   const { moveToRead, moveToList, moveToModify, page } = useCustomMove();
-  const { iboard, icomment } = useParams();
+  // 해당 글 pk값 추출 및 할당(get)
+  const { iboard } = useParams();
+  // 해당 글 상태 초기화 및 업데이트(get)
   const [content, setContent] = useState(initState);
+  // 해당 글에 댓글 작성을 위한 상태 초기화 및 업데이트(post)
   const [contents, setcontents] = useState(initComment);
+  // 해당 글의 댓글 상태 초기화 및 업데이트(get)
   const [comments, setComments] = useState([]);
-
+  // 로딩창
+  const [fetching, setFetching] = useState(false);
+  // 커뮤니티 해당 글 정보 가져오기(get)
   const getOneData = () => {
     getOne({ iboard, successFn, failFn, errorFn });
   };
@@ -93,26 +106,32 @@ const Read = () => {
     getOneData();
   }, [iboard, page]);
 
-  // 글 미리보기 이미지 관련
+  // 커뮤니티 해당 글 이미지 미리보기 관련
   const [selectedImg, setSlectedImg] = useState(content.pics[0]?.pic);
 
+  // 해당글의 이미지 큰이미지로 보여주기
   // content.pics가 변경될 때마다 실행됩니다.
   useEffect(() => {
     if (content.pics && content.pics.length > 0 && content.pics[0].pic) {
       setSlectedImg(content.pics[0].pic);
     }
   }, [content.pics]);
-
+  // 썸네일 이미지 클릭 시 이미지 상태 업데이트
   const handleThumbnailClick = pic => {
     setSlectedImg(pic);
   };
 
   // 댓글 등록 관련
   const handleChange = e => {
-    contents[e.target.name] = e.target.value;
-    setcontents({ ...contents });
+    // 댓글 입력 텍스트 필드의 새로고침을 위해 변수에 할당
+    const newContents = { ...contents, [e.target.name]: e.target.value };
+    setcontents(newContents);
+    // 기존 방식
+    // contents[e.target.name] = e.target.value;
+    // setcontents({ ...contents });
   };
 
+  // 댓글 등록 함수
   const addComment = () => {
     postComment({
       iboard,
@@ -130,6 +149,7 @@ const Read = () => {
     setResult(true);
     setPopTitle("댓글 등록");
     setPopContent("댓글을 등록하였습니다.");
+    setcontents({ ...initComment });
     getOneData();
   };
   const failFnAdd = result => {
@@ -148,31 +168,50 @@ const Read = () => {
   };
 
   // 댓글 삭제 관련
+  // 댓글 pk값 상태 업데이트
   const [currentCommentId, setCurrentCommentId] = useState(null);
+
+  // selectedModal 띄우기 위한 상태 업데이트
   const [showModal, setShowModal] = useState(false);
+
+  // 댓글 삭제 시 해당 pk값으로 상태 업데이트 후
+  // 확인 모달창 띄우기
   const handleDelComment = icomment => {
     setCurrentCommentId(icomment);
     setShowModal(true);
   };
 
-  const successFnDel = delResult => {
-    console.log("댓글 삭제 성공", delResult);
+  const successFnDel = result => {
+    console.log("댓글 삭제 성공", result);
+    setResult(true);
+    setPopTitle("댓글 삭제");
+    setPopContent("댓글을 삭제하였습니다.");
     setPopRedirect(1);
     getOneData();
   };
-  const failFnDel = delResult => {
-    console.log("댓글 삭제 실패", delResult);
-    setPopRedirect(1);
+  const failFnDel = result => {
+    console.log("댓글 삭제 실패", result);
     setResult(false);
     setPopTitle("댓글 삭제 실패");
     setPopContent("댓글 삭제에 실패하였습니다. 다시 시도 해주세요.");
   };
-  const errorFnDel = delResult => {
-    console.log("댓글 삭제 실패", delResult);
+  const errorFnDel = result => {
+    console.log("댓글 삭제 실패", result);
     setPopRedirect(1);
     setResult(true);
     setPopTitle("댓글 삭제 실패");
     setPopContent("서버가 불안정합니다. 잠시 후 다시 시도 해주세요.");
+  };
+
+  // 해당 글 pk값 상태 업데이트
+  const [currentReadId, setCurrentReadId] = useState(null);
+  // selectedModal 을 띄우기 위한 상태 업데이트
+  const [showReadModal, setShowReadModal] = useState(false);
+  // 해당 글 삭제 시 해당 pk값으로 상태 업데이트 후
+  // 확인 모달창 띄우기
+  const handleDelRead = iboard => {
+    setCurrentReadId(iboard);
+    setShowReadModal(true);
   };
 
   // 모달창 관련
@@ -184,6 +223,11 @@ const Read = () => {
     // selectedModal 취소 버튼
     setShowModal(false);
   };
+  const cancelReadModal = () => {
+    setShowReadModal(false);
+  };
+
+  // selectedModal 확인버튼
   const confirmModal = () => {
     if (currentCommentId) {
       deleteComment({
@@ -196,10 +240,46 @@ const Read = () => {
     setShowModal(false);
   };
 
+  const confirmReadModal = () => {
+    if (currentReadId) {
+      deleteOne({
+        iboard: currentReadId,
+        successFn: successFnReadDel,
+        failFn: failFnReadDel,
+        errorFn: errorFnReadDel,
+      });
+    }
+    setShowReadModal(false);
+  };
+
+  const successFnReadDel = result => {
+    console.log("해당 글 삭제 성공", result);
+    setResult(true);
+    setPopTitle("해당 글 삭제");
+    setPopContent("해당 글을 삭제하였습니다.");
+    setPopRedirect(1);
+    getOneData();
+  };
+  const failFnReadDel = result => {
+    console.log("해당 글 삭제 실패", result);
+    setResult(false);
+    setPopTitle("해당 글 삭제 실패");
+    setPopContent("해당 글 삭제에 실패하였습니다. 다시 시도 해주세요.");
+  };
+  const errorFnReadDel = result => {
+    console.log("해당 글 삭제 실패", result);
+    setPopRedirect(1);
+    setResult(true);
+    setPopTitle("해당 글 삭제 실패");
+    setPopContent("서버가 불안정합니다. 잠시 후 다시 시도 해주세요.");
+  };
+
+  // API 통신 결과 상태 업데이트
   const [result, setResult] = useState(false);
-  const [delResult, setDelResult] = useState(false);
+  // resultModal props 값 업데이트
   const [popTitle, setPopTitle] = useState("");
-  const [popContent, setPopContent] = useState(false);
+  const [popContent, setPopContent] = useState("");
+  // Modal 닫기 이후 화면 전환 상태 업데이트
   const [popRedirect, setPopRedirect] = useState(false);
 
   return (
@@ -228,7 +308,7 @@ const Read = () => {
             />
           </LargeImgStyle>
           <ThumbnailStyle>
-            {content.pics.slice(1).map(
+            {content.pics.map(
               (pic, index) =>
                 pic && (
                   <div
@@ -240,7 +320,7 @@ const Read = () => {
                   >
                     <img
                       src={`${host}/pic/community/${content.iboard}/${pic.pic}`}
-                      alt={`img_${index + 2}`}
+                      alt={`img_${index + 1}`}
                     />
                   </div>
                 ),
@@ -318,7 +398,11 @@ const Read = () => {
           >
             <Button bttext="수정하기" />
           </div>
-          <div>
+          <div
+            onClick={() => {
+              handleDelRead(content.iboard);
+            }}
+          >
             <Button bttext="삭제하기" />
           </div>
         </div>
@@ -389,6 +473,14 @@ const Read = () => {
           content="정말 댓글을 삭제하시겠습니까?"
           confirmFn={confirmModal}
           cancelFn={cancelModal}
+        />
+      ) : null}
+      {showReadModal ? (
+        <SelectedModal
+          title="글 삭제"
+          content="정말 해당 글을 삭제하시겠습니까?"
+          confirmFn={confirmReadModal}
+          cancelFn={cancelReadModal}
         />
       ) : null}
       {result ? (
