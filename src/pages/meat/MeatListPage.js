@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useParams } from "react-router";
-import { API_SERVER_HOST, getGList } from "../../api/meatApi";
+import { getGList } from "../../api/meatApi";
 import ResultModal from "../../components/common/ResultModal";
 import Loading from "../../components/loading/Loading";
 import GCardComponent from "../../components/meat/GCardComponent";

@@ -9,7 +9,7 @@ import {
   MeatStoreInfo,
   MeatStoreTitle,
   ReserveBtn,
-} from "../../styles/common/GCardStyle";
+} from "./styles/GCardStyle";
 import ResultModal from "../common/ResultModal";
 import useCustomHook from "./hooks/useCustomHook";
 import useCustomLogin from "./hooks/useCustomLogin";

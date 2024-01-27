@@ -1,6 +1,5 @@
 import axios from "axios";
 import authAxios from "../util/tokenUtil";
-import accessToken from "../util/tokenUtil";
 
 export const API_SERVER_HOST = "";
 const host = `${API_SERVER_HOST}/api`;
