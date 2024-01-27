@@ -67,17 +67,21 @@ export const MyReviewCardInfoTitle = styled.ul`
     font-size: 14px;
     font-style: normal;
     font-weight: 400;
-    line-height: 140%;
+    line-height: 150%;
   }
 `;
 
 export const MyReviewCardDateContent = styled.ul`
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
   li {
     font-family: Pretendard;
     font-size: 14px;
     font-style: normal;
     font-weight: 400;
-    line-height: 140%;
+    line-height: 150%;
     color: ${ColorStyle.g500};
   }
 `;
@@ -105,6 +109,7 @@ export const MyMoreViewButton = styled.button`
   border-radius: 10px;
   border: 2px solid var(--sub, #066e52);
   background: #fff;
+  margin-bottom: 50px;
   cursor: pointer;
   span {
     color: var(--primary, #d60117);
@@ -113,6 +118,6 @@ export const MyMoreViewButton = styled.button`
     font-size: 19px;
     font-style: normal;
     font-weight: 400;
-    line-height: 125%; /* 23.75px */
+    line-height: 125%;
   }
 `;

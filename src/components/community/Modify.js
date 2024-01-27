@@ -1,4 +1,3 @@
-
 import React, { useState } from "react";
 import { API_SERVER_HOST } from "../../api/config";
 import useCustomMove from "../../hooks/useCustomMove";
@@ -371,4 +370,3 @@ const Modify = () => {
 };
 
 export default Modify;
-

@@ -20,12 +20,13 @@ import { patchMyBook, getMyBook } from "../../api/MyApi";
 import useCustomMy from "./hooks/useCustomMy";
 import useCustomHook from "../meat/hooks/useCustomHook";
 
+// 내 예약/픽업 내역 카드
 const MyBookCard = props => {
-  const { ireser } = useParams();
-  const { page, MoveToBookPage } = useCustomMy();
+  const { page, moveToBookPage } = useCustomMy();
   const { moveToReview } = useCustomHook();
   const [myBookList, setMyBookList] = useState([]);
 
+  // 예약 리스트 불러오기 (GET)
   useEffect(() => {
     const param = { page };
     getMyBook({ param, successFn, failFn, errorFn });
@@ -42,29 +43,46 @@ const MyBookCard = props => {
     console.log(result);
   };
 
-  const handleDeleteMyBook = ireser => {
-    const deleteBookmark = {
-      ireser: ireser,
-    };
-    // 예약 삭제 함수 호출
-    patchMyBook({ deleteBookmark });
-    console.log(deleteBookmark);
-  };
-
   const navigate = useNavigate();
 
   const handelModifyBook = () => {
     navigate("/meat/reservation");
   };
 
-  const handleMyBookView = () => {
-    MoveToBookPage({ page: page + 1 });
-  };
   const handleMoveReview = e => {
     moveToReview(e);
   };
 
+  // 더보기 (페이지)
+  const handleMyBookView = () => {
+    moveToBookPage({ page: page + 1 });
+  };
+
+  // 이미지 데이터 호출 성공시, 추후 삭제
   const { storeimg } = props;
+
+  // 예약 취소 안됨 ㅎㅎ.....
+  const handleCancelBook = async reservationId => {
+    try {
+      await patchMyBook({
+        deleteBook: { reservationId },
+        successFn: () => {
+          const updatedMyBookList = myBookList.filter(
+            item => item.id !== reservationId,
+          );
+          setMyBookList(updatedMyBookList);
+        },
+        failFn: () => {
+          console.log("예약 내역 삭제 오류");
+        },
+        errorFn: () => {
+          console.log("서버 오류");
+        },
+      });
+    } catch (error) {
+      console.log("예약 내역 삭제 중 에러 발생", error);
+    }
+  };
 
   return (
     <>
@@ -101,16 +119,15 @@ const MyBookCard = props => {
               </MyBookCardDateContent>
             </MyBookCardInfo>
             <MyBookCardBookButton>
-              {/* 예약 변경 기능 추가 필요 */}
-              <button
+              <div
                 onClick={e => moveToReview(myBookList.ishop, myBookList.name)}
               >
-                리뷰쓰기다!
-              </button>
+                <Button bttext="리뷰작성"></Button>
+              </div>
               <Button bttext="예약변경" onClick={handelModifyBook}></Button>
               <div
                 onClick={() => {
-                  handleDeleteMyBook(myBookList.ishop);
+                  handleCancelBook();
                 }}
               >
                 <Button bttext="예약취소"></Button>
