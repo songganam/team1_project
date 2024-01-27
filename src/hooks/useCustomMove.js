@@ -15,9 +15,7 @@ const useCustomMove = () => {
     ? parseInt(urlSearchParams.get("page"))
     : 1;
   // 현재 search
-  const search = urlSearchParams.get("search")
-    ? toString(urlSearchParams.get("search"))
-    : "";
+  const search = urlSearchParams.get("search") || "";
   // querystring 만들기
   const queryStrDefault = createSearchParams({ page, search }).toString();
   // to list
@@ -48,7 +46,33 @@ const useCustomMove = () => {
   const moveToAdd = () => {
     navigate("/community/add");
   };
-  return { moveToList, moveToModify, moveToRead, moveToAdd, page, search };
+
+  // to search
+  const moveToSearch = pageParam => {
+    let queryStr = "";
+    if (pageParam) {
+      const pageNum = getNum(pageParam.page, page);
+      const searchStr = getSearch(pageParam.search, search);
+      // 쿼리 만들기
+      queryStr = createSearchParams({
+        page: pageNum,
+        search: searchStr,
+      }).toString();
+    } else {
+      queryStr = queryStrDefault;
+    }
+    navigate({ pathname: "../list", search: queryStr });
+  };
+
+  return {
+    moveToList,
+    moveToModify,
+    moveToRead,
+    moveToAdd,
+    moveToSearch,
+    page,
+    search,
+  };
 };
 
 export default useCustomMove;
