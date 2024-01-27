@@ -15,8 +15,9 @@ export const TableStyle = styled.div`
   position: relative;
   display: flex;
   justify-content: space-between;
-  padding-top: 3rem;
-  padding-bottom: 0.3rem;
+  padding: 3px;
+  border-top: ${props => props.borderTop};
+  margin-top: ${props => props.marginTop};
   font-family: "DAEAM_LEE_TAE_JOON";
   font-size: ${FontSize.strong};
   background: ${props => props.background};
@@ -95,7 +96,7 @@ export const ImgStyle = styled.div`
 `;
 export const LargeImgStyle = styled.div`
   position: relative;
-  max-width: 300px;
+  max-width: 480px;
   min-width: 60px;
   img {
     width: 100%;
@@ -105,7 +106,7 @@ export const LargeImgStyle = styled.div`
 `;
 export const ThumbnailStyle = styled.div`
   position: relative;
-  max-width: 300px;
+  max-width: 480px;
   max-height: 180px;
   display: flex;
   flex-wrap: wrap;
@@ -113,7 +114,7 @@ export const ThumbnailStyle = styled.div`
   align-items: center;
   gap: 20px;
   img {
-    max-width: 60px;
+    max-width: 80px;
     border-radius: 5px;
     box-shadow: 4px 4px 4px 0px rgba(0, 0, 0, 0.25);
     cursor: pointer;
@@ -121,7 +122,7 @@ export const ThumbnailStyle = styled.div`
 `;
 export const ContentInfoStyle = styled.div`
   position: relative;
-  width: 660px;
+  width: 500px;
   display: flex;
   flex-direction: column;
   gap: 34px;
@@ -171,7 +172,7 @@ export const SummaryStyle = styled.div`
   overflow: hidden;
   word-break: break-all;
   text-overflow: ellipsis;
-  -webkit-line-clamp: 3;
+  -webkit-line-clamp: 2;
   -webkit-box-orient: vertical;
   color: ${ColorStyle.g600};
 `;
@@ -194,6 +195,7 @@ const mediaQueries = key => {
 export const PagingBoxStyle = styled.div`
   position: relative;
   display: flex;
+  flex-wrap: wrap;
   padding: 30px 50px;
   justify-content: center;
   align-items: center;
@@ -212,7 +214,7 @@ export const PagingBoxStyle = styled.div`
       font-weight: bold;
     }
 
-    ${mediaQueries("tablet")`
+    /* ${mediaQueries("tablet")`
       &:not(:first-of-type):not(:last-of-type) {
         &:nth-last-of-type(-n+3) { 
           display: none;
@@ -226,7 +228,7 @@ export const PagingBoxStyle = styled.div`
           display: none;
         }
       }
-    `}
+    `} */
   }
 `;
 export const PagingNumStyle = styled.button`
