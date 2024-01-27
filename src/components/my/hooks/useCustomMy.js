@@ -19,7 +19,7 @@ const useCustomMy = () => {
   }).toString();
 
   // 예약 페이지 더보기
-  const MoveToBookPage = PageParam => {
+  const moveToBookPage = PageParam => {
     let queryStr = "";
     if (PageParam) {
       const PageNum = getNum(PageParam.page, page);
@@ -34,7 +34,7 @@ const useCustomMy = () => {
   };
 
   // 북마크 페이지 더보기
-  const MoveToListPage = PageParam => {
+  const moveToListPage = PageParam => {
     let queryStr = "";
     if (PageParam) {
       const PageNum = getNum(PageParam.page, page);
@@ -49,7 +49,7 @@ const useCustomMy = () => {
   };
 
   // 리뷰 페이지 더보기
-  const MoveToReviewPage = PageParam => {
+  const moveToReviewPage = PageParam => {
     let queryStr = "";
     if (PageParam) {
       const PageNum = getNum(PageParam.page, page);
@@ -63,15 +63,24 @@ const useCustomMy = () => {
     navigate({ pathname: "../review", search: queryStr });
   };
 
+  // 상세 페이지 이동
+  const moveToDetail = ishop => {
+    navigate({
+      pathname: `../../meat/detail/${ishop}`,
+      search: `${defaultQueryString}`,
+    });
+  };
+
   return {
     page,
     isModal,
     openModal,
     closeModal,
     moveToLogin,
-    MoveToBookPage,
-    MoveToListPage,
-    MoveToReviewPage,
+    moveToBookPage,
+    moveToListPage,
+    moveToReviewPage,
+    moveToDetail,
   };
 };
 export default useCustomMy;

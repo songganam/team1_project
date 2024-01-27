@@ -11,6 +11,7 @@ export const MyListCardWrapper = styled.div`
   border-radius: 10px;
   box-shadow: 4px 4px 4px 0px rgba(0, 0, 0, 0.25);
   margin-bottom: 30px;
+  cursor: pointer;
 `;
 
 export const MyListCardVisual = styled.div`
@@ -30,7 +31,7 @@ export const MyListCardContent = styled.div`
   flex-direction: column;
   width: 344px;
   height: 228px;
-  gap: 40px;
+  gap: 35px;
 `;
 
 export const MyListCardTitle = styled.div``;
@@ -67,17 +68,21 @@ export const MyListCardInfoTitle = styled.ul`
     font-size: 14px;
     font-style: normal;
     font-weight: 400;
-    line-height: 140%;
+    line-height: 150%;
   }
 `;
 
 export const MyListCardDateContent = styled.ul`
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
   li {
     font-family: Pretendard;
     font-size: 14px;
     font-style: normal;
     font-weight: 400;
-    line-height: 140%;
+    line-height: 150%;
     color: ${ColorStyle.g500};
   }
 `;
@@ -92,6 +97,7 @@ export const MyMoreViewButton = styled.button`
   border-radius: 10px;
   border: 2px solid var(--sub, #066e52);
   background: #fff;
+  margin-bottom: 50px;
   cursor: pointer;
   span {
     color: var(--primary, #d60117);
@@ -100,6 +106,6 @@ export const MyMoreViewButton = styled.button`
     font-size: 19px;
     font-style: normal;
     font-weight: 400;
-    line-height: 125%; /* 23.75px */
+    line-height: 125%;
   }
 `;

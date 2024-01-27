@@ -2,7 +2,7 @@ import React from "react";
 import MyBookCard from "../../components/my/MyBookCard";
 import { MyBookPageTitle, MyBookPageWrapper } from "./styles/MyBookPageStyle";
 
-// 내 예약 내역 보기 페이지
+// 내 예약/픽업 내역 보기 페이지
 const MyBookPage = () => {
   return (
     <MyBookPageWrapper>

@@ -6,7 +6,7 @@ import {
 import MyReviewCard from "../../components/my/MyReviewCard";
 import Paging from "../../components/common/Paging";
 
-// 내가 쓴 리뷰보기 페이지입니다.
+// 내가 쓴 리뷰 보기 페이지
 const MyReviewPage = () => {
   return (
     <MyReviewPageWrapper>
@@ -14,7 +14,6 @@ const MyReviewPage = () => {
         <span>내가 쓴 리뷰 보기</span>
       </MyReviewPageTitle>
       <MyReviewCard storeimg="https://picsum.photos/331/228/?category=meat"></MyReviewCard>
-      <Paging></Paging>
     </MyReviewPageWrapper>
   );
 };

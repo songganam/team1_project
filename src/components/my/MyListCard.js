@@ -16,10 +16,12 @@ import {
 } from "./styles/MyListCardStyle";
 import useCustomMy from "./hooks/useCustomMy";
 
+// 내 북마크 내역 카드
 const MyListCard = props => {
   const [myList, setMyList] = useState([]);
-  const { page, MoveToListPage } = useCustomMy();
+  const { page, moveToListPage, moveToDetail } = useCustomMy();
 
+  // 북마크 리스트 불러오기 (GET)
   useEffect(() => {
     const param = { page };
     getMyList({ param, successFn, failFn, errorFn });
@@ -36,15 +38,26 @@ const MyListCard = props => {
     console.log(result);
   };
 
-  const handleMyListView = () => {
-    MoveToListPage({ page: page + 1 });
+  // 상세 페이지 이동
+  const handleMoveDetail = e => {
+    moveToDetail(e);
   };
 
+  // 더보기 (페이지)
+  const handleMyListView = () => {
+    moveToListPage({ page: page + 1 });
+  };
+
+  // 추후 삭제
   const { storeimg } = props;
+
   return (
     <>
       {myList.map((myList, index) => (
-        <MyListCardWrapper key={index}>
+        <MyListCardWrapper
+          key={index}
+          onClick={e => moveToDetail(myList.ishop)}
+        >
           <MyListCardVisual>
             <img src={storeimg} alt="가게 이미지"></img>
           </MyListCardVisual>

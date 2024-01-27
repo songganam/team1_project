@@ -48,5 +48,4 @@ export const MyPageMenu = styled.div`
 export const MyPageContent = styled.div`
   position: relative;
   width: 730px;
-  height: 1530px;
 `;
