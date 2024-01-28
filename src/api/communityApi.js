@@ -21,18 +21,25 @@ export const getList = async ({ param, successFn, failFn, errorFn }) => {
 };
 
 // 글 수정하기(커뮤니티 수정)
-export const putOne = async ({ iboard, dto, successFn, failFn, errorFn }) => {
+export const putOne = async ({ product, successFn, failFn, errorFn }) => {
   try {
     const header = { headers: { "Content-Type": "multipart/form-data" } };
-    const response = await axios.put(`${host}`, iboard, dto, header);
+    const response = await authAxios.put(`${host}`, product, header);
     const status = response.status.toString();
     if (status.charAt(0) === "2") {
       successFn(response.data);
     } else {
-      failFn("글 수정 오류");
+      failFn("글 수정 오류", response.statusText);
     }
   } catch (error) {
-    errorFn("글 수정 서버오류");
+    errorFn(error);
+    if (error.response) {
+      // 서버에서 반환된 오류 응답을 출력
+      console.log("서버 응답 오류", error.response.data);
+      errorFn("글 수정 서버오류: ", error.response.data);
+    } else {
+      errorFn("글 수정 서버오류");
+    }
   }
 };
 
@@ -57,15 +64,26 @@ export const postAdd = async ({ product, successFn, failFn, errorFn }) => {
 // 해당 글 삭제(커뮤니티 삭제)
 export const deleteOne = async ({ iboard, successFn, failFn, errorFn }) => {
   try {
-    const response = await axios.delete(`${host}`, iboard);
+    const header = { headers: { "Content-Type": "application/json" } };
+    const response = await authAxios.delete(
+      `${host}/?iboard=${iboard}`,
+      header,
+    );
     const status = response.status.toString();
     if (status.charAt(0) === "2") {
       successFn(response.data);
     } else {
-      failFn("글 삭제 오류");
+      failFn("글 삭제 오류", response.statusText);
     }
   } catch (error) {
-    errorFn("글 삭제 서버오류");
+    errorFn(error);
+    if (error.response) {
+      // 서버에서 반환된 오류 응답을 출력
+      console.log("서버 응답 오류", error.response.data);
+      errorFn("글 삭제 서버오류: ", error.response.data);
+    } else {
+      errorFn("글 삭제 서버오류");
+    }
   }
 };
 

@@ -4,7 +4,7 @@ import { PagingBoxStyle, PagingNumStyle } from "../community/styles/ListStyle";
 import useCustomMove from "../../hooks/useCustomMove";
 
 const Paging = ({ totalItems, itemPerPage }) => {
-  const { moveToList } = useCustomMove();
+  const { moveToList, page } = useCustomMove();
 
   // 전체 페이지 수 계산
   const [totalPages, setTotalPages] = useState(0);
@@ -24,7 +24,19 @@ const Paging = ({ totalItems, itemPerPage }) => {
     const numbers = Array.from({ length: pages }, (_, i) => i + 1);
     setPageNumbers(numbers);
     // console.log(numbers);
-  }, [totalItems, itemPerPage, currentPage]);
+
+    // url에서 page 쿼리 파라미터를 읽어서 10진수 숫자로 변환한 후
+    // 유효한 값이 아니면 1로 설정
+    const pageFromQuery = parseInt(
+      new URLSearchParams(window.location.search).get("page"),
+      10,
+    );
+    if (!pageFromQuery || isNaN(pageFromQuery)) {
+      setCurrentPage(1);
+    } else {
+      setCurrentPage(pageFromQuery);
+    }
+  }, [totalItems, itemPerPage, currentPage, page]);
 
   // 현재 페이지네여션을 렌더링할 페이지 번호들
   const renderPageNumbers = pageNumbers.slice(minPageLimit, maxPageLimit);

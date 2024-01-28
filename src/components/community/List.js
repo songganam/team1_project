@@ -1,12 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { getList } from "../../api/communityApi";
+import { API_SERVER_HOST } from "../../api/config";
 import useCustomMove from "../../hooks/useCustomMove";
 import { ColorStyle } from "../../styles/common/CommonStyle";
 import Button from "../button/Button";
 import Fetching from "../common/Fetching";
 import Paging from "../common/Paging";
 import Tag from "../tag/Tag";
-import Search from "./Search";
 import Thead from "./Thead";
 import {
   BtnStyle,
@@ -14,8 +14,8 @@ import {
   ContentStyle,
   ImgStyle,
   InfoStyle,
-  LargeImgStyle,
   NameStyle,
+  SearchStyle,
   SummaryStyle,
   TableFootStyle,
   TagBoxStyle,
@@ -27,7 +27,6 @@ import {
   UserStyle,
   WrapStyle,
 } from "./styles/ListStyle";
-import { API_SERVER_HOST } from "../../api/config";
 
 const host = API_SERVER_HOST;
 
@@ -49,7 +48,7 @@ const initState = [
 
 const List = () => {
   // 커스텀 훅
-  const { page, search, moveToRead, moveToAdd } = useCustomMove();
+  const { page, search, moveToRead, moveToAdd, moveToSearch } = useCustomMove();
   // 서버 데이터 내용 상태 변경
   const [serverData, setServerData] = useState(initState);
   // 해당 글로 상태 변경
@@ -94,22 +93,40 @@ const List = () => {
   // 해당 글 클릭 시 미리보기 함수정의
   const handleClickTopen = item => {
     if (topenIboard === item.iboard) {
-      setTopenIboard(null); // 이미 선택된 항목을 다시 클릭하면 미리보기를 닫습니다.
+      // 이미 선택된 항목을 다시 클릭하면 미리보기를 닫습니다.
+      setTopenIboard(null);
     } else {
-      setTopenIboard(item.iboard); // 다른 항목을 클릭하면 그 항목의 미리보기를 엽니다.
-      setPreview({
-        iboard: item.iboard,
-        boardNum: item.boardNum,
-        iuser: item.iuser,
-        writerName: item.writerName,
-        writerPic: item.writerPic,
-        title: item.title,
-        createdAt: item.createdAt,
-        contents: item.contents,
-        pics: item.pics,
-        count: item.count,
-      });
+      // 다른 항목을 클릭하면 그 항목의 미리보기를 엽니다.
+      setTopenIboard(item.iboard);
+      if (preview.iboard != item.iboard) {
+        setPreview(item);
+        // setPreview({
+        //   iboard: item.iboard,
+        //   boardNum: item.boardNum,
+        //   iuser: item.iuser,
+        //   writerName: item.writerName,
+        //   writerPic: item.writerPic,
+        //   title: item.title,
+        //   createdAt: item.createdAt,
+        //   contents: item.contents,
+        //   pics: item.pics,
+        //   count: item.count,
+        // });
+      }
     }
+  };
+
+  // 검색어 상태 업데이트
+  const [searchInput, setSearchInput] = useState("");
+
+  const handleSearchChange = e => {
+    // 검색어 변경 시 상태 업데이트
+    setSearchInput(e.target.value);
+  };
+  const handleSearchSubmit = e => {
+    // 폼 제출 기본 동작 방지
+    e.preventDefault();
+    moveToSearch({ page: 1, search: searchInput });
   };
 
   return (
@@ -137,29 +154,29 @@ const List = () => {
           {/* 해당 글 미리보기 */}
           {topenIboard === item.iboard && (
             <TopenStyle>
-              {/* <ImgStyle>
-                <LargeImgStyle>
+              <ImgStyle>
+                {/* <LargeImgStyle>
                   {preview.pics[0] && (
                     <img
                       src={`${host}/pic/community/${preview.iboard}/${preview.pics[0]}`}
                       alt="img_1"
                     />
                   )}
-                </LargeImgStyle>
+                </LargeImgStyle> */}
                 <ThumbnailStyle>
-                  {preview.pics.slice(1).map(
+                  {preview.pics.map(
                     (pic, index) =>
                       pic && (
                         <div className="thumbnail" key={index}>
                           <img
                             src={`${host}/pic/community/${preview.iboard}/${pic}`}
-                            alt={`img_${index + 2}`}
+                            alt={`img_${index + 1}`}
                           />
                         </div>
                       ),
                   )}
                 </ThumbnailStyle>
-              </ImgStyle> */}
+              </ImgStyle>
               <ContentInfoStyle>
                 <ContentStyle>
                   <UserStyle>
@@ -183,7 +200,7 @@ const List = () => {
                     moveToRead(preview.iboard);
                   }}
                 >
-                  <Button bttext="더보기" />
+                  <Button bttext="글 더보기" />
                 </div>
               </BtnStyle>
             </TopenStyle>
@@ -193,7 +210,31 @@ const List = () => {
 
       {/* 페이지네이션 */}
       <Paging totalItems={serverData[0].count} itemPerPage={10} />
-      <Search />
+      <SearchStyle>
+        {/* <select className="select">
+          <option value={0}>전체</option>
+          <option value={1}>제목</option>
+          <option value={2}>내용</option>
+        </select> */}
+        <div className="searchBox">
+          <form onSubmit={handleSearchSubmit}>
+            <div style={{ display: "flex", alignItems: "center" }}>
+              <input
+                type="text"
+                placeholder="글 제목을 검색해보세요"
+                value={searchInput}
+                onChange={handleSearchChange}
+              />
+              <button
+                className="icon"
+                style={{ border: "none", background: "none" }}
+              >
+                <img src="/assets/images/search.svg" alt="search" />
+              </button>
+            </div>
+          </form>
+        </div>
+      </SearchStyle>
       <TableFootStyle>
         <div onClick={moveToAdd}>
           <Button bttext="글쓰기" />

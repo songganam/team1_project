@@ -10,7 +10,7 @@ export const MyBookCardWrapper = styled.div`
   background: #fff;
   border-radius: 10px;
   box-shadow: 4px 4px 4px 0px rgba(0, 0, 0, 0.25);
-  margin-bottom: 20px;
+  margin-bottom: 30px;
 `;
 
 export const MyBookCardVisual = styled.div`
@@ -33,7 +33,12 @@ export const MyBookCardContent = styled.div`
   height: 228px;
 `;
 
-export const MyBookCardTitle = styled.div``;
+export const MyBookCardTitle = styled.div`
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+`;
 
 export const MyBookCardSubTitle = styled.div`
   position: relative;
@@ -67,17 +72,21 @@ export const MyBookCardInfoTitle = styled.ul`
     font-size: 14px;
     font-style: normal;
     font-weight: 400;
-    line-height: 140%;
+    line-height: 150%;
   }
 `;
 
 export const MyBookCardDateContent = styled.ul`
+  display: block;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
   li {
     font-family: Pretendard;
     font-size: 14px;
     font-style: normal;
     font-weight: 400;
-    line-height: 140%;
+    line-height: 150%;
     color: ${ColorStyle.g500};
   }
 `;
@@ -105,6 +114,7 @@ export const MyMoreViewButton = styled.button`
   border-radius: 10px;
   border: 2px solid var(--sub, #066e52);
   background: #fff;
+  margin-bottom: 50px;
   cursor: pointer;
   span {
     color: var(--primary, #d60117);
@@ -113,6 +123,6 @@ export const MyMoreViewButton = styled.button`
     font-size: 19px;
     font-style: normal;
     font-weight: 400;
-    line-height: 125%; /* 23.75px */
+    line-height: 125%;
   }
 `;

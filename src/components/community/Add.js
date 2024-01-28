@@ -22,11 +22,13 @@ const initState = {
   contents: "",
 };
 
+// 유저 정보 초기값
 const initProfile = {
   nickname: "",
 };
 
 const Add = () => {
+  // 유저 정보 가져오기
   const [profileData, setProfileData] = useState(initProfile);
   useEffect(() => {
     const param = {};
@@ -50,7 +52,7 @@ const Add = () => {
   };
 
   const [product, setProduct] = useState(initState);
-  // 정보 업데이트
+  // 글 작성 시 내용 업데이트
   const handleChange = e => {
     product[e.target.name] = e.target.value;
     setProduct({ ...product });
@@ -153,12 +155,15 @@ const Add = () => {
 
   const { moveToList } = useCustomMove();
 
+  // 업로드 할 이미지 미리보기 상태 업데이트
   const [images, setImages] = useState([]);
 
+  // 사진추가 버튼 클릭시 이미지 파일 선택
   const handleClickImg = () => {
     uploadRef.current.click();
   };
 
+  // 업로드 할 이미지 미리보기
   const handleFileChange = e => {
     const files = e.target.files;
     if (files) {
@@ -178,6 +183,7 @@ const Add = () => {
     }
   };
 
+  // 이미지 미리보기에서 삭제 함수
   const deleteImage = indexToDelete => {
     setImages(prevImages =>
       prevImages.filter((_, index) => index !== indexToDelete),
