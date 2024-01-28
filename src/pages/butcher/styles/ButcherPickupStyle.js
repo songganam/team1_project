@@ -357,3 +357,16 @@ export const PickupMenuAddBtn = styled.button`
     border: none;
   }
 `;
+
+// ! Timer
+
+export const PickupTimeSelector = styled.div`
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  gap: 20px;
+`;
+
+export const PickupTimeSelectBox = styled.div`
+  width: 100px;
+`;
