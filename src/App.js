@@ -177,7 +177,7 @@ const App = () => {
             }
           ></Route>
           <Route
-            path="modify/:iboard"
+            path="modify"
             element={
               <Suspense fallback={<Loading />}>
                 <LazyModifyPage />
@@ -282,7 +282,7 @@ const App = () => {
             }
           ></Route>
           <Route
-            path="pickup"
+            path="pickup/:ibutcher"
             element={
               <Suspense fallback={<Loading />}>
                 <LazyMaddPage />

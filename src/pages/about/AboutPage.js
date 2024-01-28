@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import { DefaultBt } from "../../components/button/styles/ButtonStyle";
 import Layout from "../../layouts/Layout";
 import {
@@ -16,17 +16,49 @@ import {
   GogishopCard,
   MainBand,
   MainButcher,
-  MainGogiShop
+  MainGogiShop,
 } from "./styles/AboutPageStyle";
+import { getAboutCommu, getAboutGogi } from "../../api/aboutApi";
 
 const AboutPage = () => {
+  const [todo, setTodo] = useState({});
+
+  // const aboutGogi = () => {};
+
+  const ishop = todo.ishop;
+  const name = todo.name;
+  const pic = todo.pic;
+  const menu = todo.menu;
+  const price = todo.price;
+  const iboard = todo.iboard;
+
+  const iAboutGogi = {
+    ishop: ishop,
+    name: name,
+    pic: "pic",
+    menu: menu,
+    price: price,
+  };
+  console.log(iAboutGogi);
+  getAboutGogi(iAboutGogi);
+
+  const iAboutCommu = {
+    iboard: iboard,
+    pic: "",
+  };
+  console.log(iAboutCommu);
+  getAboutCommu(iAboutCommu);
+
   return (
     <Layout>
       <AboutPageWrap>
         {/* Top사진 */}
         <AboutPageTop>
           <img className="TopImage" src="/assets/images/aboutimages/main.png" />
-          <img className="TopText" src="/assets/images/aboutimages/toptext.png" />
+          <img
+            className="TopText"
+            src="/assets/images/aboutimages/toptext.png"
+          />
           {/* <div className="TopText">
             <span className="text-one">인생은 고기서 고기다.</span>
             <span className="text-two">기분이 저기앞일 땐 고기 앞으로 가자!</span>
@@ -110,11 +142,13 @@ const AboutPage = () => {
           <AboutPageShops>
             <div className="ShopTexts">
               <span className="ShopTexts-one">미친 가성비 고깃집</span>
-               
+
               <span className="ShopTexts-two">:쎈밤</span>
-              
-              <span className="ShopTexts-three">삼겹살/목살/막창 1인분(150g)</span>
-              
+
+              <span className="ShopTexts-three">
+                삼겹살/목살/막창 1인분(150g)
+              </span>
+
               <span className="ShopTexts-four">7,900원</span>
             </div>
             <img src="/assets/images/aboutimages/shoppic.svg" />
