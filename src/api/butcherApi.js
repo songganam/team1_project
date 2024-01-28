@@ -45,3 +45,23 @@ export const getBInfo = async ({
     errorFn(error);
   }
 };
+
+// ! GaraLogin
+export const changeBookmark = async storeNum => {
+  try {
+    //
+    const data = {
+      ibutcher: storeNum,
+    };
+    const header = { headers: { "Content-Type": "application/json" } };
+    const res = await authAxios.post(
+      `${host}/butcher-shop/bookmark`,
+      data,
+      header,
+    );
+    console.log("check", res.data);
+  } catch (error) {
+    console.log(error);
+    //
+  }
+};

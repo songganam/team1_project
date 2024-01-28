@@ -20,12 +20,19 @@ export const ReserTitle = styled.div`
   font-weight: 400;
   line-height: 125%; /* 41.25px */
 `;
-
+export const TestWrapper = styled.div`
+  display: flex;
+  width: 500px;
+  align-items: flex-start;
+  align-content: flex-start;
+  gap: 11px 19px;
+  flex-wrap: wrap;
+`;
 // ! Wrapper
 export const ReserWrap = styled.div`
   display: flex;
   align-items: flex-start;
-  gap: 20px;
+  gap: 50px;
 `;
 
 // ! Form Wrapper
@@ -127,7 +134,6 @@ export const ReserCountWrap = styled.div`
   display: flex;
   width: 530px;
   align-items: center;
-  gap: 63px;
 `;
 
 export const ReserCountBox = styled.div`
@@ -222,5 +228,132 @@ export const ReserSubmitBtn = styled.button`
     font-style: normal;
     font-weight: 400;
     line-height: 125%; /* 23.75px */
+  }
+`;
+
+// ! PICKUP
+export const PickupItemWrap = styled.div`
+  display: inline-flex;
+  position: relative;
+  padding: 2px 3px;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 10px;
+  border-radius: 10px;
+  border: 1px solid #066e52;
+`;
+export const PickupItemLabel = styled.div`
+  display: flex;
+  /* width: 127px; */
+  height: 27px;
+  flex-direction: column;
+  justify-content: center;
+  span {
+    color: #000;
+    text-align: center;
+    font-family: DAEAM_LEE_TAE_JOON;
+    font-size: 11px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 125%; /* 13.75px */
+  }
+`;
+export const PickupItemCountWrap = styled.div`
+  display: flex;
+  /* width: 127px; */
+  justify-content: center;
+  align-items: center;
+  gap: 7px;
+`;
+export const PickupItemCount = styled.div`
+  display: flex;
+  width: 32px;
+  height: 25px;
+  flex-direction: column;
+  justify-content: center;
+  flex-shrink: 0;
+  cursor: pointer;
+  span {
+    color: #000;
+    text-align: center;
+    font-family: DAEAM_LEE_TAE_JOON;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: normal;
+  }
+`;
+export const PickupItemSelect = styled.select`
+  /* width: 200px; */
+  height: 30px;
+  /* padding-left: 10px; */
+  font-size: ${FontSize.default};
+  font-family: DAEAM_LEE_TAE_JOON;
+  color: ${ColorStyle.g1000};
+  text-align: center;
+  border: none;
+  border-radius: 3px;
+  -webkit-appearance: none; /* 화살표 없애기 for chrome*/
+  -moz-appearance: none; /* 화살표 없애기 for firefox*/
+  appearance: none; /* 화살표 없애기 공통*/
+
+  &::-ms-expand {
+    display: none;
+  } /* 화살표 없애기 for IE10, 11*/
+`;
+export const PickupItemOption = styled.option`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  span {
+    color: #000;
+    text-align: center;
+    font-family: DAEAM_LEE_TAE_JOON;
+    font-size: 11px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 125%; /* 13.75px */
+  }
+`;
+export const MenuWrapper = styled.div`
+  display: flex;
+  width: 500px;
+  position: relative;
+  gap: 10px;
+  flex-wrap: wrap;
+`;
+export const ReviewImageDeleteBtn = styled.button`
+  position: absolute;
+  /* margin-left: -20px; */
+  z-index: 10;
+  right: 0;
+  top: 0;
+  width: 12px;
+  height: 12px;
+  background: none;
+  background-image: url(${({ bgImg }) => bgImg});
+  background-size: cover;
+  background-repeat: no-repeat;
+  border: none;
+`;
+
+export const PickupMenuAddBtn = styled.button`
+  z-index: 10;
+  width: 24px;
+  height: 24px;
+  background: none;
+  background-image: url(${({ bgImg }) => bgImg});
+  background-size: cover;
+  background-repeat: no-repeat;
+  border: none;
+  &:disabled {
+    z-index: 10;
+    width: 24px;
+    height: 24px;
+    background: none;
+
+    background-size: cover;
+    background-repeat: no-repeat;
+    border: none;
   }
 `;

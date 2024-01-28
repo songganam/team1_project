@@ -4,7 +4,7 @@ import { useNavigate, useParams } from "react-router";
 import "swiper/css";
 import "swiper/css/navigation";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { changeBookmark, getGInfo } from "../../api/meatApi";
+import { changeBookmark, getBInfo } from "../../api/butcherApi";
 import CountingStar from "../../components/common/CountingStar";
 import ResultModal from "../../components/common/ResultModal";
 import useCustomHook from "../../components/meat/hooks/useCustomHook";
@@ -47,7 +47,6 @@ import {
   ReviewUserProfile,
   ReviewWrap,
 } from "./styles/ButcherDetailStyle";
-import { getBInfo } from "../../api/butcherApi";
 
 const MeatDetailPage = () => {
   const navigate = useNavigate();
@@ -110,7 +109,7 @@ const MeatDetailPage = () => {
     e.stopPropagation();
     if (isLogin) {
       // PATH랑 같이 보내야함 stireInfo.name
-      navigate(`/meat/reservation/${ibutcher}`, {
+      navigate(`/butcher/pickup/${ibutcher}`, {
         state: {
           storeName: storeInfo.name,
         },

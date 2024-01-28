@@ -65,7 +65,6 @@ export const postReser = async ({ reserData, successFn, failFn, errorFn }) => {
   }
 };
 
-// ! GaraLogin
 export const changeBookmark = async storeNum => {
   try {
     //
