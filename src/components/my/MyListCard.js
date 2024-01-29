@@ -59,6 +59,7 @@ const MyListCard = props => {
           onClick={e => moveToDetail(myList.ishop)}
         >
           <MyListCardVisual>
+            {/* <img src={myList.pic} alt="가게 이미지"></img> */}
             <img src={storeimg} alt="가게 이미지"></img>
           </MyListCardVisual>
           <MyListCardContent>

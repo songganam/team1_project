@@ -28,6 +28,11 @@ const MeatReservationPage = () => {
   const { ishop } = useParams();
   const location = useLocation();
   const storeName = location.state?.storeName;
+  const datetime = location.state?.storeDate;
+  const request = location.state?.request;
+  console.log(storeName);
+  console.log(datetime);
+  console.log(request);
   // ! Modal Control
   const navigate = useNavigate();
   const [isModal, setIsModal] = useState({
@@ -36,6 +41,7 @@ const MeatReservationPage = () => {
     content: "",
     callFn: null,
   });
+  console.log();
   const openModal = (title, content, callFn) => {
     setIsModal({ isOpen: true, title, content, callFn });
   };
@@ -255,7 +261,7 @@ const MeatReservationPage = () => {
                   type="text"
                   name="requireMsg"
                   onChange={e => handleRequireMsg(e)}
-                  value={requiredMsg}
+                  value={request}
                   placeholder="요청사항을 입력해주세요. (30자 내외)"
                   maxLength="50"
                 />
