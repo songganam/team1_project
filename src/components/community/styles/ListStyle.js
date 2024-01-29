@@ -247,6 +247,18 @@ export const SearchStyle = styled.div`
   justify-content: center;
   align-items: center;
   gap: 3px;
+  .searchBox {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
+  div {
+    position: relative;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+  }
   img {
     width: 34px;
     background: ${ColorStyle.g400};
@@ -267,7 +279,7 @@ export const SearchStyle = styled.div`
     position: relative;
     appearance: none;
     width: 240px;
-    height: 35px;
+    height: 36px;
     padding: 5px 20px;
     border: 1px solid ${ColorStyle.g400};
     font-size: ${FontSize.default};

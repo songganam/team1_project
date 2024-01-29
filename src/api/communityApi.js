@@ -65,10 +65,7 @@ export const postAdd = async ({ product, successFn, failFn, errorFn }) => {
 export const deleteOne = async ({ iboard, successFn, failFn, errorFn }) => {
   try {
     const header = { headers: { "Content-Type": "application/json" } };
-    const response = await authAxios.delete(
-      `${host}/?iboard=${iboard}`,
-      header,
-    );
+    const response = await authAxios.delete(`${host}?iboard=${iboard}`, header);
     const status = response.status.toString();
     if (status.charAt(0) === "2") {
       successFn(response.data);

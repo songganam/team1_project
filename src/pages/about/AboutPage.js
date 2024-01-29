@@ -22,6 +22,7 @@ import {
 
 
 const AboutPage = () => {
+
   const [aboutData, setAboutData] = useState({});
   // const [commuData, setCommuData] = useState({});
 
@@ -47,6 +48,7 @@ const AboutPage = () => {
     // setLoading(false);
     console.log(result);
   };
+
 
   return (
     <Layout>

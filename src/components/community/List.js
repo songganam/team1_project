@@ -217,7 +217,7 @@ const List = () => {
         </select> */}
         <div className="searchBox">
           <form onSubmit={handleSearchSubmit}>
-            <div style={{ display: "flex", alignItems: "center" }}>
+            <div>
               <input
                 type="text"
                 placeholder="글 제목을 검색해보세요"
