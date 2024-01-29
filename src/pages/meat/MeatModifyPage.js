@@ -47,6 +47,8 @@ const MeatReservationPage = () => {
     navigate("/meat/list");
   };
   // ! 사람 카운팅
+  // ! 데이터를 가져올때 인원수를 coun
+  //!  const [personCount, setPersonCount] useState(headcount)
   const [personCount, setPersonCount] = useState(1);
   const timeValue = [
     "17:00",
@@ -124,7 +126,7 @@ const MeatReservationPage = () => {
   console.log(timeline);
   console.log("timecount :", timeCount);
 
-  const reserData = {
+  const reserChangeData = {
     ishop: ishop,
     date: timeline,
     headCount: personCount,
@@ -141,10 +143,10 @@ const MeatReservationPage = () => {
         closeModal,
       );
     }
-    postReser({ reserData, successFn, failFn, errorFn });
+    postReser({ reserChangeData, successFn, failFn, errorFn });
     openModal("예약완료", "예약이 완료되었습니다.", submitModal);
-    console.log("내용 :", reserData);
-    return reserData;
+    console.log("내용 :", reserChangeData);
+    return reserChangeData;
   };
   const successFn = result => {
     console.log(result);
@@ -244,7 +246,7 @@ const MeatReservationPage = () => {
             </ReserCountWrap>
 
             {/* 
-            // * 요청사항
+            // * 요청사항 (Request)
             */}
             <ReserFormWrap>
               <ReserItem>
