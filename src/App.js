@@ -4,6 +4,7 @@ import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import GoTop from "./components/common/GoTop";
 import Loading from "./components/loading/Loading";
 import "./index.css";
+import "./styles/common/font.css";
 
 // 어바웃 페이지
 const LazyAboutPage = lazy(() => import("./pages/about/AboutPage"));
