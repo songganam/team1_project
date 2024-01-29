@@ -1,4 +1,3 @@
-
 import "normalize.css";
 import React, { Suspense, lazy } from "react";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
@@ -7,7 +6,7 @@ import Loading from "./components/loading/Loading";
 import "./index.css";
 
 // 어바웃 페이지
-const LazyAboutPage = lazy(() => import("./pages/main/AboutPage"));
+const LazyAboutPage = lazy(() => import("./pages/about/AboutPage"));
 
 // 커뮤니티 페이지
 const LazyCommunityPage = lazy(() => import("./pages/community/CommunityPage"));
@@ -178,7 +177,7 @@ const App = () => {
             }
           ></Route>
           <Route
-            path="modify"
+            path="modify/:iboard"
             element={
               <Suspense fallback={<Loading />}>
                 <LazyModifyPage />
@@ -340,4 +339,3 @@ const App = () => {
 };
 
 export default App;
-

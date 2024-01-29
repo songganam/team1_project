@@ -1,5 +1,4 @@
 import styled from "@emotion/styled";
-import AboutCard from "../../../components/About/AboutCard";
 
 export const AboutPageWrap = styled.div`
   font-family: "DAEAM_LEE_TAE_JOON";
