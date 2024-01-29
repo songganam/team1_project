@@ -46,12 +46,14 @@ const initState = {
   contents: "",
   createdAt: "",
   pics: [],
-  beAf: [
-    {
-      iboard: 0,
-      title: "",
-    },
-  ],
+  be: {
+    iboard: 0,
+    title: "",
+  },
+  af: {
+    iboard: 0,
+    title: "",
+  },
   comments: [
     {
       icomment: 0,
@@ -218,6 +220,11 @@ const Read = () => {
     // 모달창 숨기기
     setResult(false);
   };
+  const closeDelReadModal = () => {
+    // 모달창 숨기기
+    setShowReadModal(false);
+    moveToList({ page: page });
+  };
   const cancelModal = () => {
     // selectedModal 취소 버튼
     setShowModal(false);
@@ -251,30 +258,33 @@ const Read = () => {
     setShowReadModal(false);
   };
 
-  const successFnReadDel = result => {
-    console.log("해당 글 삭제 성공", result);
-    setResult(true);
+  const successFnReadDel = delReadResult => {
+    console.log("해당 글 삭제 성공", delReadResult);
+    setDelReadResult(true);
     setPopTitle("해당 글 삭제");
     setPopContent("해당 글을 삭제하였습니다.");
     setPopRedirect(1);
     getOneData();
   };
-  const failFnReadDel = result => {
-    console.log("해당 글 삭제 실패", result);
-    setResult(false);
+  const failFnReadDel = delReadResult => {
+    console.log("해당 글 삭제 실패", delReadResult);
+    setDelReadResult(false);
     setPopTitle("해당 글 삭제 실패");
     setPopContent("해당 글 삭제에 실패하였습니다. 다시 시도 해주세요.");
   };
-  const errorFnReadDel = result => {
-    console.log("해당 글 삭제 실패", result);
+  const errorFnReadDel = delReadResult => {
+    console.log("해당 글 삭제 실패", delReadResult);
     setPopRedirect(1);
-    setResult(true);
+    setDelReadResult(true);
     setPopTitle("해당 글 삭제 실패");
     setPopContent("서버가 불안정합니다. 잠시 후 다시 시도 해주세요.");
   };
 
   // API 통신 결과 상태 업데이트
+  // 댓글 등록 및 삭제 결과 상태 업데이트
   const [result, setResult] = useState(false);
+  // 해당 글 삭제 결과 상태 업데이트
+  const [delReadResult, setDelReadResult] = useState(false);
   // resultModal props 값 업데이트
   const [popTitle, setPopTitle] = useState("");
   const [popContent, setPopContent] = useState("");
@@ -346,48 +356,51 @@ const Read = () => {
           </ContentStyle>
         </ContentInfoStyle>
       </MoreBoxStyle>
-      <PrnvContentStyle>
-        <div className="prnv">
-          <div className="prnvIcon">
-            <img
-              src={`${process.env.PUBLIC_URL}/assets/images/mingcute_up-line.svg`}
-              alt="img"
-            />
+
+      {content.be && (
+        <PrnvContentStyle>
+          <div className="prnv">
+            <div className="prnvIcon">
+              <img
+                src={`${process.env.PUBLIC_URL}/assets/images/mingcute_up-line.svg`}
+                alt="img"
+              />
+            </div>
+            <div className="prnvText">이전글</div>
           </div>
-          <div className="prnvText">이전글</div>
-        </div>
-        <div
-          className="prnvTitle"
-          onClick={() => {
-            moveToRead(content.beAf[0].iboard);
-          }}
-        >
-          {content.beAf[0].title}
-        </div>
-      </PrnvContentStyle>
-      <PrnvContentStyle>
-        {content.beAf[1] && (
-          <>
-            <div className="prnv">
-              <div className="prnvIcon">
-                <img
-                  src={`${process.env.PUBLIC_URL}/assets/images/mingcute_down-line.svg`}
-                  alt="img"
-                />
-              </div>
-              <div className="prnvText">다음글</div>
+          <div
+            className="prnvTitle"
+            onClick={() => {
+              moveToRead(content.be.iboard);
+            }}
+          >
+            {content.be.title}
+          </div>
+        </PrnvContentStyle>
+      )}
+
+      {content.af && (
+        <PrnvContentStyle>
+          <div className="prnv">
+            <div className="prnvIcon">
+              <img
+                src={`${process.env.PUBLIC_URL}/assets/images/mingcute_down-line.svg`}
+                alt="img"
+              />
             </div>
-            <div
-              className="prnvTitle"
-              onClick={() => {
-                moveToRead(content.beAf[1].iboard);
-              }}
-            >
-              {content.beAf[1].title}
-            </div>
-          </>
-        )}
-      </PrnvContentStyle>
+            <div className="prnvText">다음글</div>
+          </div>
+          <div
+            className="prnvTitle"
+            onClick={() => {
+              moveToRead(content.af.iboard);
+            }}
+          >
+            {content.af.title}
+          </div>
+        </PrnvContentStyle>
+      )}
+
       <BtnBoxStyle>
         <div className="editBtn">
           <div
@@ -487,6 +500,13 @@ const Read = () => {
           title={popTitle}
           content={popContent}
           callFn={closeModal}
+        />
+      ) : null}
+      {delReadResult ? (
+        <ResultModal
+          title={popTitle}
+          content={popContent}
+          callFn={closeDelReadModal}
         />
       ) : null}
     </WrapStyle>

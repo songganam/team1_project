@@ -32,22 +32,22 @@ const AboutPage = () => {
   const price = todo.price;
   const iboard = todo.iboard;
 
-  const iAboutGogi = {
-    ishop: ishop,
-    name: name,
-    pic: "pic",
-    menu: menu,
-    price: price,
-  };
-  console.log(iAboutGogi);
-  getAboutGogi(iAboutGogi);
+  // const iAboutGogi = {
+  //   ishop: ishop,
+  //   name: name,
+  //   pic: "pic",
+  //   menu: menu,
+  //   price: price,
+  // };
+  // console.log(iAboutGogi);
+  // getAboutGogi(iAboutGogi);
 
-  const iAboutCommu = {
-    iboard: iboard,
-    pic: "",
-  };
-  console.log(iAboutCommu);
-  getAboutCommu(iAboutCommu);
+  // const iAboutCommu = {
+  //   iboard: iboard,
+  //   pic: "",
+  // };
+  // console.log(iAboutCommu);
+  // getAboutCommu(iAboutCommu);
 
   return (
     <Layout>
