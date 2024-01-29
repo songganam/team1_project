@@ -56,7 +56,7 @@ const MeatDetailPage = () => {
   const [loading, setLoading] = useState(false);
   const { isLogin } = useCustomLogin();
   const isBookInfo = storeInfo.isBook;
-  const host = `http://192.168.0.144:5221/pic/shop/${ibutcher}/shop_pic/`;
+  const host = `http://192.168.0.144:5221/pic/butcher/`;
 
   useEffect(() => {
     setLoading(true);
@@ -147,7 +147,10 @@ const MeatDetailPage = () => {
               {storeInfo.pics &&
                 storeInfo.pics.map((pic, index) => (
                   <SwiperSlide key={index}>
-                    <img src={`${host}${pic}`} alt="" />
+                    <img
+                      src={`${host}${storeInfo.ibutcher}/butchershop_pic/${storeInfo.pics}`}
+                      alt=""
+                    />
                   </SwiperSlide>
                 ))}
             </Swiper>

@@ -30,7 +30,7 @@ export const InfoContentWrap = styled.div`
   align-items: flex-start;
   gap: 10px;
   position: absolute;
-  top: 470px;
+  top: 500px;
   background: rgba(17, 17, 17, 0.35);
 `;
 export const InfoContent = styled.div`

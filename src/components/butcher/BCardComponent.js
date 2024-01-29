@@ -15,6 +15,7 @@ import useCustomHook from "../meat/hooks/useCustomHook";
 import useCustomLogin from "../meat/hooks/useCustomLogin";
 
 const GCardComponent = ({ data }) => {
+  const host = `http://192.168.0.144:5221/pic/butcher/`;
   console.log(data);
   const navigate = useNavigate();
   const { ibutcher } = useParams();
@@ -61,7 +62,10 @@ const GCardComponent = ({ data }) => {
               </ButcherStoreBox>
             </ButcherStoreInfo>
             <ButcherSotreCardImg>
-              <img src={item.pics} alt="고기 더미 이미지" />
+              <img
+                src={`${host}${item.ibutcher}/butchershop_pic/${item.pics[0]}`}
+                alt="고기 더미 이미지"
+              />
             </ButcherSotreCardImg>
           </ButcherStoreCard>
         ))}

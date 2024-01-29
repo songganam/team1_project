@@ -29,7 +29,7 @@ const GogiPage = () => {
   let timg, tname, tcontent;
   let showTitleHeader = false;
   switch (location.pathname) {
-    case `/gogi/list`:
+    case `/meat/list`:
       timg = "https://picsum.photos/1920/215/?category=meat";
       tname = "고깃집찾기";
       tcontent = "고기자체로 행복이 되는 공간";
