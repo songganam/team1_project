@@ -92,26 +92,40 @@ const MeatReviewPage = () => {
     const formData = new FormData();
 
     // dto 객체 생성
-    const dto = {
-      ishop: ishop,
-      star: rating,
-      review: requiredMsg,
-      pics: subImages.map((subImg, index) => `subImage${index}`), // 상대 경로나 URL을 사용해야 합니다.
-    };
+    const dto = new Blob(
+      [
+        JSON.stringify({
+          ishop: ishop,
+          star: rating,
+          review: requiredMsg,
+        }),
+      ],
+      { type: "application/json" },
+    );
 
     // dto 객체를 FormData에 추가
-    formData.append("dto", JSON.stringify(dto));
+    formData.append("dto", dto);
 
-    // mainImage 추가
-    formData.append("pics", mainImage);
+    // mainImage와 subImages를 합쳐 pics로 추가
+    const pics = [mainImage, ...subImages];
 
-    // subImages 배열 추가
-    subImages.forEach((subImg, index) => {
-      formData.append("pics", subImg);
+    // 각 이미지를 개별적으로 추가
+    pics.forEach((pic, index) => {
+      formData.append(`pics[${index}]`, pic);
     });
 
-    postReview(formData);
+    postReview({ product: formData, successFn, failFn, errorFn });
     console.log("review page ", formData);
+    console.log("review page ", dto);
+  };
+  const successFn = result => {
+    console.log(result);
+  };
+  const failFn = result => {
+    console.log(result);
+  };
+  const errorFn = result => {
+    console.log(result);
   };
 
   return (

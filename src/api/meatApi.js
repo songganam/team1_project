@@ -80,19 +80,25 @@ export const changeBookmark = async storeNum => {
   }
 };
 
-export const postReview = async formData => {
-  console.log("axios", formData);
+export const postReview = async ({ product, successFn, failFn, errorFn }) => {
+  console.log("axios", product);
 
   try {
-    const headers = { headers: { "Content-Type": "multipart/form-data" } };
+    const header = { headers: { "Content-Type": "multipart/form-data" } };
 
     const res = await authAxios.post(
       `${API_SERVER_HOST}/shop`,
-      formData,
-      headers,
+      product,
+      header,
     );
-    console.log("성공");
+    const status = res.status.toString();
+    if (status.charAt(0) === "2") {
+      successFn(res.data);
+    } else {
+      failFn("글 등록 오류", res.statusText);
+    }
   } catch (error) {
-    console.log("실패");
+    console.log("글 등록 서버오류", error.response.data);
+    errorFn("글 등록 서버오류", error.response.data);
   }
 };

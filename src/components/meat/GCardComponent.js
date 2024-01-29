@@ -22,6 +22,7 @@ const GCardComponent = ({ data }) => {
     useCustomHook();
 
   const { isLogin } = useCustomLogin();
+  const host = `http://192.168.0.144:5221/pic/shop/`;
   const handleReserClick = (e, ishop, name) => {
     e.stopPropagation();
     if (isLogin) {
@@ -70,7 +71,10 @@ const GCardComponent = ({ data }) => {
               </MeatStoreBox>
             </MeatStoreInfo>
             <MeatSotreCardImg>
-              <img src={item.pics} alt="고기 더미 이미지" />
+              <img
+                src={`${host}${item.ishop}/shop_pic/${item.pics[0]}`}
+                alt="고기 더미 이미지"
+              />
             </MeatSotreCardImg>
           </MeatStoreCard>
         ))}

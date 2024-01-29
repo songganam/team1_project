@@ -1,7 +1,7 @@
 import moment from "moment";
 import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate, useParams } from "react-router";
-import { getBInfo } from "../../api/butcherApi";
+import { getBInfo, postPickup } from "../../api/butcherApi";
 import ResultModal from "../../components/common/ResultModal";
 import ReserCalendar from "../../components/meat/ReserCalendar";
 import useCustomHook from "../../components/meat/hooks/useCustomHook";
@@ -34,7 +34,7 @@ import {
 } from "./styles/ButcherPickupStyle";
 
 const MeatDetailPage = () => {
-  const { openModal, isModal, closeModal } = useCustomHook();
+  const { openModal, isModal, closeModal, submitModal } = useCustomHook();
   const navigate = useNavigate();
   const { ibutcher } = useParams();
   const location = useLocation();
@@ -195,14 +195,16 @@ const MeatDetailPage = () => {
       2,
       "0",
     )}`; // 분도 두 자리 숫자로 출력
-    const timeline = selectedDate + " " + time;
+    const timeline = selectedDate + " " + time + ":00";
     const pickupData = {
-      ibutcher: ibutcher,
+      ibutcher: parseInt(ibutcher),
       date: timeline,
       request: requiredMsg,
-      menu: menus,
+      menus: menus,
     };
-    console.log(pickupData);
+    postPickup({ pickupData, successFn, failFn, errorFn });
+    openModal("예약완료", "예약이 완료되었습니다.", submitModal);
+    // console.log(pickupData);
   };
   return (
     <div>

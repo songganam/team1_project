@@ -72,9 +72,19 @@ export const postPickup = async ({
   failFn,
   errorFn,
 }) => {
+  console.log("레저데이따", pickupData);
   try {
-    const res = authAxios.post(``)
+    //
+    const header = { headers: { "Content-Type": "application/json" } };
+    const res = await authAxios.post(`${host}/pickup`, pickupData, header);
+    const status = res.status.toString();
+    if (status.charAt(0) === "2") {
+      successFn(res.data);
+    } else {
+      failFn("");
+    }
   } catch (error) {
-    errorFn(error);
+    errorFn("");
+    //
   }
 };
