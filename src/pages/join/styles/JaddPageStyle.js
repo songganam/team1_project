@@ -118,6 +118,12 @@ export const JaddNickNameWrap = styled.div`
   display: flex;
   flex-direction: column;
   justify-content: flex-end;
+
+  .nicknameCheck {
+    padding-top: 10px;
+    font-size: 14px;
+    color: #d60117;
+  }
 `;
 
 export const JaddNickNameInner = styled.div`
