@@ -240,7 +240,7 @@ const App = () => {
             }
           ></Route>
           <Route
-            path="modify"
+            path="modify/:ireser"
             element={
               <Suspense fallback={<Loading />}>
                 <LazyGmodifyPage />
