@@ -20,11 +20,15 @@ import {
   MainGogiShop,
 } from "./styles/AboutPageStyle";
 
+
 const AboutPage = () => {
   const [aboutData, setAboutData] = useState([]);
   const [fetching, setFetching] = useState(false);
+
+
+
   useEffect(() => {
-    // setFetching(true);
+
     getAbout({ aboutData, successFn, failFn, errorFn });
   }, []);
 
@@ -33,19 +37,23 @@ const AboutPage = () => {
   const comuhost = `http://192.168.0.144:5221/pic/community/`;
 
   const successFn = result => {
-    setFetching(false);
+
     setAboutData(result);
+    // setCommuData(result);
+
     console.log("성공", result);
   };
   console.log("투두", aboutData);
   const failFn = result => {
-    setFetching(true);
+
+    // setLoading(false);
     console.log(result);
   };
   const errorFn = result => {
-    setFetching(true);
+    // setLoading(false);
     console.log(result);
   };
+
 
   return (
     <Layout>
@@ -138,6 +146,7 @@ const AboutPage = () => {
               </ButcherCards>
             </MainButcher>
 
+
             <MainBand>
               <img
                 src="/assets/images/aboutimages/gogiro_band.svg"
@@ -192,6 +201,7 @@ const AboutPage = () => {
               </AboutEventCards>
             </AboutPageEvent> */}
 
+
             <AboutPageCommunity>
               <span className="CommunityTitle">고기 잡담</span>
               <CommunityImages>
@@ -223,6 +233,9 @@ const AboutPage = () => {
           </AboutPageMain>
         </AboutPageWrap>
       )}
+
+
+         
     </Layout>
   );
 };

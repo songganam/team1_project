@@ -71,6 +71,14 @@ const useCustomMy = () => {
     });
   };
 
+  // 예약 변경 페이지 이동
+  const moveToReserChange = ireser => {
+    navigate({
+      pathname: `../../meat/modify/${ireser}`,
+      search: `${defaultQueryString}`,
+    });
+  };
+
   return {
     page,
     isModal,
@@ -81,6 +89,7 @@ const useCustomMy = () => {
     moveToListPage,
     moveToReviewPage,
     moveToDetail,
+    moveToReserChange,
   };
 };
 export default useCustomMy;
