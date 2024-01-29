@@ -20,21 +20,26 @@ import {
   MainGogiShop,
 } from "./styles/AboutPageStyle";
 
+
 const AboutPage = () => {
   const [aboutData, setAboutData] = useState({});
   // const [commuData, setCommuData] = useState({});
 
   useEffect(() => {
+
     getAbout({ aboutData, successFn, failFn, errorFn });
   }, []);
 
   const successFn = result => {
+
     setAboutData(result);
     // setCommuData(result);
+
     console.log("성공", result);
   };
   console.log("투두", aboutData);
   const failFn = result => {
+
     // setLoading(false);
     console.log(result);
   };
@@ -131,61 +136,66 @@ const AboutPage = () => {
             </ButcherCards>
           </MainButcher>
 
-          <MainBand>
-            <img src="/assets/images/aboutimages/gogiro_band.svg" alt="image" />
-            <span className="MainBandText">고기-로</span>
-          </MainBand>
+            <MainBand>
+              <img
+                src="/assets/images/aboutimages/gogiro_band.svg"
+                alt="image"
+              />
+              <span className="MainBandText">고기-로</span>
+            </MainBand>
 
-          {/* 고깃집 홍보 */}
-          <AboutPageShops>
-            <div className="ShopTexts">
-              <span className="ShopTexts-one">미친 가성비 고깃집</span>
+            {/* 고깃집 홍보 */}
+            <AboutPageShops>
+              <div className="ShopTexts">
+                <span className="ShopTexts-one">미친 가성비 고깃집</span>
 
-              <span className="ShopTexts-two">:쎈밤</span>
+                <span className="ShopTexts-two">:쎈밤</span>
 
-              <span className="ShopTexts-three">
-                삼겹살/목살/막창 1인분(150g)
-              </span>
+                <span className="ShopTexts-three">
+                  삼겹살/목살/막창 1인분(150g)
+                </span>
 
-              <span className="ShopTexts-four">7,900원</span>
-            </div>
-            <img src="/assets/images/aboutimages/shoppic.svg" />
-          </AboutPageShops>
-          {/* 오늘의 행사 */}
-          <AboutPageEvent>
-            <div className="EventTitle">오늘의 행사</div>
-            {/* 이벤트 첫번째 카드 */}
-            <AboutEventCards>
-              <AboutCardWrap>
-                <img
-                  className="EventImage"
-                  src="/assets/images/aboutimages/butcher_3.svg"
-                />
-                <div className="AboutCardTitle">신미식육점</div>
-                <div className="AboutCardPrice">최대 30% 할인 행사</div>
-                <div className="EventButton-wrap">
-                  <DefaultBt className="EventButton">방문하기</DefaultBt>
-                </div>
-              </AboutCardWrap>
-              {/* 이벤트 두번째 카드 */}
-              <AboutCardWrap>
-                <img
-                  className="EventImage"
-                  src="/assets/images/aboutimages/butcher_3.svg"
-                />
-                <div className="AboutCardTitle">신미식육점</div>
-                <div className="AboutCardPrice">최대 30% 할인 행사</div>
-                <div className="EventButton-wrap">
-                  <DefaultBt className="EventButton">방문하기</DefaultBt>
-                </div>
-              </AboutCardWrap>
-            </AboutEventCards>
-          </AboutPageEvent>
+                <span className="ShopTexts-four">7,900원</span>
+              </div>
+              <img src="/assets/images/aboutimages/shoppic.svg" />
+            </AboutPageShops>
+            {/* 오늘의 행사 */}
+            <AboutPageEvent>
+              <div className="EventTitle">오늘의 행사</div>
+              {/* 이벤트 첫번째 카드 */}
+              <AboutEventCards>
+                <AboutCardWrap>
+                  <img
+                    className="EventImage"
+                    src="/assets/images/aboutimages/butcher_3.svg"
+                  />
+                  <div className="AboutCardTitle">신미식육점</div>
+                  <div className="AboutCardPrice">최대 30% 할인 행사</div>
+                  <div className="EventButton-wrap">
+                    <DefaultBt className="EventButton">방문하기</DefaultBt>
+                  </div>
+                </AboutCardWrap>
+                {/* 이벤트 두번째 카드 */}
+                <AboutCardWrap>
+                  <img
+                    className="EventImage"
+                    src="/assets/images/aboutimages/butcher_3.svg"
+                  />
+                  <div className="AboutCardTitle">신미식육점</div>
+                  <div className="AboutCardPrice">최대 30% 할인 행사</div>
+                  <div className="EventButton-wrap">
+                    <DefaultBt className="EventButton">방문하기</DefaultBt>
+                  </div>
+                </AboutCardWrap>
+              </AboutEventCards>
+            </AboutPageEvent>
+
 
           <AboutPageCommunity>
             <span className="CommunityTitle">고기 잡담</span>
             <CommunityImages>
               <div className="BigImage">
+
                 <img src="/assets/images/aboutimages/community_1.svg">
                   {aboutData.commu[0].pic}
                 </img>
@@ -209,11 +219,13 @@ const AboutPage = () => {
                 <img src="/assets/images/aboutimages/community_5.svg">
                   {aboutData.commu[4].pic}
                 </img>
+
               </div>
             </CommunityImages>
           </AboutPageCommunity>
         </AboutPageMain>
       </AboutPageWrap>
+
     </Layout>
   );
 };

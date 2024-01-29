@@ -9,7 +9,9 @@ export const getAbout = async ({ aboutData, successFn, failFn, errorFn }) => {
     const status = res.status.toString();
     if (status.charAt(0) === "2") {
       console.log("고기 호출 성공");
+
       successFn(res.data);
+
     } else {
       failFn("고기 호출 오류");
     }

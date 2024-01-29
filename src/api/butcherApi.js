@@ -65,3 +65,16 @@ export const changeBookmark = async storeNum => {
     //
   }
 };
+
+export const postPickup = async ({
+  pickupData,
+  successFn,
+  failFn,
+  errorFn,
+}) => {
+  try {
+    const res = authAxios.post(``)
+  } catch (error) {
+    errorFn(error);
+  }
+};

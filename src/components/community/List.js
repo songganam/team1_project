@@ -68,7 +68,6 @@ const List = () => {
   });
   // 로딩창
   const [fetching, setFetching] = useState(false);
-
   // page에 따라 최초 데이터 가져오기
   useEffect(() => {
     const param = { page, search };
