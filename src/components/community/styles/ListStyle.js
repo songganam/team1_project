@@ -92,29 +92,32 @@ export const ImgStyle = styled.div`
   position: relative;
   display: flex;
   flex-direction: column;
-  gap: 10px;
+  gap: 20px;
 `;
 export const LargeImgStyle = styled.div`
   position: relative;
   max-width: 480px;
   min-width: 60px;
+  overflow: hidden;
+  box-shadow: 4px 4px 4px 0px rgba(0, 0, 0, 0.25);
   img {
     width: 100%;
     border-radius: 5px;
-    box-shadow: 4px 4px 4px 0px rgba(0, 0, 0, 0.25);
   }
 `;
 export const ThumbnailStyle = styled.div`
   position: relative;
   max-width: 480px;
-  max-height: 180px;
+  max-height: 1000px;
   display: flex;
   flex-wrap: wrap;
   /* justify-content: space-between; */
   align-items: center;
   gap: 20px;
+  overflow: hidden;
   img {
     max-width: 80px;
+    max-height: 100px;
     border-radius: 5px;
     box-shadow: 4px 4px 4px 0px rgba(0, 0, 0, 0.25);
     cursor: pointer;
