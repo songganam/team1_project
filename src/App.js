@@ -1,3 +1,4 @@
+
 import "normalize.css";
 import React, { Suspense, lazy } from "react";
 import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
@@ -177,7 +178,7 @@ const App = () => {
             }
           ></Route>
           <Route
-            path="modify/:iboard"
+            path="modify"
             element={
               <Suspense fallback={<Loading />}>
                 <LazyModifyPage />
@@ -339,3 +340,4 @@ const App = () => {
 };
 
 export default App;
+
