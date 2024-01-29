@@ -62,6 +62,7 @@ export const JaddNameWrap = styled.div`
     border-bottom: 1px solid #000000;
   }
 `;
+
 export const JaddPwWrap = styled.div`
   .JaddPw {
     position: relative;
@@ -93,7 +94,7 @@ export const JaddGenderWrap = styled.div`
     display: flex;
     align-items: center;
     justify-content: space-between;
-    padding: 20px 0 19px 0;
+    padding: 0px 0 19px 0;
     width: 100%;
     border: none;
     background-color: #ffffff;
@@ -131,6 +132,7 @@ export const JaddNickNameInner = styled.div`
   align-items: center;
   position: relative;
   border-bottom: 1px solid #000000;
+
   .JaddNickName {
     position: relative;
     font-size: 14px;
@@ -143,6 +145,21 @@ export const JaddNickNameInner = styled.div`
     font-family: "DAEAM_LEE_TAE_JOON";
     color: #d60117;
     right: 0;
+  }
+`;
+export const NicknameCheck = styled.div`
+  font-size: 14px;
+  
+`;
+
+export const JaddBirthWrap = styled.div`
+  .JaddBirth {
+    position: relative;
+    font-size: 14px;
+    padding: 20px 0 19px 0;
+    width: 100%;
+    border: none;
+    border-bottom: 1px solid #000000;
   }
 `;
 

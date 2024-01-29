@@ -7,6 +7,7 @@ import {
   GenderBtWrap,
   JaddAddressBts,
   JaddAddressWrap,
+  JaddBirthWrap,
   JaddGenderWrap,
   JaddMailWrap,
   JaddMorePwWrap,
@@ -19,6 +20,7 @@ import {
   JaddPageMain,
   JaddPageWrap,
   JaddPwWrap,
+  NicknameCheck,
 } from "./styles/JaddPageStyle";
 import { nickNameCheck, postJadd } from "../../api/loginApi";
 // 회원가입 작성 페이지입니다.
@@ -68,8 +70,6 @@ const JaddPage = () => {
     const checkUpw = todo.checkUpw;
     const name = todo.name;
     const nickname = todo.nickname;
-    // const nicknameCheck = todo.nicknameCheck;
-    // const birth = todo.birth
     const gender = todo.gender;
     const address = todo.address;
     const tel = todo.tel;
@@ -94,27 +94,12 @@ const JaddPage = () => {
   };
 
   // 닉네임 중복확인
-  const [nickname, setNickname] = useState("");
-  const [nickCheck, setNickCheck] = useState(null);
+  const [nickname, setNickname] = useState();
+  const [isAvailable, setIsAvailable] = useState(null);
 
-  const iNickCheck = () => {
-    if (nickname.length >= 3) {
-      setNickCheck(true);
-    } else {
-      setNickCheck(false);
-    }
+  const handleCheckAvailability = () => {
+    setIsAvailable(nickname.length >= 3);
   };
-
-  const handleNicknameChange = e => {
-    setNickname(e.target.value);
-  };
-  const handleNicknameCheck = () => {
-    console.log("중복 확인");
-  };
-
-  // console.log("테스트");
-  // const iNickCheck = { nickname: todo.nickname };
-  // nickNameCheck({ iNickCheck });
 
   // 패스 이동하기
   const navigate = useNavigate();
@@ -182,9 +167,7 @@ const JaddPage = () => {
                   placeholder="입력한 비밀번호를 한번 더 확인하세요."
                   onChange={e => handleChange(e)}
                 ></input>
-
                 <div className="passCheck">{passCheckForm()}</div>
-
                 <div>
                   {/* {passCheckError && (
                     <label style={{ color: "red" }}>
@@ -229,26 +212,27 @@ const JaddPage = () => {
                   value={todo.nickname}
                   className="JaddNickName"
                   placeholder="사용할 닉네임을 입력하세요."
-                  onChange={e => handleNicknameChange(e)}
+                  onChange={e => setNickname(e.target.value)}
                 ></input>
 
                 <DefaultBt
                   className="JaddNickName-Bt"
-                  onClick={handleNicknameCheck}
+                  onClick={handleCheckAvailability}
                 >
                   중복확인
                 </DefaultBt>
               </JaddNickNameInner>
-              <div>
-                {nickCheck === true && (
-                  <p style={{ color: "green" }}>사용 가능</p>
+              <NicknameCheck>
+                {isAvailable === true && (
+                  <p style={{ color: "green" }}>사용 가능한 닉네임입니다.</p>
                 )}
-                {nickCheck === false && (
-                  <p style={{ color: "red" }}>사용 불가</p>
+                {isAvailable === false && (
+                  <p style={{ color: "red" }}>이미 사용 중인 닉네임입니다.</p>
                 )}
-              </div>
+              </NicknameCheck>
             </JaddNickNameWrap>
             <br />
+            
             <JaddNumberWrap>
               <label>휴대폰 번호</label>
               <input
@@ -260,6 +244,18 @@ const JaddPage = () => {
                 onChange={e => handleChange(e)}
               ></input>
             </JaddNumberWrap>
+            <br />
+            <JaddBirthWrap>
+              <label>생년월일</label>
+              <input
+                type="text"
+                name="name"
+                value={todo.birth}
+                className="JaddBirth"
+                placeholder="본인 생년월일을 입력하세요."
+                onChange={e => handleChange(e)}
+              ></input>
+            </JaddBirthWrap>
             <br />
             <JaddAddressWrap>
               <label>주소</label>
