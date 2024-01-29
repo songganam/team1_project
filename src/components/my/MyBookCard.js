@@ -1,5 +1,4 @@
 import React, { useEffect, useState } from "react";
-import { useNavigate, useParams } from "react-router-dom";
 import Button from "../../components/button/Button";
 import {
   MyBookCardBookButton,
@@ -19,10 +18,11 @@ import Bookmark from "../bookmark/Bookmark";
 import { patchMyBook, getMyBook } from "../../api/MyApi";
 import useCustomMy from "./hooks/useCustomMy";
 import useCustomHook from "../meat/hooks/useCustomHook";
+import { useNavigate } from "react-router";
 
 // 내 예약/픽업 내역 카드
 const MyBookCard = props => {
-  const { page, moveToBookPage } = useCustomMy();
+  const { page, moveToBookPage, moveToReserChange } = useCustomMy();
   const { moveToReview } = useCustomHook();
   const [myBookList, setMyBookList] = useState([]);
 
@@ -42,13 +42,33 @@ const MyBookCard = props => {
   const errorFn = result => {
     console.log(result);
   };
-
   const navigate = useNavigate();
-
-  const handelModifyBook = () => {
-    navigate("/meat/reservation");
+  // 예약 변경 페이지 이동
+  const handleMoveBookChange = ireser => {
+    const myBook = myBookList.find(item => item.ireser === ireser);
+    navigate(`/meat/modify/${ireser}`),
+      {
+        state: {
+          storeIreser: ireser,
+          storeName: myBookList.name,
+          storeDate: myBook.date,
+          storeHeadCount: myBook.headCount,
+          storeRequest: myBook.request,
+        },
+      };
   };
 
+  // 예약 삭제 (PATCH)
+  const handleCancelBook = (checkShop, ireser) => {
+    const patchBookForm = {
+      checkShop: checkShop,
+      ireser: ireser,
+    };
+    patchMyBook({ patchBookForm, successFn, failFn, errorFn });
+    console.log(patchBookForm);
+  };
+
+  // 리뷰 작성 페이지 이동
   const handleMoveReview = e => {
     moveToReview(e);
   };
@@ -61,34 +81,12 @@ const MyBookCard = props => {
   // 이미지 데이터 호출 성공시, 추후 삭제
   const { storeimg } = props;
 
-  // 예약 취소 안됨 ㅎㅎ.....
-  const handleCancelBook = async reservationId => {
-    try {
-      await patchMyBook({
-        deleteBook: { reservationId },
-        successFn: () => {
-          const updatedMyBookList = myBookList.filter(
-            item => item.id !== reservationId,
-          );
-          setMyBookList(updatedMyBookList);
-        },
-        failFn: () => {
-          console.log("예약 내역 삭제 오류");
-        },
-        errorFn: () => {
-          console.log("서버 오류");
-        },
-      });
-    } catch (error) {
-      console.log("예약 내역 삭제 중 에러 발생", error);
-    }
-  };
-
   return (
     <>
       {myBookList.map((myBookList, index) => (
         <MyBookCardWrapper key={index}>
           <MyBookCardVisual>
+            {/* <img src={myBookList.pic} alt="가게 이미지"></img> */}
             <img src={storeimg} alt="가게 이미지"></img>
           </MyBookCardVisual>
           <MyBookCardContent>
@@ -112,8 +110,13 @@ const MyBookCard = props => {
               </MyBookCardInfoTitle>
               <MyBookCardDateContent>
                 <li>{myBookList.date}</li>
-                {/* 아래 코드 수정 필요 */}
-                <li> {myBookList.confirm === 0 ? "대기" : "확정"}</li>
+                <li>
+                  {myBookList.confirm === 0
+                    ? "대기"
+                    : myBookList.confirm === 2
+                    ? "확정"
+                    : "불가"}
+                </li>
                 <li>{myBookList.headCount}</li>
                 <li>{myBookList.request}</li>
               </MyBookCardDateContent>
@@ -121,14 +124,21 @@ const MyBookCard = props => {
             <MyBookCardBookButton>
               <div
                 onClick={e => moveToReview(myBookList.ishop, myBookList.name)}
+                style={{ display: myBookList.confirm === 2 ? "block" : "none" }}
               >
                 <Button bttext="리뷰작성"></Button>
               </div>
-              <Button bttext="예약변경" onClick={handelModifyBook}></Button>
               <div
-                onClick={() => {
-                  handleCancelBook();
-                }}
+                onClick={e => moveToReserChange(myBookList.ireser)}
+                style={{ display: myBookList.confirm !== 2 ? "block" : "none" }}
+              >
+                <Button bttext="예약변경"></Button>
+              </div>
+              <div
+                onClick={e =>
+                  handleCancelBook(myBookList.checkShop, myBookList.ireser)
+                }
+                style={{ display: myBookList.confirm !== 2 ? "block" : "none" }}
               >
                 <Button bttext="예약취소"></Button>
               </div>

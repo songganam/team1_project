@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { getMyReview } from "../../api/MyApi";
+import { deleteMyReview, getMyReview } from "../../api/MyApi";
 import Button from "../../components/button/Button";
 import useModal from "../../hooks/useModal";
 import Bookmark from "../bookmark/Bookmark";
@@ -23,7 +23,9 @@ import useCustomMy from "./hooks/useCustomMy";
 
 const MyReviewCard = props => {
   const [myReviewList, setMyReviewList] = useState([]);
+  const [reviewToDelete, setReviewToDelete] = useState(null);
   const { page, moveToReviewPage } = useCustomMy();
+  const { useResultModal, openModal, closeModal } = useModal();
 
   useEffect(() => {
     const param = { page };
@@ -31,7 +33,7 @@ const MyReviewCard = props => {
   }, [page]);
 
   const successFn = result => {
-    setMyReviewList(result);
+    setMyReviewList([...myReviewList, ...result]);
     console.log(result);
   };
   const failFn = result => {
@@ -42,9 +44,14 @@ const MyReviewCard = props => {
   };
 
   const { storeimg } = props;
-  const { useResultModal, openModal, closeModal } = useModal();
-  const handleDeleteReview = () => {
-    openModal();
+
+  const handledeleteClick = (checkShop, ireview) => {
+    const deleteForm = {
+      checkShop: checkShop,
+      ireview: ireview,
+    };
+    deleteMyReview({ deleteForm, successFn, failFn, errorFn });
+    console.log(deleteForm);
   };
 
   const handleMyReviewView = () => {
@@ -56,6 +63,7 @@ const MyReviewCard = props => {
       {myReviewList.map((myReviewList, index) => (
         <MyReviewCardWrapper key={index}>
           <MyReviewCardVisual>
+            {/* <img src={myReviewList.pic} alt="가게 이미지"></img> */}
             <img src={storeimg} alt="가게 이미지"></img>
           </MyReviewCardVisual>
           <MyReviewCardContent>
@@ -83,9 +91,12 @@ const MyReviewCard = props => {
             </MyReviewCardInfo>
             <MyBookCardBookButton>
               <div
-                onClick={() => {
-                  handleDeleteReview();
-                }}
+                onClick={e =>
+                  handledeleteClick(
+                    myReviewList.checkShop,
+                    myReviewList.ireview,
+                  )
+                }
               >
                 <Button bttext="리뷰삭제"></Button>
               </div>

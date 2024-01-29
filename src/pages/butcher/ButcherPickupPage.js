@@ -47,6 +47,7 @@ const MeatDetailPage = () => {
   const deleteBtn = process.env.PUBLIC_URL + `/assets/images/delete_button.svg`;
   const addBtn = process.env.PUBLIC_URL + `/assets/images/add_menu.png`;
   const disableBtn = process.env.PUBLIC_URL + `/assets/images/disable.png`;
+  const arrowDown = process.env.PUBLIC_URL + `/assets/images/arrow_down.png`;
   console.log(storeInfo);
   console.log(storeInfo.menus);
   // 가게 정보를 가져와서 성공하면 setStoreInfo를 사용하여 상태를 업데이트합니다.
@@ -147,11 +148,10 @@ const MeatDetailPage = () => {
     }
   });
 
-  const minuteOptions = Array.from({ length: 60 }, (_, i) => ({
-    value: i,
-    label: String(i).padStart(2, "0"),
+  const minuteOptions = Array.from({ length: 6 }, (_, i) => ({
+    value: i * 10,
+    label: String(i * 10).padStart(2, "0"),
   }));
-
   const customStyles = {
     control: (styles, { isFocused, isSelected }) => ({
       ...styles,
@@ -180,7 +180,7 @@ const MeatDetailPage = () => {
   };
 
   // ! POST
-  const handleReserSubmit = () => {
+  const handlePickupSubmit = () => {
     const menus = selectedItems.map((item, index) => ({
       ibutMenu: index,
       count: item.quantity,
@@ -196,13 +196,13 @@ const MeatDetailPage = () => {
       "0",
     )}`; // 분도 두 자리 숫자로 출력
     const timeline = selectedDate + " " + time;
-    const PickupData = {
+    const pickupData = {
       ibutcher: ibutcher,
       date: timeline,
       request: requiredMsg,
       menu: menus,
     };
-    console.log(PickupData);
+    console.log(pickupData);
   };
   return (
     <div>
@@ -302,7 +302,7 @@ const MeatDetailPage = () => {
                         onChange={event => handleChange(index, event)}
                       >
                         <PickupItemOption value="">
-                          메뉴를 선택해주세요
+                          메뉴를 선택해주세요 ᐁ
                         </PickupItemOption>
                         {Array.isArray(storeInfo.menus) &&
                           storeInfo.menus
@@ -383,7 +383,7 @@ const MeatDetailPage = () => {
           </div>
         </ReserWrap>
         {/* button */}
-        <ReserSubmitBtn onClick={handleReserSubmit}>
+        <ReserSubmitBtn onClick={handlePickupSubmit}>
           <span>예약하기</span>
         </ReserSubmitBtn>
       </ReserWrapper>

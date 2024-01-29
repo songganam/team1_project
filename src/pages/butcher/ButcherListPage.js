@@ -34,6 +34,7 @@ const MeatListPage = () => {
   const [loading, setLoading] = useState(false);
   // const [selectFilter, setSelectFilter] = useState("lastest");
   const [cateSearch, setCateSearch] = useState("");
+  const host = `http://192.168.0.144:5221/pic/shop/${ishop}/shop_pic/`;
 
   console.log("ref :", refresh);
 

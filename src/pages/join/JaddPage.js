@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
 import { DefaultBt } from "../../components/button/styles/ButtonStyle";
 import TitleHeader from "../../components/titleheader/TitleHeader";
@@ -27,7 +27,6 @@ const JaddPage = () => {
   const [todo, setTodo] = useState({});
   // const [passCheckError,setPassCheckError] = useState(false)
 
-
   const passCheckForm = () => {
     const upw = todo.upw;
     const checkUpw = todo.checkUpw;
@@ -35,7 +34,6 @@ const JaddPage = () => {
       return <div>비밀번호가 일치합니다.</div>;
     } else {
       return <div>비밀번호가 일치하지 않습니다.</div>;
-
     }
   };
 
@@ -70,6 +68,7 @@ const JaddPage = () => {
     const checkUpw = todo.checkUpw;
     const name = todo.name;
     const nickname = todo.nickname;
+    // const nicknameCheck = todo.nicknameCheck;
     // const birth = todo.birth
     const gender = todo.gender;
     const address = todo.address;
@@ -92,15 +91,31 @@ const JaddPage = () => {
     // console.log(todo.password);
     // console.log(upw);
     postJadd(iJadd);
-
   };
+
   // 닉네임 중복확인
-  const handleNicknameCheck = () => {
-    console.log("테스트");
-    const iNickCheck = { nickname: todo.nickname };
-    nickNameCheck({ iNickCheck });
+  const [nickname, setNickname] = useState("");
+  const [nickCheck, setNickCheck] = useState(null);
 
+  const iNickCheck = () => {
+    if (nickname.length >= 3) {
+      setNickCheck(true);
+    } else {
+      setNickCheck(false);
+    }
   };
+
+  const handleNicknameChange = e => {
+    setNickname(e.target.value);
+  };
+  const handleNicknameCheck = () => {
+    console.log("중복 확인");
+  };
+
+  // console.log("테스트");
+  // const iNickCheck = { nickname: todo.nickname };
+  // nickNameCheck({ iNickCheck });
+
   // 패스 이동하기
   const navigate = useNavigate();
 
@@ -168,9 +183,7 @@ const JaddPage = () => {
                   onChange={e => handleChange(e)}
                 ></input>
 
-                <div className="passCheck">
-                {passCheckForm()}
-                </div>
+                <div className="passCheck">{passCheckForm()}</div>
 
                 <div>
                   {/* {passCheckError && (
@@ -179,7 +192,6 @@ const JaddPage = () => {
                     </label>
                   )} */}
                 </div>
-
               </JaddMorePwWrap>
             </form>
             <br />
@@ -217,7 +229,7 @@ const JaddPage = () => {
                   value={todo.nickname}
                   className="JaddNickName"
                   placeholder="사용할 닉네임을 입력하세요."
-                  onChange={e => handleChange(e)}
+                  onChange={e => handleNicknameChange(e)}
                 ></input>
 
                 <DefaultBt
@@ -228,7 +240,12 @@ const JaddPage = () => {
                 </DefaultBt>
               </JaddNickNameInner>
               <div>
-                <label>중복된 닉네임입니다.</label>
+                {nickCheck === true && (
+                  <p style={{ color: "green" }}>사용 가능</p>
+                )}
+                {nickCheck === false && (
+                  <p style={{ color: "red" }}>사용 불가</p>
+                )}
               </div>
             </JaddNickNameWrap>
             <br />

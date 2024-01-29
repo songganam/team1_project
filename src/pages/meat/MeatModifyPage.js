@@ -28,6 +28,11 @@ const MeatReservationPage = () => {
   const { ishop } = useParams();
   const location = useLocation();
   const storeName = location.state?.storeName;
+  const datetime = location.state?.storeDate;
+  const request = location.state?.request;
+  console.log(storeName);
+  console.log(datetime);
+  console.log(request);
   // ! Modal Control
   const navigate = useNavigate();
   const [isModal, setIsModal] = useState({
@@ -36,6 +41,7 @@ const MeatReservationPage = () => {
     content: "",
     callFn: null,
   });
+  console.log();
   const openModal = (title, content, callFn) => {
     setIsModal({ isOpen: true, title, content, callFn });
   };
@@ -47,6 +53,8 @@ const MeatReservationPage = () => {
     navigate("/meat/list");
   };
   // ! 사람 카운팅
+  // ! 데이터를 가져올때 인원수를 coun
+  //!  const [personCount, setPersonCount] useState(headcount)
   const [personCount, setPersonCount] = useState(1);
   const timeValue = [
     "17:00",
@@ -124,7 +132,7 @@ const MeatReservationPage = () => {
   console.log(timeline);
   console.log("timecount :", timeCount);
 
-  const reserData = {
+  const reserChangeData = {
     ishop: ishop,
     date: timeline,
     headCount: personCount,
@@ -141,10 +149,10 @@ const MeatReservationPage = () => {
         closeModal,
       );
     }
-    postReser({ reserData, successFn, failFn, errorFn });
+    postReser({ reserChangeData, successFn, failFn, errorFn });
     openModal("예약완료", "예약이 완료되었습니다.", submitModal);
-    console.log("내용 :", reserData);
-    return reserData;
+    console.log("내용 :", reserChangeData);
+    return reserChangeData;
   };
   const successFn = result => {
     console.log(result);
@@ -244,7 +252,7 @@ const MeatReservationPage = () => {
             </ReserCountWrap>
 
             {/* 
-            // * 요청사항
+            // * 요청사항 (Request)
             */}
             <ReserFormWrap>
               <ReserItem>
@@ -255,7 +263,7 @@ const MeatReservationPage = () => {
                   type="text"
                   name="requireMsg"
                   onChange={e => handleRequireMsg(e)}
-                  value={requiredMsg}
+                  value={request}
                   placeholder="요청사항을 입력해주세요. (30자 내외)"
                   maxLength="50"
                 />
