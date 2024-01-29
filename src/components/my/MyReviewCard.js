@@ -23,7 +23,7 @@ import useCustomMy from "./hooks/useCustomMy";
 
 const MyReviewCard = props => {
   const [myReviewList, setMyReviewList] = useState([]);
-  const { page, MoveToReviewPage } = useCustomMy();
+  const { page, moveToReviewPage } = useCustomMy();
 
   useEffect(() => {
     const param = { page };
@@ -48,7 +48,7 @@ const MyReviewCard = props => {
   };
 
   const handleMyReviewView = () => {
-    MoveToReviewPage({ page: page + 1 });
+    moveToReviewPage({ page: page + 1 });
   };
 
   return (
@@ -70,8 +70,8 @@ const MyReviewCard = props => {
               </MyReviewCardSubTitle>
               <MyReviewCardName>{myReviewList.name}</MyReviewCardName>
             </MyReviewCardTitle>
+            <CountingStar star={myReviewList.star}></CountingStar>
             <MyReviewCardInfo>
-              <CountingStar star={myReviewList.star}></CountingStar>
               <MyReviewCardInfoTitle>
                 <li>날짜</li>
                 <li>리뷰</li>

@@ -9,7 +9,11 @@ import { ColorStyle } from "../../styles/common/CommonStyle";
 
 const Thead = () => {
   return (
-    <TableStyle>
+    <TableStyle
+      marginTop="30px"
+      background={ColorStyle.g200}
+      borderTop="1px solid #8F8F8F"
+    >
       <TnoStyle>번호</TnoStyle>
       <TitleStyle justifyContent="center">제목</TitleStyle>
       <InfoStyle>

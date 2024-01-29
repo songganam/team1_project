@@ -1,14 +1,14 @@
 import React from "react";
-import { useParams } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import ResultModal from "../common/ResultModal";
 import {
   CardWrapper,
   InfoTagWrap,
-  MeatSotreCardImg,
-  MeatStoreBox,
-  MeatStoreCard,
-  MeatStoreInfo,
-  MeatStoreTitle,
+  ButcherSotreCardImg,
+  ButcherStoreBox,
+  ButcherStoreCard,
+  ButcherStoreInfo,
+  ButcherStoreTitle,
   ReserveBtn,
 } from "./styles/BCardStyle";
 import useCustomHook from "../meat/hooks/useCustomHook";
@@ -16,14 +16,19 @@ import useCustomLogin from "../meat/hooks/useCustomLogin";
 
 const GCardComponent = ({ data }) => {
   console.log(data);
+  const navigate = useNavigate();
   const { ibutcher } = useParams();
-  const { moveToRead, moveToReser } = useCustomHook();
-  const { isModal, openModal, moveToLogin } = useCustomHook();
+  const { moveToRead, moveToReser, isModal, openModal, moveToLogin } =
+    useCustomHook();
   const { isLogin } = useCustomLogin();
-  const handleReserClick = (e, ibutcher) => {
+  const handleReserClick = (e, ibutcher, name) => {
     e.stopPropagation();
     if (isLogin) {
-      moveToReser(ibutcher);
+      navigate(`/butcher/pickup/${ibutcher}`, {
+        state: {
+          storeName: name,
+        },
+      });
     } else {
       openModal("로그인 필요", "로그인이 필요한 서비스입니다.", moveToLogin);
     }
@@ -39,24 +44,26 @@ const GCardComponent = ({ data }) => {
       )}
       {data &&
         data.map(item => (
-          <MeatStoreCard
+          <ButcherStoreCard
             key={item.ibutcher}
             onClick={() => moveToRead(item.ibutcher)}
           >
-            <MeatStoreInfo>
-              <MeatStoreBox>
-                <MeatStoreTitle>{item.name}</MeatStoreTitle>
+            <ButcherStoreInfo>
+              <ButcherStoreBox>
+                <ButcherStoreTitle>{item.name}</ButcherStoreTitle>
                 <InfoTagWrap></InfoTagWrap>
                 {/* 예약하기 */}
-                <ReserveBtn onClick={e => handleReserClick(e, item.ishop)}>
-                  <span>예약하기</span>
+                <ReserveBtn
+                  onClick={e => handleReserClick(e, item.ibutcher, item.name)}
+                >
+                  <span>픽업하기</span>
                 </ReserveBtn>
-              </MeatStoreBox>
-            </MeatStoreInfo>
-            <MeatSotreCardImg>
+              </ButcherStoreBox>
+            </ButcherStoreInfo>
+            <ButcherSotreCardImg>
               <img src={item.pics} alt="고기 더미 이미지" />
-            </MeatSotreCardImg>
-          </MeatStoreCard>
+            </ButcherSotreCardImg>
+          </ButcherStoreCard>
         ))}
     </CardWrapper>
   );

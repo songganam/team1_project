@@ -6,15 +6,15 @@ export const CardWrapper = styled.div`
   width: 1180px;
   padding-top: 30px;
 `;
-export const MeatStoreCard = styled.div`
+export const ButcherStoreCard = styled.div`
   font-family: "DAEAM_LEE_TAE_JOON";
   display: inline-flex;
   padding: 30px 0px;
   align-items: flex-start;
-  /* gap: 30px; */
+  /* margin-right: 50px; */
   /* background: red; */
 `;
-export const MeatStoreCardName = styled.div`
+export const ButcherStoreCardName = styled.div`
   margin-left: 10px;
   position: relative;
   font-size: ${FontSize.title};
@@ -22,7 +22,7 @@ export const MeatStoreCardName = styled.div`
 
   /* margin-bottom: 20px; */
 `;
-export const MeatStoreInfo = styled.div`
+export const ButcherStoreInfo = styled.div`
   display: flex;
   width: 200px;
   height: 230px;
@@ -32,7 +32,7 @@ export const MeatStoreInfo = styled.div`
   gap: 5px;
   flex-wrap: wrap;
 `;
-export const MeatStoreBox = styled.div`
+export const ButcherStoreBox = styled.div`
   display: flex;
   width: 150px;
   height: 210px;
@@ -42,7 +42,7 @@ export const MeatStoreBox = styled.div`
   flex-wrap: wrap;
 `;
 
-export const MeatSotreCardImg = styled.div`
+export const ButcherSotreCardImg = styled.div`
   width: 380px;
   height: 210px;
   /* background-color: blue; */
@@ -52,9 +52,9 @@ export const MeatSotreCardImg = styled.div`
   }
 `;
 
-export const MeatstoreTag = styled.div``;
+export const ButcherstoreTag = styled.div``;
 
-export const MeatStoreTitle = styled.div`
+export const ButcherStoreTitle = styled.div`
   cursor: pointer;
   color: #111;
   height: 64px;
@@ -87,7 +87,7 @@ export const ReserveBtn = styled.div`
 `;
 export const InfoTagWrap = styled.div`
   display: flex;
-  width: 138px;
+  width: 150px;
   height: 60px;
   align-items: flex-start;
   align-content: flex-start;
@@ -95,8 +95,8 @@ export const InfoTagWrap = styled.div`
   flex-wrap: wrap;
   button {
     display: flex;
-    width: 64px;
-    height: 25px;
+    width: 70px;
+    height: 30px;
     justify-content: center;
     align-items: center;
     gap: 10px;
@@ -106,12 +106,12 @@ export const InfoTagWrap = styled.div`
     background: #fff;
 
     span {
-      width: 64px;
+      width: 70px;
       flex-shrink: 0;
       color: var(--primary, #d60117);
       text-align: center;
       font-family: DAEAM_LEE_TAE_JOON;
-      font-size: 14px;
+      font-size: 11px;
       font-style: normal;
       font-weight: 400;
       line-height: 125%; /* 17.5px */

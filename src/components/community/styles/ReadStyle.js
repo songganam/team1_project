@@ -59,7 +59,6 @@ export const PrnvContentStyle = styled.div`
   border-top: 1px solid ${ColorStyle.g500};
   font-family: "DAEAM_LEE_TAE_JOON";
   font-size: ${FontSize.strong};
-  cursor: pointer;
   .prnv {
     display: flex;
     align-items: center;
@@ -69,6 +68,7 @@ export const PrnvContentStyle = styled.div`
     display: flex;
     align-items: flex-start;
     color: ${ColorStyle.g700};
+    cursor: pointer;
   }
 `;
 

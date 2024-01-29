@@ -1,15 +1,23 @@
 import moment from "moment";
-import React, { useState } from "react";
-import ReserCalendar from "../../components/meat/ReserCalendar";
-
+import React, { useEffect, useState } from "react";
+import { useLocation, useNavigate, useParams } from "react-router";
+import { getBInfo } from "../../api/butcherApi";
 import ResultModal from "../../components/common/ResultModal";
-import { useLocation, useNavigate, useParams } from "react-router-dom";
-import { postReser } from "../../api/meatApi";
+import ReserCalendar from "../../components/meat/ReserCalendar";
+import useCustomHook from "../../components/meat/hooks/useCustomHook";
+import Select from "react-select";
+
 import {
+  MenuWrapper,
+  PickupItemCount,
+  PickupItemCountWrap,
+  PickupItemOption,
+  PickupItemSelect,
+  PickupItemWrap,
+  PickupMenuAddBtn,
+  PickupTimeSelectBox,
+  PickupTimeSelector,
   ReserContent,
-  ReserCountBox,
-  ReserCountBtn,
-  ReserCountResetBtn,
   ReserCountWrap,
   ReserFormWrap,
   ReserItem,
@@ -22,79 +30,83 @@ import {
   ReserTitle,
   ReserWrap,
   ReserWrapper,
+  ReviewImageDeleteBtn,
 } from "./styles/ButcherPickupStyle";
-// 고깃집 리뷰 쓰기 페이지입니다.
-const MeatReservationPage = () => {
-  const { ishop } = useParams();
+
+const MeatDetailPage = () => {
+  const { openModal, isModal, closeModal } = useCustomHook();
+  const navigate = useNavigate();
+  const { ibutcher } = useParams();
   const location = useLocation();
   const storeName = location.state?.storeName;
-  // ! Modal Control
-  const navigate = useNavigate();
-  const [isModal, setIsModal] = useState({
-    isOpen: false,
-    title: "",
-    content: "",
-    callFn: null,
-  });
-  const openModal = (title, content, callFn) => {
-    setIsModal({ isOpen: true, title, content, callFn });
+  const [loading, setLoading] = useState(false);
+  const [storeInfo, setStoreInfo] = useState({});
+  const [selectedItems, setSelectedItems] = useState([
+    { item: "", quantity: 1 },
+  ]);
+  const deleteBtn = process.env.PUBLIC_URL + `/assets/images/delete_button.svg`;
+  const addBtn = process.env.PUBLIC_URL + `/assets/images/add_menu.png`;
+  const disableBtn = process.env.PUBLIC_URL + `/assets/images/disable.png`;
+  console.log(storeInfo);
+  console.log(storeInfo.menus);
+  // 가게 정보를 가져와서 성공하면 setStoreInfo를 사용하여 상태를 업데이트합니다.
+  useEffect(() => {
+    getBInfo({ ibutcher, successFn, failFn, errorFn });
+  }, []);
+  const successFn = result => {
+    console.log(result);
+    setStoreInfo(result);
+    setLoading(false);
   };
-  const closeModal = () => {
-    setIsModal(prev => ({ ...prev, isOpen: false }));
+  const failFn = result => {
+    console.log(result);
+    setStoreInfo(result);
+    setLoading(false);
   };
-  const submitModal = () => {
-    setIsModal(prev => ({ ...prev, isOpen: false }));
-    navigate("/meat/list");
-  };
-  // ! 사람 카운팅
-  const [personCount, setPersonCount] = useState(1);
-  const timeValue = [
-    "17:00",
-    "17:30",
-    "18:00",
-    "18:30",
-    "19:00",
-    "19:30",
-    "20:00",
-    "20:30",
-  ];
-  const [timeCount, setTimeCount] = useState("");
-  // * 시간 버튼에 대한 로직
-
-  const [clickedValue, setClickedValue] = useState("");
-  // * 시간에 대한 로직(timeCount)
-  const handleClickTCount = event => {
-    const clickedValue = event.target.innerText;
-    setTimeCount(clickedValue);
-    setClickedValue(clickedValue);
+  const errorFn = result => {
+    console.log(result);
+    setStoreInfo(result);
+    setLoading(false);
   };
 
-  // * 인원수에 관한 로직 (PersonCount)
-  const handleClickPCountPlus = () => {
-    setPersonCount(personCount + 1);
+  const handleAddForm = () => {
+    setSelectedItems([...selectedItems, { item: "", quantity: 1 }]);
   };
-  const handleClickPCountMinus = () => {
-    if (personCount > 1) {
-      setPersonCount(personCount - 1);
+
+  const handleRemoveForm = index => {
+    const values = [...selectedItems];
+    values.splice(index, 1);
+    setSelectedItems(values);
+  };
+
+  const handleChange = (index, event) => {
+    const values = [...selectedItems];
+    values[index][event.target.name] = event.target.value;
+    setSelectedItems(values);
+  };
+
+  const handleIncrease = index => {
+    const values = [...selectedItems];
+    values[index].quantity++;
+    setSelectedItems(values);
+  };
+
+  const handleDecrease = index => {
+    const values = [...selectedItems];
+    if (values[index].quantity > 1) {
+      values[index].quantity--;
     } else {
-      // TODO MODAL로 변경하여야 함
-      openModal(
-        "인원 수 오류",
-        "인원 수가 1명보다 적을 수 없습니다.",
-        closeModal,
-      );
+      alert("수량은 1 이상이어야 합니다.");
     }
+    setSelectedItems(values);
   };
-  const handleClickPCountReset = () => {
-    setPersonCount(1);
-  };
+  const storeNum = ibutcher;
 
   const [requiredMsg, setRequiredMsg] = useState("");
   const handleRequireMsg = e => {
     setRequiredMsg(e.target.value);
   };
 
-  // * Calendar(예약달력)
   const createdate = new Date();
   const nowdata = moment(createdate).format("YYYY-MM-DD");
   const [selectedDate, setSelectedDate] = useState(nowdata);
@@ -110,44 +122,87 @@ const MeatReservationPage = () => {
     }
   };
 
-  // * submit 날짜 + 시간 Value 폼
-  const timeCountvalue =
-    timeCount.split(":")[0] + ":" + timeCount.split(":")[1] + ":00";
-  console.log(timeCountvalue);
-  const timeline = selectedDate + " " + timeCountvalue;
-  console.log(timeline);
-  console.log("timecount :", timeCount);
+  // ! 시간 (00시 : 00분)
+  const [meridiem, setMeridiem] = useState("AM");
+  const [hour, setHour] = useState("");
+  const [minute, setMinute] = useState("");
+  // ! 오픈시간 (openingHour / closeingHour)
+  const [openingHour, setOpeningHour] = useState(9);
+  const [closingHour, setClosingHour] = useState(20);
 
-  const reserData = {
-    ishop: ishop,
-    date: timeline,
-    headCount: personCount,
-    request: requiredMsg,
-  };
-  // ! postData => ireser(PK), date, request, headcount
-  // * Submit
-  const handleReserSubmit = () => {
-    // ! No exist Value
-    if (timeCount == "") {
-      openModal(
-        "예약시간오류",
-        "예약시간을 입력하지 않았습니다. 시간을 입력해주세요.",
-        closeModal,
-      );
+  const meridiemOptions = [
+    { value: "AM", label: "오전" },
+    { value: "PM", label: "오후" },
+  ];
+
+  const hourOptions = Array.from({ length: 12 }, (_, i) => ({
+    value: i + 1,
+    label: String(i + 1).padStart(2, "0"),
+  })).filter((option, index) => {
+    if (meridiem === "AM") {
+      return option.value >= openingHour && option.value <= 12;
+    } else {
+      const value24 = (option.value % 12) + 12;
+      return value24 <= closingHour;
     }
-    postReser({ reserData, successFn, failFn, errorFn });
-    openModal("예약완료", "예약이 완료되었습니다.", submitModal);
-    console.log("내용 :", reserData);
-    return reserData;
+  });
+
+  const minuteOptions = Array.from({ length: 60 }, (_, i) => ({
+    value: i,
+    label: String(i).padStart(2, "0"),
+  }));
+
+  const customStyles = {
+    control: (styles, { isFocused, isSelected }) => ({
+      ...styles,
+      border: isFocused || isSelected ? "1.5px solid #066E52" : "none",
+      boxShadow: isFocused ? "0 0 0 1px #066E52" : null,
+      "&:hover": {
+        border: "1.5px solid #066E52",
+      },
+    }),
+    menu: styles => ({ ...styles, zIndex: 999 }),
+    singleValue: (provided, state) => ({
+      ...provided,
+      fontFamily: "DAEAM_LEE_TAE_JOON",
+      fontSize: "14px",
+    }),
+    option: (provided, state) => ({
+      ...provided,
+      fontFamily: "DAEAM_LEE_TAE_JOON",
+      fontSize: "14px",
+    }),
+    placeholder: (provided, state) => ({
+      ...provided,
+      fontFamily: "DAEAM_LEE_TAE_JOON",
+      fontSize: "14px",
+    }),
   };
-  const successFn = result => {
-    console.log(result);
-  };
-  const failFn = result => {
-    console.log(result);
-  };
-  const errorFn = result => {
-    console.log(result);
+
+  // ! POST
+  const handleReserSubmit = () => {
+    const menus = selectedItems.map((item, index) => ({
+      ibutMenu: index,
+      count: item.quantity,
+    }));
+
+    if (!meridiem || !hour || !minute) {
+      openModal("시간입력오류", "시간을 입력해주세요.", closeModal);
+      return;
+    }
+    const hour24 = meridiem === "PM" ? (hour % 12) + 12 : hour % 12;
+    const time = `${String(hour24).padStart(2, "0")}:${String(minute).padStart(
+      2,
+      "0",
+    )}`; // 분도 두 자리 숫자로 출력
+    const timeline = selectedDate + " " + time;
+    const PickupData = {
+      ibutcher: ibutcher,
+      date: timeline,
+      request: requiredMsg,
+      menu: menus,
+    };
+    console.log(PickupData);
   };
   return (
     <div>
@@ -161,7 +216,7 @@ const MeatReservationPage = () => {
       <ReserWrapper>
         {/* title */}
         <ReserTitle>
-          <span>예약하기</span>
+          <span>픽업하기</span>
         </ReserTitle>
         {/* wrapper */}
         <ReserWrap>
@@ -197,44 +252,110 @@ const MeatReservationPage = () => {
                 <span>예약가능시간</span>
               </ReserItem>
               {/* 에약 가능 시간대 버튼 */}
-              {createdate && createdate ? (
-                <ReserTimeItem>
-                  {timeValue.map((item, index) => (
-                    <ReserTimeBtn
-                      key={index}
-                      onClick={handleClickTCount}
-                      clicked={clickedValue == item}
-                    >
-                      <span>{item}</span>
-                    </ReserTimeBtn>
-                  ))}
-                </ReserTimeItem>
-              ) : (
-                <div></div>
-              )}
+              <ReserTimeItem>
+                <PickupTimeSelector>
+                  <PickupTimeSelectBox>
+                    <Select
+                      options={meridiemOptions}
+                      placeholder="오전/오후"
+                      onChange={option => setMeridiem(option.value)}
+                      onMenuOpen={() => setMeridiem(meridiem)}
+                      styles={customStyles}
+                    />
+                  </PickupTimeSelectBox>
+                  <PickupTimeSelectBox>
+                    <Select
+                      options={hourOptions}
+                      placeholder="시"
+                      onChange={option => setHour(option.value)}
+                      onMenuOpen={() => setHour(hour)}
+                      styles={customStyles}
+                    />
+                  </PickupTimeSelectBox>
+                  <PickupTimeSelectBox>
+                    <Select
+                      options={minuteOptions}
+                      placeholder="분"
+                      onChange={option => setMinute(option.value)}
+                      onMenuOpen={() => setMinute(minute)}
+                      styles={customStyles}
+                    />
+                  </PickupTimeSelectBox>
+                </PickupTimeSelector>
+              </ReserTimeItem>
             </ReserTimeWrap>
             {/* 
             // * 인원 수 
             */}
             <ReserCountWrap>
               <ReserItem>
-                <span>인원 수</span>
+                <span>메뉴</span>
               </ReserItem>
               {/* Counting Box */}
-              <ReserCountBox>
-                <ReserCountBtn onClick={handleClickPCountMinus}>
-                  <button>-</button>
-                </ReserCountBtn>
-                <ReserCountBtn>
-                  <span>{personCount}</span>
-                </ReserCountBtn>
-                <ReserCountBtn onClick={handleClickPCountPlus}>
-                  <button>+</button>
-                </ReserCountBtn>
-              </ReserCountBox>
-              <ReserCountResetBtn onClick={handleClickPCountReset}>
-                <span>다시작성</span>
-              </ReserCountResetBtn>
+              <div>
+                <MenuWrapper>
+                  {selectedItems.map((selectedItem, index) => (
+                    <PickupItemWrap key={index}>
+                      <PickupItemSelect
+                        name="item"
+                        value={selectedItem.item || undefined}
+                        onChange={event => handleChange(index, event)}
+                      >
+                        <PickupItemOption value="">
+                          메뉴를 선택해주세요
+                        </PickupItemOption>
+                        {Array.isArray(storeInfo.menus) &&
+                          storeInfo.menus
+                            .filter(
+                              menu =>
+                                !selectedItems
+                                  .slice(0, index)
+                                  .concat(selectedItems.slice(index + 1))
+                                  .map(item => item.item)
+                                  .includes(menu.menu),
+                            )
+                            .map(menu => (
+                              <PickupItemOption
+                                key={menu.menu}
+                                value={menu.menu}
+                              >
+                                {menu.menu}
+                              </PickupItemOption>
+                            ))}
+                      </PickupItemSelect>
+                      <PickupItemCountWrap>
+                        <PickupItemCount onClick={() => handleDecrease(index)}>
+                          <span>-</span>
+                        </PickupItemCount>
+                        <PickupItemCount>
+                          <span>{selectedItem.quantity}</span>
+                        </PickupItemCount>
+                        <PickupItemCount onClick={() => handleIncrease(index)}>
+                          <span>+</span>
+                        </PickupItemCount>
+                      </PickupItemCountWrap>
+
+                      {index !== 0 && (
+                        <ReviewImageDeleteBtn
+                          onClick={() => handleRemoveForm(index)}
+                          bgImg={deleteBtn}
+                        ></ReviewImageDeleteBtn>
+                      )}
+                    </PickupItemWrap>
+                  ))}
+                  <div style={{ display: "flex", alignItems: "center" }}>
+                    <PickupMenuAddBtn
+                      onClick={handleAddForm}
+                      disabled={
+                        storeInfo.menus &&
+                        selectedItems.length === storeInfo.menus.length
+                      }
+                      bgImg={addBtn}
+                      disblaImg={disableBtn}
+                    />
+                  </div>
+                </MenuWrapper>
+              </div>
             </ReserCountWrap>
 
             {/* 
@@ -270,4 +391,4 @@ const MeatReservationPage = () => {
   );
 };
 
-export default MeatReservationPage;
+export default MeatDetailPage;

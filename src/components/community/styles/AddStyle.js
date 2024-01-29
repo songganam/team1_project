@@ -61,7 +61,7 @@ export const ContentBoxStyle = styled(AddBoxStyle)`
     textarea {
       padding: 10px;
       width: 100%;
-      min-height: 400px;
+      min-height: 100px;
       resize: vertical;
       font-size: ${FontSize.default};
       border-top: 1px solid ${ColorStyle.g500};
