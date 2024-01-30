@@ -72,10 +72,11 @@ const useCustomMy = () => {
   };
 
   // 예약 변경 페이지 이동
-  const moveToReserChange = ireser => {
+  const moveToReserChange = (ireser, name, headCount, date, request) => {
+    console.log(name);
     navigate({
       pathname: `../../meat/modify/${ireser}`,
-      search: `${defaultQueryString}`,
+      search: `name=${name}&headcount=${headCount}&date=${date}&request=${request}&${defaultQueryString}`,
     });
   };
 

@@ -45,11 +45,17 @@ const MyReviewCard = props => {
 
   const { storeimg } = props;
 
+  // 리뷰 삭제 (DELETE)
   const handledeleteClick = (checkShop, ireview) => {
     const deleteForm = {
       checkShop: checkShop,
       ireview: ireview,
     };
+    // 예약 삭제 성공 시 리스트 업데이트
+    const updatedMyReviewList = myReviewList.filter(
+      review => review.ireview !== ireview,
+    );
+    setMyReviewList(updatedMyReviewList);
     deleteMyReview({ deleteForm, successFn, failFn, errorFn });
     console.log(deleteForm);
   };

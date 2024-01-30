@@ -1,31 +1,50 @@
-import React, { useEffect } from "react";
+import styled from "@emotion/styled";
+import DaumPostcode from "react-daum-postcode";
 
-const AddressForm = () => {
-  useEffect(() => {
-    // Daum 우편번호 서비스 스크립트 로딩
-    const script = document.createElement("script");
-    script.src =
-      "//t1.daumcdn.net/mapjsapi/bundle/postcode/prod/postcode.v2.js?autoload=false";
-    document.head.appendChild(script);
+import { addressApi } from "../../api/SignUp/addressApi";
 
-    script.onload = () => {
-      // Daum 우편번호 서비스 초기화
-      new window.daum.Postcode({
-        oncomplete: function (data) {
-          // 팝업에서 검색결과 항목을 클릭했을 때 실행할 코드
-          // 예제를 참고하여 다양한 활용법을 작성하세요.
-          console.log(data);
-        },
-      }).open();
-    };
+const PopupWrapper = styled.div`
+  position: absolute;
+  top: 20%;
+  left: 8%;
 
-    return () => {
-      // 컴포넌트가 언마운트될 때 스크립트 제거
-      document.head.removeChild(script);
-    };
-  }, []); // 빈 배열은 마운트될 때만 실행
+  width: 500px;
+  height: 500px;
+  background: #fff;
+  padding: 20px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.2);
+  z-index: 500;
+`;
 
-  return <div>{/* 주소 입력 폼 및 기타 UI 요소들 */}</div>;
+const CloseDiv = styled.div`
+  width: 100%;
+  display: flex;
+  justify-content: right;
+`;
+
+const CloseImg = styled.img``;
+
+const AddressPopup = ({ setPopUp, setAddress }) => {
+  const handleComplete = data => {
+    addressApi(data.address, setAddress);
+    setPopUp(false);
+  };
+
+  return (
+    <PopupWrapper>
+      <CloseDiv>
+        <CloseImg
+          onClick={() => {
+            setPopUp(false);
+          }}
+          src={`${process.env.PUBLIC_URL}/images/closeBtn.svg`}
+          alt=""
+        />
+      </CloseDiv>
+      <DaumPostcode onComplete={handleComplete} />
+    </PopupWrapper>
+  );
 };
 
-export default AddressForm;
+export default AddressPopup;

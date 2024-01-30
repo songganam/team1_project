@@ -18,16 +18,9 @@ import Bookmark from "../bookmark/Bookmark";
 import { patchMyBook, getMyBook } from "../../api/MyApi";
 import useCustomMy from "./hooks/useCustomMy";
 import useCustomHook from "../meat/hooks/useCustomHook";
-import { useNavigate } from "react-router";
-import { API_SERVER_HOST } from "../../api/config";
 
-// ? 이미지 주소가 솰라솰라/고깃집/PK/이미지주소
-// ? 이미지 주소가 솰라솰라/정육점/PK/이미지주소
-// ? checkShop
-// ? \/ch=1/ishop/mybook.pic
-const host = "http://112.222.157.156:5221/pic";
 
-// 내 예약/픽업 내역 카드
+// 내 예약/픽업 내역 카드 리스트
 const MyBookCard = props => {
   const { page, moveToBookPage, moveToReserChange } = useCustomMy();
   const { moveToReview } = useCustomHook();
@@ -49,26 +42,7 @@ const MyBookCard = props => {
   const errorFn = result => {
     console.log(result);
   };
-  const navigate = useNavigate();
-  // 예약 변경 페이지 이동
 
-  myBookList.checkShop === 0
-    ? `shop/${myBookList.ishop}/shop_pic`
-    : `butcher/${myBookList.ishop}/butcher_pic`;
-
-  const handleMoveBookChange = ireser => {
-    const myBook = myBookList.find(item => item.ireser === ireser);
-    navigate(`/meat/modify/${ireser}`),
-      {
-        state: {
-          storeIreser: ireser,
-          storeName: myBookList.name,
-          storeDate: myBook.date,
-          storeHeadCount: myBook.headCount,
-          storeRequest: myBook.request,
-        },
-      };
-  };
 
   // 예약 삭제 (PATCH)
   const handleCancelBook = (checkShop, ireser) => {
@@ -76,8 +50,16 @@ const MyBookCard = props => {
       checkShop: checkShop,
       ireser: ireser,
     };
+    // 예약 삭제 성공 시 리스트 업데이트
+    const updatedMyBookList = myBookList.filter(book => book.ireser !== ireser);
+    setMyBookList(updatedMyBookList);
     patchMyBook({ patchBookForm, successFn, failFn, errorFn });
     console.log(patchBookForm);
+  };
+
+  // 예약 변경 페이지 이동
+  const handleChangeBook = e => {
+    moveToReserChange(e);
   };
 
   // 리뷰 작성 페이지 이동
@@ -145,7 +127,15 @@ const MyBookCard = props => {
                 <Button bttext="리뷰작성"></Button>
               </div>
               <div
-                onClick={e => moveToReserChange(myBookList.ireser)}
+                onClick={e =>
+                  moveToReserChange(
+                    myBookList.ireser,
+                    myBookList.name,
+                    myBookList.headCount,
+                    myBookList.date,
+                    myBookList.request,
+                  )
+                }
                 style={{ display: myBookList.confirm !== 2 ? "block" : "none" }}
               >
                 <Button bttext="예약변경"></Button>
