@@ -21,6 +21,7 @@ function useModal() {
     setIsModal(prev => ({ ...prev, isOpen: false }));
     navgate("/login");
   };
+
   return { isModal, openModal, closeModal, moveToLogin };
 }
 

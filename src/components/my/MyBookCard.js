@@ -19,6 +19,13 @@ import { patchMyBook, getMyBook } from "../../api/MyApi";
 import useCustomMy from "./hooks/useCustomMy";
 import useCustomHook from "../meat/hooks/useCustomHook";
 import { useNavigate } from "react-router";
+import { API_SERVER_HOST } from "../../api/config";
+
+// ? 이미지 주소가 솰라솰라/고깃집/PK/이미지주소
+// ? 이미지 주소가 솰라솰라/정육점/PK/이미지주소
+// ? checkShop
+// ? \/ch=1/ishop/mybook.pic
+const host = "http://112.222.157.156:5221/pic";
 
 // 내 예약/픽업 내역 카드
 const MyBookCard = props => {
@@ -44,6 +51,11 @@ const MyBookCard = props => {
   };
   const navigate = useNavigate();
   // 예약 변경 페이지 이동
+
+  myBookList.checkShop === 0
+    ? `shop/${myBookList.ishop}/shop_pic`
+    : `butcher/${myBookList.ishop}/butcher_pic`;
+
   const handleMoveBookChange = ireser => {
     const myBook = myBookList.find(item => item.ireser === ireser);
     navigate(`/meat/modify/${ireser}`),
@@ -87,7 +99,11 @@ const MyBookCard = props => {
         <MyBookCardWrapper key={index}>
           <MyBookCardVisual>
             {/* <img src={myBookList.pic} alt="가게 이미지"></img> */}
-            <img src={storeimg} alt="가게 이미지"></img>
+
+            <img
+              src={`${host}/${myBookList.checkShop}/${myBookList.pic}`}
+              alt="가게 이미지"
+            ></img>
           </MyBookCardVisual>
           <MyBookCardContent>
             <MyBookCardTitle>

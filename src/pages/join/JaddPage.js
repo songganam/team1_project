@@ -232,7 +232,7 @@ const JaddPage = () => {
               </NicknameCheck>
             </JaddNickNameWrap>
             <br />
-            
+
             <JaddNumberWrap>
               <label>휴대폰 번호</label>
               <input
@@ -289,6 +289,7 @@ const JaddPage = () => {
             </JaddAddressBts>
           </div>
         </JaddPageInfo>
+
         <div>
           <Outlet />
         </div>
