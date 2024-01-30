@@ -11,29 +11,57 @@ import {
 } from "./styles/HeaderStyle";
 import useCustomHook from "../meat/hooks/useCustomHook";
 import ResultModal from "../common/ResultModal";
+import SelectedModal from "../common/SelectedModal";
+import { useState } from "react";
+import Fetching from "../common/Fetching";
 
 const Header = () => {
   const authState = useSelector(state => state.authSlice);
   const dispatch = useDispatch();
   const { isLogin, moveToPath, doLogout } = useCustomLogin();
-  const { isModal, openModal, closeModal, moveToLogin } = useCustomHook();
+  const [fetching, setFetching] = useState(false);
+  const {
+    isModal,
+    openModal,
+    closeModal,
+    moveToLogin,
+    isSelectModal,
+    openSelectModal,
+    confirmSelectModal,
+    cancelSelectModal,
+  } = useCustomHook();
   const handleClick = () => {
-    openModal("로그아웃", "로그아웃이 완료되었습니다.", () => {
-      closeModal();
-      doLogout();
-      moveToPath("/");
-    });
+    openSelectModal(
+      "로그아웃",
+      "로그아웃을 하시겠습니까?",
+      async () => {
+        setFetching(true);
+        await doLogout();
+        setFetching(false);
+        cancelSelectModal();
+      },
+      openModal("로그아웃 완료", "로그아웃이 완료되었습니다.", closeModal),
+    );
   };
 
   console.log(authState);
   console.log(authState.nickname);
   return (
     <HeaderStyle>
+      {fetching ? <Fetching /> : null}
       {isModal.isOpen && (
         <ResultModal
           title={isModal.title}
           content={isModal.content}
           callFn={isModal.callFn}
+        />
+      )}
+      {isSelectModal.isOpen && (
+        <SelectedModal
+          title={isSelectModal.title}
+          content={isSelectModal.content}
+          confirmFn={isSelectModal.confirmFn}
+          cancelFn={isSelectModal.cancelFn}
         />
       )}
       <LogoStyle>

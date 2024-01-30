@@ -15,6 +15,7 @@ import {
   LoginPageWrap,
 } from "./styles/LoginPageStyle";
 import { useNavigate } from "react-router-dom";
+import ResultModal from "../../components/common/ResultModal";
 
 // 로그인 페이지입니다.
 
@@ -53,8 +54,9 @@ const LoginPage = () => {
   };
 
   const failFn = result => {
+    openModal("비밀번호 에러", "비밀번호를 확인해주세요.", closeModal);
     console.log("실패", result);
-    alert("이메일 및 비밀번호 확인하세요.");
+    // alert("이메일 및 비밀번호 확인하세요.");
   };
 
   const errorFn = result => {
@@ -63,6 +65,13 @@ const LoginPage = () => {
   };
   return (
     <Layout>
+      {isModal.isOpen && (
+        <ResultModal
+          title={isModal.title}
+          content={isModal.content}
+          callFn={isModal.callFn}
+        />
+      )}
       <LoginPageWrap>
         <TitleHeader
           timg="https://picsum.photos/1920/215/?category=meat"

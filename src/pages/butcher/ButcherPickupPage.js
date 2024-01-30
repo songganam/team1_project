@@ -34,7 +34,7 @@ import {
 } from "./styles/ButcherPickupStyle";
 
 const MeatDetailPage = () => {
-  const { openModal, isModal, closeModal, submitModal } = useCustomHook();
+  const { openModal, isModal, closeModal } = useCustomHook();
   const navigate = useNavigate();
   const { ibutcher } = useParams();
   const location = useLocation();
@@ -203,8 +203,10 @@ const MeatDetailPage = () => {
       menus: menus,
     };
     postPickup({ pickupData, successFn, failFn, errorFn });
-    openModal("예약완료", "예약이 완료되었습니다.", submitModal);
-    // console.log(pickupData);
+    openModal("예약완료", "예약이 완료되었습니다.", () => {
+      closeModal, navigate(-1);
+    });
+    console.log(pickupData);
   };
   return (
     <div>

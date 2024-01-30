@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import { getGList } from "../../api/meatApi";
 import ResultModal from "../../components/common/ResultModal";
 import Loading from "../../components/loading/Loading";
@@ -19,7 +19,7 @@ import {
 // 고깃집 목록보기 페이지입니다.
 const MeatListPage = () => {
   const API_SERVER_HOST = "";
-  
+
   const {
     page,
     search,
@@ -59,9 +59,13 @@ const MeatListPage = () => {
     // setLoading(false);
     console.log(result);
   };
+  const navigate = useNavigate();
   const handleFilterClick = category => {
     if (category == 6) {
-      openModal("해산물", "해산물 메뉴는 준비중입니다.", closeModal);
+      openModal("해산물", "해산물 메뉴는 준비중입니다.", () => {
+        closeModal;
+        navigate(-1);
+      });
     }
     setGlistData([]);
     MoveToList({ page: 1, search: "", category });

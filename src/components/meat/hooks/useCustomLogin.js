@@ -1,11 +1,14 @@
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { loginPostAsync, logout } from "../../../redux/authSlice";
+import axios from "axios";
 
 const useCustomLogin = () => {
   const navigate = useNavigate();
   const dispatch = useDispatch();
   const authState = useSelector(state => state.authSlice);
+  const API_SERVER_HOST = "";
+  const host = `${API_SERVER_HOST}/api/user`;
 
   // 로그인 상태값 파악
   const isLogin = authState.result == 1 ? true : false;
@@ -22,8 +25,19 @@ const useCustomLogin = () => {
   };
 
   // 로그아웃 기능
-  const doLogout = () => {
+  const doLogout = async () => {
     dispatch(logout());
+    try {
+      const header = { headers: { "Content-Type": "application/json" } };
+      const res = await axios.post(`${host}/signout`, header);
+      if (res.status === 200) {
+        console.log("rt cookie 삭제"); // successFn(res.data);
+      } else {
+        // failFn("");
+      }
+    } catch (error) {
+      // errorFn("");
+    }
   };
 
   // 패스이동 기능
