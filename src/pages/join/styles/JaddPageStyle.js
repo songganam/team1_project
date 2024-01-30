@@ -149,7 +149,6 @@ export const JaddNickNameInner = styled.div`
 `;
 export const NicknameCheck = styled.div`
   font-size: 14px;
-  
 `;
 
 export const JaddBirthWrap = styled.div`
@@ -207,7 +206,6 @@ export const JaddAddressBts = styled.div`
     height: 55px;
   }
 `;
-
 export const DefaultBt = styled.button`
   position: relative;
   display: flex;
@@ -219,6 +217,8 @@ export const DefaultBt = styled.button`
   background: #fff;
   border: 2px solid #066e52;
   border-radius: 10px;
+  background-color: ${({ clicked }) =>
+    clicked ? ColorStyle.secondary : ColorStyle.grayScale};
   cursor: pointer;
   span {
     font-family: DAEAM_LEE_TAE_JOON;
@@ -226,7 +226,7 @@ export const DefaultBt = styled.button`
     text-align: center;
     font-style: normal;
     font-weight: 400;
-
-    color: ${props => (props.active ? ColorStyle.g1000 : ColorStyle.g500)};
+    color: ${({ clicked }) =>
+      clicked ? ColorStyle.grayScale : ColorStyle.primary};
   }
 `;
