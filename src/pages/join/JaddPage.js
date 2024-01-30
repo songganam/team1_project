@@ -1,9 +1,9 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
-import { DefaultBt } from "../../components/button/styles/ButtonStyle";
 import TitleHeader from "../../components/titleheader/TitleHeader";
 import "../join/JaddPage.css";
 import {
+  DefaultBt,
   GenderBtWrap,
   JaddAddressBts,
   JaddAddressWrap,
@@ -22,13 +22,38 @@ import {
   JaddPwWrap,
   NicknameCheck,
 } from "./styles/JaddPageStyle";
-import { nickNameCheck, postJadd } from "../../api/loginApi";
+import { nickNameCheck, postJadd } from "../../api/joinApi";
 // 회원가입 작성 페이지입니다.
 
 const JaddPage = () => {
   const [todo, setTodo] = useState({});
   // const [passCheckError,setPassCheckError] = useState(false)
 
+  // 프로필 사진 이미지 업로드
+  const [selectFile, setSelectFile] = useState(null);
+  const fileInputRef = useRef(null);
+
+  const handleFileChange = event => {
+    const file = event.target.files[0];
+    setSelectFile(file);
+  };
+
+  const handleUpload = () => {
+    if (selectFile) {
+      alert("프로필 사진이 업로드되었습니다.");
+      // 여기에서 서버로 사진을 전송하는 로직을 추가해야 합니다.
+      // 서버에서는 해당 사진을 저장하고 회원 정보와 연동할 수 있습니다.
+    } else {
+      alert("프로필 사진을 선택하세요.");
+    }
+  };
+
+  // 파일 선택 버튼을 클릭하는 것과 동일한 효과
+  const handleButtonClick = () => {
+    fileInputRef.current.click();
+  };
+
+  // 비밀번호 확인
   const passCheckForm = () => {
     const upw = todo.upw;
     const checkUpw = todo.checkUpw;
@@ -39,19 +64,22 @@ const JaddPage = () => {
     }
   };
 
+  // 성별 선택
   const genderChoice = () => {
     console.log("성별");
   };
-
+  const [genderSelect, setGenderSelect] = useState(0);
   const handleClick = e => {
     todo.gender;
-
     if (e == 1) {
       todo.gender = "남";
+      setGenderSelect(1);
+
       console.log("남");
     } else if (e == 2) {
       todo.gender = "여";
       console.log("여");
+      setGenderSelect(2);
     }
   };
 
@@ -72,7 +100,7 @@ const JaddPage = () => {
     const nickname = todo.nickname;
     const gender = todo.gender;
     const address = todo.address;
-    const tel = todo.tel;
+    const inputValue = todo.tel;
 
     const iJadd = {
       pic: "profile image",
@@ -82,9 +110,10 @@ const JaddPage = () => {
         checkUpw: checkUpw,
         name: name,
         nickname: nickname,
+        birth: birthday,
         gender: gender,
         address: address,
-        tel: tel,
+        tel: inputValue,
       },
     };
     console.log(iJadd);
@@ -97,8 +126,67 @@ const JaddPage = () => {
   const [nickname, setNickname] = useState();
   const [isAvailable, setIsAvailable] = useState(null);
 
-  const handleCheckAvailability = () => {
-    setIsAvailable(nickname.length >= 3);
+  // 이거는 나름 규칙으로 하면되죠
+  // setIsAvailable(nickname.length >= 3);
+  const handleCheckAvailability = iNickCheck => {
+    // const iNickCheck = nickname;
+    console.log(nickname);
+    nickNameCheck({ iNickCheck: nickname });
+  };
+
+  // 휴대폰번호 하이픈 자동입력
+  const [phoneNumber, setPhoneNumber] = useState("");
+
+  const handleInputChange = e => {
+    // 입력값에서 숫자만 추출
+    const inputValue = e.target.value.replace(/\D/g, "");
+
+    // 전화번호 형식에 맞게 하이픈 추가
+    const formattedPhoneNumber = formatPhoneNumber(inputValue);
+
+    // 상태 업데이트
+    setPhoneNumber(formattedPhoneNumber);
+  };
+
+  const formatPhoneNumber = value => {
+    // 000-0000-0000 형식으로 포맷팅
+    const regex = /^(\d{3})(\d{0,4})(\d{0,4})$/;
+    const matches = value.match(regex);
+
+    if (matches) {
+      return `${matches[1]}${matches[2] ? "-" + matches[2] : ""}${
+        matches[3] ? "-" + matches[3] : ""
+      }`;
+    }
+
+    // 일치하지 않는 경우 그대로 반환
+    return value;
+  };
+
+  // 생년월일 형식
+  const [birthday, setBirthday] = useState("");
+
+  const handleBirthChange = event => {
+    // 입력값에서 숫자만 추출
+    const inputValue = event.target.value.replace(/\D/g, "");
+
+    // 생년월일 형식으로 변환
+    const formattedBirthday = inputValue.replace(
+      /(\d{4})(\d{0,2})(\d{0,2})/,
+      (match, p1, p2, p3) => {
+        let result = p1;
+        if (p2) {
+          result += `/${p2}`;
+        }
+        if (p3) {
+          result += `/${p3}`;
+        }
+        return result;
+      },
+    );
+
+    // 상태 업데이트
+    setBirthday(formattedBirthday);
   };
 
   // 패스 이동하기
@@ -116,7 +204,30 @@ const JaddPage = () => {
       ></TitleHeader>
       <JaddPageMain>
         <JaddPageImage>
-          <button className="JaddPage-img-button"></button>
+          {/* 큰 동그라미 안에 이미지 표시 */}
+          {selectFile && (
+            <div>
+              <img
+                src={URL.createObjectURL(selectFile)}
+                alt="프로필 사진"
+                // style={{ width: "100%", height: "100%", objectFit: "cover" }}
+              />
+            </div>
+          )}
+          {/* 보이지 않는 파일 선택 버튼 */}
+          <input
+            // className="JaddPage-img-button"
+            type="file"
+            onChange={handleFileChange}
+            ref={fileInputRef}
+            style={{ display: "none" }}
+            
+          />
+          {/* 커스텀 스타일이 적용된 버튼 */}
+          <button
+            className="JaddPage-img-button "
+            onClick={handleButtonClick}
+          ></button>
         </JaddPageImage>
         <JaddPageInfo>
           <div className="JaddMailInfo">
@@ -154,6 +265,7 @@ const JaddPage = () => {
                   className="JaddPw"
                   placeholder="비밀번호를 입력하세요.(특수문자 포함 4-8자)"
                   onChange={e => handleChange(e)}
+                  maxLength="8"
                 ></input>
               </JaddPwWrap>
               <br />
@@ -166,6 +278,7 @@ const JaddPage = () => {
                   className="JaddMorePw"
                   placeholder="입력한 비밀번호를 한번 더 확인하세요."
                   onChange={e => handleChange(e)}
+                  maxLength="8"
                 ></input>
                 <div className="passCheck">{passCheckForm()}</div>
                 <div>
@@ -187,17 +300,19 @@ const JaddPage = () => {
                     name="man"
                     className="gender-bt-man"
                     onClick={e => handleClick(1)}
+                    clicked={todo.gender === "남"}
                     // 성별={1}
                   >
-                    남성
+                    <span>남성</span>
                   </DefaultBt>
                   <DefaultBt
                     type="button"
                     name="woman"
                     className="gender-bt-woman"
                     onClick={e => handleClick(2)}
+                    clicked={todo.gender === "여"}
                   >
-                    여성
+                    <span>여성</span>
                   </DefaultBt>
                 </GenderBtWrap>
               </div>
@@ -232,29 +347,39 @@ const JaddPage = () => {
               </NicknameCheck>
             </JaddNickNameWrap>
             <br />
-            
+
             <JaddNumberWrap>
               <label>휴대폰 번호</label>
               <input
                 type="text"
-                name="number"
-                value={todo.tel}
+                value={phoneNumber}
                 className="JaddNumber"
                 placeholder="휴대폰 번호를 입력하세요."
-                onChange={e => handleChange(e)}
-              ></input>
+                onChange={handleInputChange}
+                maxLength="13"
+                onKeyDown={e => {
+                  if (
+                    (e.key === "Backspace" || e.key === "Delete") &&
+                    e.target.selectionStart < phoneNumber.length
+                  ) {
+                    setPhoneNumber(prevPhoneNumber =>
+                      prevPhoneNumber.slice(0, prevPhoneNumber.length - 1),
+                    );
+                  }
+                }}
+              />
             </JaddNumberWrap>
             <br />
             <JaddBirthWrap>
               <label>생년월일</label>
               <input
                 type="text"
-                name="name"
-                value={todo.birth}
+                value={birthday}
                 className="JaddBirth"
-                placeholder="본인 생년월일을 입력하세요."
-                onChange={e => handleChange(e)}
-              ></input>
+                placeholder="YYYY/MM/DD"
+                onChange={handleBirthChange}
+                maxLength="10"
+              />
             </JaddBirthWrap>
             <br />
             <JaddAddressWrap>
@@ -289,6 +414,7 @@ const JaddPage = () => {
             </JaddAddressBts>
           </div>
         </JaddPageInfo>
+
         <div>
           <Outlet />
         </div>

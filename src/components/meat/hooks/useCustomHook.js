@@ -6,10 +6,17 @@ import {
 } from "react-router-dom";
 import { getNum } from "../../../util/utils";
 import useModal from "./useModal";
+import useSelectModal from "./useSelectModal";
 const useCustomHook = () => {
   const navigate = useNavigate();
   const [urlSearchParams, setUrlSearchPrams] = useSearchParams();
   const { isModal, openModal, closeModal, moveToLogin } = useModal();
+  const {
+    isSelectModal,
+    openSelectModal,
+    confirmSelectModal,
+    cancelSelectModal,
+  } = useSelectModal();
   const page = urlSearchParams.get("page")
     ? parseInt(urlSearchParams.get("page"))
     : 1;
@@ -102,6 +109,10 @@ const useCustomHook = () => {
     moveToReser,
     MoveToPage,
     moveToReview,
+    isSelectModal,
+    openSelectModal,
+    confirmSelectModal,
+    cancelSelectModal,
   };
 };
 export default useCustomHook;
