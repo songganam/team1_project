@@ -19,7 +19,6 @@ import { patchMyBook, getMyBook } from "../../api/MyApi";
 import useCustomMy from "./hooks/useCustomMy";
 import useCustomHook from "../meat/hooks/useCustomHook";
 
-
 // 내 예약/픽업 내역 카드 리스트
 const MyBookCard = props => {
   const { page, moveToBookPage, moveToReserChange } = useCustomMy();
@@ -42,7 +41,6 @@ const MyBookCard = props => {
   const errorFn = result => {
     console.log(result);
   };
-
 
   // 예약 삭제 (PATCH)
   const handleCancelBook = (checkShop, ireser) => {
@@ -83,7 +81,7 @@ const MyBookCard = props => {
             {/* <img src={myBookList.pic} alt="가게 이미지"></img> */}
 
             <img
-              src={`${host}/${myBookList.checkShop}/${myBookList.pic}`}
+              src={`/${myBookList.checkShop}/${myBookList.pic}`}
               alt="가게 이미지"
             ></img>
           </MyBookCardVisual>
