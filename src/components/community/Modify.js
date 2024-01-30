@@ -1,13 +1,13 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
+import { useParams } from "react-router-dom";
+import { getUserInfo } from "../../api/MyApi";
+import { getOne, putOne } from "../../api/communityApi";
 import { API_SERVER_HOST } from "../../api/config";
 import useCustomMove from "../../hooks/useCustomMove";
-import { useParams } from "react-router-dom";
-import { getOne, putOne } from "../../api/communityApi";
-import { useEffect } from "react";
-import { getUserInfo } from "../../api/MyApi";
-import { useRef } from "react";
-import { WrapStyle } from "./styles/ListStyle";
+import Button from "../button/Button";
 import Fetching from "../common/Fetching";
+import ResultModal from "../common/ResultModal";
+import SelectedModal from "../common/SelectedModal";
 import {
   AddBoxStyle,
   ContentBoxStyle,
@@ -15,9 +15,7 @@ import {
   ImageBoxStyle,
   UserBoxStyle,
 } from "./styles/AddStyle";
-import Button from "../button/Button";
-import SelectedModal from "../common/SelectedModal";
-import ResultModal from "../common/ResultModal";
+import { WrapStyle } from "./styles/ListStyle";
 
 const host = API_SERVER_HOST;
 
@@ -55,21 +53,29 @@ const initProfile = {
 
 const Modify = () => {
   // 커스텀 훅
-  const { moveToRead, moveToList, moveToModify, page } = useCustomMove();
+  const { moveToList, page } = useCustomMove();
+
   // 로딩창
   const [fetching, setFetching] = useState(false);
+
   // 해당 글 pk값 추출 및 할당(get)
   const { iboard } = useParams();
+
   // 해당 글 기존 내용 상태 가져오기 및 업데이트(get)
   const [product, setProduct] = useState(initState);
+
   // 해당 글 작성자 닉네임 정보 상태 업데이트
   const [profileData, setProfileData] = useState(initProfile);
+
   // 업로드 할 이미지 미리보기 상태 업데이트
   const [images, setImages] = useState([]);
-  // 교체할 이미지 상태 업데이트
-  const [replaceImg, setReplaceImg] = useState(null);
+
+  // 업로드 할 이미지 5장 초과 시 모달 띄우기 상태 업데이트
+  const [imagesLength, setImagesLength] = useState(false);
+
   // 이미지 삭제 정보를 담을 상태
   const [deletedImageIds, setDeletedImageIds] = useState([]);
+
   // useRef(DOM 요소를 참조한다.)
   // useRef를 만든 후 반드 시 태그랑 연결
   const uploadRef = useRef(null);
@@ -77,11 +83,16 @@ const Modify = () => {
   // selectedModal 띄우기 위한 상태 업데이트
   const [showModal, setShowModal] = useState(false);
 
-  // API 통신 결과 상태 업데이트
+  // getUserInfo API 통신 결과 상태 업데이트
   const [result, setResult] = useState(false);
+
+  // 글 수정 결과 상태 업데이트
+  const [modifyResult, setModifyResult] = useState(false);
+
   // resultModal props 값 업데이트
   const [popTitle, setPopTitle] = useState("");
   const [popContent, setPopContent] = useState("");
+
   // Modal 닫기 이후 화면 전환 상태 업데이트
   const [popRedirect, setPopRedirect] = useState(false);
 
@@ -159,7 +170,8 @@ const Modify = () => {
     if (files) {
       const totalImages = images.length + files.length;
       if (totalImages > 5) {
-        alert("최대 5장까지만 업로드 가능합니다.");
+        setImagesLength(true);
+        // alert("최대 5장까지만 업로드 가능합니다.");
         return;
       }
 
@@ -267,8 +279,21 @@ const Modify = () => {
 
   // 확인 버튼 클릭 시
   const handleConfirm = product => {
-    // 글 등록 로직 실행
-    handleClickModify(product);
+    // 글 수정 로직 실행
+    if (
+      product.title.length !== 0 &&
+      product.contents.length > 0 &&
+      product.contents.length <= 300
+    ) {
+      handleClickModify(product);
+    }
+    if (
+      product.title.length === 0 ||
+      product.contents.length === 0 ||
+      product.contents.length > 300
+    ) {
+      setModifyResult(true);
+    }
     // 모달 닫기
     setShowModal(false);
   };
@@ -276,7 +301,9 @@ const Modify = () => {
   const closeModal = () => {
     // 모달창 닫기
     setResult(false);
-    moveToList({ page: 1 });
+    if (popRedirect === true) {
+      moveToList({ page: 1 });
+    }
   };
   // 취소 버튼 클릭 시
   const handleCancel = () => {
@@ -288,6 +315,16 @@ const Modify = () => {
   const handleAddClick = () => {
     // 모달 띄우기
     setShowModal(true);
+  };
+
+  // 글 등록 시 예외처리용 resultModal 닫기 callFn
+  const closeException = () => {
+    setModifyResult(false);
+  };
+
+  // 사진 업로드 5장 초과 resultModal 닫기 callFn
+  const closeImagesLength = () => {
+    setImagesLength(false);
   };
 
   return (
@@ -361,6 +398,7 @@ const Modify = () => {
           </div>
         </div>
       </FootStyle>
+
       {showModal ? (
         <SelectedModal
           title="글 수정 확인"
@@ -369,11 +407,28 @@ const Modify = () => {
           cancelFn={handleCancel}
         />
       ) : null}
+
       {result ? (
         <ResultModal
           title={popTitle}
           content={popContent}
           callFn={closeModal}
+        />
+      ) : null}
+
+      {modifyResult ? (
+        <ResultModal
+          title="제목 필수 입력"
+          content="내용은 300자 이내로 작성해주세요"
+          callFn={closeException}
+        />
+      ) : null}
+
+      {imagesLength ? (
+        <ResultModal
+          title="사진 등록"
+          content="최대 5장까지만 업로드 가능합니다"
+          callFn={closeImagesLength}
         />
       ) : null}
     </WrapStyle>

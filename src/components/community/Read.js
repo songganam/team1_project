@@ -73,45 +73,63 @@ const initComment = {
 const Read = () => {
   // 로그인 정보 불러오기
   const authState = useSelector(state => state.authSlice);
+
   // console.log(authState.nickname);
   const isNickname = authState.nickname;
+
   // 커스텀 훅
   const { moveToRead, moveToList, moveToModify, page } = useCustomMove();
+
   // 해당 글 pk값 추출 및 할당(get)
   const { iboard } = useParams();
+
   // 해당 글 상태 초기화 및 업데이트(get)
   const [content, setContent] = useState(initState);
   // console.log(content.name);
   const isName = content.name;
+
   // 해당 글에 댓글 작성을 위한 상태 초기화 및 업데이트(post)
   const [contents, setcontents] = useState(initComment);
+
   // 해당 글의 댓글 상태 초기화 및 업데이트(get)
   const [comments, setComments] = useState([]);
+
   // 로딩창
   const [fetching, setFetching] = useState(false);
+
   // 커뮤니티 해당 글 이미지 미리보기 관련
   const [selectedImg, setSlectedImg] = useState(content.pics[0]?.pic);
+
   // 댓글이 빈 문자열일 때 resultModal을 띄우기 위한 상태 업데이트
   const [showCommentModal, setShowCommentModal] = useState(false);
+
+  // 댓글이 50자 넘을 때 resultModal을 띄우기 위한 상태 업데이트
+  const [showCommentLengthModal, setShowCommentLengthModal] = useState(false);
 
   // 댓글 삭제 관련
   // 댓글 pk값 상태 업데이트
   const [currentCommentId, setCurrentCommentId] = useState(null);
+
   // selectedModal 띄우기 위한 상태 업데이트
   const [showModal, setShowModal] = useState(false);
+
   // 해당 글 pk값 상태 업데이트
   const [currentReadId, setCurrentReadId] = useState(null);
+
   // selectedModal 을 띄우기 위한 상태 업데이트
   const [showReadModal, setShowReadModal] = useState(false);
 
   // API 통신 결과 상태 업데이트
   // 댓글 등록 및 삭제 결과 상태 업데이트
   const [result, setResult] = useState(false);
+
   // 해당 글 삭제 결과 상태 업데이트
   const [delReadResult, setDelReadResult] = useState(false);
+
   // resultModal props 값 업데이트
   const [popTitle, setPopTitle] = useState("");
   const [popContent, setPopContent] = useState("");
+
   // Modal 닫기 이후 화면 전환 상태 업데이트
   const [popRedirect, setPopRedirect] = useState(false);
 
@@ -149,6 +167,7 @@ const Read = () => {
       setSlectedImg(content.pics[0].pic);
     }
   }, [content.pics]);
+
   // 썸네일 이미지 클릭 시 이미지 상태 업데이트
   const handleThumbnailClick = pic => {
     setSlectedImg(pic);
@@ -166,18 +185,26 @@ const Read = () => {
 
   // 댓글 등록 함수
   const addComment = () => {
-    if (contents.contents !== "") {
-      postComment({
-        iboard,
-        contents,
-        successFn: successFnAdd,
-        failFn: failFnAdd,
-        errorFn: errorFnAdd,
-      });
+    // 댓글 입력 창에 빈 문자열이면 모달창 띄우기
+    if (contents.contents.length !== 0) {
+      // 댓글이 50자 이내면 post 실행
+      if (contents.contents.length <= 50) {
+        postComment({
+          iboard,
+          contents,
+          successFn: successFnAdd,
+          failFn: failFnAdd,
+          errorFn: errorFnAdd,
+        });
+      }
+      // 댓글이 50자 초과면 모달창 띄우기
+      if (contents.contents.length > 50) {
+        setShowCommentLengthModal(true);
+      }
     } else {
+      // 댓글 빈 문자열이면 모달창 띄우기
       setShowCommentModal(true);
     }
-
     // console.log(contents);
     // console.log(iboard);
   };
@@ -252,6 +279,11 @@ const Read = () => {
     setShowCommentModal(false);
   };
 
+  // 댓글 등록 시 글 수 50자 초과 모달창 닫기
+  const closeCommnetLength = () => {
+    setShowCommentLengthModal(false);
+  };
+
   // 해당 글 삭제 resultModal callFn
   const closeDelReadModal = () => {
     // 모달창 숨기기
@@ -259,7 +291,7 @@ const Read = () => {
     moveToList({ page: page });
   };
 
-  // 해당 글 삭제 모달 취소
+  // 해당 글 삭제 selectedModal 취소
   const cancelReadModal = () => {
     setShowReadModal(false);
   };
@@ -391,7 +423,6 @@ const Read = () => {
           </ContentStyle>
         </ContentInfoStyle>
       </MoreBoxStyle>
-
       {content.be && (
         <PrnvContentStyle>
           <div className="prnv">
@@ -413,7 +444,6 @@ const Read = () => {
           </div>
         </PrnvContentStyle>
       )}
-
       {content.af && (
         <PrnvContentStyle>
           <div className="prnv">
@@ -435,7 +465,6 @@ const Read = () => {
           </div>
         </PrnvContentStyle>
       )}
-
       <BtnBoxStyle>
         <div className="editBtn">
           <div
@@ -516,6 +545,7 @@ const Read = () => {
           </div>
         </div>
       </ReviewBox>
+
       {/* 모달창 */}
       {showModal ? (
         <SelectedModal
@@ -525,6 +555,7 @@ const Read = () => {
           cancelFn={cancelModal}
         />
       ) : null}
+
       {showReadModal ? (
         <SelectedModal
           title="글 삭제"
@@ -533,6 +564,7 @@ const Read = () => {
           cancelFn={cancelReadModal}
         />
       ) : null}
+
       {result ? (
         <ResultModal
           title={popTitle}
@@ -540,6 +572,7 @@ const Read = () => {
           callFn={closeModal}
         />
       ) : null}
+
       {delReadResult ? (
         <ResultModal
           title={popTitle}
@@ -547,11 +580,20 @@ const Read = () => {
           callFn={closeDelReadModal}
         />
       ) : null}
+
       {showCommentModal ? (
         <ResultModal
           title="댓글 등록"
           content="댓글을 입력해주세요"
           callFn={closeCommentBlank}
+        />
+      ) : null}
+
+      {showCommentLengthModal ? (
+        <ResultModal
+          title="댓글 등록"
+          content="댓글을 50자 이내로 작성해주세요"
+          callFn={closeCommnetLength}
         />
       ) : null}
     </WrapStyle>
