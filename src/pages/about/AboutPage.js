@@ -19,25 +19,22 @@ import {
   MainButcher,
   MainGogiShop,
 } from "./styles/AboutPageStyle";
-
+import { API_SERVER_HOST } from "../../api/config";
 
 const AboutPage = () => {
   const [aboutData, setAboutData] = useState([]);
   const [fetching, setFetching] = useState(false);
 
-
-
   useEffect(() => {
-
     getAbout({ aboutData, successFn, failFn, errorFn });
   }, []);
 
   const { ishop } = useParams();
-  const host = `http://192.168.0.144:5221/pic/shop/`;
-  const comuhost = `http://192.168.0.144:5221/pic/community/`;
+  const baseApi = API_SERVER_HOST;
+  const host = `${baseApi}/pic/shop/`;
+  const comuhost = `${baseApi}/pic/community/`;
 
   const successFn = result => {
-
     setAboutData(result);
     // setCommuData(result);
 
@@ -45,7 +42,6 @@ const AboutPage = () => {
   };
   console.log("투두", aboutData);
   const failFn = result => {
-
     // setLoading(false);
     console.log(result);
   };
@@ -53,7 +49,6 @@ const AboutPage = () => {
     // setLoading(false);
     console.log(result);
   };
-
 
   return (
     <Layout>
@@ -146,7 +141,6 @@ const AboutPage = () => {
               </ButcherCards>
             </MainButcher>
 
-
             <MainBand>
               <img
                 src="/assets/images/aboutimages/gogiro_band.svg"
@@ -201,7 +195,6 @@ const AboutPage = () => {
               </AboutEventCards>
             </AboutPageEvent> */}
 
-
             <AboutPageCommunity>
               <span className="CommunityTitle">고기 잡담</span>
               <CommunityImages>
@@ -226,16 +219,15 @@ const AboutPage = () => {
                   />
                 </div>
                 <div className="smallfour">
-                  {/* <img src={aboutData.commu[4].pic}></img> */}
+                  <img
+                    src={`${comuhost}${aboutData.commu[4].iboard}/${aboutData.commu[4].pic}`}
+                  />
                 </div>
               </CommunityImages>
             </AboutPageCommunity>
           </AboutPageMain>
         </AboutPageWrap>
       )}
-
-
-         
     </Layout>
   );
 };

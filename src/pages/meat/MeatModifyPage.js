@@ -37,6 +37,8 @@ const MeatModifyPage = () => {
   console.log("예약일시", date);
   console.log("요청사항", request);
 
+  const time = date.split(" ")[1].substring(0, 5);
+  console.log(time);
   // ! Modal Control
   const navigate = useNavigate();
   const [isModal, setIsModal] = useState({
@@ -46,7 +48,6 @@ const MeatModifyPage = () => {
     callFn: null,
   });
 
-  console.log();
   const openModal = (title, content, callFn) => {
     setIsModal({ isOpen: true, title, content, callFn });
   };
@@ -62,7 +63,6 @@ const MeatModifyPage = () => {
   // ! 데이터 가져올 때 인원 수 count
   //!  const [personCount, setPersonCount] useState(headcount)
   const initHeadCount = parseInt(headcount);
-
   const [personCount, setPersonCount] = useState(initHeadCount);
 
   const timeValue = [
@@ -84,7 +84,7 @@ const MeatModifyPage = () => {
   ? (위 조건) ? color : "red" : "blue" 
   */
 
-  const [clickedValue, setClickedValue] = useState("");
+  const [clickedValue, setClickedValue] = useState(time);
   // * 시간에 대한 로직(timeCount)
   const handleClickTCount = event => {
     const clickedValue = event.target.innerText;
@@ -123,10 +123,11 @@ const MeatModifyPage = () => {
     setRequiredMsg(e.target.value);
   };
 
+  const dateOnly = date.split(" ")[0];
   // * Calendar(예약달력)
   const createdate = new Date();
   const nowdata = moment(createdate).format("YYYY-MM-DD");
-  const [selectedDate, setSelectedDate] = useState(nowdata);
+  const [selectedDate, setSelectedDate] = useState(dateOnly);
 
   const handleDateChange = formattedDate => {
     if (formattedDate) {
@@ -288,7 +289,10 @@ const MeatModifyPage = () => {
           </ReserItemWrap>
           {/* Calendar */}
           <div>
-            <ReserCalendar onDateChange={handleDateChange} date={date} />
+            <ReserCalendar
+              onDateChange={handleDateChange}
+              dateOnly={dateOnly}
+            />
           </div>
         </ReserWrap>
         {/* button */}

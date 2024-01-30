@@ -28,6 +28,7 @@ export const MeatStoreInfo = styled.div`
   height: 230px;
   padding: 10px;
   align-items: flex-start;
+  justify-content: center;
   align-content: flex-start;
   gap: 5px;
   flex-wrap: wrap;
@@ -44,7 +45,9 @@ export const MeatStoreBox = styled.div`
 
 export const MeatSotreCardImg = styled.div`
   width: 380px;
-  height: 210px;
+  height: 230px;
+  display: flex;
+  align-items: center;
   /* background-color: blue; */
   img {
     width: 380px;

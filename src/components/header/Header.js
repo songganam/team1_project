@@ -34,13 +34,17 @@ const Header = () => {
     openSelectModal(
       "로그아웃",
       "로그아웃을 하시겠습니까?",
-      async () => {
+      () => {
         setFetching(true);
-        await doLogout();
+        doLogout();
         setFetching(false);
-        cancelSelectModal();
+        confirmSelectModal(
+          openModal("로그아웃 완료", "로그아웃이 완료되었습니다.", () => {
+            closeModal();
+          }),
+        );
       },
-      openModal("로그아웃 완료", "로그아웃이 완료되었습니다.", closeModal),
+      cancelSelectModal,
     );
   };
 
