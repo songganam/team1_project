@@ -4,6 +4,8 @@ import { postAdd } from "../../api/communityApi";
 import useCustomMove from "../../hooks/useCustomMove";
 import Button from "../button/Button";
 import Fetching from "../common/Fetching";
+import ResultModal from "../common/ResultModal";
+import SelectedModal from "../common/SelectedModal";
 import {
   AddBoxStyle,
   ContentBoxStyle,
@@ -12,9 +14,6 @@ import {
   UserBoxStyle,
 } from "./styles/AddStyle";
 import { WrapStyle } from "./styles/ListStyle";
-import SelectedModal from "../common/SelectedModal";
-import ResultModal from "../common/ResultModal";
-import { redirect } from "react-router";
 
 // 글 쓰기 초기값
 const initState = {
@@ -55,6 +54,7 @@ const Add = () => {
   // 로딩창 연결
   const [fetching, setFetching] = useState(false);
 
+  // 글 작성 초기값 설정 및 상태 업데이트
   const [product, setProduct] = useState(initState);
 
   // 글 작성 시 내용 업데이트, 텍스트 필드의 변경사항 처리
@@ -73,6 +73,9 @@ const Add = () => {
   // 업로드 할 이미지 미리보기 상태 업데이트
   const [images, setImages] = useState([]);
 
+  // 업로드 할 이미지 5장 초과 시 모달 띄우기 상태 업데이트
+  const [imagesLength, setImagesLength] = useState(false);
+
   // 사진추가 버튼 클릭시 이미지 파일 선택
   const handleClickImg = () => {
     uploadRef.current.click();
@@ -84,6 +87,13 @@ const Add = () => {
     // e.target.files는 사용자가 선택한 파일들의 목록을 포함
     const files = e.target.files;
     if (files) {
+      // 사진 최대 5장까지 업로드
+      const totalImages = images.length + files.length;
+      if (totalImages > 5) {
+        setImagesLength(true);
+        // alert("최대 5장까지만 업로드 가능합니다.");
+        return;
+      }
       // 사용자가 선택한 파일로부터 URL을 생성
       const newImages = Array.from(files).map(file =>
         // 각 파일에 대해 임시 URL을 생성
@@ -144,28 +154,51 @@ const Add = () => {
     // 모든 이미지가 FormData에 추가된 후 서버에 전송
     // 모든 이미지 처리가 완료될 때까지 대기
     await Promise.all(imagePromises);
+
     // 데이터 전송 중임을 나타내는 상태 true
     setFetching(true);
+
     // formData를 서버에 전송
     postAdd({ product: formData, successFn, failFn, errorFn });
   };
 
   // 모달창 관련
+  // 글 작성 시 예외처리 결과 상태 업데이트
   const [result, setResult] = useState(false);
+  // 글 등록 시 모달창 관련
   const [addResult, setAddResult] = useState(false);
+  // resultModal 관련
   const [popTitle, setPopTitle] = useState("");
   const [popContent, setPopContent] = useState(false);
+  // 페이지 이동 관련
   const [popRedirect, setPopRedirect] = useState(false);
+  // selectedModal 띄우기 상태 업데이트
   const [showModal, setShowModal] = useState(false);
 
-  // 확인 버튼 클릭 시
+  // slectedModal 확인 버튼 클릭 시
   const handleConfirm = product => {
     // 글 등록 로직 실행
-    handleClick(product);
+    if (
+      product.title.length !== 0 &&
+      product.contents.length > 0 &&
+      product.contents.length <= 300
+    ) {
+      handleClick(product);
+    }
+    if (
+      product.title.length === 0 ||
+      product.contents.length === 0 ||
+      product.contents.length > 300
+    ) {
+      setResult(true);
+    }
     // 모달 닫기
     setShowModal(false);
   };
 
+  const { moveToList } = useCustomMove();
+
+  // 글 등록 시 resultModal 닫기 callFn
   const closeModal = () => {
     // 모달창 닫기
     setAddResult(false);
@@ -174,7 +207,18 @@ const Add = () => {
       moveToList({ page: 1 });
     }
   };
-  // 취소 버튼 클릭 시
+
+  // 글 등록 시 예외처리용 resultModal 닫기 callFn
+  const closeException = () => {
+    setResult(false);
+  };
+
+  // 사진 업로드 5장 초과 resultModal 닫기 callFn
+  const closeImagesLength = () => {
+    setImagesLength(false);
+  };
+
+  // selectedModal 취소 버튼 클릭 시
   const handleCancel = () => {
     // 모달 닫기
     setShowModal(false);
@@ -182,7 +226,7 @@ const Add = () => {
 
   // 글 등록 버튼 클릭 핸들러
   const handleAddClick = () => {
-    // 모달 띄우기
+    // selectedModal 띄우기
     setShowModal(true);
   };
 
@@ -210,8 +254,6 @@ const Add = () => {
     setPopContent("서버가 불안정합니다. 관리자에게 문의해주세요.");
     setPopRedirect(false);
   };
-
-  const { moveToList } = useCustomMove();
 
   return (
     <WrapStyle>
@@ -294,11 +336,28 @@ const Add = () => {
           cancelFn={handleCancel}
         />
       ) : null}
+
       {addResult ? (
         <ResultModal
           title={popTitle}
           content={popContent}
           callFn={closeModal}
+        />
+      ) : null}
+
+      {result ? (
+        <ResultModal
+          title="제목 필수 입력"
+          content="내용은 300자 이내로 작성해주세요"
+          callFn={closeException}
+        />
+      ) : null}
+
+      {imagesLength ? (
+        <ResultModal
+          title="사진 등록"
+          content="최대 5장까지만 업로드 가능합니다"
+          callFn={closeImagesLength}
         />
       ) : null}
     </WrapStyle>
