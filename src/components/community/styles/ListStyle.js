@@ -144,7 +144,8 @@ export const UserStyle = styled.div`
   position: relative;
   display: flex;
   flex-wrap: wrap;
-  align-items: flex-end;
+  /* align-items: flex-end; */
+  align-items: center;
   gap: 20px;
   img {
     width: 56px;
@@ -157,17 +158,17 @@ export const NameStyle = styled.div`
   position: relative;
   display: flex;
   flex-direction: column;
-  align-items: flex-start;
+  align-items: center;
   gap: 9px;
   color: ${ColorStyle.g900};
 `;
-export const TagBoxStyle = styled.div`
-  position: relative;
-  display: flex;
-  flex-wrap: wrap;
-  align-items: flex-start;
-  gap: 10px;
-`;
+// export const TagBoxStyle = styled.div`
+//   position: relative;
+//   display: flex;
+//   flex-wrap: wrap;
+//   align-items: flex-start;
+//   gap: 10px;
+// `;
 export const SummaryStyle = styled.div`
   position: relative;
   display: -webkit-box;

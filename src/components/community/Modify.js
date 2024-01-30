@@ -163,21 +163,31 @@ const Modify = () => {
         return;
       }
 
-      Array.from(files).forEach(file => {
-        const previewUrl = URL.createObjectURL(file);
-        setImages(prevImages => [
-          ...prevImages,
-          { url: previewUrl, file, isNew: true },
-        ]);
-      });
+      // 선택한 사진을 Array.from으로 줄을 세움
+      // .map으로 각 사진에게 할일 알려줌
+      // 모든 사진 각각 동일한 작업 할수 있음
+      // 각 사진을 브라우저에서 볼 수 있는 주소로 만들고
+      // 그 사진이 새로운 사진인지 표시하는 작업
+      const newFiles = Array.from(files).map(file => ({
+        // 각 사진에게 특별한 주소 생성
+        url: URL.createObjectURL(file),
+        file, // 새로운 파일 정보를 추가합니다.
+        isNew: true, // 새 이미지임을 표시합니다.
+      }));
+
+      setImages(prevImages => [...prevImages, ...newFiles]);
     }
   };
 
-  // 글 작성 시 내용 업데이트
+  // 글 작성 시 내용 업데이트, 텍스트 필드의 변경사항 처리
   const handleChange = e => {
-    product[e.target.name] = e.target.value;
-    setProduct({ ...product });
+    // ...product 기존 product 상태의 모든 속성을 복사(불변성 유지)
+    // e.target.name은 변경된 텍스트 필드의 이름
+    // e.target.value는 입력된 새로운 값을 나타냄
+    // setProduct() 동적 속성 이름을 사용하여 해당 텍스트 필드의 값을 업데이트
+    setProduct({ ...product, [e.target.name]: e.target.value });
   };
+
   // 사진추가 버튼 클릭시 이미지 파일 선택
   const handleClickImg = () => {
     if (images.length > 5) {
@@ -189,28 +199,29 @@ const Modify = () => {
 
   // 해당 글 수정 실행
   const handleClickModify = async product => {
-    // const files = uploadRef.current.files;
-    // console.log("파일업로드 할때 이미지 배열 요소 개수", files.length);
     const formData = new FormData();
+
     // dto 객체 생성 및 Blob으로 변환
     const dto = new Blob(
       [
         JSON.stringify({
           iboard: product.iboard,
-          icommuPics: deletedImageIds,
+          icommuPics: deletedImageIds, // 삭제할 이미지 ID 목록을 추가합니다.
           title: product.title,
           contents: product.contents,
-          files: product.files,
         }),
       ],
       { type: "application/json" },
     );
+
     // dto 객체를 FormData에 추가
     formData.append("dto", dto);
 
-    // 새로운 이미지만 FormData에 추가
-    Array.from(uploadRef.current.files).forEach(file => {
-      formData.append("pics", file);
+    // 새로 추가된 이미지만 FormData에 추가
+    images.forEach(image => {
+      if (image.isNew) {
+        formData.append("pics", image.file);
+      }
     });
 
     // 글 정보 전송하기
