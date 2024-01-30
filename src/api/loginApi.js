@@ -38,24 +38,3 @@ export const loginPost = async ({ authParam, successFn, failFn, errorFn }) => {
     }
   }
 };
-
-export const postJadd = async iJadd => {
-  console.log("회원정보임", iJadd);
-  try {
-    const response = await axios.post(`${signHost}/signup`, iJadd);
-  } catch (error) {
-    console.log(error);
-  }
-};
-
-export const nickNameCheck = async ({ iNickCheck }) => {
-  console.log("닉네임중복체크", iNickCheck);
-  const nickname = iNickCheck.nickname;
-  console.log("닉네임중복체크", iNickCheck.nickname);
-  try {
-    const response = await axios.post(`${signHost}/signup/${nickname}`);
-    console.log(response.data);
-  } catch (error) {
-    console.log(error);
-  }
-};

@@ -76,7 +76,7 @@ const LoginPage = () => {
               type="text"
               name="email"
               value={authParam.email}
-              placeholder="아이디"
+              placeholder="이메일"
               onChange={e => handleChange(e)}
             />
 
@@ -86,11 +86,12 @@ const LoginPage = () => {
               value={authParam.upw}
               placeholder="비밀번호"
               onChange={e => handleChange(e)}
+              maxLength="8"
             />
           </LoginPageInfo>
           <LoginPageCheckbox>
-            <img src="../assets/images/Checkboxes.svg"></img>
-            아이디 기억하기
+            {/* <img src="../assets/images/Checkboxes.svg"></img>
+            이메일 기억하기 */}
           </LoginPageCheckbox>
           <LoginPageBts>
             <button
