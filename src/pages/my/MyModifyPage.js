@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import {
   MyModifyPageButton,
   MyModifyPageForm,
@@ -10,9 +10,17 @@ import {
   ProfileImg,
 } from "./styles/MyModifyPageStyle";
 import Button from "../../components/button/Button";
-import { getUserInfo, putUserInfo } from "../../api/MyApi";
+import {
+  API_SERVER_HOST,
+  getUserInfo,
+  nickNameCheck,
+  putUserInfo,
+} from "../../api/MyApi";
 import useModal from "../../hooks/useModal";
 import ResultModal from "../../components/common/ResultModal";
+import { useSelector } from "react-redux";
+
+const host = API_SERVER_HOST;
 
 // 프로필 정보 초기값
 const initialProfile = {
@@ -28,10 +36,17 @@ const initialProfile = {
 
 // 프로필 수정 페이지
 const MyModifyPage = () => {
+  const authState = useSelector(state => state.authSlice);
   const [myProfileData, setMyProfileData] = useState(initialProfile);
-  const [fetching, setFetching] = useState(false);
-  const [result, setResult] = useState(false);
   const [selectedImage, setSelectedImage] = useState(null);
+
+  // 업로드 이미지 미리보기 상태 업데이트
+  const [image, setImage] = useState();
+  // 교체 할 이미지 상태 업데이트
+  const [replaceImg, setRePlaceImg] = useState(null);
+  // 이미지 삭제 정보 상태
+  const [deletedImageIds, setDeletedImageIds] = useState([]);
+  const uploadRef = useRef(null);
   const [modifiedNickname, setModifiedNickname] = useState("");
   const [modifiedAddress, setModifiedAddress] = useState("");
   const [modifiedPhoneNumber, setModifiedPhoneNumber] = useState("");
@@ -54,10 +69,25 @@ const MyModifyPage = () => {
     console.log(result);
   };
 
+  useEffect(() => {
+    // 기존 이미지 URL 초기화
+    const initialImages = pic => ({
+      url: `${host}/pic/user/${authState.iuser}/${authState.pic}`,
+    });
+    setImage(initialImages);
+  }, [myProfileData.pics, myProfileData.iboard]);
+
   // 프로필 이미지 업로드
   const handleImageChange = e => {
     const file = e.target.files[0];
     setSelectedImage(file);
+    const newFiles = file => ({
+      // 각 사진에게 특별한 주소 생성
+      url: URL.createObjectURL(file),
+      file, // 새로운 파일 정보를 추가합니다.
+      isNew: true, // 새 이미지임을 표시합니다.
+    });
+    setImage(prevImages => [...prevImages, ...newFiles]);
   };
 
   // input 휴대폰 번호 부분 (11자리 숫자만 입력 가능하도록 제한)
@@ -66,66 +96,32 @@ const MyModifyPage = () => {
     e.target.value = value;
   };
 
-  // 유저 정보 수정 (PUT) 안됨 고쳐야됨 뭘고쳐하지
-  const handleChangeUser = async () => {
-    try {
-      const userData = {
-        pic: "", // 이미지는 스웨거에 없어서 빈 문자열로 처리
-        dto: {
-          nickname: isModified ? modifiedNickname : myProfileData.nickname,
-          address: isModified ? modifiedAddress : myProfileData.address,
-          pic: "", // 이미지는 스웨거에 없어서 빈 문자열로 처리
-          tel: isModified ? modifiedPhoneNumber : myProfileData.tel,
-        },
-      };
-
-      setFetching(true);
-      await putUserInfo({
-        myProfileData: userData,
-        successFn: successFnMyModify,
-        failFn: failFnMyModify,
-        errorFn: errorFnMyModify,
-      });
-
-      const getUserInfoResult = await getUserInfo({ param: {} });
-
-      if (getUserInfoResult) {
-        setMyProfileData(getUserInfoResult);
-        console.log(
-          "프로필 수정 후 유저 정보 다시 불러오기 성공",
-          getUserInfoResult,
-        );
-      } else {
-        console.log("프로필 수정 후 유저 정보 다시 불러오기 실패");
-      }
-    } catch (error) {
-      console.log("프로필 수정 오류", error);
-    } finally {
-      setFetching(false);
-    }
+  // 유저 정보 수정 (PUT)
+  const handleChangeUser = (pic, nickname, address, tel) => {
+    const putUserForm = {
+      pic: pic,
+      dto: {
+        nickname: nickname,
+        address: address,
+        pic: pic,
+        tel: tel,
+      },
+    };
+    putUserInfo({ putUserForm, successFn, failFn, errorFn });
+    console.log(putUserForm);
   };
-
-  const successFnMyModify = result => {
-    console.log("프로필 수정 성공", result);
-    setResult(true);
-  };
-
-  const failFnMyModify = result => {
-    console.log("프로필 수정 실패", result);
-    setResult(false);
-  };
-
-  const errorFnMyModify = result => {
-    console.log("프로필 수정 실패", result);
-    setResult(true);
-  };
-  // 여기까지 정보 수정 ㅋㅋㅋ 안됨...
 
   // 모달창
   const { useResultModal, openModal, closeModal } = useModal();
   const handleDeleteUser = () => {
     openModal();
   };
+
+  // // const [nickname, setNickname] = useState();
+  // const handleCheckAvailability = iNickCheck => {
+  //   // const iNickCheck = nickname;
+  //   nickNameCheck({ iNickCheck: nickname });
+  // };
 
   return (
     <MyModifyPageWrapper>
@@ -134,17 +130,21 @@ const MyModifyPage = () => {
       </MyModifyPageTitle>
       <MyModifyPageProfile>
         <ProfileImg>
-          <img src="" alt=""></img>
+          <img
+            src={`${host}/pic/user/${authState.iuser}/${authState.pic}`}
+            alt="프로필 사진"
+          ></img>
           <label htmlFor="imageUpload">
             <img
               src={`${process.env.PUBLIC_URL}/assets/images/profile_camera.svg`}
-              alt="Upload Icon"
+              alt="업로드 버튼"
             />
           </label>
           <input
             id="imageUpload"
             type="file"
             accept="image/*"
+            style={{ display: "none" }}
             onChange={handleImageChange}
           />
         </ProfileImg>
@@ -170,11 +170,13 @@ const MyModifyPage = () => {
         />
         <p>닉네임</p>
         <span>{isModified ? modifiedNickname : myProfileData.nickname}</span>
+        <Button bttext="중복 확인"></Button>
         <input
           type="text"
           placeholder="변경할 닉네임을 입력하세요."
           value={modifiedNickname}
           onChange={e => setModifiedNickname(e.target.value)}
+          // onClick={handleCheckAvailability}
         />
         <p>주소</p>
         <span>{isModified ? modifiedAddress : myProfileData.address}</span>

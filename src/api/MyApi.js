@@ -1,3 +1,4 @@
+import axios from "axios";
 import authAxios from "../util/tokenUtil";
 
 export const API_SERVER_HOST = "";
@@ -23,10 +24,22 @@ export const getMyBook = async ({ param, successFn, failFn, errorFn }) => {
 };
 
 // 마이페이지 : 예약 내역 변경하기 (PUT)
-export const putMyBook = async ({ param, successFn, failFn, errorFn }) => {
+export const putMyBook = async ({
+  reserChangeForm,
+  successFn,
+  failFn,
+  errorFn,
+}) => {
+  const data = {
+    ireser: reserChangeForm.ireser,
+    date: reserChangeForm.date,
+    headCount: reserChangeForm.headCount,
+    request: reserChangeForm.request,
+  };
   try {
-    const res = await authAxios.put(`${host}/reservation`, {
-      params: param,
+    const header = { headers: { "Content-Type": "application/json" } };
+    const res = await authAxios.put(`${host}/reservation`, data, {
+      headers: header,
     });
     const status = res.status.toString();
     if (status.charAt(0) === "2") {
@@ -50,13 +63,12 @@ export const patchMyBook = async ({
 }) => {
   const data = {
     checkShop: patchBookForm.checkShop,
-    ireview: patchBookForm.ireview,
+    ireser: patchBookForm.ireser,
   };
   try {
     const header = { headers: { "Content-Type": "application/json" } };
-    const res = await authAxios.patch(`${host}/reservation`, {
-      ...header,
-      data: data,
+    const res = await authAxios.patch(`${host}/reservation`, data, {
+      headers: header,
     });
     const status = res.status.toString();
     if (status.charAt(0) === "2") {
@@ -157,11 +169,16 @@ export const getUserInfo = async ({ param, successFn, failFn, errorFn }) => {
   }
 };
 
-// 마이페이지 : 유저 정보 수정하기 (PUT) 안됨 ㅎㅎ
-export const putUserInfo = async ({ userData, successFn, failFn, errorFn }) => {
+// 마이페이지 : 유저 정보 수정하기 (PUT)
+export const putUserInfo = async ({
+  putUserForm,
+  successFn,
+  failFn,
+  errorFn,
+}) => {
   try {
     const header = { headers: { "Content-Type": "multipart/form-data" } };
-    const res = await authAxios.put(`${host}/user`, userData, header);
+    const res = await authAxios.put(`${host}/user`, putUserForm, header);
     const status = res.status.toString();
     if (status.charAt(0) === "2") {
       console.log("유저 정보 수정 성공");
@@ -179,3 +196,18 @@ export const putUserInfo = async ({ userData, successFn, failFn, errorFn }) => {
     }
   }
 };
+
+// export const nickNameCheck = async ({ iNickCheck }) => {
+//   console.log("닉네임중복체크", iNickCheck);
+//   const nickname = iNickCheck;
+
+//   try {
+//     const response = await axios.post(`${signHost}/signup/${nickname}`);
+//     const data = await response.data();
+
+//     console.log(response.data);
+//   } catch (error) {
+//     console.log(error);
+
+//   }
+// };

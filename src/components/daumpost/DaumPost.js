@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import DaumPostcode from "react-daum-postcode";
+import Postcode from "react--postcode";
 
 const MyComponent = () => {
   const [postcode, setPostcode] = useState("");
@@ -8,7 +8,7 @@ const MyComponent = () => {
   const [detailAddress, setDetailAddress] = useState("");
   const [extraAddress, setExtraAddress] = useState("");
   const [guide, setGuide] = useState("");
-  const [isDaumPostOpen, setIsDaumPostOpen] = useState(false);
+  const [isPostOpen, setIsPostOpen] = useState(false);
 
   const handleComplete = data => {
     const roadAddr = data.roadAddress; // 도로명 주소 변수
@@ -50,15 +50,15 @@ const MyComponent = () => {
       setGuide("");
     }
 
-    setIsDaumPostOpen(false); // 팝업 닫기
+    setIsPostOpen(false); // 팝업 닫기
   };
 
-  const handleDaumPostOpen = () => {
-    setIsDaumPostOpen(true);
+  const handlePostOpen = () => {
+    setIsPostOpen(true);
   };
 
-  const handleDaumPostClose = () => {
-    setIsDaumPostOpen(false);
+  const handlePostClose = () => {
+    setIsPostOpen(false);
   };
 
   return (
@@ -70,7 +70,7 @@ const MyComponent = () => {
         placeholder="우편번호"
         readOnly
       />
-      <input type="button" onClick={handleDaumPostOpen} value="우편번호 찾기" />
+      <input type="button" onClick={handlePostOpen} value="우편번호 찾기" />
       <br />
       <input
         type="text"
@@ -106,11 +106,8 @@ const MyComponent = () => {
         placeholder="참고항목"
         readOnly
       />
-      {isDaumPostOpen && (
-        <DaumPostcode
-          onClose={handleDaumPostClose}
-          onComplete={handleComplete}
-        />
+      {isPostOpen && (
+        <Postcode onClose={handlePostClose} onComplete={handleComplete} />
       )}
     </div>
   );
