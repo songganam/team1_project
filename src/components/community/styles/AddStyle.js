@@ -59,10 +59,11 @@ export const ContentBoxStyle = styled(AddBoxStyle)`
     align-items: flex-start;
     align-self: stretch;
     textarea {
+      resize: none;
       padding: 10px;
       width: 100%;
-      min-height: 100px;
-      resize: vertical;
+      min-height: 300px;
+      /* resize: vertical; */
       font-size: ${FontSize.default};
       border-top: 1px solid ${ColorStyle.g500};
     }

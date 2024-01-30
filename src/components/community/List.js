@@ -6,7 +6,6 @@ import { ColorStyle } from "../../styles/common/CommonStyle";
 import Button from "../button/Button";
 import Fetching from "../common/Fetching";
 import Paging from "../common/Paging";
-import Tag from "../tag/Tag";
 import Thead from "./Thead";
 import {
   BtnStyle,
@@ -18,7 +17,6 @@ import {
   SearchStyle,
   SummaryStyle,
   TableFootStyle,
-  TagBoxStyle,
   ThumbnailStyle,
   TitleStyle,
   TnoStyle,
@@ -179,15 +177,25 @@ const List = () => {
               <ContentInfoStyle>
                 <ContentStyle>
                   <UserStyle>
-                    <img src={preview.writerPic} alt="프로필사진" />
+                    {preview.writerPic ? (
+                      <img
+                        src={`${host}/pic/user/${preview.iuser}/${preview.writerPic}`}
+                        alt="프로필사진"
+                      />
+                    ) : (
+                      <img
+                        src={`${process.env.PUBLIC_URL}/assets/images/favicon.png`}
+                        alt="기본사진"
+                      />
+                    )}
                     <NameStyle>
                       <div>{preview.writerName}</div>
                       {/* 더미 태그 */}
-                      <TagBoxStyle>
+                      {/* <TagBoxStyle>
                         <Tag tagtext="#동성로" />
                         <Tag tagtext="#모듬한판" />
                         <Tag tagtext="#퇴근길" />
-                      </TagBoxStyle>
+                      </TagBoxStyle> */}
                     </NameStyle>
                   </UserStyle>
                   <SummaryStyle>{preview.contents}</SummaryStyle>

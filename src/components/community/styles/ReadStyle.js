@@ -178,7 +178,7 @@ export const ReviewBox = styled.div`
     flex-wrap: wrap;
     padding: 20px 0px;
     justify-content: space-between;
-    align-items: flex-start;
+    align-items: center;
     gap: 13px;
     align-self: stretch;
     border-top: 1px dashed ${ColorStyle.g500};
@@ -191,12 +191,14 @@ export const ReviewBox = styled.div`
     gap: 10px;
     flex: 1 0 0;
     align-self: stretch;
-    input {
-      appearance: none;
-      padding: 10px 20px;
+    textarea {
+      border: none;
+      outline: none;
+      resize: none;
+      padding: 12px 20px 4px 20px;
       width: 100%;
       min-width: 220px;
-      height: 100%;
+      height: 90%;
       border-radius: 10px;
       border: 1px solid ${ColorStyle.g500};
       background: #fff;
