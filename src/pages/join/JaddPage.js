@@ -221,7 +221,6 @@ const JaddPage = () => {
             onChange={handleFileChange}
             ref={fileInputRef}
             style={{ display: "none" }}
-            
           />
           {/* 커스텀 스타일이 적용된 버튼 */}
           <button

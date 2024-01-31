@@ -33,6 +33,7 @@ const MeatModifyPage = () => {
   const headcount = queryParams.get("headcount");
   const date = queryParams.get("date");
   const request = queryParams.get("request");
+  console.log("예약PK", ireser);
   console.log("이름", name);
   console.log("인원 수", headcount);
   console.log("예약일시", date);
@@ -158,6 +159,8 @@ const MeatModifyPage = () => {
       headCount: headCount,
       request: request,
     };
+    console.log("handleReserSubmit - reserChangeForm:", reserChangeForm); // 추가
+
     // ! No exist Value
     if (timeCount == "") {
       openModal(
@@ -167,6 +170,7 @@ const MeatModifyPage = () => {
       );
     }
     putMyBook({ reserChangeForm, successFn, failFn, errorFn });
+
     openModal("예약변경완료", "예약변경이 완료되었습니다.", submitModal);
     console.log("내용 :", reserChangeForm);
     return reserChangeForm;
