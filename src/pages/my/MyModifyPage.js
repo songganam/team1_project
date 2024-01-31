@@ -82,17 +82,10 @@ const MyModifyPage = () => {
     }
   };
 
-
   // 사진추가 버튼 클릭 시 이미지 파일 선택
 
   const handleClickImg = () => {
     uploadRef.current.click();
-  };
-
-  // 글 작성 시 내용 업데이트
-  const handleChange = e => {
-    myProfileData[e.target.name] = e.target.value;
-    setMyProfileData({ ...myProfileData });
   };
 
   // 글 작성 시 내용 업데이트
@@ -126,7 +119,6 @@ const MyModifyPage = () => {
     });
   };
   const successPut = putResult => {
-
     console.log("수정 성공", putResult);
   };
   const failPut = putResult => {
@@ -134,7 +126,6 @@ const MyModifyPage = () => {
   };
   const errorPut = putResult => {
     console.log("수정 서버오류", putResult);
-
   };
 
   // 모달창
