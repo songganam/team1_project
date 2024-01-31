@@ -30,6 +30,8 @@ export const putMyBook = async ({
   failFn,
   errorFn,
 }) => {
+  console.log("reserChangeForm:", reserChangeForm);
+
   const data = {
     ireser: reserChangeForm.ireser,
     date: reserChangeForm.date,
@@ -37,6 +39,8 @@ export const putMyBook = async ({
     request: reserChangeForm.request,
   };
   try {
+    console.log("PUT 요청 보내는 데이터:", data); // 추가
+
     const header = { headers: { "Content-Type": "application/json" } };
     const res = await authAxios.put(`${host}/reservation`, data, {
       headers: header,
@@ -52,6 +56,7 @@ export const putMyBook = async ({
       failFn("예약 변경 오류");
     }
   } catch (error) {
+    console.error("PUT 요청 에러:", error);
     errorFn(error);
     console.log("서버 예약 변경 오류");
   }
@@ -179,16 +184,9 @@ export const putUserInfo = async ({
   failFn,
   errorFn,
 }) => {
-  const formData = new FormData();
-  formData.append("pic", putUserForm.pic);
-  formData.append("nickname", putUserForm.dto.nickname);
-  formData.append("address", putUserForm.dto.address);
-  formData.append("tel", putUserForm.dto.tel);
   try {
-    const header = { headers: { "Content-Type": "application/json" } };
-    const res = await authAxios.put(`${host}/user`, formData, {
-      headers: header,
-    });
+    const header = { headers: { "Content-Type": "multipart/form-data" } };
+    const res = await authAxios.put(`${host}/user`, putUserForm, header);
     const status = res.status.toString();
     if (status.charAt(0) === "2") {
       console.log("유저 정보 수정 성공");
@@ -198,7 +196,12 @@ export const putUserInfo = async ({
     }
   } catch (error) {
     errorFn(error);
-    console.log("서버 오류");
+    if (error.res) {
+      console.log("서버 응답 오류", error.res.data);
+      errorFn("유저 정보 수정 서버 오류", error.res.data);
+    } else {
+      errorFn("유저 정보 수정 서버 오류");
+    }
   }
 };
 
@@ -209,10 +212,12 @@ export const nickNameCheck = async ({ iNickCheck }) => {
 
   try {
     const response = await axios.post(`${host}/user/signup/${nickname}`);
-    const data = await response.data();
+    const data = response.data;
 
-    console.log(response.data);
+    console.log(data);
+    return data;
   } catch (error) {
     console.log(error);
+    throw error;
   }
 };
