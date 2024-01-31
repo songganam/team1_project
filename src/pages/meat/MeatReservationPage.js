@@ -22,6 +22,7 @@ import {
 import ResultModal from "../../components/common/ResultModal";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { postReser } from "../../api/meatApi";
+import dayjs from "dayjs";
 
 // 고깃집 리뷰 쓰기 페이지입니다.
 const MeatReservationPage = () => {
@@ -101,9 +102,10 @@ const MeatReservationPage = () => {
   };
 
   // * Calendar(예약달력)
-  const createdate = new Date();
-  const nowdata = moment(createdate).format("YYYY-MM-DD");
-  const [selectedDate, setSelectedDate] = useState(nowdata);
+  const nowDate = dayjs().format("YYYY-MM-DD");
+  // const createdate = new Date();
+  // const nowdata = moment(createdate).format("YYYY-MM-DD");
+  const [selectedDate, setSelectedDate] = useState(nowDate);
 
   const handleDateChange = formattedDate => {
     if (formattedDate) {
@@ -203,7 +205,7 @@ const MeatReservationPage = () => {
                 <span>예약가능시간</span>
               </ReserItem>
               {/* 에약 가능 시간대 버튼 */}
-              {createdate && createdate ? (
+              {nowDate && nowDate ? (
                 <ReserTimeItem>
                   {timeValue.map((item, index) => (
                     <ReserTimeBtn

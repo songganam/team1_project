@@ -1,6 +1,6 @@
 import moment from "moment";
 import React, { useEffect, useState } from "react";
-import ReserCalendar from "../../components/meat/ReserCalendar";
+
 import {
   ReserContent,
   ReserCountBox,
@@ -22,6 +22,7 @@ import {
 import ResultModal from "../../components/common/ResultModal";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { putMyBook } from "../../api/MyApi";
+import ReserCalendar from "../../components/meat/ModifyCalendar";
 
 // 예약 변경 페이지
 const MeatModifyPage = () => {
@@ -166,7 +167,7 @@ const MeatModifyPage = () => {
       );
     }
     putMyBook({ reserChangeForm, successFn, failFn, errorFn });
-    openModal("예약완료", "예약이 완료되었습니다.", submitModal);
+    openModal("예약변경완료", "예약변경이 완료되었습니다.", submitModal);
     console.log("내용 :", reserChangeForm);
     return reserChangeForm;
   };
@@ -192,7 +193,7 @@ const MeatModifyPage = () => {
       <ReserWrapper>
         {/* title */}
         <ReserTitle>
-          <span>예약하기</span>
+          <span>예약변경</span>
         </ReserTitle>
         {/* wrapper */}
         <ReserWrap>
@@ -297,7 +298,7 @@ const MeatModifyPage = () => {
         </ReserWrap>
         {/* button */}
         <ReserSubmitBtn onClick={handleReserSubmit}>
-          <span>예약하기</span>
+          <span>변경완료</span>
         </ReserSubmitBtn>
       </ReserWrapper>
     </div>
