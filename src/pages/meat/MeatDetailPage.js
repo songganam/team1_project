@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Map, MapMarker } from "react-kakao-maps-sdk";
 import { useNavigate, useParams } from "react-router";
-import { API_SERVER_HOST, changeBookmark, getGInfo } from "../../api/meatApi";
+import { changeBookmark, getGInfo } from "../../api/meatApi";
 import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/navigation";
@@ -47,6 +47,7 @@ import {
   ReviewUserProfile,
   ReviewWrap,
 } from "./styles/MeatDetailStyle";
+import { API_SERVER_HOST } from "../../api/config";
 
 const MeatDetailPage = () => {
   const navigate = useNavigate();
@@ -56,7 +57,9 @@ const MeatDetailPage = () => {
   const [loading, setLoading] = useState(false);
   const { isLogin } = useCustomLogin();
   const isBookInfo = storeInfo.isBook;
-  const host = `http://192.168.0.144:5221/pic/shop/${ishop}/shop_pic/`;
+  const baseApi = API_SERVER_HOST;
+  // const host = `${baseApi}/pic`;
+  const host = `${baseApi}/pic/shop/${ishop}/shop_pic/`;
 
   useEffect(() => {
     setLoading(true);

@@ -18,6 +18,7 @@ import Bookmark from "../bookmark/Bookmark";
 import { patchMyBook, getMyBook } from "../../api/MyApi";
 import useCustomMy from "./hooks/useCustomMy";
 import useCustomHook from "../meat/hooks/useCustomHook";
+import { API_SERVER_HOST } from "../../api/config";
 
 // 내 예약/픽업 내역 카드 리스트
 const MyBookCard = props => {
@@ -73,17 +74,22 @@ const MyBookCard = props => {
   // 이미지 데이터 호출 성공시, 추후 삭제
   const { storeimg } = props;
 
+  const baseApi = API_SERVER_HOST;
+  const host = `${baseApi}/pic`;
+
   return (
     <>
       {myBookList.map((myBookList, index) => (
         <MyBookCardWrapper key={index}>
           <MyBookCardVisual>
-            {/* <img src={myBookList.pic} alt="가게 이미지"></img> */}
-
             <img
-              src={`/${myBookList.checkShop}/${myBookList.pic}`}
+              src={
+                myBookList.checkShop === 0
+                  ? `${host}/shop/${myBookList.ishop}/shop_pic/${myBookList.pic}`
+                  : `${host}/butcher/${myBookList.ishop}/butchershop_pic/${myBookList.pic}`
+              }
               alt="가게 이미지"
-            ></img>
+            />
           </MyBookCardVisual>
           <MyBookCardContent>
             <MyBookCardTitle>

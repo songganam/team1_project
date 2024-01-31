@@ -28,6 +28,7 @@ export const ButcherStoreInfo = styled.div`
   height: 230px;
   padding: 10px;
   align-items: flex-start;
+  justify-content: center;
   align-content: flex-start;
   gap: 5px;
   flex-wrap: wrap;
@@ -45,6 +46,8 @@ export const ButcherStoreBox = styled.div`
 export const ButcherSotreCardImg = styled.div`
   width: 380px;
   height: 210px;
+  display: flex;
+  align-items: center;
   /* background-color: blue; */
   img {
     width: 380px;

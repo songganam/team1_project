@@ -13,6 +13,7 @@ import {
   MeatStoreTitle,
   ReserveBtn,
 } from "./styles/GCardStyle";
+import { API_SERVER_HOST } from "../../api/config";
 
 const GCardComponent = ({ data }) => {
   const navigate = useNavigate();
@@ -22,7 +23,8 @@ const GCardComponent = ({ data }) => {
     useCustomHook();
 
   const { isLogin } = useCustomLogin();
-  const host = `http://192.168.0.144:5221/pic/shop/`;
+  const baseApi = API_SERVER_HOST;
+  const host = `${baseApi}/pic/shop/`;
   const handleReserClick = (e, ishop, name) => {
     e.stopPropagation();
     if (isLogin) {

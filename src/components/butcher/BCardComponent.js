@@ -13,9 +13,11 @@ import {
 } from "./styles/BCardStyle";
 import useCustomHook from "../meat/hooks/useCustomHook";
 import useCustomLogin from "../meat/hooks/useCustomLogin";
+import { API_SERVER_HOST } from "../../api/meatApi";
 
 const GCardComponent = ({ data }) => {
-  const host = `http://192.168.0.144:5221/pic/butcher/`;
+  const baseApi = API_SERVER_HOST;
+  const host = `${baseApi}/pic/butcher/`;
   console.log(data);
   const navigate = useNavigate();
   const { ibutcher } = useParams();

@@ -18,8 +18,6 @@ import {
 } from "./styles/MeatListStyle";
 // 고깃집 목록보기 페이지입니다.
 const MeatListPage = () => {
-  const API_SERVER_HOST = "";
-
   const {
     page,
     search,

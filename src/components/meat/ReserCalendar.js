@@ -3,15 +3,15 @@ import Calendar from "react-calendar";
 import "./styles/GCalendar.css";
 import moment from "moment";
 
-const ReserCalendar = ({ onDateChange, date }) => {
-  const [value, setValue] = useState(new Date());
+const ReserCalendar = ({ onDateChange, dateOnly }) => {
+  const [value, setValue] = useState(new Date(dateOnly));
   const today = new Date();
   const todyMonthLater = moment(today).add(1, "month").toDate();
   const onChange = e => {
     setValue(e);
     onDateChange(moment(e).format("YYYY.MM.DD"));
   };
-  console.log("캘린더임", date);
+  console.log("캘린더임", dateOnly);
   return (
     <div>
       <Calendar

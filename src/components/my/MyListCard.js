@@ -15,6 +15,7 @@ import {
   MyMoreViewButton,
 } from "./styles/MyListCardStyle";
 import useCustomMy from "./hooks/useCustomMy";
+import { API_SERVER_HOST } from "../../api/config";
 
 // 내 북마크 내역 카드
 const MyListCard = props => {
@@ -50,7 +51,8 @@ const MyListCard = props => {
 
   // 추후 삭제
   const { storeimg } = props;
-
+  const baseApi = API_SERVER_HOST;
+  const host = `${baseApi}/pic`;
   return (
     <>
       {myList.map((myList, index) => (
@@ -59,8 +61,14 @@ const MyListCard = props => {
           onClick={e => moveToDetail(myList.ishop)}
         >
           <MyListCardVisual>
-            {/* <img src={myList.pic} alt="가게 이미지"></img> */}
-            <img src={storeimg} alt="가게 이미지"></img>
+            <img
+              src={
+                myList.checkShop === 0
+                  ? `${host}/shop/${myList.ishop}/shop_pic/${myList.pic}`
+                  : `${host}/butcher/${myList.ishop}/butchershop_pic/${myList.pic}`
+              }
+              alt="가게 이미지"
+            />
           </MyListCardVisual>
           <MyListCardContent>
             <MyListCardTitle>

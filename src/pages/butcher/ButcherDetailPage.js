@@ -47,6 +47,7 @@ import {
   ReviewUserProfile,
   ReviewWrap,
 } from "./styles/ButcherDetailStyle";
+import { API_SERVER_HOST } from "../../api/config";
 
 const MeatDetailPage = () => {
   const navigate = useNavigate();
@@ -56,7 +57,9 @@ const MeatDetailPage = () => {
   const [loading, setLoading] = useState(false);
   const { isLogin } = useCustomLogin();
   const isBookInfo = storeInfo.isBook;
-  const host = `http://192.168.0.144:5221/pic/butcher/`;
+
+  const baseApi = API_SERVER_HOST;
+  const host = `${baseApi}/pic/butcher/`;
 
   useEffect(() => {
     setLoading(true);
