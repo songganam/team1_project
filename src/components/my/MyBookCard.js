@@ -19,10 +19,13 @@ import { patchMyBook, getMyBook } from "../../api/MyApi";
 import useCustomMy from "./hooks/useCustomMy";
 import useCustomHook from "../meat/hooks/useCustomHook";
 import { API_SERVER_HOST } from "../../api/config";
+import useModal from "../../hooks/useModal";
+import ResultModal from "../common/ResultModal";
 
 // 내 예약/픽업 내역 카드 리스트
 const MyBookCard = props => {
-  const { page, moveToBookPage, moveToReserChange } = useCustomMy();
+  const { page, moveToBookPage, moveToReserChange, moveToPickupChange } =
+    useCustomMy();
   const { moveToReview } = useCustomHook();
   const [myBookList, setMyBookList] = useState([]);
 
@@ -56,9 +59,20 @@ const MyBookCard = props => {
     console.log(patchBookForm);
   };
 
+  // 모달창
+  const { useResultModal, openModal, closeModal } = useModal();
+  const handleDeleteUser = () => {
+    openModal();
+  };
+
   // 예약 변경 페이지 이동
   const handleChangeBook = e => {
     moveToReserChange(e);
+  };
+
+  // 픽업 변경 페이지 이동
+  const handleChangePickUp = e => {
+    moveToPickupChange(e);
   };
 
   // 리뷰 작성 페이지 이동
@@ -70,9 +84,6 @@ const MyBookCard = props => {
   const handleMyBookView = () => {
     moveToBookPage({ page: page + 1 });
   };
-
-  // 이미지 데이터 호출 성공시, 추후 삭제
-  const { storeimg } = props;
 
   const baseApi = API_SERVER_HOST;
   const host = `${baseApi}/pic`;
@@ -130,9 +141,10 @@ const MyBookCard = props => {
               >
                 <Button bttext="리뷰작성"></Button>
               </div>
-              {/* <div
+              <div
                 onClick={e =>
-                  myBookList.check === 0
+
+                  myBookList.checkShop === 0
                     ? moveToReserChange(
                         myBookList.ireser,
                         myBookList.name,
@@ -140,20 +152,20 @@ const MyBookCard = props => {
                         myBookList.date,
                         myBookList.request,
                       )
-                    : myBookList.check === 1
+                    : myBookList.checkShop === 1
                     ? moveToPickupChange(
                         myBookList.ireser,
                         myBookList.name,
-                        myBookList.headCount,
                         myBookList.date,
                         myBookList.request,
                       )
                     : null
+
                 }
                 style={{ display: myBookList.confirm !== 2 ? "block" : "none" }}
               >
                 <Button bttext="예약변경"></Button>
-              </div> */}
+              </div>
               <div
                 onClick={e =>
                   handleCancelBook(myBookList.checkShop, myBookList.ireser)
@@ -162,6 +174,15 @@ const MyBookCard = props => {
               >
                 <Button bttext="예약취소"></Button>
               </div>
+              {useResultModal && (
+                <ResultModal
+                  title="회원 탈퇴"
+                  content="모든 회원 정보가 삭제됩니다."
+                  callFn={() => {
+                    closeModal();
+                  }}
+                />
+              )}
             </MyBookCardBookButton>
           </MyBookCardContent>
         </MyBookCardWrapper>

@@ -79,11 +79,13 @@ const useCustomMy = () => {
       search: `name=${name}&headcount=${headCount}&date=${date}&request=${request}&${defaultQueryString}`,
     });
   };
-  const moveToPickupChange = (ibutcher, name, headCount, date, request) => {
+
+  // 픽업 변경 페이지 이동
+  const moveToPickupChange = (ibutcher, name, date, request) => {
     console.log(name);
     navigate({
       pathname: `../../butcher/modify/${ibutcher}`,
-      search: `name=${name}&headcount=${headCount}&date=${date}&request=${request}&${defaultQueryString}`,
+      search: `name=${name}&date=${date}&request=${request}&${defaultQueryString}`,
     });
   };
 

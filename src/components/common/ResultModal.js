@@ -48,7 +48,11 @@ const ResultModal = ({ title, content, callFn }) => {
         >
           {content}
         </div>
-        <div onClick={callFn}>
+        <div
+          onClick={() => {
+            callFn();
+          }}
+        >
           <Button bttext="확인" />
         </div>
       </div>
