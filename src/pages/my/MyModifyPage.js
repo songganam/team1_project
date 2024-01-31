@@ -42,11 +42,8 @@ const MyModifyPage = () => {
   const [selectedImage, setSelectedImage] = useState(null);
 
   // 업로드 이미지 미리보기 상태 업데이트
-  const [image, setImage] = useState();
-  // 교체 할 이미지 상태 업데이트
-  const [replaceImg, setRePlaceImg] = useState(null);
-  // 이미지 삭제 정보 상태
-  const [deletedImageIds, setDeletedImageIds] = useState([]);
+  const [image, setImage] = useState(authState.pic);
+
   const uploadRef = useRef(null);
   const [modifiedNickname, setModifiedNickname] = useState("");
   const [modifiedAddress, setModifiedAddress] = useState("");
@@ -72,20 +69,23 @@ const MyModifyPage = () => {
 
   useEffect(() => {
     // 기존 이미지 URL 초기화
-    const initialImages = pic => ({
-      url: `${host}/pic/user/${authState.iuser}/${authState.pic}`,
-    });
-    setImage(initialImages(authState.pic));
-  }, [authState.iuser, authState.pic]);
+    const initialImageUrl = `${host}/pic/user/${authState.iuser}/${authState.pic}`;
+    setImage(initialImageUrl);
+  }, [authState.pic, authState.iuser]);
 
-  // 프로필 이미지 업로드
+  // 업로드 할 이미지 미리보기 및 교체
   const handleImageChange = e => {
     const file = e.target.files[0];
-    setSelectedImage(file);
-    console.log("Selected Image:", file);
+    if (file) {
+      const previewUrl = URL.createObjectURL(file);
+      setImage(previewUrl);
+      setSelectedImage(file);
+    }
+  };
 
-    const previewUrl = URL.createObjectURL(file);
-    setImage(previewUrl);
+  // 사진추가 버튼 클릭 시 이미지 파일 선택
+  const handleClickImg = () => {
+    uploadRef.current.click();
   };
 
   // input 휴대폰 번호 부분 (11자리 숫자만 입력 가능하도록 제한)
@@ -94,18 +94,44 @@ const MyModifyPage = () => {
     e.target.value = value;
   };
 
+  // 글 작성 시 내용 업데이트
+  const handleChange = e => {
+    myProfileData[e.target.name] = e.target.value;
+    setMyProfileData({ ...myProfileData });
+  };
+
   // 유저 정보 수정 (PUT)
-  const handleChangeUser = (pic, nickname, address, tel) => {
-    const putUserForm = {
-      pic: pic,
-      dto: {
-        nickname: nickname,
-        address: address,
-        tel: tel,
-      },
-    };
-    putUserInfo({ putUserForm, successFn, failFn, errorFn });
-    console.log(putUserForm);
+  const handleChangeUser = () => {
+    const formData = new FormData();
+    const dto = new Blob(
+      [
+        JSON.stringify({
+          nickname: myProfileData.nickname,
+          address: myProfileData.address,
+          tel: myProfileData.tel,
+        }),
+      ],
+      { type: "application/json" },
+    );
+
+    formData.append("dto", dto);
+    formData.append("pic", selectedImage);
+
+    putUserInfo({
+      putUserForm: formData,
+      successFn: successPut,
+      failFn: failPut,
+      errorFn: errorPut,
+    });
+  };
+  const successPut = putResult => {
+    console.log("수정 성공", putResult);
+  };
+  const failPut = putResult => {
+    console.log("수정 실패", putResult);
+  };
+  const errorPut = putResult => {
+    console.log("수정 서버오류", putResult);
   };
 
   // 모달창
@@ -133,20 +159,16 @@ const MyModifyPage = () => {
       </MyModifyPageTitle>
       <MyModifyPageProfile>
         <ProfileImg>
-          <img
-            src={`${host}/pic/user/${authState.iuser}/${authState.pic}`}
-            alt="프로필 사진"
-          ></img>
-          <label htmlFor="imageUpload">
+          <img src={image} alt="프로필 사진 미리보기" />
+          <div onClick={handleClickImg}>
             <img
               src={`${process.env.PUBLIC_URL}/assets/images/profile_camera.svg`}
               alt="업로드 버튼"
             />
-          </label>
+          </div>
           <input
-            id="imageUpload"
             type="file"
-            accept="image/*"
+            ref={uploadRef}
             style={{ display: "none" }}
             onChange={handleImageChange}
           />
@@ -165,14 +187,16 @@ const MyModifyPage = () => {
       </MyModifyPageInfo>
       <MyModifyPageForm>
         <p>휴대폰 번호</p>
-        <span>{isModified ? modifiedPhoneNumber : myProfileData.tel}</span>
+        {/* <span>{isModified ? modifiedPhoneNumber : myProfileData.tel}</span> */}
         <input
-          type="text"
+          type="number"
+          name="tel"
+          value={myProfileData.tel}
           placeholder="변경할 휴대폰 번호를 입력하세요."
-          onChange={handlePhoneNumberChange}
+          onChange={e => handleChange(e)}
         />
         <p>닉네임</p>
-        <span>{isModified ? modifiedNickname : myProfileData.nickname}</span>
+        {/* <span>{isModified ? modifiedNickname : myProfileData.nickname}</span> */}
         <div onClick={handleCheckAvailability}>
           <Button bttext="중복 확인"></Button>
         </div>
@@ -186,16 +210,23 @@ const MyModifyPage = () => {
         </MyMoidfyNicknameCheck>
         <input
           type="text"
+          name="nickname"
+          value={myProfileData.nickname}
           placeholder="변경할 닉네임을 입력하세요."
-          value={modifiedNickname}
-          onChange={e => setModifiedNickname(e.target.value)}
+          onChange={e => handleChange(e)}
         />
         <p>주소</p>
-        <span>{isModified ? modifiedAddress : myProfileData.address}</span>
+        {/* <span>{isModified ? modifiedAddress : myProfileData.address}</span> */}
         <div>
           <Button bttext="우편번호 찾기" />
         </div>
-        <input type="text" placeholder="변경할 주소를 입력하세요." />
+        <input
+          type="text"
+          name="address"
+          value={myProfileData.address}
+          placeholder="변경할 주소를 입력하세요."
+          onChange={e => handleChange(e)}
+        />
       </MyModifyPageForm>
       <MyModifyPageButton>
         <div

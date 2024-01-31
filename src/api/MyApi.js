@@ -179,16 +179,9 @@ export const putUserInfo = async ({
   failFn,
   errorFn,
 }) => {
-  const formData = new FormData();
-  formData.append("pic", putUserForm.pic);
-  formData.append("nickname", putUserForm.dto.nickname);
-  formData.append("address", putUserForm.dto.address);
-  formData.append("tel", putUserForm.dto.tel);
   try {
-    const header = { headers: { "Content-Type": "application/json" } };
-    const res = await authAxios.put(`${host}/user`, formData, {
-      headers: header,
-    });
+    const header = { headers: { "Content-Type": "multipart/form-data" } };
+    const res = await authAxios.put(`${host}/user`, putUserForm, header);
     const status = res.status.toString();
     if (status.charAt(0) === "2") {
       console.log("유저 정보 수정 성공");
@@ -198,7 +191,12 @@ export const putUserInfo = async ({
     }
   } catch (error) {
     errorFn(error);
-    console.log("서버 오류");
+    if (error.res) {
+      console.log("서버 응답 오류", error.res.data);
+      errorFn("수정 서버오류", error.res.data);
+    } else {
+      errorFn("수정 서버오류");
+    }
   }
 };
 
