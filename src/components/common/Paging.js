@@ -17,7 +17,7 @@ const Paging = ({ totalItems, itemPerPage }) => {
   const [minPageLimit, setMinpageLimit] = useState(0);
 
   useEffect(() => {
-    // boardNum을 10으로 나눈다음 Math.ceil 내장객체를 이용하여 정수로 만든다.
+    // totalItems(count) 10으로 나눈다음 Math.ceil 내장객체를 이용하여 정수로 만든다.
     const pages = Math.ceil(totalItems / itemPerPage);
     setTotalPages(pages);
     // 만든 정수를 1부터 시작하여 배열로 만든다. 배열의 개수는 무한대로 설정할 수 있다.
@@ -41,11 +41,15 @@ const Paging = ({ totalItems, itemPerPage }) => {
   // 현재 페이지네여션을 렌더링할 페이지 번호들
   const renderPageNumbers = pageNumbers.slice(minPageLimit, maxPageLimit);
 
-  // 이전 버튼
+  // 이전 버튼 클릭 시 실행
   const moveToPrev = () => {
+    // 현재 페이지 번호에서 1을 빼서 이전 페이지로 이동
     setCurrentPage(currentPage - 1);
+    // 현재 페이지가 10보다 크고, 현재 페이지가 10의 배수인 경우
     if (currentPage > 10 && (currentPage - 1) % 10 === 0) {
+      // 최대 페이지 제한을 10페이지 감소
       setMaxPageLimit(maxPageLimit - 10);
+      // 최소 페이지 제한을 10페이지 감소
       setMinpageLimit(minPageLimit - 10);
     }
     moveToList({ page: currentPage - 1 });
