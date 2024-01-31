@@ -1,11 +1,11 @@
 import moment from "moment";
 import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate, useParams } from "react-router";
+import Select from "react-select";
 import { getBInfo, postPickup } from "../../api/butcherApi";
 import ResultModal from "../../components/common/ResultModal";
 import ReserCalendar from "../../components/meat/ReserCalendar";
 import useCustomHook from "../../components/meat/hooks/useCustomHook";
-import Select from "react-select";
 
 import {
   MenuWrapper,
@@ -24,7 +24,6 @@ import {
   ReserItemWrap,
   ReserRequireInput,
   ReserSubmitBtn,
-  ReserTimeBtn,
   ReserTimeItem,
   ReserTimeWrap,
   ReserTitle,
@@ -238,9 +237,7 @@ const MeatDetailPage = () => {
               <ReserItem>
                 <span>가게명</span>
               </ReserItem>
-              <ReserContent>
-                {/* <span>{storeName}</span> */}
-              </ReserContent>
+              <ReserContent>{/* <span>{storeName}</span> */}</ReserContent>
             </ReserFormWrap>
             {/* 
             // * 예약날짜 
