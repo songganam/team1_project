@@ -16,21 +16,29 @@ export const JaddPageMain = styled.div`
   padding-top: 140px;
 `;
 export const JaddPageImage = styled.div`
-  display: flex;
-  justify-content: flex-end;
-  align-items: flex-end;
-  background-color: green;
-  width: 280px;
-  height: 280px;
-  border-radius: 250px;
-
-  .JaddPage-img-button {
+  .inputBox {
     position: relative;
-    width: 68px;
-    height: 68px;
-    border-radius: 250px;
-    border: none;
+    width: 280px;
+    height: 280px;
   }
+  .previewBox {
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-end;
+    /* background-color: ; */
+    width: 280px;
+    height: 280px;
+    border-radius: 250px;
+  }
+`;
+export const ImgSelectBtn = styled.button`
+  position: absolute;
+  right: 0;
+  width: 68px;
+  height: 68px;
+  border-radius: 250px;
+  border: none;
+  cursor: pointer;
 `;
 
 export const JaddPageInfo = styled.div`

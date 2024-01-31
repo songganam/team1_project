@@ -1,53 +1,60 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
+import Button from "../components/button/Button";
+// import Button from "./Button"; // Button 컴포넌트를 import 합니다.
 
-const PhoneNumberInput = () => {
-  const [phoneNumber, setPhoneNumber] = useState("");
+function ImageUpload() {
 
-  const handleInputChange = e => {
-    // 입력값에서 숫자만 추출
-    const inputValue = e.target.value.replace(/\D/g, "");
+  
+  const uploadRef = useRef();
+  const [image, setImage] = useState(null); // 단일 이미지를 저장하는 상태를 사용합니다.
 
-    // 전화번호 형식에 맞게 하이픈 추가
-    const formattedPhoneNumber = formatPhoneNumber(inputValue);
-
-    // 상태 업데이트
-    setPhoneNumber(formattedPhoneNumber);
+  const handleClickImg = () => {
+    uploadRef.current.click();
   };
 
-  const formatPhoneNumber = value => {
-    // 000-0000-0000 형식으로 포맷팅
-    const regex = /^(\d{3})(\d{0,4})(\d{0,4})$/;
-    const matches = value.match(regex);
+  const handleFileChange = e => {
+    const file = e.target.files[0];
+    const reader = new FileReader();
+    reader.onloadend = () => {
+      setImage(reader.result);
+    };
+    reader.readAsDataURL(file);
+  };
 
-    if (matches) {
-      return `${matches[1]}${matches[2] ? "-" + matches[2] : ""}${
-        matches[3] ? "-" + matches[3] : ""
-      }`;
-    }
-
-    // 일치하지 않는 경우 그대로 반환
-    return value;
+  const deleteImage = () => {
+    setImage(null);
   };
 
   return (
-    <input
-      type="text"
-      value={phoneNumber}
-      placeholder="000-0000-0000"
-      onChange={handleInputChange}
-      onKeyDown={e => {
-        // 입력 중간에 하이픈 추가
-        if (
-          (e.key === "Backspace" || e.key === "Delete") &&
-          e.target.selectionStart < phoneNumber.length
-        ) {
-          setPhoneNumber(prevPhoneNumber =>
-            prevPhoneNumber.slice(0, prevPhoneNumber.length - 1),
-          );
-        }
-      }}
-    />
+    <div>
+      <div onClick={handleClickImg}>
+        <Button bttext="사진추가" />
+      </div>
+      <div className="inputBox">
+        <input
+          type="file"
+          ref={uploadRef}
+          style={{ display: "none" }}
+          onChange={handleFileChange}
+        />
+        <div className="previewBox">
+          {image && (
+            <img
+              src={image}
+              alt={`미리보기`}
+              style={{
+                maxWidth: "60px",
+                margin: "5px",
+                cursor: "pointer",
+                borderRadius: "5px",
+              }}
+              onClick={deleteImage}
+            />
+          )}
+        </div>
+      </div>
+    </div>
   );
-};
+}
 
-export default PhoneNumberInput;
+export default ImageUpload;

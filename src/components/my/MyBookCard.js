@@ -143,6 +143,7 @@ const MyBookCard = props => {
               </div>
               <div
                 onClick={e =>
+
                   myBookList.checkShop === 0
                     ? moveToReserChange(
                         myBookList.ireser,
@@ -159,6 +160,7 @@ const MyBookCard = props => {
                         myBookList.request,
                       )
                     : null
+
                 }
                 style={{ display: myBookList.confirm !== 2 ? "block" : "none" }}
               >

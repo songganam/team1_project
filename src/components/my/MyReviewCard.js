@@ -20,6 +20,7 @@ import {
   MyReviewCardWrapper,
 } from "./styles/MyReviewCardStyle";
 import useCustomMy from "./hooks/useCustomMy";
+import { API_SERVER_HOST } from "../../api/config";
 
 const MyReviewCard = props => {
   const [myReviewList, setMyReviewList] = useState([]);
@@ -63,14 +64,21 @@ const MyReviewCard = props => {
   const handleMyReviewView = () => {
     moveToReviewPage({ page: page + 1 });
   };
-
+  const baseApi = API_SERVER_HOST;
+  const host = `${baseApi}/pic`;
   return (
     <>
       {myReviewList.map((myReviewList, index) => (
         <MyReviewCardWrapper key={index}>
           <MyReviewCardVisual>
-            {/* <img src={myReviewList.pic} alt="가게 이미지"></img> */}
-            <img src={storeimg} alt="가게 이미지"></img>
+            <img
+              src={
+                myReviewList.checkShop === 0
+                  ? `${host}/shop/${myReviewList.ishop}/shop_pic/${myReviewList.pic}`
+                  : `${host}/butcher/${myReviewList.ishop}/butchershop_pic/${myReviewList.pic}`
+              }
+              alt="가게 이미지"
+            />
           </MyReviewCardVisual>
           <MyReviewCardContent>
             <MyReviewCardTitle>

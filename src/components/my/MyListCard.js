@@ -63,9 +63,9 @@ const MyListCard = props => {
           <MyListCardVisual>
             <img
               src={
-                myList.checkShop === 0
-                  ? `${host}/shop/${myList.ishop}/shop_pic/${myList.pic}`
-                  : `${host}/butcher/${myList.ishop}/butchershop_pic/${myList.pic}`
+                myList.imeat === 0
+                  ? `${host}/butcher/${myList.ishop}/butchershop_pic/${myList.pic}`
+                  : `${host}/shop/${myList.ishop}/shop_pic/${myList.pic}`
               }
               alt="가게 이미지"
             />
