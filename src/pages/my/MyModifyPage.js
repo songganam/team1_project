@@ -6,6 +6,7 @@ import {
   MyModifyPageProfile,
   MyModifyPageTitle,
   MyModifyPageWrapper,
+  MyMoidfyNicknameCheck,
   MyNickName,
   ProfileImg,
 } from "./styles/MyModifyPageStyle";
@@ -74,20 +75,17 @@ const MyModifyPage = () => {
     const initialImages = pic => ({
       url: `${host}/pic/user/${authState.iuser}/${authState.pic}`,
     });
-    setImage(initialImages);
-  }, [myProfileData.pics, myProfileData.iboard]);
+    setImage(initialImages(authState.pic));
+  }, [authState.iuser, authState.pic]);
 
   // 프로필 이미지 업로드
   const handleImageChange = e => {
     const file = e.target.files[0];
     setSelectedImage(file);
-    const newFiles = file => ({
-      // 각 사진에게 특별한 주소 생성
-      url: URL.createObjectURL(file),
-      file, // 새로운 파일 정보를 추가합니다.
-      isNew: true, // 새 이미지임을 표시합니다.
-    });
-    setImage(prevImages => [...prevImages, ...newFiles]);
+    console.log("Selected Image:", file);
+
+    const previewUrl = URL.createObjectURL(file);
+    setImage(previewUrl);
   };
 
   // input 휴대폰 번호 부분 (11자리 숫자만 입력 가능하도록 제한)
@@ -103,7 +101,6 @@ const MyModifyPage = () => {
       dto: {
         nickname: nickname,
         address: address,
-        pic: pic,
         tel: tel,
       },
     };
@@ -117,11 +114,17 @@ const MyModifyPage = () => {
     openModal();
   };
 
-  // // const [nickname, setNickname] = useState();
-  // const handleCheckAvailability = iNickCheck => {
-  //   // const iNickCheck = nickname;
-  //   nickNameCheck({ iNickCheck: nickname });
-  // };
+  // 닉네임 중복확인
+  const [nickname, setNickname] = useState();
+  const [isAvailable, setIsAvailable] = useState(null);
+
+  // 이거는 나름 규칙으로 하면되죠
+  // setIsAvailable(nickname.length >= 3);
+  const handleCheckAvailability = iNickCheck => {
+    // const iNickCheck = nickname;
+    console.log(nickname);
+    nickNameCheck({ iNickCheck: nickname });
+  };
 
   return (
     <MyModifyPageWrapper>
@@ -170,17 +173,28 @@ const MyModifyPage = () => {
         />
         <p>닉네임</p>
         <span>{isModified ? modifiedNickname : myProfileData.nickname}</span>
-        <Button bttext="중복 확인"></Button>
+        <div onClick={handleCheckAvailability}>
+          <Button bttext="중복 확인"></Button>
+        </div>
+        <MyMoidfyNicknameCheck>
+          {isAvailable === true && (
+            <p style={{ color: "green" }}>사용 가능한 닉네임입니다.</p>
+          )}
+          {isAvailable === false && (
+            <p style={{ color: "red" }}>이미 사용 중인 닉네임입니다.</p>
+          )}
+        </MyMoidfyNicknameCheck>
         <input
           type="text"
           placeholder="변경할 닉네임을 입력하세요."
           value={modifiedNickname}
           onChange={e => setModifiedNickname(e.target.value)}
-          // onClick={handleCheckAvailability}
         />
         <p>주소</p>
         <span>{isModified ? modifiedAddress : myProfileData.address}</span>
-        <Button bttext="우편번호 찾기" />
+        <div>
+          <Button bttext="우편번호 찾기" />
+        </div>
         <input type="text" placeholder="변경할 주소를 입력하세요." />
       </MyModifyPageForm>
       <MyModifyPageButton>
@@ -189,13 +203,9 @@ const MyModifyPage = () => {
             handleChangeUser();
           }}
         >
-          <Button bttext="저장하기"></Button>
+          <Button bttext="회원정보 수정"></Button>
         </div>
-        <div
-          onClick={() => {
-            handleDeleteUser();
-          }}
-        >
+        <div onClick={handleDeleteUser}>
           <Button bttext="회원탈퇴"></Button>
         </div>
         {useResultModal && (
