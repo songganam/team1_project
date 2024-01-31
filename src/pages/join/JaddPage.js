@@ -345,6 +345,7 @@ const JaddPage = () => {
               </div>
             </div>
 
+
           )}
           {/* 보이지 않는 파일 선택 버튼 */}
           <input
@@ -354,6 +355,7 @@ const JaddPage = () => {
             ref={fileInputRef}
             style={{ display: "none" }}
           />
+
 
           {/* 커스텀 스타일이 적용된 버튼 */}
           {/* <button

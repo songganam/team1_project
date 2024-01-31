@@ -46,6 +46,7 @@ const Paging = ({ totalItems, itemPerPage }) => {
     // 현재 페이지 번호에서 1을 빼서 이전 페이지로 이동
     setCurrentPage(currentPage - 1);
     // 현재 페이지가 10보다 크고, 현재 페이지가 10의 배수인 경우
+    // 즉, 페이지 그룹의 첫 번째 페이지로 돌아가는 경우
     if (currentPage > 10 && (currentPage - 1) % 10 === 0) {
       // 최대 페이지 제한을 10페이지 감소
       setMaxPageLimit(maxPageLimit - 10);
@@ -56,9 +57,13 @@ const Paging = ({ totalItems, itemPerPage }) => {
   };
   // 다음 버튼
   const moveToNext = () => {
+    // 현재 페이지 번호에 1을 더해서 다음 페이지로 이동
     setCurrentPage(currentPage + 1);
+    // 현재 페이지가 10이상이고, 현재 페이지가 10의 배수인 경우
     if (currentPage >= 10 && currentPage % 10 === 0) {
+      // 최대 페이지 제한을 10페이지 증가
       setMaxPageLimit(maxPageLimit + 10);
+      // 최소 페이지 제한을 10페이지 증가
       setMinpageLimit(minPageLimit + 10);
     }
     moveToList({ page: currentPage + 1 });

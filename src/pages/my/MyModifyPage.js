@@ -66,13 +66,13 @@ const MyModifyPage = () => {
 
   useEffect(() => {
     // 기존 이미지 URL 초기화
-    const initialImageUrl = `${host}/pic/user/${authState.iuser}/${
-      authState.pic
-    }?v=${Date.now()}`;
-    setImage(initialImageUrl);
-  }, [authState.pic]);
 
-  // 새 업로드 이미지 미리보기 및 교체
+    const initialImageUrl = `${host}/pic/user/${authState.iuser}/${authState.pic}`;
+    setImage(initialImageUrl);
+  }, [authState.pic, authState.iuser]);
+
+  // 업로드 할 이미지 미리보기 및 교체
+
   const handleImageChange = e => {
     const file = e.target.files[0];
     if (file) {
@@ -82,9 +82,17 @@ const MyModifyPage = () => {
     }
   };
 
-  // 사진 추가 버튼 클릭 시 이미지 파일 선택
+
+  // 사진추가 버튼 클릭 시 이미지 파일 선택
+
   const handleClickImg = () => {
     uploadRef.current.click();
+  };
+
+  // 글 작성 시 내용 업데이트
+  const handleChange = e => {
+    myProfileData[e.target.name] = e.target.value;
+    setMyProfileData({ ...myProfileData });
   };
 
   // 글 작성 시 내용 업데이트
@@ -118,13 +126,15 @@ const MyModifyPage = () => {
     });
   };
   const successPut = putResult => {
-    console.log("프로필 수정 성공", putResult);
+
+    console.log("수정 성공", putResult);
   };
   const failPut = putResult => {
-    console.log("프로필 수정 실패", putResult);
+    console.log("수정 실패", putResult);
   };
   const errorPut = putResult => {
-    console.log("프로필 수정 서버 오류", putResult);
+    console.log("수정 서버오류", putResult);
+
   };
 
   // 모달창
@@ -183,6 +193,7 @@ const MyModifyPage = () => {
       </MyModifyPageInfo>
       <MyModifyPageForm>
         <p>휴대폰 번호</p>
+
         <input
           type="number"
           name="tel"
@@ -191,6 +202,7 @@ const MyModifyPage = () => {
           onChange={e => handleChange(e)}
         />
         <p>닉네임</p>
+
         <div onClick={handleCheckAvailability}>
           <Button bttext="중복 확인"></Button>
         </div>
@@ -210,6 +222,7 @@ const MyModifyPage = () => {
           onChange={e => handleChange(e)}
         />
         <p>주소</p>
+
         <div>
           <Button bttext="우편번호 찾기" />
         </div>

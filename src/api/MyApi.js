@@ -198,9 +198,11 @@ export const putUserInfo = async ({
     errorFn(error);
     if (error.res) {
       console.log("서버 응답 오류", error.res.data);
-      errorFn("유저 정보 수정 서버 오류", error.res.data);
+
+      errorFn("수정 서버오류", error.res.data);
     } else {
-      errorFn("유저 정보 수정 서버 오류");
+      errorFn("수정 서버오류");
+
     }
   }
 };
