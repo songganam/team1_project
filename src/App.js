@@ -35,7 +35,7 @@ const LazyMartBook = lazy(() => import("./pages/butcher/ButcherReviewPage"));
 const LazyMlistPage = lazy(() => import("./pages/butcher/ButcherListPage"));
 const LazyMreadPage = lazy(() => import("./pages/butcher/ButcherDetailPage"));
 const LazyMaddPage = lazy(() => import("./pages/butcher/ButcherPickupPage"));
-const LazyMmodifyPage = lazy(() => import("./pages/butcher/MmodifyPage"));
+const LazyMmodifyPage = lazy(() => import("./pages/butcher/ButcherModifyPage"));
 
 // 마이페이지
 const LazyMyPage = lazy(() => import("./pages/my/MyPage"));
@@ -291,7 +291,7 @@ const App = () => {
             }
           ></Route>
           <Route
-            path="modify"
+            path="modify/:ibutcher"
             element={
               <Suspense fallback={<Loading />}>
                 <LazyMmodifyPage />

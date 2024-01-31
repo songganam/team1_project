@@ -79,6 +79,13 @@ const useCustomMy = () => {
       search: `name=${name}&headcount=${headCount}&date=${date}&request=${request}&${defaultQueryString}`,
     });
   };
+  const moveToPickupChange = (ibutcher, name, headCount, date, request) => {
+    console.log(name);
+    navigate({
+      pathname: `../../butcher/modify/${ibutcher}`,
+      search: `name=${name}&headcount=${headCount}&date=${date}&request=${request}&${defaultQueryString}`,
+    });
+  };
 
   return {
     page,
@@ -91,6 +98,7 @@ const useCustomMy = () => {
     moveToReviewPage,
     moveToDetail,
     moveToReserChange,
+    moveToPickupChange,
   };
 };
 export default useCustomMy;

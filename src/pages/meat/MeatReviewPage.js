@@ -1,23 +1,48 @@
 import React, { useRef, useState } from "react";
+import { useParams } from "react-router-dom";
 import { postReview } from "../../api/meatApi";
 import Button from "../../components/button/Button";
 import Fetching from "../../components/common/Fetching";
 import ResultModal from "../../components/common/ResultModal";
 import SelectedModal from "../../components/common/SelectedModal";
 import {
-  AddBoxStyle,
   ContentBoxStyle,
   FootStyle,
   ImageBoxStyle,
-  UserBoxStyle,
 } from "../../components/community/styles/AddStyle";
 import { WrapStyle } from "../../components/community/styles/ListStyle";
 import useCustomMove from "../../hooks/useCustomMove";
+import {
+  ReviewCommentInput,
+  ReviewCommentItem,
+  ReviewCommentItemWrap,
+  ReviewCommentSubItem,
+  ReviewCommentWrap,
+  ReviewContent,
+  ReviewContentWrap,
+  ReviewFormWrap,
+  ReviewImageDeleteBtn,
+  ReviewImageWrap,
+  ReviewInput,
+  ReviewInputLabel,
+  ReviewInputWrap,
+  ReviewItem,
+  ReviewItemWrap,
+  ReviewMainImageWrap,
+  ReviewRating,
+  ReviewRatingStar,
+  ReviewSubImageItem,
+  ReviewSubmitBtn,
+  ReviewTitle,
+  ReviewWrap,
+  ReviewWrapper,
+} from "./styles/MeatReviewStyle";
+import moment from "moment";
 
 const initState = {
   pics: [],
   ishop: "",
-  star: "",
+  star: 1,
   review: "",
 };
 
@@ -27,28 +52,21 @@ const initProfile = {
 };
 
 const MeatReviewPage = () => {
+  // ! Star Image
+  const noCountStar =
+    process.env.PUBLIC_URL + `/assets/images/star_no_count.svg`;
+  const countStar = process.env.PUBLIC_URL + `/assets/images/star_count.svg`;
   // 유저 정보 가져오기
-  const [profileData, setProfileData] = useState(initProfile);
-  // useEffect(() => {
-  //   const param = {};
-  //   getUserInfo({
-  //     param,
-  //     successFn: successFnProfile,
-  //     failFn: failFnProfile,
-  //     errorFn: errorFnProfile,
-  //   });
-  // }, []);
 
-  const successFnProfile = result => {
-    setProfileData(result);
-    console.log(result);
-  };
-  const failFnProfile = result => {
-    console.log(result);
-  };
-  const errorFnProfile = result => {
-    console.log(result);
-  };
+  // ! Store Parameter
+  const { ishop } = useParams();
+  const queryParams = new URLSearchParams(location.search);
+  const name = queryParams.get("name");
+
+  // ! Call date
+  const createdate = new Date();
+  const nowdata = moment(createdate).format("YYYY-MM-DD");
+  const [selectedDate, setSelectedDate] = useState(nowdata);
 
   // 로딩창 연결
   const [fetching, setFetching] = useState(false);
@@ -57,11 +75,11 @@ const MeatReviewPage = () => {
 
   // 글 작성 시 내용 업데이트, 텍스트 필드의 변경사항 처리
   const handleChange = e => {
-    // ...product 기존 product 상태의 모든 속성을 복사(불변성 유지)
-    // e.target.name은 변경된 텍스트 필드의 이름
-    // e.target.value는 입력된 새로운 값을 나타냄
-    // setProduct() 동적 속성 이름을 사용하여 해당 텍스트 필드의 값을 업데이트
     setProduct({ ...product, [e.target.name]: e.target.value });
+  };
+
+  const handleStarClick = star => {
+    setProduct({ ...product, star: star });
   };
 
   // useRef(DOM 요소를 참조한다.)
@@ -114,7 +132,7 @@ const MeatReviewPage = () => {
     const dto = new Blob(
       [
         JSON.stringify({
-          ishop: parseInt(product.ishop),
+          ishop: ishop,
           star: product.star,
           review: product.review,
         }),
@@ -213,90 +231,128 @@ const MeatReviewPage = () => {
   const { moveToList } = useCustomMove();
 
   return (
-    <WrapStyle>
-      {fetching ? <Fetching /> : null}
-      <AddBoxStyle>
-        <div className="titleBox">이야 이게 ishop임 ㅋ</div>
-        <div className="inputBox">
-          <input
-            type="text"
-            name="ishop"
-            placeholder="여기가 아이숍임"
-            onChange={e => handleChange(e)}
-            value={product.ishop}
-          />
-        </div>
-      </AddBoxStyle>
-      <UserBoxStyle>
-        <div className="titleBox">작성자</div>
-        {/* <div className="writerBox">{profileData.nickname}</div> */}
-      </UserBoxStyle>
-      <ContentBoxStyle>
-        <div className="titleBox">이거 리뷰하자</div>
-        <div className="inputBox">
-          <textarea
-            type="text"
-            name="review"
-            placeholder="여기가 리뷰임"
-            onChange={e => handleChange(e)}
-            value={product.review}
-          />
-        </div>
-      </ContentBoxStyle>
-      <ContentBoxStyle>
-        <div className="titleBox">이거 스타하자</div>
-        <div className="inputBox">
-          <textarea
-            type="text"
-            name="star"
-            placeholder="여기가 스타임"
-            onChange={e => handleChange(e)}
-            value={product.star}
-          />
-        </div>
-      </ContentBoxStyle>
-      <ImageBoxStyle>
-        <div className="titleBox">사진</div>
+    <ReviewWrap>
+      <ReviewItemWrap>
+        {fetching ? <Fetching /> : null}
+        <ReviewTitle>
+          <span>리뷰쓰기</span>
+        </ReviewTitle>
+        {/* items */}
+        <ReviewContentWrap>
+          <ReviewWrapper>
+            {/* 
+        // * 가게명 
+        */}
+            <ReviewFormWrap>
+              <ReviewItem>
+                <span>가게명</span>
+              </ReviewItem>
+              <ReviewContent>
+                <span>{name}</span>
+              </ReviewContent>
+            </ReviewFormWrap>
+            {/* 
+          // * 날짜
+          */}
+            <ReviewFormWrap>
+              <ReviewItem>
+                <span>날짜</span>
+              </ReviewItem>
+              <ReviewContent>
+                <span>{selectedDate}</span>
+              </ReviewContent>
+            </ReviewFormWrap>
+            {/* 
+          // * 별점
+          */}
+            <ReviewFormWrap>
+              <ReviewItem>
+                <span>별점</span>
+              </ReviewItem>
+              <ReviewRating>
+                {[1, 2, 3, 4, 5].map(star => (
+                  <ReviewRatingStar
+                    key={star}
+                    src={star <= product.star ? countStar : noCountStar}
+                    alt=""
+                    onClick={() => handleStarClick(star)}
+                  />
+                ))}
+              </ReviewRating>
+            </ReviewFormWrap>
+            {/* 
+          // * 코멘트
+          */}
+            <ReviewCommentItemWrap>
+              <ReviewCommentWrap>
+                <ReviewCommentItem>
+                  <span>코멘트</span>
+                </ReviewCommentItem>
+                <ReviewCommentSubItem>
+                  <span>(30자 제한)</span>
+                </ReviewCommentSubItem>
+              </ReviewCommentWrap>
 
-        <div onClick={handleClickImg}>
-          <Button bttext="사진추가" />
-        </div>
-        <div className="inputBox">
-          <input
-            type="file"
-            ref={uploadRef}
-            multiple={true}
-            style={{ display: "none" }}
-            onChange={handleFileChange}
-          />
-          <div className="previewBox">
-            {images.map((src, index) => (
-              <img
-                key={index}
-                src={src}
-                alt={`미리보기${index}`}
-                style={{
-                  maxWidth: "60px",
-                  margin: "5px",
-                  cursor: "pointer",
-                  borderRadius: "5px",
-                }}
-                onClick={() => deleteImage(index)}
-              />
-            ))}
-          </div>
-        </div>
-      </ImageBoxStyle>
-      <FootStyle>
-        <div className="btnBox">
-          <div onClick={handleAddClick}>
-            <Button bttext="확인" />
-          </div>
-          <div onClick={moveToList}>
-            <Button bttext="취소" />
-          </div>
-        </div>
-      </FootStyle>
+              <ReviewInputWrap>
+                <ReviewCommentInput
+                  maxRows={15}
+                  minRows={1}
+                  name="review"
+                  placeholder="리뷰를 작성해주세요."
+                  height={375}
+                  onChange={e => handleChange(e)}
+                  value={product.review}
+                />
+              </ReviewInputWrap>
+            </ReviewCommentItemWrap>
+          </ReviewWrapper>
+          {/* 이미지 첨부 */}
+          {/* process.env.PUBLIC_URL +
+                `/assets/images/main_image_select.png` */}
+          {/* 
+        // TODO 첫 input state 줘서 투명도 없애고 보여주고 그다음부터는
+        // TODO 이미지가 들어오면? 투명하게 보이도록
+        */}
+          <ReviewImageWrap>
+            <div>
+              <ReviewImageWrap>
+                <div onClick={handleClickImg}>
+                  <Button bttext="사진추가" />
+                </div>
+                <div className="inputBox">
+                  <input
+                    type="file"
+                    ref={uploadRef}
+                    multiple={true}
+                    style={{ display: "none" }}
+                    onChange={handleFileChange}
+                  />
+                  <div className="previewBox">
+                    {images.map((src, index) => (
+                      <img
+                        key={index}
+                        src={src}
+                        alt={`미리보기${index}`}
+                        style={{
+                          maxWidth: "60px",
+                          margin: "5px",
+                          cursor: "pointer",
+                          borderRadius: "5px",
+                        }}
+                        onClick={() => deleteImage(index)}
+                      />
+                    ))}
+                  </div>
+                </div>
+              </ReviewImageWrap>
+            </div>
+          </ReviewImageWrap>
+        </ReviewContentWrap>
+      </ReviewItemWrap>
+      {/* submit button */}
+      <ReviewSubmitBtn onClick={handleAddClick}>
+        <span>작성완료</span>
+      </ReviewSubmitBtn>
       {showModal ? (
         <SelectedModal
           title="글 등록 확인"
@@ -312,7 +368,7 @@ const MeatReviewPage = () => {
           callFn={closeModal}
         />
       ) : null}
-    </WrapStyle>
+    </ReviewWrap>
   );
 };
 
