@@ -130,30 +130,24 @@ const MyBookCard = props => {
               >
                 <Button bttext="리뷰작성"></Button>
               </div>
-              {/* <div
+              <div
                 onClick={e =>
-                  myBookList.check === 0
-                    ? moveToReserChange(
-                        myBookList.ireser,
-                        myBookList.name,
-                        myBookList.headCount,
-                        myBookList.date,
-                        myBookList.request,
-                      )
-                    : myBookList.check === 1
-                    ? moveToPickupChange(
-                        myBookList.ireser,
-                        myBookList.name,
-                        myBookList.headCount,
-                        myBookList.date,
-                        myBookList.request,
-                      )
-                    : null
+                  myBookList.check === 0 ? (
+                    moveToReserChange(
+                      myBookList.ireser,
+                      myBookList.name,
+                      myBookList.headCount,
+                      myBookList.date,
+                      myBookList.request,
+                    )
+                  ) : (
+                    <div></div>
+                  )
                 }
                 style={{ display: myBookList.confirm !== 2 ? "block" : "none" }}
               >
                 <Button bttext="예약변경"></Button>
-              </div> */}
+              </div>
               <div
                 onClick={e =>
                   handleCancelBook(myBookList.checkShop, myBookList.ireser)

@@ -39,6 +39,7 @@ const MeatModifyPage = () => {
   console.log("요청사항", request);
 
   const time = date.split(" ")[1].substring(0, 5);
+  // console.log(ireser);
   console.log(time);
   // ! Modal Control
   const navigate = useNavigate();

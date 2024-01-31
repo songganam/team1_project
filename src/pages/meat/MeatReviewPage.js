@@ -1,3 +1,4 @@
+import moment from "moment";
 import React, { useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 import { postReview } from "../../api/meatApi";
@@ -5,12 +6,6 @@ import Button from "../../components/button/Button";
 import Fetching from "../../components/common/Fetching";
 import ResultModal from "../../components/common/ResultModal";
 import SelectedModal from "../../components/common/SelectedModal";
-import {
-  ContentBoxStyle,
-  FootStyle,
-  ImageBoxStyle,
-} from "../../components/community/styles/AddStyle";
-import { WrapStyle } from "../../components/community/styles/ListStyle";
 import useCustomMove from "../../hooks/useCustomMove";
 import {
   ReviewCommentInput,
@@ -21,23 +16,17 @@ import {
   ReviewContent,
   ReviewContentWrap,
   ReviewFormWrap,
-  ReviewImageDeleteBtn,
   ReviewImageWrap,
-  ReviewInput,
-  ReviewInputLabel,
   ReviewInputWrap,
   ReviewItem,
   ReviewItemWrap,
-  ReviewMainImageWrap,
   ReviewRating,
   ReviewRatingStar,
-  ReviewSubImageItem,
   ReviewSubmitBtn,
   ReviewTitle,
   ReviewWrap,
-  ReviewWrapper,
+  ReviewWrapper
 } from "./styles/MeatReviewStyle";
-import moment from "moment";
 
 const initState = {
   pics: [],
