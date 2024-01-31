@@ -90,6 +90,10 @@ export const MyModifyPageForm = styled.form`
   }
 `;
 
+export const MyMoidfyNicknameCheck = styled.div`
+  font-size: 14px;
+`;
+
 export const MyModifyPageButton = styled.div`
   position: relative;
   display: flex;
