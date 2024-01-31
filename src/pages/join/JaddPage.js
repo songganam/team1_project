@@ -1,10 +1,16 @@
-import React, { useEffect, useRef, useState } from "react";
+import React, { useRef, useState } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
+import { nickNameCheck, postJadd } from "../../api/joinApi";
+import Fetching from "../../components/common/Fetching";
+import ResultModal from "../../components/common/ResultModal";
+import SelectedModal from "../../components/common/SelectedModal";
 import TitleHeader from "../../components/titleheader/TitleHeader";
+import useCustomMove from "../../hooks/useCustomMove";
 import "../join/JaddPage.css";
 import {
   DefaultBt,
   GenderBtWrap,
+  ImgSelectBtn,
   JaddAddressBts,
   JaddAddressWrap,
   JaddBirthWrap,
@@ -22,41 +28,151 @@ import {
   JaddPwWrap,
   NicknameCheck,
 } from "./styles/JaddPageStyle";
-import { nickNameCheck, postJadd } from "../../api/joinApi";
+
+const initState = {
+  pic: "",
+  email: "",
+  upw: "",
+  checkUpw: "",
+  name: "",
+  nickname: "",
+  birth: "",
+  gender: "",
+  address: "",
+  tel: "",
+};
 // 회원가입 작성 페이지입니다.
-
 const JaddPage = () => {
-  const [todo, setTodo] = useState({});
-  // const [passCheckError,setPassCheckError] = useState(false)
+  // const [todo, setTodo] = useState({});
 
-  // 프로필 사진 이미지 업로드
-  const [selectFile, setSelectFile] = useState(null);
-  const fileInputRef = useRef(null);
+  const [product, setProduct] = useState(initState);
+  const [fetching, setFetching] = useState(false);
 
-  const handleFileChange = event => {
-    const file = event.target.files[0];
-    setSelectFile(file);
+  const handleChange = e => {
+    setProduct({ ...product, [e.target.name]: e.target.value });
   };
 
-  const handleUpload = () => {
-    if (selectFile) {
-      alert("프로필 사진이 업로드되었습니다.");
-      // 여기에서 서버로 사진을 전송하는 로직을 추가해야 합니다.
-      // 서버에서는 해당 사진을 저장하고 회원 정보와 연동할 수 있습니다.
-    } else {
-      alert("프로필 사진을 선택하세요.");
+  const [image, setImage] = useState(null); // 단일 이미지를 저장하는 상태를 사용합니다.
+  const [selectedImage, setSelectedImage] = useState(null);
+
+  const uploadRef = useRef();
+  const handleClickImg = () => {
+    uploadRef.current.click();
+  };
+
+  const handleFileChange = e => {
+    const file = e.target.files[0];
+    if (file) {
+      const previewUrl = URL.createObjectURL(file);
+      setImage(previewUrl);
+      setSelectedImage(file);
     }
   };
 
-  // 파일 선택 버튼을 클릭하는 것과 동일한 효과
-  const handleButtonClick = () => {
-    fileInputRef.current.click();
+  const deleteImage = () => {
+    setImage(null);
   };
+
+  console.log("이1", product.email);
+  console.log("이2", product.upw);
+  console.log("이3", product.checkUpw);
+  console.log("이4", product.name);
+  console.log("이5", product.nickname);
+  console.log("이6", product.birth);
+  console.log("이7", product.gender);
+  console.log("이8", product.address);
+  console.log("이9", product.tel);
+
+  const handleClick = async product => {
+    const formData = new FormData();
+    const dto = new Blob(
+      [
+        JSON.stringify({
+          email: product?.email,
+          upw: product?.upw,
+          checkUpw: product?.checkUpw,
+          name: product?.name,
+          nickname: product?.nickname,
+          birth: product?.birth,
+          gender: product?.gender,
+          address: product?.address,
+          tel: product?.tel,
+        }),
+      ],
+      // JSON 형식으로 설정
+      { type: "application/json" },
+    );
+    formData.append("dto", dto);
+    formData.append("pic", selectedImage);
+
+    postJadd({ product: formData, successFn, failFn, errorFn });
+  };
+  const [result, setResult] = useState(false);
+  const [addResult, setAddResult] = useState(false);
+  const [popTitle, setPopTitle] = useState("");
+  const [popContent, setPopContent] = useState(false);
+  const [popRedirect, setPopRedirect] = useState(false);
+  const [showModal, setShowModal] = useState(false);
+
+  // 확인 버튼 클릭 시
+  const handleConfirm = product => {
+    // 글 등록 로직 실행
+    handleClick(product);
+    // 모달 닫기
+    setShowModal(false);
+  };
+
+  const closeModal = () => {
+    // 모달창 닫기
+    setAddResult(false);
+    if (popRedirect === true) {
+      // 목록으로 가기
+      moveToList({ page: 1 });
+    }
+  };
+  // 취소 버튼 클릭 시
+  const handleCancel = () => {
+    // 모달 닫기
+    setShowModal(false);
+  };
+
+  // 글 등록 버튼 클릭 핸들러
+  const handleAddClick = () => {
+    // 모달 띄우기
+    setShowModal(true);
+  };
+
+  const successFn = addResult => {
+    console.log("글 등록 성공", addResult);
+    setFetching(false);
+    setAddResult(true);
+    setPopTitle("글 등록 성공");
+    setPopContent("글 등록에 성공하였습니다.");
+    setPopRedirect(true);
+  };
+  const failFn = addResult => {
+    console.log("글 등록 실패", addResult);
+    setFetching(false);
+    setAddResult(false);
+    setPopTitle("글 등록 실패");
+    setPopContent("오류가 발생하였습니다. 잠시 후 다시 시도해주세요");
+    setPopRedirect(false);
+  };
+  const errorFn = addResult => {
+    console.log("글 등록 실패", addResult);
+    setFetching(false);
+    setAddResult(true);
+    setPopTitle("서버 오류");
+    setPopContent("서버가 불안정합니다. 관리자에게 문의해주세요.");
+    setPopRedirect(false);
+  };
+
+  const { moveToList } = useCustomMove();
 
   // 비밀번호 확인
   const passCheckForm = () => {
-    const upw = todo.upw;
-    const checkUpw = todo.checkUpw;
+    const upw = product.upw;
+    const checkUpw = product.checkUpw;
     if (upw === checkUpw) {
       return <div>비밀번호가 일치합니다.</div>;
     } else {
@@ -69,58 +185,54 @@ const JaddPage = () => {
     console.log("성별");
   };
   const [genderSelect, setGenderSelect] = useState(0);
-  const handleClick = e => {
-    todo.gender;
+  const handleGenderClick = e => {
+    product.gender;
     if (e == 1) {
-      todo.gender = "남";
+      product.gender = "남";
       setGenderSelect(1);
 
       console.log("남");
     } else if (e == 2) {
-      todo.gender = "여";
+      product.gender = "여";
       console.log("여");
       setGenderSelect(2);
     }
   };
 
-  const handleChange = e => {
-    todo[e.target.name] = e.target.value;
-    setTodo({ ...todo });
-  };
-  const handleClickJadd = () => {
-    console.log("회원가입이 완료되었습니다.");
-    // console.log(todo.id);
-    // console.log(todo.password);
+  // const handleClickJadd = () => {
+  //   console.log("회원가입이 완료되었습니다.");
+  //   // console.log(todo.id);
+  //   // console.log(todo.password);
 
-    const email = todo.email;
-    const upw = todo.upw;
+  //   const email = product.email;
+  //   const upw = product.upw;
 
-    const checkUpw = todo.checkUpw;
-    const name = todo.name;
-    const nickname = todo.nickname;
-    const gender = todo.gender;
-    const address = todo.address;
-    const inputValue = todo.tel;
+  //   const checkUpw = product.checkUpw;
+  //   const name = product.name;
+  //   const nickname = product.nickname;
+  //   const gender = product.gender;
+  //   const address = product.address;
+  //   const inputValue = product.tel;
 
-    const iJadd = {
-      pic: "profile image",
-      dto: {
-        email: email,
-        upw: upw,
-        checkUpw: checkUpw,
-        name: name,
-        nickname: nickname,
-        birth: birthday,
-        gender: gender,
-        address: address,
-        tel: inputValue,
-      },
-    };
-    console.log(iJadd);
-    // console.log(todo.password);
-    // console.log(upw);
-    postJadd(iJadd);
-  };
+  //   const iJadd = {
+  //     pic: "profile image",
+  //     dto: {
+  //       email: email,
+  //       upw: upw,
+  //       checkUpw: checkUpw,
+  //       name: name,
+  //       nickname: nickname,
+  //       birth: birthday,
+  //       gender: gender,
+  //       address: address,
+  //       tel: inputValue,
+  //     },
+  //   };
+  //   console.log(iJadd);
+  //   // console.log(todo.password);
+  //   // console.log(upw);
+  //   postJadd(iJadd);
+  // };
 
   // 닉네임 중복확인
   const [nickname, setNickname] = useState();
@@ -197,6 +309,7 @@ const JaddPage = () => {
   };
   return (
     <JaddPageWrap>
+      {fetching ? <Fetching /> : null}
       <TitleHeader
         timg="https://picsum.photos/1920/215/?category=meat"
         tname="회원가입"
@@ -204,30 +317,40 @@ const JaddPage = () => {
       ></TitleHeader>
       <JaddPageMain>
         <JaddPageImage>
-          {/* 큰 동그라미 안에 이미지 표시 */}
-          {selectFile && (
-            <div>
-              <img
-                src={URL.createObjectURL(selectFile)}
-                alt="프로필 사진"
-                // style={{ width: "100%", height: "100%", objectFit: "cover" }}
-              />
+          <div>
+            <div className="JaddPage-img-button" onClick={handleClickImg}>
+              <div className="inputBox">
+                <input
+                  type="file"
+                  ref={uploadRef}
+                  style={{ display: "none" }}
+                  onChange={handleFileChange}
+                />
+                <div className="previewBox">
+                  <ImgSelectBtn />
+                  {image && (
+                    <img
+                      src={image}
+                      alt={`미리보기`}
+                      style={{
+                        width: "280px",
+                        height: "280px",
+                        cursor: "pointer",
+                        borderRadius: "250px",
+                      }}
+                      onClick={deleteImage}
+                    />
+                  )}
+                </div>
+              </div>
             </div>
-          )}
-          {/* 보이지 않는 파일 선택 버튼 */}
-          <input
-            // className="JaddPage-img-button"
-            type="file"
-            onChange={handleFileChange}
-            ref={fileInputRef}
-            style={{ display: "none" }}
-            
-          />
+          </div>
+
           {/* 커스텀 스타일이 적용된 버튼 */}
-          <button
+          {/* <button
             className="JaddPage-img-button "
-            onClick={handleButtonClick}
-          ></button>
+            // onClick={handleButtonClick}
+          ></button> */}
         </JaddPageImage>
         <JaddPageInfo>
           <div className="JaddMailInfo">
@@ -236,7 +359,7 @@ const JaddPage = () => {
               <input
                 type="text"
                 name="email"
-                value={todo.email}
+                value={product.email}
                 className="JoinMail"
                 placeholder="@까지 정확하게 입력하세요."
                 onChange={e => handleChange(e)}
@@ -248,7 +371,7 @@ const JaddPage = () => {
               <input
                 type="text"
                 name="name"
-                value={todo.name}
+                value={product.name}
                 className="JaddName"
                 placeholder="본인 이름을 입력하세요."
                 onChange={e => handleChange(e)}
@@ -261,7 +384,7 @@ const JaddPage = () => {
                 <input
                   type="text"
                   name="upw"
-                  value={todo.upw}
+                  value={product.upw}
                   className="JaddPw"
                   placeholder="비밀번호를 입력하세요.(특수문자 포함 4-8자)"
                   onChange={e => handleChange(e)}
@@ -274,7 +397,7 @@ const JaddPage = () => {
                 <input
                   type="text"
                   name="checkUpw"
-                  value={todo.checkUpw}
+                  value={product.checkUpw}
                   className="JaddMorePw"
                   placeholder="입력한 비밀번호를 한번 더 확인하세요."
                   onChange={e => handleChange(e)}
@@ -297,20 +420,20 @@ const JaddPage = () => {
                 <GenderBtWrap>
                   <DefaultBt
                     type="button"
-                    name="man"
+                    name="gender"
                     className="gender-bt-man"
-                    onClick={e => handleClick(1)}
-                    clicked={todo.gender === "남"}
+                    onClick={e => handleGenderClick(1)}
+                    clicked={product.gender === "남"}
                     // 성별={1}
                   >
                     <span>남성</span>
                   </DefaultBt>
                   <DefaultBt
                     type="button"
-                    name="woman"
+                    name="gender"
                     className="gender-bt-woman"
-                    onClick={e => handleClick(2)}
-                    clicked={todo.gender === "여"}
+                    onClick={e => handleGenderClick(2)}
+                    clicked={product.gender === "여"}
                   >
                     <span>여성</span>
                   </DefaultBt>
@@ -324,10 +447,10 @@ const JaddPage = () => {
                 <input
                   type="text"
                   name="nickname"
-                  value={todo.nickname}
+                  value={product.nickname}
                   className="JaddNickName"
                   placeholder="사용할 닉네임을 입력하세요."
-                  onChange={e => setNickname(e.target.value)}
+                  onChange={e => handleChange(e)}
                 ></input>
 
                 <DefaultBt
@@ -352,21 +475,22 @@ const JaddPage = () => {
               <label>휴대폰 번호</label>
               <input
                 type="text"
-                value={phoneNumber}
+                name="tel"
+                value={product.tel}
                 className="JaddNumber"
                 placeholder="휴대폰 번호를 입력하세요."
-                onChange={handleInputChange}
+                onChange={e => handleChange(e)}
                 maxLength="13"
-                onKeyDown={e => {
-                  if (
-                    (e.key === "Backspace" || e.key === "Delete") &&
-                    e.target.selectionStart < phoneNumber.length
-                  ) {
-                    setPhoneNumber(prevPhoneNumber =>
-                      prevPhoneNumber.slice(0, prevPhoneNumber.length - 1),
-                    );
-                  }
-                }}
+                // onKeyDown={e => {
+                //   if (
+                //     (e.key === "Backspace" || e.key === "Delete") &&
+                //     e.target.selectionStart < phoneNumber.length
+                //   ) {
+                //     setPhoneNumber(prevPhoneNumber =>
+                //       prevPhoneNumber.slice(0, prevPhoneNumber.length - 1),
+                //     );
+                //   }
+                // }}
               />
             </JaddNumberWrap>
             <br />
@@ -374,10 +498,11 @@ const JaddPage = () => {
               <label>생년월일</label>
               <input
                 type="text"
-                value={birthday}
+                name="birth"
+                value={product.birth}
                 className="JaddBirth"
                 placeholder="YYYY/MM/DD"
-                onChange={handleBirthChange}
+                onChange={e => handleChange(e)}
                 maxLength="10"
               />
             </JaddBirthWrap>
@@ -387,6 +512,7 @@ const JaddPage = () => {
               <input
                 type="text"
                 name="address"
+                value={product.address}
                 className="JaddAddress"
                 placeholder="거주 중인 주소를 입력하세요."
                 onChange={e => handleChange(e)}
@@ -397,7 +523,7 @@ const JaddPage = () => {
                 type="button"
                 className="Jadd-Join-Bt"
                 onClick={() => {
-                  handleClickJadd();
+                  handleAddClick();
                 }}
               >
                 회원가입
@@ -419,6 +545,21 @@ const JaddPage = () => {
           <Outlet />
         </div>
       </JaddPageMain>
+      {showModal ? (
+        <SelectedModal
+          title="글 등록 확인"
+          content="글을 등록하시겠습니까?"
+          confirmFn={() => handleConfirm(product)}
+          cancelFn={handleCancel}
+        />
+      ) : null}
+      {addResult ? (
+        <ResultModal
+          title={popTitle}
+          content={popContent}
+          callFn={closeModal}
+        />
+      ) : null}
     </JaddPageWrap>
   );
 };
