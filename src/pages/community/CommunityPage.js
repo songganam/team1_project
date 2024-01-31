@@ -7,11 +7,6 @@ import Layout from "../../layouts/Layout";
 const CommunityPage = () => {
   return (
     <Layout>
-      <TitleHeader
-        timg={`${process.env.PUBLIC_URL}/assets/images/community_header.png`}
-        tname="고기잡담"
-        tcontent='"인생은 고기서 고기다"'
-      />
       <div>
         <Outlet />
       </div>

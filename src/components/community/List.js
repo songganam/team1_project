@@ -124,6 +124,7 @@ const List = () => {
     // 폼 제출 기본 동작 방지
     e.preventDefault();
     moveToSearch({ page: 1, search: searchInput });
+    setServerData(initState);
   };
 
   return (
