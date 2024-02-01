@@ -29,22 +29,24 @@ export const ProfileImg = styled.div`
     height: 280px;
     border-radius: 250px;
   }
-  button {
-    position: absolute;
-    left: 77%;
-    top: 77%;
-    width: 56px;
-    height: 56px;
-    border: none;
-    border-radius: 250px;
-    background-color: #fff;
-    cursor: pointer;
-    box-shadow: 0px 3px 3px 0px rgba(0, 0, 0, 0.25);
-    img {
-      width: 100%;
-      height: 30px;
-      object-fit: fill;
-    }
+`;
+
+export const UploadButton = styled.div`
+  position: absolute;
+  left: 77%;
+  top: 77%;
+  width: 56px !important;
+  height: 56px !important;
+  border: none;
+  border-radius: 250px;
+  background-color: #fff;
+  cursor: pointer;
+  box-shadow: 0px 3px 3px 0px rgba(0, 0, 0, 0.25);
+  img {
+    width: 100%;
+    height: 30px;
+    object-fit: contain;
+    margin-top: 12px;
   }
 `;
 
@@ -66,8 +68,15 @@ export const MyModifyPageInfo = styled.div`
   font-style: normal;
   font-weight: 400;
   margin-top: 50px;
+  p {
+    margin-top: 15px;
+    font-weight: 600;
+  }
   span {
-    margin-bottom: 20px;
+    position: relative;
+    font-size: 17px;
+    padding: 20px 0 19px 0;
+    border: none;
   }
 `;
 
@@ -79,14 +88,22 @@ export const MyModifyPageForm = styled.form`
   font-size: 19px;
   font-style: normal;
   font-weight: 400;
-  span {
-    margin-bottom: 20px;
+  button {
+    position: absolute;
+    z-index: 1;
+    left: 83%;
+  }
+  p {
+    margin-top: 20px;
+    font-weight: 600;
   }
   input {
+    position: relative;
+    font-size: 17px;
+    padding: 20px 0 19px 0;
+    background-color: none;
     border: none;
     border-bottom: 1px solid #000;
-    background-color: none;
-    margin-bottom: 20px;
   }
 `;
 

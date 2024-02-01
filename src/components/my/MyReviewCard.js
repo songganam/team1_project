@@ -1,10 +1,12 @@
 import React, { useEffect, useState } from "react";
 import { deleteMyReview, getMyReview } from "../../api/MyApi";
+import { API_SERVER_HOST } from "../../api/config";
 import Button from "../../components/button/Button";
 import useModal from "../../hooks/useModal";
 import Bookmark from "../bookmark/Bookmark";
 import CountingStar from "../common/CountingStar";
 import ResultModal from "../common/ResultModal";
+import useCustomMy from "./hooks/useCustomMy";
 import {
   MyBookCardBookButton,
   MyMoreViewButton,
@@ -19,15 +21,17 @@ import {
   MyReviewCardVisual,
   MyReviewCardWrapper,
 } from "./styles/MyReviewCardStyle";
-import useCustomMy from "./hooks/useCustomMy";
-import { API_SERVER_HOST } from "../../api/config";
 
+// 내가 쓴 리뷰 보기 카드 리스트
 const MyReviewCard = props => {
   const [myReviewList, setMyReviewList] = useState([]);
   const [reviewToDelete, setReviewToDelete] = useState(null);
   const { page, moveToReviewPage } = useCustomMy();
+
+  // 모달창
   const { useResultModal, openModal, closeModal } = useModal();
 
+  // 리뷰 리스트 불러오기 (GET)
   useEffect(() => {
     const param = { page };
     getMyReview({ param, successFn, failFn, errorFn });
@@ -44,15 +48,13 @@ const MyReviewCard = props => {
     console.log(result);
   };
 
-  const { storeimg } = props;
-
   // 리뷰 삭제 (DELETE)
   const handledeleteClick = (checkShop, ireview) => {
     const deleteForm = {
       checkShop: checkShop,
       ireview: ireview,
     };
-    // 예약 삭제 성공 시 리스트 업데이트
+    // 리뷰 삭제 성공 시 리스트 업데이트
     const updatedMyReviewList = myReviewList.filter(
       review => review.ireview !== ireview,
     );
