@@ -123,8 +123,8 @@ const MeatDetailPage = () => {
   };
 
   // ! KAKAOMAP API X,Y value
-  const [draggable, setDraggable] = useState(false);
-  const [zoomable, setZoomable] = useState(false);
+  const [draggable, setDraggable] = useState(true);
+  const [zoomable, setZoomable] = useState(true);
   console.log(storeInfo.pics);
   return (
     <div>
