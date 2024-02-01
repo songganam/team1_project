@@ -182,7 +182,7 @@ const MeatDetailPage = () => {
   // ! POST
   const handlePickupSubmit = () => {
     const menus = selectedItems.map((item, index) => ({
-      ibutMenu: index,
+      ibutMenu: index + 1,
       count: item.quantity,
     }));
 
@@ -202,11 +202,11 @@ const MeatDetailPage = () => {
       request: requiredMsg,
       menus: menus,
     };
+    console.log("픽업데이터 ", pickupData);
     postPickup({ pickupData, successFn, failFn, errorFn });
     openModal("예약완료", "예약이 완료되었습니다.", () => {
       closeModal, navigate(-1);
     });
-    console.log(pickupData);
   };
   return (
     <div>

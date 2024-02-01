@@ -308,3 +308,22 @@ export const ReviewSubmitBtn = styled.button`
     line-height: 125%; /* 23.75px */
   }
 `;
+
+export const ImageBox = styled.div`
+  &.fristImage {
+    img {
+      width: 200px;
+      height: 200px;
+    }
+  }
+  &.subImage {
+    display: flex;
+    .subImageItem {
+      border: 1px solid black;
+      img {
+        width: 100px;
+        height: 100px;
+      }
+    }
+  }
+`;
