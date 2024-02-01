@@ -22,7 +22,7 @@ import {
 import { API_SERVER_HOST } from "../../api/config";
 import useCustomHook from "../../components/meat/hooks/useCustomHook";
 import useCustomLogin from "../../components/meat/hooks/useCustomLogin";
-
+import ResultModal from "../../components/common/ResultModal";
 
 const AboutPage = () => {
   const [aboutData, setAboutData] = useState([]);
@@ -40,8 +40,7 @@ const AboutPage = () => {
   const { isModal, openModal, closeModal, moveToRead, moveToLogin } =
     useCustomHook();
   const { isLogin } = useCustomLogin();
-  const navigate = useNavigate()
-
+  const navigate = useNavigate();
 
   const successFn = result => {
     setAboutData(result);
@@ -72,12 +71,12 @@ const AboutPage = () => {
     }
   };
 
-  const handleInfoClick = (ishop) => {
-    navigate(`/meat/detail/${ishop}`)
-  }
-  const handleCommuClick = (iboard) => {
-    navigate(`/community/read/${iboard}`)
-  }
+  const handleInfoClick = ishop => {
+    navigate(`/meat/detail/${ishop}`);
+  };
+  const handleCommuClick = iboard => {
+    navigate(`/community/read/${iboard}`);
+  };
 
   return (
     <Layout>
@@ -118,7 +117,12 @@ const AboutPage = () => {
                     {aboutData.gogi[0].menu}. {aboutData.gogi[0].price}
                   </div>
                   <AboutCardButton>
-                    <DefaultBt className="InfoButton" onClick={e => handleInfoClick(aboutData.gogi[0].ishop) }>상세보기</DefaultBt>
+                    <DefaultBt
+                      className="InfoButton"
+                      onClick={e => handleInfoClick(aboutData.gogi[0].ishop)}
+                    >
+                      상세보기
+                    </DefaultBt>
                     <DefaultBt
                       className="BookButton"
                       onClick={e =>
@@ -143,8 +147,12 @@ const AboutPage = () => {
                     {aboutData.gogi[1].menu}. {aboutData.gogi[1].price}
                   </div>
                   <AboutCardButton>
-
-                           <DefaultBt className="InfoButton" onClick={e => handleInfoClick(aboutData.gogi[1].ishop) }>상세보기</DefaultBt>
+                    <DefaultBt
+                      className="InfoButton"
+                      onClick={e => handleInfoClick(aboutData.gogi[1].ishop)}
+                    >
+                      상세보기
+                    </DefaultBt>
 
                     <DefaultBt
                       className="BookButton"
@@ -177,7 +185,12 @@ const AboutPage = () => {
                     {aboutData.gogi[2].menu}.{aboutData.gogi[2].price}
                   </div>
                   <AboutCardButton>
-                  <DefaultBt className="InfoButton" onClick={e => handleInfoClick(aboutData.gogi[2].ishop) }>상세보기</DefaultBt>
+                    <DefaultBt
+                      className="InfoButton"
+                      onClick={e => handleInfoClick(aboutData.gogi[2].ishop)}
+                    >
+                      상세보기
+                    </DefaultBt>
                     <DefaultBt
                       className="BookButton"
                       onClick={e =>
@@ -202,7 +215,12 @@ const AboutPage = () => {
                     {aboutData.gogi[3].menu}. {aboutData.gogi[3].price}
                   </div>
                   <AboutCardButton>
-                  <DefaultBt className="InfoButton" onClick={e => handleInfoClick(aboutData.gogi[3].ishop) }>상세보기</DefaultBt>
+                    <DefaultBt
+                      className="InfoButton"
+                      onClick={e => handleInfoClick(aboutData.gogi[3].ishop)}
+                    >
+                      상세보기
+                    </DefaultBt>
                     <DefaultBt
                       className="BookButton"
                       onClick={e =>
@@ -276,27 +294,42 @@ const AboutPage = () => {
             <AboutPageCommunity>
               <span className="CommunityTitle">고기 잡담</span>
               <CommunityImages>
-                <div className="BigImage" onClick={e=> handleCommuClick(aboutData.commu[0].iboard)}>
+                <div
+                  className="BigImage"
+                  onClick={e => handleCommuClick(aboutData.commu[0].iboard)}
+                >
                   <img
                     src={`${comuhost}${aboutData.commu[0].iboard}/${aboutData.commu[0].pic}`}
                   />
                 </div>
-                <div className="smallone" onClick={e=> handleCommuClick(aboutData.commu[1].iboard)}>
+                <div
+                  className="smallone"
+                  onClick={e => handleCommuClick(aboutData.commu[1].iboard)}
+                >
                   <img
                     src={`${comuhost}${aboutData.commu[1].iboard}/${aboutData.commu[1].pic}`}
                   />
                 </div>
-                <div className="smalltwo" onClick={e=> handleCommuClick(aboutData.commu[2].iboard)}>
+                <div
+                  className="smalltwo"
+                  onClick={e => handleCommuClick(aboutData.commu[2].iboard)}
+                >
                   <img
                     src={`${comuhost}${aboutData.commu[2].iboard}/${aboutData.commu[2].pic}`}
                   />
                 </div>
-                <div className="smallthree" onClick={e=> handleCommuClick(aboutData.commu[3].iboard)}>
+                <div
+                  className="smallthree"
+                  onClick={e => handleCommuClick(aboutData.commu[3].iboard)}
+                >
                   <img
                     src={`${comuhost}${aboutData.commu[3].iboard}/${aboutData.commu[3].pic}`}
                   />
                 </div>
-                <div className="smallfour" onClick={e=> handleCommuClick(aboutData.commu[4].iboard)}>
+                <div
+                  className="smallfour"
+                  onClick={e => handleCommuClick(aboutData.commu[4].iboard)}
+                >
                   <img
                     src={`${comuhost}${aboutData.commu[4].iboard}/${aboutData.commu[4].pic}`}
                   />
