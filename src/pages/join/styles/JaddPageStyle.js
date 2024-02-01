@@ -25,7 +25,7 @@ export const JaddPageImage = styled.div`
     display: flex;
     justify-content: flex-end;
     align-items: flex-end;
-    /* background-color: ; */
+    background-color: #066e52;
     width: 280px;
     height: 280px;
     border-radius: 250px;
@@ -132,6 +132,7 @@ export const JaddNickNameWrap = styled.div`
     padding-top: 10px;
     font-size: 14px;
     color: #d60117;
+    
   }
 `;
 
