@@ -96,6 +96,7 @@ const LoginPage = () => {
               placeholder="비밀번호"
               onChange={e => handleChange(e)}
               maxLength="8"
+              minLength="4"
             />
           </LoginPageInfo>
           <LoginPageCheckbox>

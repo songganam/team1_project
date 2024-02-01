@@ -14,6 +14,7 @@ export const AboutPageTop = styled.div`
   /* align-items: flex-start; */
   width: 100%;
   height: 800px;
+  margin-bottom: 100px;
 
   .TopImage {
     position: absolute;
@@ -87,6 +88,7 @@ export const AboutCardWrap = styled.div`
 export const AboutCardButton = styled.div`
   display: flex;
   padding-top: 20px;
+  padding-bottom: 100px;
   .InfoButton {
     font-size: 19px;
     color: #d60117;
@@ -98,11 +100,12 @@ export const AboutCardButton = styled.div`
   }
 `;
 
-// 정육점
+// 고깃집 두번째 줄
 export const ButcherCards = styled.div`
   position: relative;
   display: flex;
   gap: 20px;
+  padding-bottom: 100px;
 `;
 
 export const MainButcher = styled.div`
@@ -129,10 +132,12 @@ export const MainBand = styled.div`
   height: 270px;
   padding-top: 300px;
   margin-bottom: 134px;
+  top: -35px;
   /* z-index: 3; */
 
   img {
     position: relative;
+
     align-items: center;
     justify-content: center;
     width: 1920px;
@@ -146,7 +151,7 @@ export const MainBand = styled.div`
     color: #ffffff;
   }
 `;
-// 고깃집 홍보
+// 쎈밤
 export const AboutPageShops = styled.div`
   position: relative;
   display: flex;
@@ -255,6 +260,7 @@ export const CommunityImages = styled.div`
     img {
       width: 600px;
       height: 600px;
+      cursor: pointer;
     }
   }
   .smallone {
@@ -263,6 +269,7 @@ export const CommunityImages = styled.div`
     img {
       width: 290px;
       height: 290px;
+      cursor: pointer;
     }
   }
   .smalltwo {
@@ -271,6 +278,7 @@ export const CommunityImages = styled.div`
     img {
       width: 290px;
       height: 290px;
+      cursor: pointer;
     }
   }
   .smallthree {
@@ -279,6 +287,7 @@ export const CommunityImages = styled.div`
     img {
       width: 290px;
       height: 290px;
+      cursor: pointer;
     }
   }
   .smallfour {
@@ -287,6 +296,7 @@ export const CommunityImages = styled.div`
     img {
       width: 290px;
       height: 290px;
+      cursor: pointer;
     }
   }
 `;
