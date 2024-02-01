@@ -1,7 +1,6 @@
 import React from "react";
-import { MyListPageTitle, MyListPageWrapper } from "./styles/MyListPageStyle";
 import MyListCard from "../../components/my/MyListCard";
-import Paging from "../../components/common/Paging";
+import { MyListPageTitle, MyListPageWrapper } from "./styles/MyListPageStyle";
 
 // 내 북마크 보기 페이지
 const MyListPage = () => {

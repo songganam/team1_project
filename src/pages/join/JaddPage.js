@@ -389,6 +389,7 @@ const JaddPage = () => {
                   placeholder="비밀번호를 입력하세요.(특수문자 포함 4-8자)"
                   onChange={e => handleChange(e)}
                   maxLength="8"
+                  minLength="4"
                 ></input>
               </JaddPwWrap>
               <br />
@@ -402,6 +403,7 @@ const JaddPage = () => {
                   placeholder="입력한 비밀번호를 한번 더 확인하세요."
                   onChange={e => handleChange(e)}
                   maxLength="8"
+                  minLength="4"
                 ></input>
                 <div className="passCheck">{passCheckForm()}</div>
                 <div>
@@ -451,6 +453,8 @@ const JaddPage = () => {
                   className="JaddNickName"
                   placeholder="사용할 닉네임을 입력하세요."
                   onChange={e => handleChange(e)}
+                  maxLength="6"
+                  minLength="1"
                 ></input>
 
                 <DefaultBt
@@ -472,25 +476,23 @@ const JaddPage = () => {
             <br />
 
             <JaddNumberWrap>
-              <label>휴대폰 번호</label>
               <input
                 type="text"
                 name="tel"
-                value={product.tel}
+                value={product.tel.replace(/(\d{3})(\d{4})(\d{3})/, "$1-$2-$3")}
                 className="JaddNumber"
                 placeholder="휴대폰 번호를 입력하세요."
-                onChange={e => handleChange(e)}
+                onChange={e => {
+                  let input = e.target.value.replace(/[^0-9]/g, "");
+                  let event = {
+                    target: {
+                      name: e.target.name,
+                      value: input,
+                    },
+                  };
+                  handleChange(event);
+                }}
                 maxLength="13"
-                // onKeyDown={e => {
-                //   if (
-                //     (e.key === "Backspace" || e.key === "Delete") &&
-                //     e.target.selectionStart < phoneNumber.length
-                //   ) {
-                //     setPhoneNumber(prevPhoneNumber =>
-                //       prevPhoneNumber.slice(0, prevPhoneNumber.length - 1),
-                //     );
-                //   }
-                // }}
               />
             </JaddNumberWrap>
             <br />
@@ -499,10 +501,22 @@ const JaddPage = () => {
               <input
                 type="text"
                 name="birth"
-                value={product.birth}
+                value={product.birth.replace(
+                  /(\d{4})(\d{2})(\d{2})/,
+                  "$1/$2/$3",
+                )}
                 className="JaddBirth"
                 placeholder="YYYY/MM/DD"
-                onChange={e => handleChange(e)}
+                onChange={e => {
+                  let input = e.target.value.replace(/[^0-9]/g, "");
+                  let event = {
+                    target: {
+                      name: e.target.name,
+                      value: input,
+                    },
+                  };
+                  handleChange(event);
+                }}
                 maxLength="10"
               />
             </JaddBirthWrap>

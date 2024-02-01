@@ -33,6 +33,7 @@ const MeatModifyPage = () => {
   const headcount = queryParams.get("headcount");
   const date = queryParams.get("date");
   const request = queryParams.get("request");
+
   console.log("예약PK", ireser);
   console.log("이름", name);
   console.log("인원 수", headcount);
@@ -152,13 +153,27 @@ const MeatModifyPage = () => {
 
   // ! postData => ireser(PK), date, request, headcount
   // * Submit
-  const handleReserSubmit = (ireser, date, headCount, request) => {
+  const handleReserSubmit = () => {
+    const timeCountvalue =
+      timeCount.split(":")[0] + ":" + timeCount.split(":")[1] + ":00";
+    // console.log(timeCountvalue);
+    const timeline = selectedDate + " " + timeCountvalue;
+    // console.log(timeline);
+    // console.log("timecount :", timeCount);
+
+    console.log("예약PK", ireser);
+    console.log("이름", name);
+    console.log("인원 수", personCount);
+    console.log("예약일시", timeline);
+    console.log("요청사항", requiredMsg);
+
+    console.log(ireser);
     // 예약 변경 (PUT)
     const reserChangeForm = {
       ireser: ireser,
-      date: date,
-      headCount: headCount,
-      request: request,
+      date: timeline,
+      headCount: personCount,
+      request: requiredMsg,
     };
     console.log("handleReserSubmit - reserChangeForm:", reserChangeForm); // 추가
 

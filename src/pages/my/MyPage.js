@@ -1,7 +1,8 @@
-import React, { useEffect, useState } from "react";
-import Layout from "../../layouts/Layout";
+import React, { useState } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
 import TitleHeader from "../../components/titleheader/TitleHeader";
+import Layout from "../../layouts/Layout";
+import { ColorStyle } from "../../styles/common/CommonStyle";
 import {
   MyPageContent,
   MyPageData,
@@ -9,7 +10,6 @@ import {
   MyPageMenuBar,
   MyPageWrapper,
 } from "./styles/MyPageStyle";
-import { ColorStyle } from "../../styles/common/CommonStyle";
 
 // 마이페이지 메인 페이지
 const MyPage = () => {
@@ -38,7 +38,7 @@ const MyPage = () => {
   return (
     <Layout>
       <TitleHeader
-        timg="https://picsum.photos/1920/215/?category=meat"
+        timg={`${process.env.PUBLIC_URL}/assets/images/mypage_header.jpg`}
         tname="마이페이지"
         tcontent="님, 오늘도 맛있는 고기와 함께하세요."
       ></TitleHeader>
