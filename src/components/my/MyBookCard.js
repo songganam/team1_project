@@ -1,5 +1,12 @@
 import React, { useEffect, useState } from "react";
+import { getMyBook, patchMyBook } from "../../api/MyApi";
+import { API_SERVER_HOST } from "../../api/config";
 import Button from "../../components/button/Button";
+import useModal from "../../hooks/useModal";
+import Bookmark from "../bookmark/Bookmark";
+import ResultModal from "../common/ResultModal";
+import useCustomHook from "../meat/hooks/useCustomHook";
+import useCustomMy from "./hooks/useCustomMy";
 import {
   MyBookCardBookButton,
   MyBookCardContent,
@@ -14,13 +21,6 @@ import {
   MyBookCardWrapper,
   MyMoreViewButton,
 } from "./styles/MyBookCardStyle";
-import Bookmark from "../bookmark/Bookmark";
-import { patchMyBook, getMyBook } from "../../api/MyApi";
-import useCustomMy from "./hooks/useCustomMy";
-import useCustomHook from "../meat/hooks/useCustomHook";
-import { API_SERVER_HOST } from "../../api/config";
-import useModal from "../../hooks/useModal";
-import ResultModal from "../common/ResultModal";
 
 // 내 예약/픽업 내역 카드 리스트
 const MyBookCard = props => {
@@ -28,6 +28,10 @@ const MyBookCard = props => {
     useCustomMy();
   const { moveToReview } = useCustomHook();
   const [myBookList, setMyBookList] = useState([]);
+  const [resultModalContent, setResultModalContent] = useState();
+
+  // 모달창
+  const { useResultModal, openModal, closeModal } = useModal();
 
   // 예약 리스트 불러오기 (GET)
   useEffect(() => {
@@ -55,14 +59,30 @@ const MyBookCard = props => {
     // 예약 삭제 성공 시 리스트 업데이트
     const updatedMyBookList = myBookList.filter(book => book.ireser !== ireser);
     setMyBookList(updatedMyBookList);
-    patchMyBook({ patchBookForm, successFn, failFn, errorFn });
+    patchMyBook({ patchBookForm, successPatch, failPatch, errorPatch });
     console.log(patchBookForm);
   };
 
-  // 모달창
-  const { useResultModal, openModal, closeModal } = useModal();
-  const handleDeleteUser = () => {
+  const successPatch = patchResult => {
+    console.log("예약 취소 성공", patchResult);
+    // 예약 취소 성공 시 모달창
     openModal();
+    setResultModalContent({
+      title: "예약 취소 완료",
+      content: "예약이 취소되었습니다.",
+    });
+  };
+  const failPatch = patchResult => {
+    console.log("예약 취소 실패", patchResult);
+    // 예약 취소 실패 시 모달창
+    openModal();
+    setResultModalContent({
+      title: "예약 취소 실패",
+      content: "잠시 후 다시 시도해주세요.",
+    });
+  };
+  const errorPatch = patchResult => {
+    console.log("서버 오류", patchResult);
   };
 
   // 예약 변경 페이지 이동
@@ -118,7 +138,7 @@ const MyBookCard = props => {
               <MyBookCardInfoTitle>
                 <li>예약일시</li>
                 <li>예약상황</li>
-                <li>인원 수</li>
+                <li>{myBookList.checkShop === 0 ? "인원수" : null}</li>
                 <li>요청사항</li>
               </MyBookCardInfoTitle>
               <MyBookCardDateContent>
@@ -130,7 +150,9 @@ const MyBookCard = props => {
                     ? "확정"
                     : "불가"}
                 </li>
-                <li>{myBookList.headCount}</li>
+                <li>
+                  {myBookList.checkShop === 0 ? myBookList.headCount : null}
+                </li>
                 <li>{myBookList.request}</li>
               </MyBookCardDateContent>
             </MyBookCardInfo>
@@ -143,7 +165,6 @@ const MyBookCard = props => {
               </div>
               <div
                 onClick={e =>
-
                   myBookList.checkShop === 0
                     ? moveToReserChange(
                         myBookList.ireser,
@@ -160,7 +181,6 @@ const MyBookCard = props => {
                         myBookList.request,
                       )
                     : null
-
                 }
                 style={{ display: myBookList.confirm !== 2 ? "block" : "none" }}
               >
@@ -176,8 +196,8 @@ const MyBookCard = props => {
               </div>
               {useResultModal && (
                 <ResultModal
-                  title="회원 탈퇴"
-                  content="모든 회원 정보가 삭제됩니다."
+                  title={resultModalContent.title}
+                  content={resultModalContent.content}
                   callFn={() => {
                     closeModal();
                   }}

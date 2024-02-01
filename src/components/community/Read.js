@@ -406,7 +406,7 @@ const Read = () => {
                 />
               ) : (
                 <img
-                  src={`${process.env.PUBLIC_URL}/assets/images/favicon.png`}
+                  src={`${process.env.PUBLIC_URL}/assets/images/user_profile.png`}
                   alt="기본사진"
                 />
               )}

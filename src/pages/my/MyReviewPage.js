@@ -1,10 +1,9 @@
 import React from "react";
+import MyReviewCard from "../../components/my/MyReviewCard";
 import {
   MyReviewPageTitle,
   MyReviewPageWrapper,
 } from "./styles/MyReviewPageStyle";
-import MyReviewCard from "../../components/my/MyReviewCard";
-import Paging from "../../components/common/Paging";
 
 // 내가 쓴 리뷰 보기 페이지
 const MyReviewPage = () => {

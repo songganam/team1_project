@@ -39,7 +39,7 @@ export const putMyBook = async ({
     request: reserChangeForm.request,
   };
   try {
-    console.log("PUT 요청 보내는 데이터:", data); // 추가
+    console.log("PUT 요청 보내는 데이터:", data);
 
     const header = { headers: { "Content-Type": "application/json" } };
     const res = await authAxios.put(`${host}/reservation`, data, {
@@ -65,9 +65,9 @@ export const putMyBook = async ({
 // 마이페이지 : 예약 내역 삭제하기 (PATCH)
 export const patchMyBook = async ({
   patchBookForm,
-  successFn,
-  failFn,
-  errorFn,
+  successPatch,
+  failPatch,
+  errorPatch,
 }) => {
   const data = {
     checkShop: patchBookForm.checkShop,
@@ -81,14 +81,14 @@ export const patchMyBook = async ({
     const status = res.status.toString();
     if (status.charAt(0) === "2") {
       console.log("예약 내역 완전 삭제 성공");
-      successFn(res.data);
+      successPatch(res.data);
       return res.data;
     } else {
-      failFn("예약 내역 삭제 오류");
+      failPatch("예약 내역 삭제 오류");
     }
   } catch (error) {
     console.log("서버 완전 오류");
-    errorFn(error);
+    errorPatch(error);
   }
 };
 
@@ -202,12 +202,11 @@ export const putUserInfo = async ({
       errorFn("수정 서버오류", error.res.data);
     } else {
       errorFn("수정 서버오류");
-
     }
   }
 };
 
-// 닉네임 중복 체크
+// 닉네임 중복 체크 (POST)
 export const nickNameCheck = async ({ iNickCheck }) => {
   console.log("닉네임 중복 체크", iNickCheck);
   const nickname = iNickCheck;

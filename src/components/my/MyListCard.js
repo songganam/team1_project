@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { getMyList } from "../../api/MyApi";
+import { API_SERVER_HOST } from "../../api/config";
 import Bookmark from "../bookmark/Bookmark";
+import useCustomMy from "./hooks/useCustomMy";
 import {
   MyListCardContent,
   MyListCardDateContent,
@@ -14,8 +16,6 @@ import {
   MyListCardWrapper,
   MyMoreViewButton,
 } from "./styles/MyListCardStyle";
-import useCustomMy from "./hooks/useCustomMy";
-import { API_SERVER_HOST } from "../../api/config";
 
 // 내 북마크 내역 카드
 const MyListCard = props => {
@@ -49,8 +49,6 @@ const MyListCard = props => {
     moveToListPage({ page: page + 1 });
   };
 
-  // 추후 삭제
-  const { storeimg } = props;
   const baseApi = API_SERVER_HOST;
   const host = `${baseApi}/pic`;
   return (
@@ -75,7 +73,7 @@ const MyListCard = props => {
               <MyListCardSubTitle>
                 <Bookmark></Bookmark>
                 <MyListCardPlace>
-                  <span>{myList.checkShop === 0 ? "고깃집" : "정육점"}</span>
+                  <span>{myList.imeat === 0 ? "정육점" : "고깃집"}</span>
                 </MyListCardPlace>
               </MyListCardSubTitle>
               <MyListCardName>{myList.name}</MyListCardName>

@@ -1,4 +1,14 @@
 import React, { useEffect, useRef, useState } from "react";
+import { useSelector } from "react-redux";
+import {
+  API_SERVER_HOST,
+  getUserInfo,
+  nickNameCheck,
+  putUserInfo,
+} from "../../api/MyApi";
+import Button from "../../components/button/Button";
+import ResultModal from "../../components/common/ResultModal";
+import useModal from "../../hooks/useModal";
 import {
   MyModifyPageButton,
   MyModifyPageForm,
@@ -9,22 +19,14 @@ import {
   MyMoidfyNicknameCheck,
   MyNickName,
   ProfileImg,
+  UploadButton,
 } from "./styles/MyModifyPageStyle";
-import Button from "../../components/button/Button";
-import {
-  API_SERVER_HOST,
-  getUserInfo,
-  nickNameCheck,
-  putUserInfo,
-} from "../../api/MyApi";
-import useModal from "../../hooks/useModal";
-import ResultModal from "../../components/common/ResultModal";
-import { useSelector } from "react-redux";
 
 const host = API_SERVER_HOST;
 
 // 프로필 정보 초기값
 const initialProfile = {
+  iuser: "",
   email: "",
   name: "",
   nickname: "",
@@ -41,6 +43,10 @@ const MyModifyPage = () => {
 
   const [myProfileData, setMyProfileData] = useState(initialProfile);
   const [selectedImage, setSelectedImage] = useState(null);
+  const [resultModalContent, setResultModalContent] = useState();
+
+  // 모달창
+  const { useResultModal, openModal, closeModal } = useModal();
 
   // 업로드 이미지 미리보기 상태 업데이트
   const [image, setImage] = useState(authState.pic);
@@ -66,13 +72,11 @@ const MyModifyPage = () => {
 
   useEffect(() => {
     // 기존 이미지 URL 초기화
-
-    const initialImageUrl = `${host}/pic/user/${authState.iuser}/${authState.pic}`;
+    const initialImageUrl = `${host}/pic/user/${myProfileData.iuser}/${myProfileData.pic}`;
     setImage(initialImageUrl);
-  }, [authState.pic, authState.iuser]);
+  }, [myProfileData.pic, myProfileData.iuser]);
 
   // 업로드 할 이미지 미리보기 및 교체
-
   const handleImageChange = e => {
     const file = e.target.files[0];
     if (file) {
@@ -83,7 +87,6 @@ const MyModifyPage = () => {
   };
 
   // 사진추가 버튼 클릭 시 이미지 파일 선택
-
   const handleClickImg = () => {
     uploadRef.current.click();
   };
@@ -118,8 +121,15 @@ const MyModifyPage = () => {
       errorFn: errorPut,
     });
   };
+
   const successPut = putResult => {
     console.log("수정 성공", putResult);
+    // 수정 성공 시 모달창
+    openModal();
+    setResultModalContent({
+      title: "회원 정보 수정 완료",
+      content: "성공적으로 수정되었습니다.",
+    });
   };
   const failPut = putResult => {
     console.log("수정 실패", putResult);
@@ -128,13 +138,7 @@ const MyModifyPage = () => {
     console.log("수정 서버오류", putResult);
   };
 
-  // 모달창
-  const { useResultModal, openModal, closeModal } = useModal();
-  const handleDeleteUser = () => {
-    openModal();
-  };
-
-  // 닉네임 중복확인
+  // 닉네임 중복 확인
   const [nickname, setNickname] = useState();
   const [isAvailable, setIsAvailable] = useState(null);
 
@@ -149,6 +153,15 @@ const MyModifyPage = () => {
     }
   };
 
+  // 회원 탈퇴
+  const handleDeleteUser = () => {
+    openModal();
+    setResultModalContent({
+      title: "정말 탈퇴 하시겠습니까?",
+      content: "모든 회원 정보가 삭제됩니다.",
+    });
+  };
+
   return (
     <MyModifyPageWrapper>
       <MyModifyPageTitle>
@@ -156,19 +169,26 @@ const MyModifyPage = () => {
       </MyModifyPageTitle>
       <MyModifyPageProfile>
         <ProfileImg>
-          <img src={image} alt="프로필 사진 미리보기" />
-          <div onClick={handleClickImg}>
+          {myProfileData.pic ? (
+            <img src={image} alt="프로필 사진" />
+          ) : (
+            <img
+              src={`${process.env.PUBLIC_URL}/assets/images/user_profile.png`}
+              alt="기본 프로필 사진"
+            />
+          )}
+          <UploadButton onClick={handleClickImg}>
             <img
               src={`${process.env.PUBLIC_URL}/assets/images/profile_camera.svg`}
               alt="업로드 버튼"
             />
-          </div>
-          <input
-            type="file"
-            ref={uploadRef}
-            style={{ display: "none" }}
-            onChange={handleImageChange}
-          />
+            <input
+              type="file"
+              ref={uploadRef}
+              style={{ display: "none" }}
+              onChange={handleImageChange}
+            />
+          </UploadButton>
         </ProfileImg>
         <MyNickName>{myProfileData.nickname}</MyNickName>
       </MyModifyPageProfile>
@@ -184,7 +204,6 @@ const MyModifyPage = () => {
       </MyModifyPageInfo>
       <MyModifyPageForm>
         <p>휴대폰 번호</p>
-
         <input
           type="number"
           name="tel"
@@ -193,7 +212,6 @@ const MyModifyPage = () => {
           onChange={e => handleChange(e)}
         />
         <p>닉네임</p>
-
         <div onClick={handleCheckAvailability}>
           <Button bttext="중복 확인"></Button>
         </div>
@@ -213,10 +231,6 @@ const MyModifyPage = () => {
           onChange={e => handleChange(e)}
         />
         <p>주소</p>
-
-        <div>
-          <Button bttext="우편번호 찾기" />
-        </div>
         <input
           type="text"
           name="address"
@@ -231,15 +245,15 @@ const MyModifyPage = () => {
             handleChangeUser();
           }}
         >
-          <Button bttext="회원정보 수정"></Button>
+          <Button bttext="회원 정보 수정"></Button>
         </div>
         <div onClick={handleDeleteUser}>
-          <Button bttext="회원탈퇴"></Button>
+          <Button bttext="회원 탈퇴"></Button>
         </div>
         {useResultModal && (
           <ResultModal
-            title="회원 탈퇴"
-            content="모든 회원 정보가 삭제됩니다."
+            title={resultModalContent.title}
+            content={resultModalContent.content}
             callFn={() => {
               closeModal();
             }}
