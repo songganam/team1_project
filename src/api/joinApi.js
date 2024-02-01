@@ -19,13 +19,23 @@ export const postJadd = async ({ product, successFn, failFn, errorFn }) => {
   }
 };
 
-export const nickNameCheck = async ({ iNickCheck }) => {
+export const nickNameCheck = async ({
+  iNickCheck,
+  successNickFn,
+  failNickFn,
+  errorNickFn,
+}) => {
   console.log("닉네임중복체크", iNickCheck);
   const nickname = iNickCheck;
   try {
     const response = await axios.post(`${signHost}/signup/${nickname}`);
-    console.log(response.data);
+    if (response.status === 200) {
+      successNickFn(response.data);
+    } else if (response.status === 400) {
+      console.log("dddd");
+      failNickFn("에러다.");
+    }
   } catch (error) {
-    console.log(error);
+    errorNickFn(error);
   }
 };

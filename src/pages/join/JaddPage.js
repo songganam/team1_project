@@ -28,6 +28,7 @@ import {
   JaddPwWrap,
   NicknameCheck,
 } from "./styles/JaddPageStyle";
+import useCustomHook from "../../components/meat/hooks/useCustomHook";
 
 const initState = {
   pic: "",
@@ -54,6 +55,15 @@ const JaddPage = () => {
 
   const [image, setImage] = useState(null); // 단일 이미지를 저장하는 상태를 사용합니다.
   const [selectedImage, setSelectedImage] = useState(null);
+  const {
+    isModal,
+    openModal,
+    closeModal,
+    isSelectModal,
+    openSelectModal,
+    confirmSelectModal,
+    cancelSelectModal,
+  } = useCustomHook();
 
   const uploadRef = useRef();
   const handleClickImg = () => {
@@ -119,36 +129,29 @@ const JaddPage = () => {
     // 글 등록 로직 실행
     handleClick(product);
     // 모달 닫기
-    setShowModal(false);
-  };
-
-  const closeModal = () => {
-    // 모달창 닫기
-    setAddResult(false);
-    if (popRedirect === true) {
-      // 목록으로 가기
-      moveToList({ page: 1 });
-    }
-  };
-  // 취소 버튼 클릭 시
-  const handleCancel = () => {
-    // 모달 닫기
-    setShowModal(false);
+    // setShowModal(false);
   };
 
   // 글 등록 버튼 클릭 핸들러
   const handleAddClick = () => {
-    // 모달 띄우기
-    setShowModal(true);
+    openSelectModal(
+      "회원가입",
+      "회원가입을 하시겠습니까?",
+      () => {
+        handleConfirm(product), confirmSelectModal();
+      },
+      cancelSelectModal,
+    );
   };
 
   const successFn = addResult => {
     console.log("글 등록 성공", addResult);
-    setFetching(false);
-    setAddResult(true);
-    setPopTitle("글 등록 성공");
-    setPopContent("글 등록에 성공하였습니다.");
-    setPopRedirect(true);
+    openModal("회원가입 완료", "회원가입이 완료 되었습니다.", closeModal);
+    // setFetching(false);
+    // setAddResult(true);
+    // setPopTitle("글 등록 성공");
+    // setPopContent("글 등록에 성공하였습니다.");
+    // setPopRedirect(true);
   };
   const failFn = addResult => {
     console.log("글 등록 실패", addResult);
@@ -199,51 +202,35 @@ const JaddPage = () => {
     }
   };
 
-  // const handleClickJadd = () => {
-  //   console.log("회원가입이 완료되었습니다.");
-  //   // console.log(todo.id);
-  //   // console.log(todo.password);
-
-  //   const email = product.email;
-  //   const upw = product.upw;
-
-  //   const checkUpw = product.checkUpw;
-  //   const name = product.name;
-  //   const nickname = product.nickname;
-  //   const gender = product.gender;
-  //   const address = product.address;
-  //   const inputValue = product.tel;
-
-  //   const iJadd = {
-  //     pic: "profile image",
-  //     dto: {
-  //       email: email,
-  //       upw: upw,
-  //       checkUpw: checkUpw,
-  //       name: name,
-  //       nickname: nickname,
-  //       birth: birthday,
-  //       gender: gender,
-  //       address: address,
-  //       tel: inputValue,
-  //     },
-  //   };
-  //   console.log(iJadd);
-  //   // console.log(todo.password);
-  //   // console.log(upw);
-  //   postJadd(iJadd);
-  // };
-
   // 닉네임 중복확인
   const [nickname, setNickname] = useState();
   const [isAvailable, setIsAvailable] = useState(null);
 
   // 이거는 나름 규칙으로 하면되죠
   // setIsAvailable(nickname.length >= 3);
+  // console.log("테스트", product.nickname);
   const handleCheckAvailability = iNickCheck => {
     // const iNickCheck = nickname;
-    console.log(nickname);
-    nickNameCheck({ iNickCheck: nickname });
+    console.log("니크네임", product.nickname);
+    nickNameCheck({
+      iNickCheck: product.nickname,
+      successNickFn,
+      failNickFn,
+      errorNickFn,
+    });
+  };
+
+  const successNickFn = () => {
+    openModal("닉네임 중복확인", "사용가능한 닉네임 입니다.", closeModal);
+  };
+  const failNickFn = () => {
+    console.log("페일");
+  };
+  const errorNickFn = error => {
+    if (error.response && error.response.status === 400) {
+      openModal("닉네임 중복확인", "중복된 닉네임입니다.", closeModal);
+    }
+    // console.log("에러임 ㄹㅇㅋㅋ");
   };
 
   // 휴대폰번호 하이픈 자동입력
@@ -270,7 +257,6 @@ const JaddPage = () => {
         matches[3] ? "-" + matches[3] : ""
       }`;
     }
-
     // 일치하지 않는 경우 그대로 반환
     return value;
   };
@@ -310,6 +296,21 @@ const JaddPage = () => {
   return (
     <JaddPageWrap>
       {fetching ? <Fetching /> : null}
+      {isModal.isOpen && (
+        <ResultModal
+          title={isModal.title}
+          content={isModal.content}
+          callFn={isModal.callFn}
+        />
+      )}
+      {isSelectModal.isOpen && (
+        <SelectedModal
+          title={isSelectModal.title}
+          content={isSelectModal.content}
+          confirmFn={isSelectModal.confirmFn}
+          cancelFn={isSelectModal.cancelFn}
+        />
+      )}
       <TitleHeader
         timg="https://picsum.photos/1920/215/?category=meat"
         tname="회원가입"
@@ -536,9 +537,7 @@ const JaddPage = () => {
               <DefaultBt
                 type="button"
                 className="Jadd-Join-Bt"
-                onClick={() => {
-                  handleAddClick();
-                }}
+                onClick={handleAddClick}
               >
                 회원가입
               </DefaultBt>
@@ -559,21 +558,6 @@ const JaddPage = () => {
           <Outlet />
         </div>
       </JaddPageMain>
-      {showModal ? (
-        <SelectedModal
-          title="글 등록 확인"
-          content="글을 등록하시겠습니까?"
-          confirmFn={() => handleConfirm(product)}
-          cancelFn={handleCancel}
-        />
-      ) : null}
-      {addResult ? (
-        <ResultModal
-          title={popTitle}
-          content={popContent}
-          callFn={closeModal}
-        />
-      ) : null}
     </JaddPageWrap>
   );
 };

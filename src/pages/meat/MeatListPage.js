@@ -114,20 +114,22 @@ const MeatListPage = () => {
           <span>해산물</span>
         </KindOfMeat>
       </KindOfMeatWrap>
-      <SearchWrap>
-        <SearchBar>
-          <SearchInput
-            placeholder="고깃집을 검색해보세요"
-            onChange={handleSearchChange}
-          />
-        </SearchBar>
-        <SearchIconWrap onClick={handleSearchSubmit}>
-          <img
-            src={process.env.PUBLIC_URL + `/assets/images/search.svg`}
-            alt=""
-          />
-        </SearchIconWrap>
-      </SearchWrap>
+      <form onSubmit={handleSearchSubmit}>
+        <SearchWrap>
+          <SearchBar>
+            <SearchInput
+              placeholder="고깃집을 검색해보세요"
+              onChange={handleSearchChange}
+            />
+          </SearchBar>
+          <SearchIconWrap onClick={handleSearchSubmit}>
+            <img
+              src={process.env.PUBLIC_URL + `/assets/images/search.svg`}
+              alt=""
+            />
+          </SearchIconWrap>
+        </SearchWrap>
+      </form>
       {/*     
       <ListFilter>
         <ListFilterItem

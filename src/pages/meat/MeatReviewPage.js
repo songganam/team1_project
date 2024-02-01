@@ -8,6 +8,7 @@ import ResultModal from "../../components/common/ResultModal";
 import SelectedModal from "../../components/common/SelectedModal";
 import useCustomMove from "../../hooks/useCustomMove";
 import {
+  ImageBox,
   ReviewCommentInput,
   ReviewCommentItem,
   ReviewCommentItemWrap,
@@ -17,6 +18,8 @@ import {
   ReviewContentWrap,
   ReviewFormWrap,
   ReviewImageWrap,
+  ReviewInput,
+  ReviewInputLabel,
   ReviewInputWrap,
   ReviewItem,
   ReviewItemWrap,
@@ -41,6 +44,8 @@ const MeatReviewPage = () => {
   const noCountStar =
     process.env.PUBLIC_URL + `/assets/images/star_no_count.svg`;
   const countStar = process.env.PUBLIC_URL + `/assets/images/star_count.svg`;
+  const mainImageSelect =
+    process.env.PUBLIC_URL + `/assets/images/main_image_select.png`;
 
   // ! 유저 정보 가져오기
   const location = useLocation();
@@ -296,6 +301,7 @@ const MeatReviewPage = () => {
                   height={375}
                   onChange={e => handleChange(e)}
                   value={product.review}
+                  maxLength={30}
                 />
               </ReviewInputWrap>
             </ReviewCommentItemWrap>
@@ -310,31 +316,43 @@ const MeatReviewPage = () => {
           <ReviewImageWrap>
             <div>
               <ReviewImageWrap>
-                <div onClick={handleClickImg}>
+                {/* <div onClick={handleClickImg}>
                   <Button bttext="사진추가" />
-                </div>
+                </div> */}
                 <div className="inputBox">
-                  <input
-                    type="file"
-                    ref={uploadRef}
-                    multiple={true}
-                    style={{ display: "none" }}
-                    onChange={handleFileChange}
-                  />
+                  <ReviewInputLabel
+                    htmlFor="main-page"
+                    onClick={handleClickImg}
+                    mainImageSelect={mainImageSelect}
+                  >
+                    <ReviewInput
+                      type="file"
+                      ref={uploadRef}
+                      multiple={true}
+                      style={{ display: "none" }}
+                      onChange={handleFileChange}
+                    />
+                  </ReviewInputLabel>
                   <div className="previewBox">
                     {images.map((src, index) => (
-                      <img
+                      <ImageBox
                         key={index}
-                        src={src}
-                        alt={`미리보기${index}`}
-                        style={{
-                          maxWidth: "60px",
-                          margin: "5px",
-                          cursor: "pointer",
-                          borderRadius: "5px",
-                        }}
-                        onClick={() => deleteImage(index)}
-                      />
+                        className={index === 0 ? "fristImage" : "subImage"}
+                      >
+                        <div className={index === 0 ? "" : "subImageItem"}>
+                          <img
+                            src={src}
+                            alt={`미리보기${index}`}
+                            // style={{
+                            //   maxWidth: "60px",
+                            //   margin: "5px",
+                            //   cursor: "pointer",
+                            //   borderRadius: "5px",
+                            // }}
+                            onClick={() => deleteImage(index)}
+                          />
+                        </div>
+                      </ImageBox>
                     ))}
                   </div>
                 </div>
