@@ -332,6 +332,7 @@ export const ReviewWrap = styled.div`
 `;
 export const ReviewTitle = styled.div`
   margin-top: 150px;
+  margin-bottom: 30px;
   position: relative;
   display: flex;
   width: 157px;
@@ -472,4 +473,47 @@ export const OverlayContent = styled.span`
 
 export const ReviewUserProfile = styled.div`
   gap: 5px;
+`;
+
+export const ImgStyle = styled.div`
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+`;
+export const LargeImgStyle = styled.div`
+  position: relative;
+  max-width: 480px;
+  min-width: 60px;
+  overflow: hidden;
+  box-shadow: 4px 4px 4px 0px rgba(0, 0, 0, 0.25);
+  img {
+    width: 380px;
+    height: 210px;
+    border-radius: 5px;
+  }
+`;
+export const ThumbnailStyle = styled.div`
+  position: relative;
+  max-width: 480px;
+  max-height: 1000px;
+  display: flex;
+  flex-wrap: wrap;
+  /* justify-content: space-between; */
+  align-items: center;
+  gap: 20px;
+  overflow: hidden;
+  img {
+    max-width: 80px;
+    max-height: 100px;
+    border-radius: 5px;
+    box-shadow: 4px 4px 4px 0px rgba(0, 0, 0, 0.25);
+    cursor: pointer;
+  }
+`;
+export const MoreBtnWrap = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 30px 0px;
 `;

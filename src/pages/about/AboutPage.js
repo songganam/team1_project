@@ -23,6 +23,7 @@ import { API_SERVER_HOST } from "../../api/config";
 import useCustomHook from "../../components/meat/hooks/useCustomHook";
 import useCustomLogin from "../../components/meat/hooks/useCustomLogin";
 
+
 const AboutPage = () => {
   const [aboutData, setAboutData] = useState([]);
   const [fetching, setFetching] = useState(false);
@@ -35,10 +36,12 @@ const AboutPage = () => {
   const baseApi = API_SERVER_HOST;
   const host = `${baseApi}/pic/shop/`;
   const comuhost = `${baseApi}/pic/community/`;
+
   const { isModal, openModal, closeModal, moveToRead, moveToLogin } =
     useCustomHook();
   const { isLogin } = useCustomLogin();
   const navigate = useNavigate()
+
 
   const successFn = result => {
     setAboutData(result);
@@ -78,6 +81,13 @@ const AboutPage = () => {
 
   return (
     <Layout>
+      {isModal.isOpen && (
+        <ResultModal
+          title={isModal.title}
+          content={isModal.content}
+          callFn={isModal.callFn}
+        />
+      )}
       {fetching ? <Fetching /> : null}
       {aboutData.gogi && aboutData.gogi.length > 0 && (
         <AboutPageWrap>
@@ -133,7 +143,9 @@ const AboutPage = () => {
                     {aboutData.gogi[1].menu}. {aboutData.gogi[1].price}
                   </div>
                   <AboutCardButton>
+
                            <DefaultBt className="InfoButton" onClick={e => handleInfoClick(aboutData.gogi[1].ishop) }>상세보기</DefaultBt>
+
                     <DefaultBt
                       className="BookButton"
                       onClick={e =>

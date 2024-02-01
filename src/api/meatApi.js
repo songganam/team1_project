@@ -85,7 +85,7 @@ export const postReview = async ({ product, successFn, failFn, errorFn }) => {
 
   try {
     const header = { headers: { "Content-Type": "multipart/form-data" } };
-    const res = await authAxios.post(`${host}/shop`, product, header);
+    const res = await authAxios.post(`${host}/review`, product, header);
     const status = res.status.toString();
     if (status.charAt(0) === "2") {
       successFn(res.data);

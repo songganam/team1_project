@@ -208,7 +208,7 @@ const App = () => {
           {/* 고깃집찾기 페이지 첫 화면 */}
           <Route path="" element={<Navigate to="list" />}></Route>
           <Route
-            path="review/:ishop"
+            path="review/:ireser"
             element={
               <Suspense fallback={<Loading />}>
                 <LazyGbookPage />

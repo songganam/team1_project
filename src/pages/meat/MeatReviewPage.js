@@ -1,6 +1,6 @@
 import moment from "moment";
 import React, { useRef, useState } from "react";
-import { useParams } from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import { postReview } from "../../api/meatApi";
 import Button from "../../components/button/Button";
 import Fetching from "../../components/common/Fetching";
@@ -25,19 +25,15 @@ import {
   ReviewSubmitBtn,
   ReviewTitle,
   ReviewWrap,
-  ReviewWrapper
+  ReviewWrapper,
 } from "./styles/MeatReviewStyle";
 
 const initState = {
   pics: [],
-  ishop: "",
+  checkShop: 0,
+  ireser: "",
   star: 1,
   review: "",
-};
-
-// 유저 정보 초기값
-const initProfile = {
-  nickname: "",
 };
 
 const MeatReviewPage = () => {
@@ -45,12 +41,14 @@ const MeatReviewPage = () => {
   const noCountStar =
     process.env.PUBLIC_URL + `/assets/images/star_no_count.svg`;
   const countStar = process.env.PUBLIC_URL + `/assets/images/star_count.svg`;
-  // 유저 정보 가져오기
 
-  // ! Store Parameter
-  const { ishop } = useParams();
+  // ! 유저 정보 가져오기
+  const location = useLocation();
   const queryParams = new URLSearchParams(location.search);
+  const { ireser } = useParams();
+  const checkShop = queryParams.get("checkShop");
   const name = queryParams.get("name");
+  const ishop = queryParams.get("ishop");
 
   // ! Call date
   const createdate = new Date();
@@ -121,7 +119,9 @@ const MeatReviewPage = () => {
     const dto = new Blob(
       [
         JSON.stringify({
+          ireser: ireser,
           ishop: ishop,
+          checkShop: checkShop,
           star: product.star,
           review: product.review,
         }),
@@ -190,6 +190,11 @@ const MeatReviewPage = () => {
   const handleAddClick = () => {
     // 모달 띄우기
     setShowModal(true);
+
+    console.log("!n", name);
+    console.log("!s", ishop);
+    console.log("!r", ireser);
+    console.log("!c", checkShop);
   };
 
   const successFn = addResult => {
