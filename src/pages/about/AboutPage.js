@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { useParams } from "react-router";
+import { useNavigate, useParams } from "react-router";
 import { getAbout } from "../../api/aboutApi";
 import { DefaultBt } from "../../components/button/styles/ButtonStyle";
 import Fetching from "../../components/common/Fetching";
@@ -20,6 +20,9 @@ import {
   MainGogiShop,
 } from "./styles/AboutPageStyle";
 import { API_SERVER_HOST } from "../../api/config";
+import useCustomHook from "../../components/meat/hooks/useCustomHook";
+import useCustomLogin from "../../components/meat/hooks/useCustomLogin";
+import ResultModal from "../../components/common/ResultModal";
 
 const AboutPage = () => {
   const [aboutData, setAboutData] = useState([]);
@@ -33,6 +36,30 @@ const AboutPage = () => {
   const baseApi = API_SERVER_HOST;
   const host = `${baseApi}/pic/shop/`;
   const comuhost = `${baseApi}/pic/community/`;
+  const { isLogin } = useCustomLogin();
+  const {
+    isModal,
+    openModal,
+    closeModal,
+    moveToRead,
+    moveToLogin,
+    moveToARead,
+  } = useCustomHook();
+  const navigate = useNavigate();
+  const handleDetailClick = () => {
+    navigate();
+  };
+  const handleReserClick = (ishop, name) => {
+    if (isLogin) {
+      navigate(`/meat/reservation/${ishop}`, {
+        state: {
+          storeName: name,
+        },
+      });
+    } else {
+      openModal("로그인 필요", "로그인이 필요한 서비스입니다.", moveToLogin);
+    }
+  };
 
   const successFn = result => {
     setAboutData(result);
@@ -52,6 +79,13 @@ const AboutPage = () => {
 
   return (
     <Layout>
+      {isModal.isOpen && (
+        <ResultModal
+          title={isModal.title}
+          content={isModal.content}
+          callFn={isModal.callFn}
+        />
+      )}
       {fetching ? <Fetching /> : null}
       {aboutData.gogi && aboutData.gogi.length > 0 && (
         <AboutPageWrap>
@@ -97,8 +131,23 @@ const AboutPage = () => {
                     {aboutData.gogi[1].menu}. {aboutData.gogi[1].price}
                   </div>
                   <AboutCardButton>
-                    <DefaultBt className="InfoButton">상세보기</DefaultBt>
-                    <DefaultBt className="BookButton">예약하기</DefaultBt>
+                    <DefaultBt
+                      className="InfoButton"
+                      onClick={() => moveToARead(aboutData.gogi[1].ishop)}
+                    >
+                      상세보기
+                    </DefaultBt>
+                    <DefaultBt
+                      className="BookButton"
+                      onClick={e =>
+                        handleReserClick(
+                          aboutData.gogi[1].ishop,
+                          aboutData.gogi[1].name,
+                        )
+                      }
+                    >
+                      예약하기
+                    </DefaultBt>
                   </AboutCardButton>
                 </AboutCardWrap>
               </GogishopCard>

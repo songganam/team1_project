@@ -202,7 +202,6 @@ export const putUserInfo = async ({
       errorFn("수정 서버오류", error.res.data);
     } else {
       errorFn("수정 서버오류");
-
     }
   }
 };

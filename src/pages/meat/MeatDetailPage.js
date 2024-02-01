@@ -10,6 +10,7 @@ import ResultModal from "../../components/common/ResultModal";
 import useCustomHook from "../../components/meat/hooks/useCustomHook";
 import useCustomLogin from "../../components/meat/hooks/useCustomLogin";
 import {
+  ImgStyle,
   InfoContent,
   InfoContentWrap,
   InfoDesc,
@@ -19,6 +20,7 @@ import {
   InfoImageWrap,
   InfoName,
   InfoWrap,
+  LargeImgStyle,
   MapApiWrapper,
   MenuCardContent,
   MenuCardContentItem,
@@ -29,6 +31,7 @@ import {
   MenuContentWrap,
   MenuTitle,
   MenuWrap,
+  MoreBtnWrap,
   OverlayContent,
   OverlayItem,
   OverlayWrap,
@@ -46,8 +49,10 @@ import {
   ReviewTitle,
   ReviewUserProfile,
   ReviewWrap,
+  ThumbnailStyle,
 } from "./styles/MeatDetailStyle";
 import { API_SERVER_HOST } from "../../api/config";
+import Button from "../../components/button/Button";
 
 const MeatDetailPage = () => {
   const navigate = useNavigate();
@@ -88,6 +93,11 @@ const MeatDetailPage = () => {
   // console.log(ishop);
   const storeNum = ishop;
 
+  const [visualReview, setVisualReview] = useState(3);
+  const handleMoreReview = () => {
+    setVisualReview(prevCount => prevCount + 3);
+  };
+
   // ! BookMark 선택
   const handleBookmarkClick = e => {
     e.stopPropagation();
@@ -125,7 +135,7 @@ const MeatDetailPage = () => {
   // ! KAKAOMAP API X,Y value
   const [draggable, setDraggable] = useState(true);
   const [zoomable, setZoomable] = useState(true);
-  console.log(storeInfo.pics);
+
   return (
     <div>
       {isModal.isOpen && (
@@ -201,7 +211,7 @@ const MeatDetailPage = () => {
           </InfoContentWrap>
         </InfoWrap>
 
-        {/* 
+        {/*
     // ! 가게 메뉴
   */}
         <MenuWrap>
@@ -220,7 +230,7 @@ const MeatDetailPage = () => {
                       alt=""
                     />
                   </MenuCardImageWrap>
-                  {/* 
+                  {/*
 // ! 가게 정보
 */}
                   <MenuCardContentWrap>
@@ -238,11 +248,11 @@ const MeatDetailPage = () => {
           </MenuContentWrap>
         </MenuWrap>
 
-        {/* 
+        {/*
 // ! KAKAO MAP API
 */}
         {/*
-//  ! 가게 
+//  ! 가게
 */}
         {storeInfo.x && storeInfo.y && (
           <MapApiWrapper>
@@ -293,7 +303,7 @@ const MeatDetailPage = () => {
           </MapApiWrapper>
         )}
 
-        {/* 
+        {/*
 // ! NOTICE AREA
 */}
         {/* <NoticeWrap>
@@ -325,52 +335,63 @@ const MeatDetailPage = () => {
 </NoticeCardWrap>
 </NoticeWrap> */}
 
-        {/* 
+        {/*
 // ! REVIEW AREA
 */}
 
-        {/* 
+        {/*
 ireview
-: 
+:
 19
 nickname
-: 
+:
 "똥퍼아저씨"
 pic
-: 
+:
 ['e0c9f247-ced5-42ed-9ce2-1e870d8c94eb.jpg']
 review
-: 
+:
 "아아아아ㅏ"
 star
-: 
+:
 1 */}
-
+        {/* 고기집 리뷰사진: /pic/shop/가게pk/reveiw/리뷰pk/사진이름 */}
         <ReviewWrap>
           <ReviewTitle>
             <span>리 뷰</span>
           </ReviewTitle>
           <ReviewContentWrap>
             {storeInfo?.reviews &&
-              storeInfo?.reviews.map((review, index) => (
+              storeInfo?.reviews.slice(0, visualReview).map((review, index) => (
                 <ReviewItemWrap key={index}>
                   {/* Image */}
-                  <ReivewImageWrap>
-                    {/* main image */}
-                    <ReviewMainImage>
-                      <img
-                        src="https://picsum.photos/370/350/?category=meat"
-                        alt=""
-                      />
-                    </ReviewMainImage>
-                    {/* sub image */}
-                    <ReviewSubImage>
-                      <img
-                        src="https://picsum.photos/370/350/?category=meat"
-                        alt=""
-                      />
-                    </ReviewSubImage>
-                  </ReivewImageWrap>
+                  <ImgStyle>
+                    <LargeImgStyle>
+                      {review.pic ? (
+                        <img
+                          src={`${baseApi}/pic/shop/${storeInfo.ishop}/review/${review.ireview}/${review.pic[0]}`}
+                          alt="Large image"
+                        />
+                      ) : null}
+                    </LargeImgStyle>
+                    <ThumbnailStyle>
+                      {review.pic.slice(1, 5).map(
+                        (pic, index) =>
+                          pic && (
+                            <div className="thumbnail" key={index}>
+                              <img
+                                src={`${baseApi}/pic/shop/${
+                                  storeInfo.ishop
+                                }/review/${review.ireview}/${
+                                  review.pic[`${index}`]
+                                }`}
+                                alt={`img_${index + 1}`}
+                              />
+                            </div>
+                          ),
+                      )}
+                    </ThumbnailStyle>
+                  </ImgStyle>
                   <ReviewContentmWrap>
                     <ReviewProfileWrap>
                       <ReviewProfileImage>
@@ -393,6 +414,9 @@ star
                 </ReviewItemWrap>
               ))}
           </ReviewContentWrap>
+          <MoreBtnWrap>
+            <Button onClick={() => handleMoreReview} bttext={"더보기"} />
+          </MoreBtnWrap>
         </ReviewWrap>
       </ReadWrap>
     </div>

@@ -136,14 +136,20 @@ const MyBookCard = props => {
             </MyBookCardInfo>
             <MyBookCardBookButton>
               <div
-                onClick={e => moveToReview(myBookList.ishop, myBookList.name)}
+                onClick={e =>
+                  moveToReview(
+                    myBookList.ireser,
+                    myBookList.checkShop,
+                    myBookList.name,
+                    myBookList.ishop,
+                  )
+                }
                 style={{ display: myBookList.confirm === 2 ? "block" : "none" }}
               >
                 <Button bttext="리뷰작성"></Button>
               </div>
               <div
                 onClick={e =>
-
                   myBookList.checkShop === 0
                     ? moveToReserChange(
                         myBookList.ireser,
@@ -160,7 +166,6 @@ const MyBookCard = props => {
                         myBookList.request,
                       )
                     : null
-
                 }
                 style={{ display: myBookList.confirm !== 2 ? "block" : "none" }}
               >

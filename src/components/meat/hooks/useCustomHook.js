@@ -61,6 +61,7 @@ const useCustomHook = () => {
   const moveToRead = ishop => {
     navigate({ pathname: `../detail/${ishop}`, search: defaultQueryString });
   };
+
   // ! Read Page hook
   const moveToReser = ishop => {
     navigate({
@@ -69,11 +70,11 @@ const useCustomHook = () => {
     });
   };
 
-  const moveToReview = (ishop, name) => {
+  const moveToReview = (ireser, checkShop, name, ishop) => {
     console.log(name);
     navigate({
-      pathname: `../../meat/review/${ishop}`,
-      search: `name=${name}&${defaultQueryString}`,
+      pathname: `../../meat/review/${ireser}`,
+      search: `name=${name}&checkShop=${checkShop}&ishop=${ishop}&${defaultQueryString}`,
     });
   };
 
