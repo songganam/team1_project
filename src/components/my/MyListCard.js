@@ -40,8 +40,12 @@ const MyListCard = props => {
   };
 
   // 상세 페이지 이동
-  const handleMoveDetail = e => {
-    moveToDetail(e);
+  const handleMoveDetail = (ishop, imeat) => {
+    const path =
+      imeat === 0
+        ? `../../butcher/detail/${ishop}`
+        : `../../meat/detail/${ishop}`;
+    moveToDetail(path);
   };
 
   // 더보기 (페이지)
@@ -56,7 +60,7 @@ const MyListCard = props => {
       {myList.map((myList, index) => (
         <MyListCardWrapper
           key={index}
-          onClick={e => moveToDetail(myList.ishop)}
+          onClick={() => handleMoveDetail(myList.ishop, myList.imeat)}
         >
           <MyListCardVisual>
             <img

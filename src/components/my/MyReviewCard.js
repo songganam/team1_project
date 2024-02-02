@@ -5,7 +5,7 @@ import Button from "../../components/button/Button";
 import useModal from "../../hooks/useModal";
 import Bookmark from "../bookmark/Bookmark";
 import CountingStar from "../common/CountingStar";
-import ResultModal from "../common/ResultModal";
+import SelectedModal from "../common/SelectedModal";
 import useCustomMy from "./hooks/useCustomMy";
 import {
   MyBookCardBookButton,
@@ -49,18 +49,34 @@ const MyReviewCard = props => {
   };
 
   // 리뷰 삭제 (DELETE)
-  const handledeleteClick = (checkShop, ireview) => {
+  const handledeleteReview = (checkShop, ireview) => {
     const deleteForm = {
       checkShop: checkShop,
       ireview: ireview,
     };
-    // 리뷰 삭제 성공 시 리스트 업데이트
-    const updatedMyReviewList = myReviewList.filter(
-      review => review.ireview !== ireview,
-    );
-    setMyReviewList(updatedMyReviewList);
-    deleteMyReview({ deleteForm, successFn, failFn, errorFn });
+    // 삭제 전 확인 모달창
+    setReviewToDelete(deleteForm);
+    openModal();
     console.log(deleteForm);
+  };
+
+  const handleConfirmDelete = () => {
+    if (reviewToDelete) {
+      const { checkShop, ireview } = reviewToDelete;
+      // 리뷰 삭제 성공 시 리스트 업데이트
+      const updatedMyReviewList = myReviewList.filter(
+        review => review.ireview !== ireview,
+      );
+      setMyReviewList(updatedMyReviewList);
+      deleteMyReview({
+        deleteForm: reviewToDelete,
+        successFn,
+        failFn,
+        errorFn,
+      });
+      console.log(reviewToDelete);
+      closeModal();
+    }
   };
 
   const handleMyReviewView = () => {
@@ -108,7 +124,7 @@ const MyReviewCard = props => {
             <MyBookCardBookButton>
               <div
                 onClick={e =>
-                  handledeleteClick(
+                  handledeleteReview(
                     myReviewList.checkShop,
                     myReviewList.ireview,
                   )
@@ -118,12 +134,11 @@ const MyReviewCard = props => {
               </div>
             </MyBookCardBookButton>
             {useResultModal && (
-              <ResultModal
+              <SelectedModal
                 title="리뷰 삭제"
                 content="작성한 리뷰를 삭제하시겠습니까?"
-                callFn={() => {
-                  closeModal();
-                }}
+                confirmFn={handleConfirmDelete}
+                cancelFn={closeModal}
               />
             )}
           </MyReviewCardContent>

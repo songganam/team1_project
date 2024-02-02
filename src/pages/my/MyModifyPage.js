@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
+
 import { useSelector, useDispatch } from "react-redux";
 import {
   API_SERVER_HOST,
@@ -6,6 +7,7 @@ import {
   nickNameCheck,
   putUserInfo,
 } from "../../api/MyApi";
+
 import Button from "../../components/button/Button";
 import ResultModal from "../../components/common/ResultModal";
 import useModal from "../../hooks/useModal";
@@ -16,7 +18,6 @@ import {
   MyModifyPageProfile,
   MyModifyPageTitle,
   MyModifyPageWrapper,
-  MyMoidfyNicknameCheck,
   MyNickName,
   ProfileImg,
   UploadButton,
@@ -42,9 +43,18 @@ const initialProfile = {
 const MyModifyPage = () => {
   const authState = useSelector(state => state.authSlice);
 
+  // 유저 데이터
   const [myProfileData, setMyProfileData] = useState(initialProfile);
+  // 이미지
   const [selectedImage, setSelectedImage] = useState(null);
+  // 모달창
   const [resultModalContent, setResultModalContent] = useState();
+  // 입력값 필드 검증
+  const [telError, setTelError] = useState("");
+  const [nicknameError, setNicknameError] = useState("");
+  const [addressError, setAddressError] = useState("");
+  // 휴대폰 번호 하이픈 자동 추가
+  const [phoneNumber, setPhoneNumber] = useState("");
 
   // 모달창
   const { useResultModal, openModal, closeModal } = useModal();
@@ -100,29 +110,81 @@ const MyModifyPage = () => {
     setMyProfileData({ ...myProfileData });
   };
 
+  // 입력 필드 값 검증
+  const validFields = () => {
+    let isValid = true;
+
+    // 휴대폰 번호 검증
+    if (!myProfileData.tel.trim()) {
+      setTelError("휴대폰 번호는 필수 항목입니다.");
+      isValid = false;
+    } else {
+      setTelError("");
+    }
+
+    // 닉네임 검증
+    if (!myProfileData.nickname.trim()) {
+      setNicknameError("닉네임은 필수 항목입니다.");
+      isValid = false;
+    } else {
+      setNicknameError("");
+    }
+
+    // 주소 검증
+    if (!myProfileData.address.trim()) {
+      setAddressError("주소는 필수 항목입니다.");
+      isValid = false;
+    } else {
+      setAddressError("");
+    }
+
+    return isValid;
+  };
+
+  // 휴대폰 번호 하이픈 자동 입력
+  const handleNumberChange = e => {
+    const inputValue = e.target.value.replace(/\D/g, "");
+    const formattedPhoneNumber = formatPhoneNumber(inputValue);
+    setPhoneNumber(formattedPhoneNumber);
+  };
+  const formatPhoneNumber = value => {
+    const regex = /^(\d{3})(\d{0,4})(\d{0,4})$/;
+    const matches = value.match(regex);
+
+    if (matches) {
+      return `${matches[1]}${matches[2] ? "-" + matches[2] : ""}${
+        matches[3] ? "-" + matches[3] : ""
+      }`;
+    }
+    return value;
+  };
+
   // 유저 정보 수정 (PUT)
   const handleChangeUser = () => {
-    const formData = new FormData();
-    const dto = new Blob(
-      [
-        JSON.stringify({
-          nickname: myProfileData.nickname,
-          address: myProfileData.address,
-          tel: myProfileData.tel,
-        }),
-      ],
-      { type: "application/json" },
-    );
+    if (validFields()) {
+      const formData = new FormData();
+      const dto = new Blob(
+        [
+          JSON.stringify({
+            nickname: myProfileData.nickname,
+            address: myProfileData.address,
+            tel: myProfileData.tel,
+          }),
+        ],
+        { type: "application/json" },
+      );
 
-    formData.append("dto", dto);
-    formData.append("pic", selectedImage);
+      formData.append("dto", dto);
+      formData.append("pic", selectedImage);
 
-    putUserInfo({
-      putUserForm: formData,
-      successFn: successPut,
-      failFn: failPut,
-      errorFn: errorPut,
-    });
+      putUserInfo({
+        putUserForm: formData,
+        successFn: successPut,
+        otherFailFn: failPutOther,
+        nicknameErrorFn: failPutNickname,
+        errorFn: errorPut,
+      });
+    }
   };
 
   const successPut = putResult => {
@@ -136,26 +198,23 @@ const MyModifyPage = () => {
     dispatch(setRefresh());
     console.log("리프래시가즈아");
   };
-  const failPut = putResult => {
-    console.log("수정 실패", putResult);
+
+  const failPutOther = errorMessage => {
+    console.log("수정 실패", errorMessage);
   };
+
+  // 닉네임 중복 검토
+  const failPutNickname = errorMessage => {
+    console.log("닉네임 중복 오류", errorMessage);
+    openModal();
+    setResultModalContent({
+      title: "이미 사용 중인 닉네임 입니다.",
+      content: "다른 닉네임을 입력해주세요.",
+    });
+  };
+
   const errorPut = putResult => {
     console.log("수정 서버오류", putResult);
-  };
-
-  // 닉네임 중복 확인
-  const [nickname, setNickname] = useState();
-  const [isAvailable, setIsAvailable] = useState(null);
-
-  const handleCheckAvailability = async e => {
-    e.preventDefault();
-    try {
-      const response = await nickNameCheck({ iNickCheck: nickname });
-      const isAvailable = response.data;
-      setIsAvailable(isAvailable ? 1 : 0);
-    } catch (error) {
-      console.error("닉네임 중복 확인 오류", error);
-    }
   };
 
   // 회원 탈퇴
@@ -209,25 +268,27 @@ const MyModifyPage = () => {
       </MyModifyPageInfo>
       <MyModifyPageForm>
         <p>휴대폰 번호</p>
+        {telError && <span style={{ color: "red" }}>{telError}</span>}
         <input
-          type="number"
+          type="text"
           name="tel"
-          value={myProfileData.tel}
+          value={myProfileData.tel.replace(/(\d{3})(\d{4})(\d{3})/, "$1-$2-$3")}
+          className="JaddNumber"
           placeholder="변경할 휴대폰 번호를 입력하세요."
-          onChange={e => handleChange(e)}
+          onChange={e => {
+            let input = e.target.value.replace(/[^0-9]/g, "");
+            let event = {
+              target: {
+                name: e.target.name,
+                value: input,
+              },
+            };
+            handleChange(event);
+          }}
+          maxLength="13"
         />
         <p>닉네임</p>
-        <div onClick={handleCheckAvailability}>
-          <Button bttext="중복 확인"></Button>
-        </div>
-        <MyMoidfyNicknameCheck>
-          {isAvailable === 1 && (
-            <p style={{ color: "green" }}>사용 가능한 닉네임입니다.</p>
-          )}
-          {isAvailable === 0 && (
-            <p style={{ color: "red" }}>이미 사용 중인 닉네임입니다.</p>
-          )}
-        </MyMoidfyNicknameCheck>
+        {nicknameError && <span style={{ color: "red" }}>{nicknameError}</span>}
         <input
           type="text"
           name="nickname"
@@ -236,6 +297,7 @@ const MyModifyPage = () => {
           onChange={e => handleChange(e)}
         />
         <p>주소</p>
+        {addressError && <span style={{ color: "red" }}>{addressError}</span>}
         <input
           type="text"
           name="address"

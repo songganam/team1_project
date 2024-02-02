@@ -51,6 +51,7 @@ const JaddPage = () => {
 
   const handleChange = e => {
     setProduct({ ...product, [e.target.name]: e.target.value });
+    setMessage(""); // (비밀번호 확인 메시지) 사용자가 다시 입력할 때 메시지 초기화
   };
 
   const [image, setImage] = useState(null); // 단일 이미지를 저장하는 상태를 사용합니다.
@@ -117,19 +118,72 @@ const JaddPage = () => {
 
     postJadd({ product: formData, successFn, failFn, errorFn });
   };
+
+  // 모달창
+  // 회원 가입 시 예외처리 결과 상태 업데이트
   const [result, setResult] = useState(false);
+  // 회원가입 시 모달창 관련
   const [addResult, setAddResult] = useState(false);
+  // resultModal 관련
   const [popTitle, setPopTitle] = useState("");
   const [popContent, setPopContent] = useState(false);
+  // 페이지 이동 관련
   const [popRedirect, setPopRedirect] = useState(false);
+  // selectedModal 띄우기 상태 업데이트
   const [showModal, setShowModal] = useState(false);
 
   // 확인 버튼 클릭 시
   const handleConfirm = product => {
     // 글 등록 로직 실행
-    handleClick(product);
-    // 모달 닫기
-    // setShowModal(false);
+    if (product.email === "") {
+      openModal("이메일 필수 입력", "이메일을 입력해주세요.", closeModal);
+    } else if (product.upw === null) {
+      openModal("비밀번호 4~8자 이내", "비밀번호를 입력해주세요.", closeModal); // c,k
+    } else if (product.checkUpw === null) {
+      openModal(
+        "비밀번호 확인 필수 입력",
+        "비밀번호를 확인해주세요.",
+        closeModal,
+      ); // ck
+    } else if (product.name === "") {
+      openModal("이름 필수 입력", "이름을 입력해주세요.", closeModal);
+    } else if (product.nickname === "") {
+      openModal("닉네임 3~6 이내", "닉네임을 입력해주세요.", closeModal);
+    } else if (product.birth === "") {
+      openModal("생년월일 필수 입력", "생년월일 입력해주세요.", closeModal);
+    } else if (product.gender === "") {
+      openModal("성별 필수 선택", "성별을 선택해주세요.", closeModal);
+    } else if (product.address === "") {
+      openModal("주소 필수 입력", "주소를 입력해주세요.", closeModal);
+    } else if (product.tel === "") {
+      openModal(
+        "휴대폰 번호 필수 입력",
+        "휴대폰 번호를 입력해주세요.",
+        closeModal,
+      );
+    } else {
+      handleClick(product);
+    }
+  };
+
+  const { moveToModify } = useCustomMove();
+
+  // 회원가입 등록 시 resultModal 닫기 callFn
+  const closeJaddModal = () => {
+    // 모달창 닫기
+    setAddResult(false);
+    if (popRedirect === true) {
+      // 메인 페이지로 가기
+      moveToModify({});
+    }
+  };
+  // 회원가입 등록 시 예외처리용 resultModal 닫기 callFn
+  const closeException = () => {
+    setResult(false);
+  };
+  // selectedModal 취소 버튼 클릭 시
+  const handleCancel = () => {
+    setShowModal(false);
   };
 
   // 글 등록 버튼 클릭 핸들러
@@ -170,16 +224,17 @@ const JaddPage = () => {
     setPopRedirect(false);
   };
 
-  const { moveToList } = useCustomMove();
+  // 비밀번호 확인 메시지
+  const [message, setMessage] = useState("");
+  const [messageColor, setMessageColor] = useState("");
 
-  // 비밀번호 확인
-  const passCheckForm = () => {
-    const upw = product.upw;
-    const checkUpw = product.checkUpw;
-    if (upw === checkUpw) {
-      return <div>비밀번호가 일치합니다.</div>;
+  const handleValiation = () => {
+    if (product.upw === product.checkUpw) {
+      setMessage("비밀번호가 일치합니다.");
+      setMessageColor("green");
     } else {
-      return <div>비밀번호가 일치하지 않습니다.</div>;
+      setMessage("비밀번호가 일치하지 않습니다.");
+      setMessageColor("red");
     }
   };
 
@@ -203,36 +258,36 @@ const JaddPage = () => {
   };
 
   // 닉네임 중복확인
-  const [nickname, setNickname] = useState();
-  const [isAvailable, setIsAvailable] = useState(null);
+// 닉네임 중복확인
+const [nickname, setNickname] = useState();
+const [isAvailable, setIsAvailable] = useState(null);
 
-  // 이거는 나름 규칙으로 하면되죠
-  // setIsAvailable(nickname.length >= 3);
-  // console.log("테스트", product.nickname);
-  const handleCheckAvailability = iNickCheck => {
-    // const iNickCheck = nickname;
-    console.log("니크네임", product.nickname);
-    nickNameCheck({
-      iNickCheck: product.nickname,
-      successNickFn,
-      failNickFn,
-      errorNickFn,
-    });
-  };
+// 이거는 나름 규칙으로 하면되죠
+// setIsAvailable(nickname.length >= 3);
+// console.log("테스트", product.nickname);
+const handleCheckAvailability = iNickCheck => {
+  // const iNickCheck = nickname;
+  console.log("니크네임", product.nickname);
+  nickNameCheck({
+    iNickCheck: product.nickname,
+    successNickFn,
+    failNickFn,
+    errorNickFn,
+  });
+};
 
-  const successNickFn = () => {
-    openModal("닉네임 중복확인", "사용가능한 닉네임 입니다.", closeModal);
-  };
-  const failNickFn = () => {
-    console.log("페일");
-  };
-  const errorNickFn = error => {
-    if (error.response && error.response.status === 400) {
-      openModal("닉네임 중복확인", "중복된 닉네임입니다.", closeModal);
-    }
-    // console.log("에러임 ㄹㅇㅋㅋ");
-  };
-
+const successNickFn = () => {
+  openModal("닉네임 중복확인", "사용가능한 닉네임 입니다.", closeModal);
+};
+const failNickFn = () => {
+  console.log("페일");
+};
+const errorNickFn = error => {
+  if (error.response && error.response.status === 400) {
+    openModal("닉네임 중복확인", "중복된 닉네임입니다.", closeModal);
+  }
+  // console.log("에러임 ㄹㅇㅋㅋ");
+};
   // 휴대폰번호 하이픈 자동입력
   const [phoneNumber, setPhoneNumber] = useState("");
 
@@ -293,6 +348,11 @@ const JaddPage = () => {
   const handleClickCancel = () => {
     navigate("/");
   };
+
+  const callModal = () => {
+    openModal("테스트", "테스트입니다", closeModal);
+  };
+
   return (
     <JaddPageWrap>
       {fetching ? <Fetching /> : null}
@@ -318,39 +378,39 @@ const JaddPage = () => {
       ></TitleHeader>
       <JaddPageMain>
         <JaddPageImage>
-          <div>
-            <div className="JaddPage-img-button" onClick={handleClickImg}>
-              <div className="inputBox">
-                <input
-                  type="file"
-                  ref={uploadRef}
-                  style={{ display: "none" }}
-                  onChange={handleFileChange}
-                />
-                <div className="previewBox">
-                  <ImgSelectBtn />
-                  {image && (
-                    <img
-                      src={image}
-                      alt={`미리보기`}
-                      style={{
-                        width: "280px",
-                        height: "280px",
-                        cursor: "pointer",
-                        borderRadius: "250px",
-                      }}
-                      onClick={deleteImage}
-                    />
-                  )}
-                </div>
-              </div>
+          {/* 프로필 사진 미리 보기 */}
+          <div className="previewBox">
+            {image ? (
+              <img src={image} alt="프로필미리보기" />
+            ) : (
+              <img
+                src={`${process.env.PUBLIC_URL}/assets/images/user_profile.png`}
+                alt={`미리보기`}
+                onClick={deleteImage}
+              />
+            )}
+          </div>
+
+          {/* 파일 업로드 버튼 */}
+          <div className="uploadBox" onClick={handleClickImg}>
+            <div>
+              <img
+                src={`${process.env.PUBLIC_URL}/assets/images/profile_camera.svg`}
+                alt="업로드 버튼"
+              />
+              <input
+                type="file"
+                ref={uploadRef}
+                style={{ display: "none" }}
+                onChange={handleFileChange}
+              />
             </div>
           </div>
 
           {/* 커스텀 스타일이 적용된 버튼 */}
           {/* <button
             className="JaddPage-img-button "
-            // onClick={handleButtonClick}
+
           ></button> */}
         </JaddPageImage>
         <JaddPageInfo>
@@ -391,7 +451,7 @@ const JaddPage = () => {
                   onChange={e => handleChange(e)}
                   maxLength="8"
                   minLength="4"
-                ></input>
+                />
               </JaddPwWrap>
               <br />
               <JaddMorePwWrap>
@@ -405,15 +465,21 @@ const JaddPage = () => {
                   onChange={e => handleChange(e)}
                   maxLength="8"
                   minLength="4"
-                ></input>
-                <div className="passCheck">{passCheckForm()}</div>
-                <div>
-                  {/* {passCheckError && (
-                    <label style={{ color: "red" }}>
-                      비밀번호가 일치하지 않습니다.
-                    </label>
-                  )} */}
-                </div>
+                  onBlur={handleValiation}
+                />
+                {message !== "" &&
+                  product.upw !== "" &&
+                  product.checkUpw !== "" && (
+                    <div
+                      style={{
+                        color: messageColor,
+                        fontSize: "14px",
+                        paddingTop: "5px",
+                      }}
+                    >
+                      {message}
+                    </div>
+                  )}
               </JaddMorePwWrap>
             </form>
             <br />
@@ -466,17 +532,22 @@ const JaddPage = () => {
                 </DefaultBt>
               </JaddNickNameInner>
               <NicknameCheck>
-                {isAvailable === true && (
-                  <p style={{ color: "green" }}>사용 가능한 닉네임입니다.</p>
+                {isAvailable === 1 && (
+                  <p style={{ color: "green", paddingTop: "5px" }}>
+                    사용 가능한 닉네임입니다.
+                  </p>
                 )}
-                {isAvailable === false && (
-                  <p style={{ color: "red" }}>이미 사용 중인 닉네임입니다.</p>
+                {isAvailable === 0 && (
+                  <p style={{ color: "red", paddingTop: "5px" }}>
+                    이미 사용 중인 닉네임입니다.
+                  </p>
                 )}
               </NicknameCheck>
             </JaddNickNameWrap>
             <br />
 
             <JaddNumberWrap>
+              <label>휴대폰 번호</label>
               <input
                 type="text"
                 name="tel"
@@ -536,7 +607,7 @@ const JaddPage = () => {
             <JaddAddressBts>
               <DefaultBt
                 type="button"
-                className="Jadd-Join-Bt"
+                className="join-button"
                 onClick={handleAddClick}
               >
                 회원가입

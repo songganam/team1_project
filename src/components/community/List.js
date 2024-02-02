@@ -47,6 +47,7 @@ const initState = [
 const List = () => {
   // 커스텀 훅
   const { page, search, moveToRead, moveToAdd, moveToSearch } = useCustomMove();
+
   // 서버 데이터 내용 상태 변경
   const [serverData, setServerData] = useState(initState);
   // 해당 글로 상태 변경

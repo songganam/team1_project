@@ -1,4 +1,3 @@
-import axios from "axios";
 import authAxios from "../util/tokenUtil";
 
 export const API_SERVER_HOST = "";
@@ -181,7 +180,8 @@ export const getUserInfo = async ({ param, successFn, failFn, errorFn }) => {
 export const putUserInfo = async ({
   putUserForm,
   successFn,
-  failFn,
+  FailFn,
+  nicknameErrorFn,
   errorFn,
 }) => {
   try {
@@ -192,33 +192,18 @@ export const putUserInfo = async ({
       console.log("유저 정보 수정 성공");
       successFn(res.data);
     } else {
-      failFn("유저 정보 수정 오류", res.statusText);
+      FailFn("유저 정보 수정 오류", res.statusText);
     }
   } catch (error) {
     errorFn(error);
-    if (error.res) {
-      console.log("서버 응답 오류", error.res.data);
-
-      errorFn("수정 서버오류", error.res.data);
+    if (error.response && error.response.status === 400) {
+      console.log("닉네임 중복 오류");
+      nicknameErrorFn(error.response.data);
+    } else if (error.response) {
+      console.log("서버 응답 오류", error.response.data);
+      errorFn("수정 서버오류", error.response.data);
     } else {
       errorFn("수정 서버오류");
     }
-  }
-};
-
-// 닉네임 중복 체크 (POST)
-export const nickNameCheck = async ({ iNickCheck }) => {
-  console.log("닉네임 중복 체크", iNickCheck);
-  const nickname = iNickCheck;
-
-  try {
-    const response = await axios.post(`${host}/user/signup/${nickname}`);
-    const data = response.data;
-
-    console.log(data);
-    return data;
-  } catch (error) {
-    console.log(error);
-    throw error;
   }
 };

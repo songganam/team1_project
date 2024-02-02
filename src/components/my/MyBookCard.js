@@ -4,7 +4,7 @@ import { API_SERVER_HOST } from "../../api/config";
 import Button from "../../components/button/Button";
 import useModal from "../../hooks/useModal";
 import Bookmark from "../bookmark/Bookmark";
-import ResultModal from "../common/ResultModal";
+import SelectedModal from "../common/SelectedModal";
 import useCustomHook from "../meat/hooks/useCustomHook";
 import useCustomMy from "./hooks/useCustomMy";
 import {
@@ -22,13 +22,13 @@ import {
   MyMoreViewButton,
 } from "./styles/MyBookCardStyle";
 
-// 내 예약/픽업 내역 카드 리스트
+// 내 예약/픽업 카드 리스트
 const MyBookCard = props => {
   const { page, moveToBookPage, moveToReserChange, moveToPickupChange } =
     useCustomMy();
   const { moveToReview } = useCustomHook();
   const [myBookList, setMyBookList] = useState([]);
-  const [resultModalContent, setResultModalContent] = useState();
+  const [bookToCancle, setBookToCancle] = useState(null);
 
   // 모달창
   const { useResultModal, openModal, closeModal } = useModal();
@@ -56,31 +56,39 @@ const MyBookCard = props => {
       checkShop: checkShop,
       ireser: ireser,
     };
-    // 예약 삭제 성공 시 리스트 업데이트
-    const updatedMyBookList = myBookList.filter(book => book.ireser !== ireser);
-    setMyBookList(updatedMyBookList);
-    patchMyBook({ patchBookForm, successPatch, failPatch, errorPatch });
+    // 삭제 전 확인 모달창
+    setBookToCancle(patchBookForm);
+    openModal();
     console.log(patchBookForm);
+  };
+
+  const handleConfirmCancle = () => {
+    if (bookToCancle) {
+      const { checkShop, ireser } = bookToCancle;
+      // 리뷰 삭제 성공 시 리스트 업데이트
+      const updatedMyBookList = myBookList.filter(
+        book => book.ireser !== ireser,
+      );
+      setMyBookList(updatedMyBookList);
+      patchMyBook({
+        patchBookForm: bookToCancle,
+        successPatch,
+        failPatch,
+        errorPatch,
+      });
+      console.log(bookToCancle);
+      closeModal();
+    }
   };
 
   const successPatch = patchResult => {
     console.log("예약 취소 성공", patchResult);
-    // 예약 취소 성공 시 모달창
-    openModal();
-    setResultModalContent({
-      title: "예약 취소 완료",
-      content: "예약이 취소되었습니다.",
-    });
   };
+
   const failPatch = patchResult => {
     console.log("예약 취소 실패", patchResult);
-    // 예약 취소 실패 시 모달창
-    openModal();
-    setResultModalContent({
-      title: "예약 취소 실패",
-      content: "잠시 후 다시 시도해주세요.",
-    });
   };
+
   const errorPatch = patchResult => {
     console.log("서버 오류", patchResult);
   };
@@ -202,12 +210,11 @@ const MyBookCard = props => {
                 <Button bttext="예약취소"></Button>
               </div>
               {useResultModal && (
-                <ResultModal
-                  title={resultModalContent.title}
-                  content={resultModalContent.content}
-                  callFn={() => {
-                    closeModal();
-                  }}
+                <SelectedModal
+                  title="예약 취소"
+                  content="예약을 취소하시겠습니까?"
+                  confirmFn={handleConfirmCancle}
+                  cancelFn={closeModal}
                 />
               )}
             </MyBookCardBookButton>

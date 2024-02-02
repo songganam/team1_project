@@ -4,8 +4,11 @@ import {
   useSearchParams,
 } from "react-router-dom";
 import { getNum, getSearch } from "../util/utils";
+import useCustomLogin from "../components/meat/hooks/useCustomLogin";
 
 const useCustomMove = () => {
+  // 로그인 훅
+  const { isLogin, moveToLogin } = useCustomLogin();
   // path hook
   const navigate = useNavigate();
   // query 알아내기, 읽기
@@ -44,7 +47,11 @@ const useCustomMove = () => {
   };
   // to add
   const moveToAdd = () => {
-    navigate("/community/add");
+    if (isLogin) {
+      navigate("/community/add");
+    } else {
+      moveToLogin();
+    }
   };
 
   // to search

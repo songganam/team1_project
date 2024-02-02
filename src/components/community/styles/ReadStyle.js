@@ -38,7 +38,7 @@ export const MoreStyle = styled.div`
 
 export const WriterBoxStyle = styled.div`
   display: flex;
-  align-items: flex-start;
+  align-items: center;
   gap: 20px;
   color: ${ColorStyle.g700};
   font-size: ${FontSize.default};

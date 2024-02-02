@@ -97,6 +97,10 @@ export const MyModifyPageForm = styled.form`
     margin-top: 20px;
     font-weight: 600;
   }
+  span {
+    margin-top: 10px;
+    font-size: 16px;
+  }
   input {
     position: relative;
     font-size: 17px;
@@ -105,10 +109,6 @@ export const MyModifyPageForm = styled.form`
     border: none;
     border-bottom: 1px solid #000;
   }
-`;
-
-export const MyMoidfyNicknameCheck = styled.div`
-  font-size: 14px;
 `;
 
 export const MyModifyPageButton = styled.div`

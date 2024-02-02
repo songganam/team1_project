@@ -82,12 +82,16 @@ export const MyBookCardDateContent = styled.ul`
   text-overflow: ellipsis;
   white-space: nowrap;
   li {
+    display: block;
     font-family: Pretendard;
     font-size: 14px;
     font-style: normal;
     font-weight: 400;
     line-height: 150%;
     color: ${ColorStyle.g500};
+    overflow: hidden;
+    text-overflow: ellipsis;
+    white-space: nowrap;
   }
 `;
 
