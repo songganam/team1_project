@@ -45,12 +45,22 @@ export const LoginPagePW = styled.input`
   border-bottom: 1px solid #5c5c5c;
 `;
 
-export const LoginPageCheckbox = styled.div`
-  position: relative;
-  display: block;
+export const LoginCheckBox = styled.div`
+  display: flex;
+  align-items: center;
   width: 500px;
-  padding-top: 12px;
-  font-size: 19px;
+  padding-left: 8px;
+
+  .RememberEmail {
+    display: flex;
+    font-size: 19px;
+    align-items: center;
+    margin-top: 20px;
+    cursor: pointer;
+  }
+  .CheckBox {
+    margin-right: 10px;
+  }
 `;
 
 export const LoginPageBts = styled.div`
@@ -71,6 +81,7 @@ export const LoginPageBts = styled.div`
     width: 500px;
     height: 55px;
     padding: 10px 20px;
+    cursor: pointer;
   }
   .Joinbutton {
     position: relative;
@@ -82,5 +93,6 @@ export const LoginPageBts = styled.div`
     width: 500px;
     height: 55px;
     padding: 10px 20px;
+    cursor: pointer;
   }
 `;
