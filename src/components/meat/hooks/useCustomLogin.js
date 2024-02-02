@@ -53,7 +53,7 @@ const useCustomLogin = () => {
     navigate("/login");
   };
   const loginComplete = () => {
-    navigate(-1);
+    navigate("/");
   };
 
   return {

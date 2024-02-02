@@ -51,6 +51,7 @@ const LazySreadPage = lazy(() => import("./pages/sale/SreadPage"));
 const LazyGaraLogin = lazy(() => import("./redux/GaraLogin"));
 
 const LazyNotFoundPage = lazy(() => import("./pages/notfound/NotFound"));
+
 const App = () => {
   return (
     <BrowserRouter>

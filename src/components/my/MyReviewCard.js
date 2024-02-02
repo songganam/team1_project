@@ -144,9 +144,13 @@ const MyReviewCard = props => {
           </MyReviewCardContent>
         </MyReviewCardWrapper>
       ))}
-      <MyMoreViewButton onClick={handleMyReviewView}>
-        <span>더보기</span>
-      </MyMoreViewButton>
+      {myReviewList.length === 0 ? (
+        <div></div>
+      ) : (
+        <MyMoreViewButton onClick={handleMyReviewView}>
+          <span>더보기</span>
+        </MyMoreViewButton>
+      )}
     </>
   );
 };

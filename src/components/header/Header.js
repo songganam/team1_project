@@ -1,5 +1,5 @@
 import { useDispatch, useSelector } from "react-redux";
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 import useCustomLogin from "../meat/hooks/useCustomLogin";
 import {
   BarStyle,
@@ -50,15 +50,13 @@ const Header = () => {
 
   const refresh = useSelector(state => state.refresh);
   console.log("refresh", refresh);
-
+  const navigate = useNavigate();
 
   // 유저 정보 불러오기 (GET)
   useEffect(() => {
     const param = {};
     getUserInfo({ param, successFn, failFn, errorFn });
-
   }, [refresh]);
-
 
   const successFn = result => {
     setMyProfileData(result);
@@ -81,7 +79,7 @@ const Header = () => {
         setFetching(false);
         confirmSelectModal(
           openModal("로그아웃 완료", "로그아웃이 완료되었습니다.", () => {
-            closeModal();
+            closeModal(), navigate("/");
           }),
         );
       },

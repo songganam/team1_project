@@ -101,9 +101,13 @@ const MyListCard = props => {
           </MyListCardContent>
         </MyListCardWrapper>
       ))}
-      <MyMoreViewButton onClick={handleMyListView}>
-        <span>더보기</span>
-      </MyMoreViewButton>
+      {myList.length === 0 ? (
+        <div>예약내역이 없습니다.</div>
+      ) : (
+        <MyMoreViewButton onClick={handleMyListView}>
+          <span>더보기</span>
+        </MyMoreViewButton>
+      )}
     </>
   );
 };

@@ -60,7 +60,7 @@ const MeatModifyPage = () => {
   };
   const submitModal = () => {
     setIsModal(prev => ({ ...prev, isOpen: false }));
-    navigate("/meat/list");
+    navigate(-1);
   };
 
   // ! 사람 카운팅

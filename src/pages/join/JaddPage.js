@@ -4,13 +4,13 @@ import { nickNameCheck, postJadd } from "../../api/joinApi";
 import Fetching from "../../components/common/Fetching";
 import ResultModal from "../../components/common/ResultModal";
 import SelectedModal from "../../components/common/SelectedModal";
+import useCustomHook from "../../components/meat/hooks/useCustomHook";
 import TitleHeader from "../../components/titleheader/TitleHeader";
 import useCustomMove from "../../hooks/useCustomMove";
 import "../join/JaddPage.css";
 import {
   DefaultBt,
   GenderBtWrap,
-  ImgSelectBtn,
   JaddAddressBts,
   JaddAddressWrap,
   JaddBirthWrap,
@@ -28,7 +28,6 @@ import {
   JaddPwWrap,
   NicknameCheck,
 } from "./styles/JaddPageStyle";
-import useCustomHook from "../../components/meat/hooks/useCustomHook";
 
 const initState = {
   pic: "",
@@ -200,12 +199,9 @@ const JaddPage = () => {
 
   const successFn = addResult => {
     console.log("글 등록 성공", addResult);
-    openModal("회원가입 완료", "회원가입이 완료 되었습니다.", closeModal);
-    // setFetching(false);
-    // setAddResult(true);
-    // setPopTitle("글 등록 성공");
-    // setPopContent("글 등록에 성공하였습니다.");
-    // setPopRedirect(true);
+    openModal("회원가입 완료", "회원가입이 완료 되었습니다.", () => {
+      closeModal, navigate("/");
+    });
   };
   const failFn = addResult => {
     console.log("글 등록 실패", addResult);
@@ -258,36 +254,36 @@ const JaddPage = () => {
   };
 
   // 닉네임 중복확인
-// 닉네임 중복확인
-const [nickname, setNickname] = useState();
-const [isAvailable, setIsAvailable] = useState(null);
+  // 닉네임 중복확인
+  const [nickname, setNickname] = useState();
+  const [isAvailable, setIsAvailable] = useState(null);
 
-// 이거는 나름 규칙으로 하면되죠
-// setIsAvailable(nickname.length >= 3);
-// console.log("테스트", product.nickname);
-const handleCheckAvailability = iNickCheck => {
-  // const iNickCheck = nickname;
-  console.log("니크네임", product.nickname);
-  nickNameCheck({
-    iNickCheck: product.nickname,
-    successNickFn,
-    failNickFn,
-    errorNickFn,
-  });
-};
+  // 이거는 나름 규칙으로 하면되죠
+  // setIsAvailable(nickname.length >= 3);
+  // console.log("테스트", product.nickname);
+  const handleCheckAvailability = iNickCheck => {
+    // const iNickCheck = nickname;
+    console.log("니크네임", product.nickname);
+    nickNameCheck({
+      iNickCheck: product.nickname,
+      successNickFn,
+      failNickFn,
+      errorNickFn,
+    });
+  };
 
-const successNickFn = () => {
-  openModal("닉네임 중복확인", "사용가능한 닉네임 입니다.", closeModal);
-};
-const failNickFn = () => {
-  console.log("페일");
-};
-const errorNickFn = error => {
-  if (error.response && error.response.status === 400) {
-    openModal("닉네임 중복확인", "중복된 닉네임입니다.", closeModal);
-  }
-  // console.log("에러임 ㄹㅇㅋㅋ");
-};
+  const successNickFn = () => {
+    openModal("닉네임 중복확인", "사용가능한 닉네임 입니다.", closeModal);
+  };
+  const failNickFn = () => {
+    console.log("페일");
+  };
+  const errorNickFn = error => {
+    if (error.response && error.response.status === 400) {
+      openModal("닉네임 중복확인", "중복된 닉네임입니다.", closeModal);
+    }
+    // console.log("에러임 ㄹㅇㅋㅋ");
+  };
   // 휴대폰번호 하이픈 자동입력
   const [phoneNumber, setPhoneNumber] = useState("");
 
@@ -443,7 +439,7 @@ const errorNickFn = error => {
               <JaddPwWrap>
                 <label>비밀번호</label>
                 <input
-                  type="text"
+                  type="password"
                   name="upw"
                   value={product.upw}
                   className="JaddPw"
@@ -457,7 +453,7 @@ const errorNickFn = error => {
               <JaddMorePwWrap>
                 <label>비밀번호 확인</label>
                 <input
-                  type="text"
+                  type="password"
                   name="checkUpw"
                   value={product.checkUpw}
                   className="JaddMorePw"
