@@ -114,7 +114,10 @@ const AboutPage = () => {
                   ></img>
                   <div className="AboutCardTitle">{aboutData.gogi[0].name}</div>
                   <div className="AboutCardPrice">
-                    {aboutData.gogi[0].menu}. {aboutData.gogi[0].price}
+                    {aboutData.gogi[0].menu}{" "}
+                    {new Intl.NumberFormat("ko-KR").format(
+                      aboutData.gogi[0].price,
+                    )}원
                   </div>
                   <AboutCardButton>
                     <DefaultBt
@@ -144,7 +147,10 @@ const AboutPage = () => {
                   />
                   <div className="AboutCardTitle">{aboutData.gogi[1].name}</div>
                   <div className="AboutCardPrice">
-                    {aboutData.gogi[1].menu}. {aboutData.gogi[1].price}
+                    {aboutData.gogi[1].menu}{" "}
+                    {new Intl.NumberFormat("ko-KR").format(
+                      aboutData.gogi[1].price,
+                    )}원
                   </div>
                   <AboutCardButton>
                     <DefaultBt
@@ -182,7 +188,10 @@ const AboutPage = () => {
                   />
                   <div className="AboutCardTitle">{aboutData.gogi[2].name}</div>
                   <div className="AboutCardPrice">
-                    {aboutData.gogi[2].menu}.{aboutData.gogi[2].price}
+                    {aboutData.gogi[2].menu}{" "}
+                    {new Intl.NumberFormat("ko-KR").format(
+                      aboutData.gogi[2].price,
+                    )}원
                   </div>
                   <AboutCardButton>
                     <DefaultBt
@@ -212,7 +221,10 @@ const AboutPage = () => {
                   />
                   <div className="AboutCardTitle">{aboutData.gogi[3].name}</div>
                   <div className="AboutCardPrice">
-                    {aboutData.gogi[3].menu}. {aboutData.gogi[3].price}
+                    {aboutData.gogi[3].menu}{" "}
+                    {new Intl.NumberFormat("ko-KR").format(
+                      aboutData.gogi[3].price,
+                    )}원
                   </div>
                   <AboutCardButton>
                     <DefaultBt
