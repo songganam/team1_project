@@ -5,18 +5,18 @@ export const API_SERVER_HOST = "";
 const signHost = `${API_SERVER_HOST}/api/user`;
 
 // 응답 인터셉터 추가
-axios.interceptors.response.use(
-  function (response) {
-    return response;
-  },
-  function (error) {
-    if (error.response && error.response.status === 400) {
-      console.log("비밀번호가 틀렸습니다.");
-    }
-    // 오류를 던지지 않고 null을 반환합니다.
-    return null;
-  },
-);
+// axios.interceptors.response.use(
+//   function (response) {
+//     return response;
+//   },
+//   function (error) {
+//     if (error.response && error.response.status === 400) {
+//       console.log("비밀번호가 틀렸습니다.");
+//     }
+//     // 오류를 던지지 않고 null을 반환합니다.
+//     return null;
+//   },
+// );
 
 export const loginPost = async ({ authParam, successFn, failFn, errorFn }) => {
   try {
@@ -34,11 +34,7 @@ export const loginPost = async ({ authParam, successFn, failFn, errorFn }) => {
       failFn("");
     }
   } catch (error) {
-    if (error && error.response && error.response.status === 400) {
-      errorFn(
-        "로그인에 실패하였습니다. 서버가 불안정합니다. 다시 시도해주세요.",
-      );
-    }
+    errorFn(error);
   }
 };
 let response = null;

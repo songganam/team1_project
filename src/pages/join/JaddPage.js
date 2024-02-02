@@ -29,8 +29,10 @@ import {
   NicknameCheck,
 } from "./styles/JaddPageStyle";
 import useCustomHook from "../../components/meat/hooks/useCustomHook";
+
 import useCustomLogin from "../../components/meat/hooks/useCustomLogin";
 import Layout from "../../layouts/Layout";
+
 
 const initState = {
   pic: "",
@@ -57,6 +59,15 @@ const JaddPage = () => {
 
   const [image, setImage] = useState(null); // 단일 이미지를 저장하는 상태를 사용합니다.
   const [selectedImage, setSelectedImage] = useState(null);
+  const {
+    isModal,
+    openModal,
+    closeModal,
+    isSelectModal,
+    openSelectModal,
+    confirmSelectModal,
+    cancelSelectModal,
+  } = useCustomHook();
 
   const uploadRef = useRef();
   const handleClickImg = () => {
@@ -122,36 +133,29 @@ const JaddPage = () => {
     // 글 등록 로직 실행
     handleClick(product);
     // 모달 닫기
-    setShowModal(false);
-  };
-
-  const closeModal = () => {
-    // 모달창 닫기
-    setAddResult(false);
-    if (popRedirect === true) {
-      // 목록으로 가기
-      moveToList({ page: 1 });
-    }
-  };
-  // 취소 버튼 클릭 시
-  const handleCancel = () => {
-    // 모달 닫기
-    setShowModal(false);
+    // setShowModal(false);
   };
 
   // 글 등록 버튼 클릭 핸들러
   const handleAddClick = () => {
-    // 모달 띄우기
-    setShowModal(true);
+    openSelectModal(
+      "회원가입",
+      "회원가입을 하시겠습니까?",
+      () => {
+        handleConfirm(product), confirmSelectModal();
+      },
+      cancelSelectModal,
+    );
   };
 
   const successFn = addResult => {
     console.log("글 등록 성공", addResult);
-    setFetching(false);
-    setAddResult(true);
-    setPopTitle("글 등록 성공");
-    setPopContent("글 등록에 성공하였습니다.");
-    setPopRedirect(true);
+    openModal("회원가입 완료", "회원가입이 완료 되었습니다.", closeModal);
+    // setFetching(false);
+    // setAddResult(true);
+    // setPopTitle("글 등록 성공");
+    // setPopContent("글 등록에 성공하였습니다.");
+    // setPopRedirect(true);
   };
   const failFn = addResult => {
     console.log("글 등록 실패", addResult);
@@ -211,10 +215,29 @@ const JaddPage = () => {
 
   // 이거는 나름 규칙으로 하면되죠
   // setIsAvailable(nickname.length >= 3);
+  // console.log("테스트", product.nickname);
   const handleCheckAvailability = iNickCheck => {
     // const iNickCheck = nickname;
-    console.log(nickname);
-    nickNameCheck({ iNickCheck: nickname });
+    console.log("니크네임", product.nickname);
+    nickNameCheck({
+      iNickCheck: product.nickname,
+      successNickFn,
+      failNickFn,
+      errorNickFn,
+    });
+  };
+
+  const successNickFn = () => {
+    openModal("닉네임 중복확인", "사용가능한 닉네임 입니다.", closeModal);
+  };
+  const failNickFn = () => {
+    console.log("페일");
+  };
+  const errorNickFn = error => {
+    if (error.response && error.response.status === 400) {
+      openModal("닉네임 중복확인", "중복된 닉네임입니다.", closeModal);
+    }
+    // console.log("에러임 ㄹㅇㅋㅋ");
   };
 
   // 휴대폰번호 하이픈 자동입력
@@ -241,7 +264,6 @@ const JaddPage = () => {
         matches[3] ? "-" + matches[3] : ""
       }`;
     }
-
     // 일치하지 않는 경우 그대로 반환
     return value;
   };
@@ -317,47 +339,55 @@ const JaddPage = () => {
  
   return (
     <JaddPageWrap>
-        {isModal.isOpen && (
-          <ResultModal
-            title={isModal.title}
-            content={isModal.content}
-            callFn={isModal.callFn}
-          />
-        )}
 
-        {fetching ? <Fetching /> : null}
-        <TitleHeader
-          timg="https://picsum.photos/1920/215/?category=meat"
-          tname="회원가입"
-          tcontent="오늘도 맛있는 고기와 함께하세요"
-        ></TitleHeader>
-        <JaddPageMain>
-          <JaddPageImage>
-            <div>
-              <div className="JaddPage-img-button" onClick={handleClickImg}>
-                <div className="inputBox">
-                  <input
-                    type="file"
-                    ref={uploadRef}
-                    style={{ display: "none" }}
-                    onChange={handleFileChange}
-                  />
-                  <div className="previewBox">
-                    <ImgSelectBtn />
-                    {image && (
-                      <img
-                        src={image}
-                        alt={`미리보기`}
-                        style={{
-                          width: "280px",
-                          height: "280px",
-                          cursor: "pointer",
-                          borderRadius: "250px",
-                        }}
-                        onClick={deleteImage}
-                      />
-                    )}
-                  </div>
+      {fetching ? <Fetching /> : null}
+      {isModal.isOpen && (
+        <ResultModal
+          title={isModal.title}
+          content={isModal.content}
+          callFn={isModal.callFn}
+        />
+      )}
+      {isSelectModal.isOpen && (
+        <SelectedModal
+          title={isSelectModal.title}
+          content={isSelectModal.content}
+          confirmFn={isSelectModal.confirmFn}
+          cancelFn={isSelectModal.cancelFn}
+        />
+      )}
+      <TitleHeader
+        timg="https://picsum.photos/1920/215/?category=meat"
+        tname="회원가입"
+        tcontent="오늘도 맛있는 고기와 함께하세요"
+      ></TitleHeader>
+      <JaddPageMain>
+        <JaddPageImage>
+          <div>
+            <div className="JaddPage-img-button" onClick={handleClickImg}>
+              <div className="inputBox">
+                <input
+                  type="file"
+                  ref={uploadRef}
+                  style={{ display: "none" }}
+                  onChange={handleFileChange}
+                />
+                <div className="previewBox">
+                  <ImgSelectBtn />
+                  {image && (
+                    <img
+                      src={image}
+                      alt={`미리보기`}
+                      style={{
+                        width: "280px",
+                        height: "280px",
+                        cursor: "pointer",
+                        borderRadius: "250px",
+                      }}
+                      onClick={deleteImage}
+                    />
+                  )}
+
                 </div>
               </div>
             </div>
@@ -570,40 +600,103 @@ const JaddPage = () => {
                 >
                   회원가입
                 </DefaultBt>
-                <button
-                  type="button"
-                  className="cancel-button"
-                  onClick={() => {
-                    handleClickCancel();
-                  }}
-                >
-                  취소하기
-                </button>
-              </JaddAddressBts>
-            </div>
-          </JaddPageInfo>
 
-          <div>
-            <Outlet />
+              </JaddNickNameInner>
+              <NicknameCheck>
+                {isAvailable === true && (
+                  <p style={{ color: "green" }}>사용 가능한 닉네임입니다.</p>
+                )}
+                {isAvailable === false && (
+                  <p style={{ color: "red" }}>이미 사용 중인 닉네임입니다.</p>
+                )}
+              </NicknameCheck>
+            </JaddNickNameWrap>
+            <br />
+
+            <JaddNumberWrap>
+              <input
+                type="text"
+                name="tel"
+                value={product.tel.replace(/(\d{3})(\d{4})(\d{3})/, "$1-$2-$3")}
+                className="JaddNumber"
+                placeholder="휴대폰 번호를 입력하세요."
+                onChange={e => {
+                  let input = e.target.value.replace(/[^0-9]/g, "");
+                  let event = {
+                    target: {
+                      name: e.target.name,
+                      value: input,
+                    },
+                  };
+                  handleChange(event);
+                }}
+                maxLength="13"
+              />
+            </JaddNumberWrap>
+            <br />
+            <JaddBirthWrap>
+              <label>생년월일</label>
+              <input
+                type="text"
+                name="birth"
+                value={product.birth.replace(
+                  /(\d{4})(\d{2})(\d{2})/,
+                  "$1/$2/$3",
+                )}
+                className="JaddBirth"
+                placeholder="YYYY/MM/DD"
+                onChange={e => {
+                  let input = e.target.value.replace(/[^0-9]/g, "");
+                  let event = {
+                    target: {
+                      name: e.target.name,
+                      value: input,
+                    },
+                  };
+                  handleChange(event);
+                }}
+                maxLength="10"
+              />
+            </JaddBirthWrap>
+            <br />
+            <JaddAddressWrap>
+              <label>주소</label>
+              <input
+                type="text"
+                name="address"
+                value={product.address}
+                className="JaddAddress"
+                placeholder="거주 중인 주소를 입력하세요."
+                onChange={e => handleChange(e)}
+              ></input>
+            </JaddAddressWrap>
+            <JaddAddressBts>
+              <DefaultBt
+                type="button"
+                className="Jadd-Join-Bt"
+                onClick={handleAddClick}
+              >
+                회원가입
+              </DefaultBt>
+              <button
+                type="button"
+                className="cancel-button"
+                onClick={() => {
+                  handleClickCancel();
+                }}
+              >
+                취소하기
+              </button>
+            </JaddAddressBts>
           </div>
-        </JaddPageMain>
-        {showModal ? (
-          <SelectedModal
-            title="글 등록 확인"
-            content="글을 등록하시겠습니까?"
-            confirmFn={() => handleConfirm(product)}
-            cancelFn={handleCancel}
-          />
-        ) : null}
-        {addResult ? (
-          <ResultModal
-            title={popTitle}
-            content={popContent}
-            callFn={closeModal}
-          />
-        ) : null}
-      </JaddPageWrap>
-    
+        </JaddPageInfo>
+
+        <div>
+          <Outlet />
+        </div>
+      </JaddPageMain>
+    </JaddPageWrap>
+
   );
 };
 export default JaddPage;

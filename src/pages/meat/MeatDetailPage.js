@@ -94,7 +94,8 @@ const MeatDetailPage = () => {
   const storeNum = ishop;
 
   const [visualReview, setVisualReview] = useState(3);
-  const handleMoreReview = () => {
+  const handleMoreReview = e => {
+    console.log("더보기임");
     setVisualReview(prevCount => prevCount + 3);
   };
 
@@ -367,12 +368,20 @@ star
                   {/* Image */}
                   <ImgStyle>
                     <LargeImgStyle>
-                      {review.pic ? (
+                      {review.pic && review.pic.lenth == 0 ? (
+                        <img
+                          src={
+                            process.env.PUBLIC_URL +
+                            `/assets/images/favicon.png`
+                          }
+                          alt=""
+                        />
+                      ) : (
                         <img
                           src={`${baseApi}/pic/shop/${storeInfo.ishop}/review/${review.ireview}/${review.pic[0]}`}
                           alt="Large image"
                         />
-                      ) : null}
+                      )}
                     </LargeImgStyle>
                     <ThumbnailStyle>
                       {review.pic.slice(1, 5).map(
@@ -415,7 +424,9 @@ star
               ))}
           </ReviewContentWrap>
           <MoreBtnWrap>
-            <Button onClick={() => handleMoreReview} bttext={"더보기"} />
+            <div onClick={handleMoreReview}>
+              <Button bttext={"더보기"} />
+            </div>
           </MoreBtnWrap>
         </ReviewWrap>
       </ReadWrap>

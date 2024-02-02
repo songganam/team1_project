@@ -39,12 +39,21 @@ const LoginPage = () => {
   };
   const dispatch = useDispatch();
   const handleClick = async () => {
+    if (authParam.email === "" || authParam.upw === "") {
+      console.log("id", authParam.email);
+      console.log("pw", authParam.upw);
+      openModal(
+        "로그인 실패",
+        "이메일 또는 비밀번호를 입력하지 않으셨습니다.",
+        closeModal,
+      );
+      return; // 추가된 부분: 조건을 만족하면 함수 종료
+    }
     try {
       await doLogin({ authParam, successFn, failFn, errorFn });
       loginComplete();
     } catch (error) {
       console.log(error);
-      // navigate(-1);
     }
   };
 
@@ -59,9 +68,21 @@ const LoginPage = () => {
     // alert("이메일 및 비밀번호 확인하세요.");
   };
 
-  const errorFn = result => {
-    console.log("서버 에러", result);
-    openModal("비밀번호 에러", "비밀번호를 확인해주세요.", closeModal);
+  const errorFn = error => {
+    // console.log("서버 에러", result);
+    if (error.response && error.response.status === 404) {
+      openModal(
+        "로그인 실패",
+        "이메일 또는 비밀번호를 확인해주세요.",
+        closeModal,
+      );
+    } else if (error.response && error.response.status === 400) {
+      openModal(
+        "로그인 실패",
+        "이메일 또는 비밀번호를 확인해주세요.",
+        closeModal,
+      );
+    }
   };
   return (
     <Layout>
