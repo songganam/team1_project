@@ -362,7 +362,7 @@ const Read = () => {
               src={`${process.env.PUBLIC_URL}/assets/images/view_eye.svg`}
               alt="img"
             />
-            <div className="viewCount">3574</div>
+            <div className="viewCount"></div>
           </div>
         </WriterBoxStyle>
       </TitleBoxStyle>
