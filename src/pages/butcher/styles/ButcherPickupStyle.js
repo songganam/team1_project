@@ -32,7 +32,7 @@ export const TestWrapper = styled.div`
 export const ReserWrap = styled.div`
   display: flex;
   align-items: flex-start;
-  gap: 50px;
+  gap: 100px;
 `;
 
 // ! Form Wrapper

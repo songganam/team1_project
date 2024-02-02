@@ -7,16 +7,19 @@ import {
 import { getNum } from "../../../util/utils";
 import useModal from "./useModal";
 import useSelectModal from "./useSelectModal";
+import useCustomLogin from "./useCustomLogin";
 const useCustomHook = () => {
   const navigate = useNavigate();
   const [urlSearchParams, setUrlSearchPrams] = useSearchParams();
   const { isModal, openModal, closeModal, moveToLogin } = useModal();
+  const { isLogin } = useCustomLogin();
   const {
     isSelectModal,
     openSelectModal,
     confirmSelectModal,
     cancelSelectModal,
   } = useSelectModal();
+
   const page = urlSearchParams.get("page")
     ? parseInt(urlSearchParams.get("page"))
     : 1;
@@ -69,6 +72,20 @@ const useCustomHook = () => {
       search: defaultQueryString,
     });
   };
+  // ! GO B ReserPage
+  const moveToBReser = (e, ibutcher, name) => {
+    e.stopPropagation();
+    if (isLogin) {
+      navigate({
+        pathname: `../../butcher/pickup/${ibutcher}`,
+        search: `name=${name}&${defaultQueryString}`,
+      });
+      // console.log("넘어간드아", menuList, name, ibutcher);
+    } else {
+      openModal("로그인 필요", "로그인이 필요한 서비스입니다.", moveToLogin);
+    }
+    console.log(name);
+  };
 
   const moveToReview = (ireser, checkShop, name, ishop) => {
     console.log(name);
@@ -114,6 +131,7 @@ const useCustomHook = () => {
     openSelectModal,
     confirmSelectModal,
     cancelSelectModal,
+    moveToBReser,
   };
 };
 export default useCustomHook;

@@ -136,7 +136,7 @@ const MeatReservationPage = () => {
   // * Submit
   const handleReserSubmit = () => {
     // ! No exist Value
-    if (timeCount == "") {
+    if (timeCountvalue.includes(undefined)) {
       openModal(
         "예약시간오류",
         "예약시간을 입력하지 않았습니다. 시간을 입력해주세요.",
@@ -154,8 +154,10 @@ const MeatReservationPage = () => {
   const failFn = result => {
     console.log(result);
   };
-  const errorFn = result => {
-    console.log(result);
+  const errorFn = error => {
+    if (error.response && error.response.status === 400) {
+      openModal("예약 실패", "시간을 기입해주세요.", closeModal);
+    }
   };
   return (
     <div>

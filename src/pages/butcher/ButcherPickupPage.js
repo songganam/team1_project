@@ -1,11 +1,11 @@
 import moment from "moment";
 import React, { useEffect, useState } from "react";
 import { useLocation, useNavigate, useParams } from "react-router";
+import Select from "react-select";
 import { getBInfo, postPickup } from "../../api/butcherApi";
 import ResultModal from "../../components/common/ResultModal";
 import ReserCalendar from "../../components/meat/ReserCalendar";
 import useCustomHook from "../../components/meat/hooks/useCustomHook";
-import Select from "react-select";
 
 import {
   MenuWrapper,
@@ -24,7 +24,6 @@ import {
   ReserItemWrap,
   ReserRequireInput,
   ReserSubmitBtn,
-  ReserTimeBtn,
   ReserTimeItem,
   ReserTimeWrap,
   ReserTitle,
@@ -38,6 +37,8 @@ const MeatDetailPage = () => {
   const navigate = useNavigate();
   const { ibutcher } = useParams();
   const location = useLocation();
+  const queryParams = new URLSearchParams(location.search);
+  const name = queryParams.get("name");
   const storeName = location.state?.storeName;
   const [loading, setLoading] = useState(false);
   const [storeInfo, setStoreInfo] = useState({});
@@ -64,10 +65,10 @@ const MeatDetailPage = () => {
     setStoreInfo(result);
     setLoading(false);
   };
-  const errorFn = result => {
-    console.log(result);
-    setStoreInfo(result);
-    setLoading(false);
+  const errorFn = error => {
+    if (error.response && error.response.status === 400) {
+      openModal("픽업 실패", "양식을 다시 확인해주세요.", closeModal);
+    }
   };
 
   const handleAddForm = () => {
@@ -209,7 +210,7 @@ const MeatDetailPage = () => {
       count: item.quantity,
     }));
 
-    if (!meridiem || !hour || !minute) {
+    if (!meridiem || !hour) {
       openModal("시간입력오류", "시간을 입력해주세요.", closeModal);
       return;
     }
@@ -257,7 +258,7 @@ const MeatDetailPage = () => {
                 <span>가게명</span>
               </ReserItem>
               <ReserContent>
-                <span>{storeName}</span>
+                <span>{name}</span>
               </ReserContent>
             </ReserFormWrap>
             {/* 
@@ -411,7 +412,7 @@ const MeatDetailPage = () => {
         </ReserWrap>
         {/* button */}
         <ReserSubmitBtn onClick={handlePickupSubmit}>
-          <span>예약하기</span>
+          <span>픽업예약하기</span>
         </ReserSubmitBtn>
       </ReserWrapper>
     </div>

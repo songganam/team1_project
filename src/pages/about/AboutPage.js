@@ -114,10 +114,12 @@ const AboutPage = () => {
                   ></img>
                   <div className="AboutCardTitle">{aboutData.gogi[0].name}</div>
                   <div className="AboutCardPrice">
+
                     {aboutData.gogi[0].menu}{" "}
                     {new Intl.NumberFormat("ko-KR").format(
                       aboutData.gogi[0].price,
                     )}원
+
                   </div>
                   <AboutCardButton>
                     <DefaultBt

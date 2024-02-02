@@ -60,7 +60,7 @@ export const postReser = async ({ reserData, successFn, failFn, errorFn }) => {
       failFn("");
     }
   } catch (error) {
-    errorFn("");
+    errorFn(error);
     //
   }
 };

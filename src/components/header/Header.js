@@ -45,13 +45,20 @@ const Header = () => {
   const dispatch = useDispatch();
   const { isLogin, moveToPath, doLogout } = useCustomLogin();
   const [fetching, setFetching] = useState(false);
-  const [refresh, setRefresh] = useState(false);
+
+  // const [refresh, setRefresh] = useState(false);
+
+  const refresh = useSelector(state => state.refresh);
+  console.log("refresh", refresh);
+
 
   // 유저 정보 불러오기 (GET)
   useEffect(() => {
     const param = {};
     getUserInfo({ param, successFn, failFn, errorFn });
-  }, []);
+
+  }, [refresh]);
+
 
   const successFn = result => {
     setMyProfileData(result);

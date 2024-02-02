@@ -21,8 +21,14 @@ const GCardComponent = ({ data }) => {
   console.log(data);
   const navigate = useNavigate();
   const { ibutcher } = useParams();
-  const { moveToRead, moveToReser, isModal, openModal, moveToLogin } =
-    useCustomHook();
+  const {
+    moveToRead,
+    moveToReser,
+    isModal,
+    openModal,
+    moveToLogin,
+    moveToBReser,
+  } = useCustomHook();
   const { isLogin } = useCustomLogin();
   const handleReserClick = (e, ibutcher, name) => {
     e.stopPropagation();
@@ -57,7 +63,9 @@ const GCardComponent = ({ data }) => {
                 <InfoTagWrap></InfoTagWrap>
                 {/* 예약하기 */}
                 <ReserveBtn
-                  onClick={e => handleReserClick(e, item.ibutcher, item.name)}
+                  onClick={e =>
+                    moveToBReser(e, item.ibutcher, item.name, item.menuList)
+                  }
                 >
                   <span>픽업하기</span>
                 </ReserveBtn>
