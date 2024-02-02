@@ -80,9 +80,28 @@ const MeatDetailPage = () => {
     setSelectedItems(values);
   };
 
+  // const handleChange = (index, event) => {
+  //   const values = [...selectedItems];
+  //   values[index][event.target.name] = event.target.value;
+  //   setSelectedItems(values);
+  // };
   const handleChange = (index, event) => {
     const values = [...selectedItems];
-    values[index][event.target.name] = event.target.value;
+    // 메뉴 이름을 사용하여 storeInfo.menus에서 해당 메뉴 객체를 찾습니다.
+    const selectedMenu = storeInfo.menus.find(
+      menu => menu.menu === event.target.value,
+    );
+    // 선택된 메뉴의 ibutMenu 값을 찾아서 함께 저장합니다.
+    if (selectedMenu) {
+      values[index] = {
+        ...values[index],
+        item: selectedMenu.menu,
+        ibutMenu: selectedMenu.ibutMenu,
+      };
+    } else {
+      // 선택된 메뉴가 없는 경우, item만 업데이트합니다.
+      values[index][event.target.name] = event.target.value;
+    }
     setSelectedItems(values);
   };
 
@@ -181,8 +200,12 @@ const MeatDetailPage = () => {
 
   // ! POST
   const handlePickupSubmit = () => {
-    const menus = selectedItems.map((item, index) => ({
-      ibutMenu: index + 1,
+    // const menus = selectedItems.map((item, index) => ({
+    //   ibutMenu: index + 1,
+    //   count: item.quantity,
+    // }));
+    const menus = selectedItems.map(item => ({
+      ibutMenu: item.ibutMenu, // 수정된 부분
       count: item.quantity,
     }));
 
