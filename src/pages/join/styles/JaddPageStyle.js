@@ -132,7 +132,6 @@ export const JaddNickNameWrap = styled.div`
     padding-top: 10px;
     font-size: 14px;
     color: #d60117;
-    
   }
 `;
 

@@ -30,6 +30,10 @@ import {
 } from "./styles/JaddPageStyle";
 import useCustomHook from "../../components/meat/hooks/useCustomHook";
 
+import useCustomLogin from "../../components/meat/hooks/useCustomLogin";
+import Layout from "../../layouts/Layout";
+
+
 const initState = {
   pic: "",
   email: "",
@@ -176,6 +180,9 @@ const JaddPage = () => {
   const passCheckForm = () => {
     const upw = product.upw;
     const checkUpw = product.checkUpw;
+    if (upw === "" || checkUpw === "") {
+      return null; // 결과를 숨기기 위해 null을 반환합니다.
+    }
     if (upw === checkUpw) {
       return <div>비밀번호가 일치합니다.</div>;
     } else {
@@ -282,7 +289,6 @@ const JaddPage = () => {
         return result;
       },
     );
-
     // 상태 업데이트
     setBirthday(formattedBirthday);
   };
@@ -293,8 +299,47 @@ const JaddPage = () => {
   const handleClickCancel = () => {
     navigate("/");
   };
+  
+// 모달!!!!!!!
+  const { isModal, openModal } = useCustomHook();
+  const { doLogin, JaddComplete } = useCustomLogin();
+
+  const handleModalClick = async () => {
+    if (
+      product.email === "" ||
+      product.upw === "" ||
+      product.checkUpw === "" ||
+      product.name === "" ||
+      product.nickname === "" ||
+      product.birth === "" ||
+      product.gender === "" ||
+      product.address === "" ||
+      product.tel === ""
+    ) {
+      console.log("email", product.email);
+      console.log("upw", product.upw);
+      console.log("checkUpw", product.checkUpw);
+      console.log("name", product.name);
+      console.log("nickname", product.nickname);
+      console.log("birth", product.birth);
+      console.log("gender", product.gender);
+      console.log("address", product.address);
+      console.log("tel", product.tel);
+      openModal("회원가입 실패", "필수 항목을 입력해주세요", closeModal);
+      return;
+    }
+    try {
+      await doLogin({ product, successFn, failFn, errorFn });
+      JaddComplete();
+    } catch (error) {
+      console.log(error);
+    }
+  }
+
+ 
   return (
     <JaddPageWrap>
+
       {fetching ? <Fetching /> : null}
       {isModal.isOpen && (
         <ResultModal
@@ -342,128 +387,220 @@ const JaddPage = () => {
                       onClick={deleteImage}
                     />
                   )}
+
                 </div>
               </div>
             </div>
-          </div>
 
-          {/* 커스텀 스타일이 적용된 버튼 */}
-          {/* <button
+            {/* 커스텀 스타일이 적용된 버튼 */}
+            {/* <button
             className="JaddPage-img-button "
             // onClick={handleButtonClick}
           ></button> */}
-        </JaddPageImage>
-        <JaddPageInfo>
-          <div className="JaddMailInfo">
-            <JaddMailWrap>
-              <label>이메일</label>
-              <input
-                type="text"
-                name="email"
-                value={product.email}
-                className="JoinMail"
-                placeholder="@까지 정확하게 입력하세요."
-                onChange={e => handleChange(e)}
-              ></input>
-            </JaddMailWrap>
-            <br />
-            <JaddNameWrap>
-              <label>이름</label>
-              <input
-                type="text"
-                name="name"
-                value={product.name}
-                className="JaddName"
-                placeholder="본인 이름을 입력하세요."
-                onChange={e => handleChange(e)}
-              ></input>
-            </JaddNameWrap>
-            <br />
-            <form action="" method="post" onSubmit="return passCheckForm()">
-              <JaddPwWrap>
-                <label>비밀번호</label>
+          </JaddPageImage>
+          <JaddPageInfo>
+            <div className="JaddMailInfo">
+              <JaddMailWrap>
+                <label>이메일</label>
                 <input
                   type="text"
-                  name="upw"
-                  value={product.upw}
-                  className="JaddPw"
-                  placeholder="비밀번호를 입력하세요.(특수문자 포함 4-8자)"
+                  name="email"
+                  value={product.email}
+                  className="JoinMail"
+                  placeholder="@까지 정확하게 입력하세요."
                   onChange={e => handleChange(e)}
-                  maxLength="8"
-                  minLength="4"
                 ></input>
-              </JaddPwWrap>
+                {showModal && (
+                  <div className="modal">
+                    <div className="modal-content">
+                      <p>이메일을 적어주세요!</p>
+                      <button onClick={closeModal}>닫기</button>
+                    </div>
+                  </div>
+                )}
+              </JaddMailWrap>
               <br />
-              <JaddMorePwWrap>
-                <label>비밀번호 확인</label>
+              <JaddNameWrap>
+                <label>이름</label>
                 <input
                   type="text"
-                  name="checkUpw"
-                  value={product.checkUpw}
-                  className="JaddMorePw"
-                  placeholder="입력한 비밀번호를 한번 더 확인하세요."
+                  name="name"
+                  value={product.name}
+                  className="JaddName"
+                  placeholder="본인 이름을 입력하세요."
                   onChange={e => handleChange(e)}
-                  maxLength="8"
-                  minLength="4"
                 ></input>
-                <div className="passCheck">{passCheckForm()}</div>
-                <div>
-                  {/* {passCheckError && (
+              </JaddNameWrap>
+              <br />
+              <form action="" method="post" onSubmit="return passCheckForm()">
+                <JaddPwWrap>
+                  <label>비밀번호</label>
+                  <input
+                    type="password"
+                    name="upw"
+                    value={product.upw}
+                    className="JaddPw"
+                    placeholder="비밀번호를 입력하세요.(특수문자 포함 4-8자)"
+                    onChange={e => handleChange(e)}
+                    maxLength="8"
+                    minLength="4"
+                  ></input>
+                </JaddPwWrap>
+                <br />
+                <JaddMorePwWrap>
+                  <label>비밀번호 확인</label>
+                  <input
+                    type="password"
+                    name="checkUpw"
+                    value={product.checkUpw}
+                    className="JaddMorePw"
+                    placeholder="입력한 비밀번호를 한번 더 확인하세요."
+                    onChange={e => handleChange(e)}
+                    maxLength="8"
+                    minLength="4"
+                  ></input>
+                  <div className="passCheck">{passCheckForm()}</div>
+                  <div>
+                    {/* {passCheckError && (
                     <label style={{ color: "red" }}>
                       비밀번호가 일치하지 않습니다.
                     </label>
                   )} */}
+                  </div>
+                </JaddMorePwWrap>
+              </form>
+              <br />
+              <JaddGenderWrap>
+                <div className="JaddGender">
+                  성별
+                  <GenderBtWrap>
+                    <DefaultBt
+                      type="button"
+                      name="gender"
+                      className="gender-bt-man"
+                      onClick={e => handleGenderClick(1)}
+                      clicked={product.gender === "남"}
+                      // 성별={1}
+                    >
+                      <span>남성</span>
+                    </DefaultBt>
+                    <DefaultBt
+                      type="button"
+                      name="gender"
+                      className="gender-bt-woman"
+                      onClick={e => handleGenderClick(2)}
+                      clicked={product.gender === "여"}
+                    >
+                      <span>여성</span>
+                    </DefaultBt>
+                  </GenderBtWrap>
                 </div>
-              </JaddMorePwWrap>
-            </form>
-            <br />
-            <JaddGenderWrap>
-              <div className="JaddGender">
-                성별
-                <GenderBtWrap>
+              </JaddGenderWrap>
+              <br />
+              <JaddNickNameWrap>
+                <label>닉네임</label>
+                <JaddNickNameInner>
+                  <input
+                    type="text"
+                    name="nickname"
+                    value={product.nickname}
+                    className="JaddNickName"
+                    placeholder="사용할 닉네임을 입력하세요."
+                    onChange={e => handleChange(e)}
+                    maxLength="6"
+                    minLength="1"
+                  ></input>
+
                   <DefaultBt
-                    type="button"
-                    name="gender"
-                    className="gender-bt-man"
-                    onClick={e => handleGenderClick(1)}
-                    clicked={product.gender === "남"}
-                    // 성별={1}
+                    className="JaddNickName-Bt"
+                    onClick={handleCheckAvailability}
                   >
-                    <span>남성</span>
+                    중복확인
                   </DefaultBt>
-                  <DefaultBt
-                    type="button"
-                    name="gender"
-                    className="gender-bt-woman"
-                    onClick={e => handleGenderClick(2)}
-                    clicked={product.gender === "여"}
-                  >
-                    <span>여성</span>
-                  </DefaultBt>
-                </GenderBtWrap>
-              </div>
-            </JaddGenderWrap>
-            <br />
-            <JaddNickNameWrap>
-              <label>닉네임</label>
-              <JaddNickNameInner>
+                </JaddNickNameInner>
+                <NicknameCheck>
+                  {isAvailable === true && (
+                    <p style={{ color: "green" }}>사용 가능한 닉네임입니다.</p>
+                  )}
+                  {isAvailable === false && (
+                    <p style={{ color: "red" }}>이미 사용 중인 닉네임입니다.</p>
+                  )}
+                </NicknameCheck>
+              </JaddNickNameWrap>
+              <br />
+
+              <JaddNumberWrap>
+                <label>휴대폰 번호</label>
                 <input
                   type="text"
-                  name="nickname"
-                  value={product.nickname}
-                  className="JaddNickName"
-                  placeholder="사용할 닉네임을 입력하세요."
+                  name="tel"
+                  value={product.tel.replace(
+                    /(\d{3})(\d{4})(\d{3})/,
+                    "$1-$2-$3",
+                  )}
+                  className="JaddNumber"
+                  placeholder="휴대폰 번호를 입력하세요."
+                  onChange={e => {
+                    let input = e.target.value.replace(/[^0-9]/g, "");
+                    let event = {
+                      target: {
+                        name: e.target.name,
+                        value: input,
+                      },
+                    };
+                    handleChange(event);
+                  }}
+                  maxLength="13"
+                />
+              </JaddNumberWrap>
+              <br />
+              <JaddBirthWrap>
+                <label>생년월일</label>
+                <input
+                  type="text"
+                  name="birth"
+                  value={product.birth.replace(
+                    /(\d{4})(\d{2})(\d{2})/,
+                    "$1/$2/$3",
+                  )}
+                  className="JaddBirth"
+                  placeholder="YYYY/MM/DD"
+                  onChange={e => {
+                    let input = e.target.value.replace(/[^0-9]/g, "");
+                    let event = {
+                      target: {
+                        name: e.target.name,
+                        value: input,
+                      },
+                    };
+                    handleChange(event);
+                  }}
+                  maxLength="10"
+                />
+              </JaddBirthWrap>
+              <br />
+              <JaddAddressWrap>
+                <label>주소</label>
+                <input
+                  type="text"
+                  name="address"
+                  value={product.address}
+                  className="JaddAddress"
+                  placeholder="거주 중인 주소를 입력하세요."
                   onChange={e => handleChange(e)}
-                  maxLength="6"
-                  minLength="1"
                 ></input>
-
+              </JaddAddressWrap>
+              <JaddAddressBts>
                 <DefaultBt
-                  className="JaddNickName-Bt"
-                  onClick={handleCheckAvailability}
+                  type="button"
+                  className="Jadd-Join-Bt"
+                  onClick={() => {
+                    handleAddClick();
+                  }}
                 >
-                  중복확인
+                  회원가입
                 </DefaultBt>
+
               </JaddNickNameInner>
               <NicknameCheck>
                 {isAvailable === true && (
@@ -559,6 +696,7 @@ const JaddPage = () => {
         </div>
       </JaddPageMain>
     </JaddPageWrap>
+
   );
 };
 export default JaddPage;
