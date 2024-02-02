@@ -129,6 +129,7 @@ export const MenuTitle = styled.div`
 // ! Card
 export const MenuContentWrap = styled.div`
   display: flex;
+  flex-wrap: wrap;
   width: 1180px;
   /* justify-content: center;
   align-items: center;

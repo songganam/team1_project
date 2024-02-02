@@ -130,21 +130,7 @@ const MeatListPage = () => {
           </SearchIconWrap>
         </SearchWrap>
       </form>
-      {/*     
-      <ListFilter>
-        <ListFilterItem
-          onClick={() => setSelectFilter("lastest")}
-          active={selectFilter === "lastest"}
-        >
-          <span>최신순</span>
-        </ListFilterItem>
-        <ListFilterItem
-          onClick={() => setSelectFilter("popularity")}
-          active={selectFilter === "popularity"}
-        >
-          <span>인기순</span>
-        </ListFilterItem>
-      </ListFilter> */}
+
       {loading ? (
         <Loading />
       ) : (

@@ -48,6 +48,13 @@ import {
   ReviewWrap,
 } from "./styles/ButcherDetailStyle";
 import { API_SERVER_HOST } from "../../api/config";
+import {
+  ImgStyle,
+  LargeImgStyle,
+  MoreBtnWrap,
+  ThumbnailStyle,
+} from "../meat/styles/MeatDetailStyle";
+import Button from "../../components/button/Button";
 
 const MeatDetailPage = () => {
   const navigate = useNavigate();
@@ -60,6 +67,11 @@ const MeatDetailPage = () => {
 
   const baseApi = API_SERVER_HOST;
   const host = `${baseApi}/pic/butcher/`;
+  const [visualReview, setVisualReview] = useState(3);
+  const handleMoreReview = e => {
+    console.log("더보기임");
+    setVisualReview(prevCount => prevCount + 3);
+  };
 
   useEffect(() => {
     setLoading(true);
@@ -208,9 +220,13 @@ const MeatDetailPage = () => {
     // ! 가게 메뉴
   */}
         <MenuWrap>
-          <MenuTitle>
-            <span>메 뉴</span>
-          </MenuTitle>
+          {storeInfo?.menus?.length === 0 ? (
+            <div></div>
+          ) : (
+            <MenuTitle>
+              <span>메 뉴</span>
+            </MenuTitle>
+          )}
 
           <MenuContentWrap>
             {storeInfo.menus &&
@@ -297,30 +313,54 @@ const MeatDetailPage = () => {
         )}
 
         <ReviewWrap>
-          <ReviewTitle>
-            <span>리 뷰</span>
-          </ReviewTitle>
+          {storeInfo?.reviews?.length === 0 ? (
+            <div></div>
+          ) : (
+            <ReviewTitle>
+              <span>리 뷰</span>
+            </ReviewTitle>
+          )}
+
           <ReviewContentWrap>
             {storeInfo?.reviews &&
-              storeInfo?.reviews.map((review, index) => (
+              storeInfo?.reviews.slice(0, visualReview).map((review, index) => (
                 <ReviewItemWrap key={index}>
                   {/* Image */}
-                  <ReivewImageWrap>
-                    {/* main image */}
-                    <ReviewMainImage>
-                      <img
-                        src="https://picsum.photos/370/350/?category=meat"
-                        alt=""
-                      />
-                    </ReviewMainImage>
-                    {/* sub image */}
-                    <ReviewSubImage>
-                      <img
-                        src="https://picsum.photos/370/350/?category=meat"
-                        alt=""
-                      />
-                    </ReviewSubImage>
-                  </ReivewImageWrap>
+                  <ImgStyle>
+                    <LargeImgStyle>
+                      {review.pics && review.pics.length == 0 ? (
+                        <img
+                          src={
+                            process.env.PUBLIC_URL +
+                            `/assets/images/favicon.png`
+                          }
+                          alt=""
+                        />
+                      ) : (
+                        <img
+                          src={`${baseApi}/pic/butcher/${storeInfo.ibutcher}/review/${review.ireview}/${review.pics[0]}`}
+                          alt="Large image"
+                        />
+                      )}
+                    </LargeImgStyle>
+                    <ThumbnailStyle>
+                      {review.pics.slice(1, 5).map(
+                        (pic, index) =>
+                          pic && (
+                            <div className="thumbnail" key={index}>
+                              <img
+                                src={`${baseApi}/pic/butcher/${
+                                  storeInfo.ibutcher
+                                }/review/${review.ireview}/${
+                                  review.pics[`${index}`]
+                                }`}
+                                alt={`img_${index + 1}`}
+                              />
+                            </div>
+                          ),
+                      )}
+                    </ThumbnailStyle>
+                  </ImgStyle>
                   <ReviewContentmWrap>
                     <ReviewProfileWrap>
                       <ReviewProfileImage>
@@ -343,6 +383,14 @@ const MeatDetailPage = () => {
                 </ReviewItemWrap>
               ))}
           </ReviewContentWrap>
+          {storeInfo?.reviews?.length === 0 ? (
+            <div></div>
+          ) : (
+            <div onClick={handleMoreReview}>
+              <Button bttext={"더보기"} />
+            </div>
+          )}
+          <MoreBtnWrap></MoreBtnWrap>
         </ReviewWrap>
       </ReadWrap>
     </div>

@@ -12,14 +12,24 @@ import {
 import useCustomHook from "../meat/hooks/useCustomHook";
 import ResultModal from "../common/ResultModal";
 import SelectedModal from "../common/SelectedModal";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import Fetching from "../common/Fetching";
+import { getUserInfo } from "../../api/MyApi";
+
+// 프로필 정보 초기값
+const initialProfile = {
+  iuser: "",
+  email: "",
+  name: "",
+  nickname: "",
+  birth: "",
+  gender: "",
+  address: "",
+  pic: "",
+  tel: "",
+};
 
 const Header = () => {
-  const authState = useSelector(state => state.authSlice);
-  const dispatch = useDispatch();
-  const { isLogin, moveToPath, doLogout } = useCustomLogin();
-  const [fetching, setFetching] = useState(false);
   const {
     isModal,
     openModal,
@@ -30,6 +40,33 @@ const Header = () => {
     confirmSelectModal,
     cancelSelectModal,
   } = useCustomHook();
+  const authState = useSelector(state => state.authSlice);
+  const [myProfileData, setMyProfileData] = useState(initialProfile);
+  const dispatch = useDispatch();
+  const { isLogin, moveToPath, doLogout } = useCustomLogin();
+  const [fetching, setFetching] = useState(false);
+  // const [refresh, setRefresh] = useState(false);
+
+  const refresh = useSelector(state => state.refresh);
+  console.log("refresh", refresh);
+
+  // 유저 정보 불러오기 (GET)
+  useEffect(() => {
+    const param = {};
+    getUserInfo({ param, successFn, failFn, errorFn });
+  }, [refresh]);
+
+  const successFn = result => {
+    setMyProfileData(result);
+    console.log(result);
+  };
+  const failFn = result => {
+    console.log(result);
+  };
+  const errorFn = result => {
+    console.log(result);
+  };
+
   const handleClick = () => {
     openSelectModal(
       "로그아웃",
@@ -78,7 +115,7 @@ const Header = () => {
           <JoinStyle>
             <LoginProfile>
               <span>
-                <p>{authState.nickname}</p> 님, 고기로 방문을 환영합니다.
+                <p>{myProfileData.nickname}</p> 님, 고기로 방문을 환영합니다.
               </span>
             </LoginProfile>
             <div onClick={handleClick} style={{ cursor: "pointer" }}>

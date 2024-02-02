@@ -87,20 +87,22 @@ const MeatListPage = () => {
       // ! 고기 종류별 필터링
       */}
 
-      <SearchWrap>
-        <SearchBar>
-          <SearchInput
-            placeholder="정육점을 검색해보세요"
-            onChange={handleSearchChange}
-          />
-        </SearchBar>
-        <SearchIconWrap onClick={handleSearchSubmit}>
-          <img
-            src={process.env.PUBLIC_URL + `/assets/images/search.svg`}
-            alt=""
-          />
-        </SearchIconWrap>
-      </SearchWrap>
+<form onSubmit={handleSearchSubmit}>
+        <SearchWrap>
+          <SearchBar>
+            <SearchInput
+              placeholder="정육점을 검색해보세요"
+              onChange={handleSearchChange}
+            />
+          </SearchBar>
+          <SearchIconWrap onClick={handleSearchSubmit}>
+            <img
+              src={process.env.PUBLIC_URL + `/assets/images/search.svg`}
+              alt=""
+            />
+          </SearchIconWrap>
+        </SearchWrap>
+      </form>
 
       {loading ? (
         <Loading />

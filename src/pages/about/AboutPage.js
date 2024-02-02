@@ -114,7 +114,7 @@ const AboutPage = () => {
                   ></img>
                   <div className="AboutCardTitle">{aboutData.gogi[0].name}</div>
                   <div className="AboutCardPrice">
-                    {aboutData.gogi[0].menu}. {aboutData.gogi[0].price}
+                    {aboutData.gogi[0].menu} {aboutData.gogi[0].price}
                   </div>
                   <AboutCardButton>
                     <DefaultBt

@@ -216,9 +216,13 @@ const MeatDetailPage = () => {
     // ! 가게 메뉴
   */}
         <MenuWrap>
-          <MenuTitle>
-            <span>메 뉴</span>
-          </MenuTitle>
+          {storeInfo?.menus?.length === 0 ? (
+            <div></div>
+          ) : (
+            <MenuTitle>
+              <span>메 뉴</span>
+            </MenuTitle>
+          )}
 
           <MenuContentWrap>
             {storeInfo.menus &&
@@ -358,9 +362,14 @@ star
 1 */}
         {/* 고기집 리뷰사진: /pic/shop/가게pk/reveiw/리뷰pk/사진이름 */}
         <ReviewWrap>
-          <ReviewTitle>
-            <span>리 뷰</span>
-          </ReviewTitle>
+          {storeInfo?.reviews?.length === 0 ? (
+            <div></div>
+          ) : (
+            <ReviewTitle>
+              <span>리 뷰</span>
+            </ReviewTitle>
+          )}
+
           <ReviewContentWrap>
             {storeInfo?.reviews &&
               storeInfo?.reviews.slice(0, visualReview).map((review, index) => (
@@ -368,7 +377,7 @@ star
                   {/* Image */}
                   <ImgStyle>
                     <LargeImgStyle>
-                      {review.pic && review.pic.lenth == 0 ? (
+                      {review.pic && review.pic.length == 0 ? (
                         <img
                           src={
                             process.env.PUBLIC_URL +
@@ -423,11 +432,15 @@ star
                 </ReviewItemWrap>
               ))}
           </ReviewContentWrap>
-          <MoreBtnWrap>
+
+          {storeInfo?.reviews?.length === 0 ? (
+            <div></div>
+          ) : (
             <div onClick={handleMoreReview}>
               <Button bttext={"더보기"} />
             </div>
-          </MoreBtnWrap>
+          )}
+          <MoreBtnWrap></MoreBtnWrap>
         </ReviewWrap>
       </ReadWrap>
     </div>

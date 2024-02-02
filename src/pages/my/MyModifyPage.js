@@ -1,5 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import { useSelector } from "react-redux";
+import { useSelector, useDispatch } from "react-redux";
 import {
   API_SERVER_HOST,
   getUserInfo,
@@ -21,6 +21,7 @@ import {
   ProfileImg,
   UploadButton,
 } from "./styles/MyModifyPageStyle";
+import { setRefresh } from "../../redux/refreshSlice";
 
 const host = API_SERVER_HOST;
 
@@ -52,6 +53,8 @@ const MyModifyPage = () => {
   const [image, setImage] = useState(authState.pic);
 
   const uploadRef = useRef(null);
+
+  const dispatch = useDispatch();
 
   // 유저 정보 불러오기 (GET)
   useEffect(() => {
@@ -130,6 +133,8 @@ const MyModifyPage = () => {
       title: "회원 정보 수정 완료",
       content: "성공적으로 수정되었습니다.",
     });
+    dispatch(setRefresh());
+    console.log("리프래시가즈아");
   };
   const failPut = putResult => {
     console.log("수정 실패", putResult);
