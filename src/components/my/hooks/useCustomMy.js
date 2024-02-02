@@ -64,9 +64,13 @@ const useCustomMy = () => {
   };
 
   // 상세 페이지 이동
-  const moveToDetail = ishop => {
+  const moveToDetail = (ishop, imeat) => {
+    const path =
+      imeat === 0
+        ? `../../butcher/detail/${ishop}`
+        : `../../meat/detail/${ishop}`;
     navigate({
-      pathname: `../../meat/detail/${ishop}`,
+      pathname: path,
       search: `${defaultQueryString}`,
     });
   };
