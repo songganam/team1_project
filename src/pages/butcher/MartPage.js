@@ -28,7 +28,7 @@ const MartPage = () => {
   let showTitleHeader = false;
   switch (location.pathname) {
     case `/butcher/list`:
-      timg = "https://picsum.photos/1920/215/?category=meat";
+      timg = process.env.PUBLIC_URL + `/assets/images/butcher_header.png`;
       tname = "정육점찾기";
       tcontent = "고기자체로 행복이 되는 공간";
       showTitleHeader = true;

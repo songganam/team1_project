@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { useDispatch } from "react-redux";
+import { useNavigate } from "react-router-dom";
+import ResultModal from "../../components/common/ResultModal";
 import useCustomHook from "../../components/meat/hooks/useCustomHook";
 import useCustomLogin from "../../components/meat/hooks/useCustomLogin";
 import TitleHeader from "../../components/titleheader/TitleHeader";
@@ -8,16 +10,12 @@ import "../login/LoginPage.css";
 import {
   LoginCheckBox,
   LoginPageBts,
-  LoginPageCheckbox,
   LoginPageID,
   LoginPageInfo,
   LoginPageMain,
   LoginPagePW,
   LoginPageWrap,
 } from "./styles/LoginPageStyle";
-import { useNavigate } from "react-router-dom";
-import ResultModal from "../../components/common/ResultModal";
-import JaddPage from "../join/JaddPage";
 
 // 로그인 페이지입니다.
 

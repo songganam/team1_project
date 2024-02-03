@@ -221,9 +221,13 @@ const MyBookCard = props => {
           </MyBookCardContent>
         </MyBookCardWrapper>
       ))}
-      <MyMoreViewButton onClick={handleMyBookView}>
-        <span>더보기</span>
-      </MyMoreViewButton>
+      {myBookList.length === 0 ? (
+        <div></div>
+      ) : (
+        <MyMoreViewButton onClick={handleMyBookView}>
+          <span>더보기</span>
+        </MyMoreViewButton>
+      )}
     </>
   );
 };

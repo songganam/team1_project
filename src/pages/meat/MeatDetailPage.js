@@ -136,7 +136,8 @@ const MeatDetailPage = () => {
   // ! KAKAOMAP API X,Y value
   const [draggable, setDraggable] = useState(true);
   const [zoomable, setZoomable] = useState(true);
-
+  const defaultMenuImage =
+    process.env.PUBLIC_URL + `/assets/images/favicon.png`;
   return (
     <div>
       {isModal.isOpen && (
@@ -230,10 +231,14 @@ const MeatDetailPage = () => {
                 <MenuCardWrap key={index}>
                   {/* 그림 */}
                   <MenuCardImageWrap>
-                    <img
-                      src="https://picsum.photos/370/350/?category=meat"
-                      alt=""
-                    />
+                    {item.pic === null ? (
+                      <img src={defaultMenuImage} alt="defaultImage" />
+                    ) : (
+                      <img
+                        src={`${baseApi}/pic/shop/${storeInfo.ishop}/menu/${item.pic}`}
+                        alt=""
+                      />
+                    )}
                   </MenuCardImageWrap>
                   {/*
 // ! 가게 정보
