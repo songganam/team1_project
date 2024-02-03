@@ -14,6 +14,7 @@ import {
   SearchInput,
   SearchWrap,
 } from "./styles/ButcherListStyle";
+import Fetching from "../../components/common/Fetching";
 
 // 고깃집 목록보기 페이지입니다.
 const MeatListPage = () => {
@@ -30,8 +31,8 @@ const MeatListPage = () => {
     moveToSearch,
   } = useCustomHook();
   const [BlistData, setBlistData] = useState([]);
+  const [fetching, setFetching] = useState(false);
   const { ishop } = useParams();
-  const [loading, setLoading] = useState(false);
   // const [selectFilter, setSelectFilter] = useState("lastest");
   const [cateSearch, setCateSearch] = useState("");
   const host = `http://192.168.0.144:5221/pic/shop/${ishop}/shop_pic/`;
@@ -44,16 +45,16 @@ const MeatListPage = () => {
   }, [page, search, refresh]);
 
   const successFn = result => {
-    setLoading(false);
+    setFetching(false);
     setBlistData([...BlistData, ...result]);
     console.log(result);
   };
   const failFn = result => {
-    // setLoading(false);
+    setFetching(false);
     console.log(result);
   };
   const errorFn = result => {
-    // setLoading(false);
+    setFetching(false);
     console.log(result);
   };
   const handleFilterClick = category => {
@@ -76,6 +77,7 @@ const MeatListPage = () => {
   };
   return (
     <ListWrap>
+      {fetching ? <Fetching /> : null}
       {isModal.isOpen && (
         <ResultModal
           title={isModal.title}
@@ -87,7 +89,7 @@ const MeatListPage = () => {
       // ! 고기 종류별 필터링
       */}
 
-<form onSubmit={handleSearchSubmit}>
+      <form onSubmit={handleSearchSubmit}>
         <SearchWrap>
           <SearchBar>
             <SearchInput
@@ -104,12 +106,8 @@ const MeatListPage = () => {
         </SearchWrap>
       </form>
 
-      {loading ? (
-        <Loading />
-      ) : (
-        <BCardComponent data={BlistData} ishop={ishop} />
-        // <div></div>
-      )}
+      <BCardComponent data={BlistData} ishop={ishop} />
+
       <ListMoreViewBtnWrap>
         <ListMoreViewBtn onClick={handleMoreView}>
           <span>더보기</span>

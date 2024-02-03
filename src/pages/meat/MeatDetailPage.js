@@ -53,21 +53,22 @@ import {
 } from "./styles/MeatDetailStyle";
 import { API_SERVER_HOST } from "../../api/config";
 import Button from "../../components/button/Button";
+import Fetching from "../../components/common/Fetching";
 
 const MeatDetailPage = () => {
   const navigate = useNavigate();
   const { ishop } = useParams();
   const { isModal, openModal, closeModal, moveToLogin } = useCustomHook();
   const [storeInfo, setStoreInfo] = useState({});
-  const [loading, setLoading] = useState(false);
   const { isLogin } = useCustomLogin();
   const isBookInfo = storeInfo.isBook;
   const baseApi = API_SERVER_HOST;
   // const host = `${baseApi}/pic`;
   const host = `${baseApi}/pic/shop/${ishop}/shop_pic/`;
+  const [fetching, setFetching] = useState(false);
 
   useEffect(() => {
-    setLoading(true);
+    setFetching(true);
     getGInfo({ isLogin, ishop, successFn, failFn, errorFn });
     setBookmark(isBookInfo);
   }, [isLogin, ishop, isBookInfo]);
@@ -75,16 +76,16 @@ const MeatDetailPage = () => {
   const successFn = result => {
     console.log(result);
     setStoreInfo(result);
-    setLoading(false);
+    setFetching(false);
     // console.log("DPage res : ", storeInfo);
   };
   const failFn = result => {
     console.log(result);
-    setLoading(true);
+    setFetching(true);
   };
   const errorFn = result => {
     console.log(result);
-    setLoading(true);
+    setFetching(true);
   };
   // ! BookMark, Go Reservation Btn Logic
   const [bookmark, setBookmark] = useState(isBookInfo || 0);
@@ -140,6 +141,7 @@ const MeatDetailPage = () => {
     process.env.PUBLIC_URL + `/assets/images/favicon.png`;
   return (
     <div>
+      {fetching ? <Fetching /> : null}
       {isModal.isOpen && (
         <ResultModal
           title={isModal.title}

@@ -1,8 +1,8 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router";
 import { getGList } from "../../api/meatApi";
+import Fetching from "../../components/common/Fetching";
 import ResultModal from "../../components/common/ResultModal";
-import Loading from "../../components/loading/Loading";
 import GCardComponent from "../../components/meat/GCardComponent";
 import useCustomHook from "../../components/meat/hooks/useCustomHook";
 import {
@@ -32,7 +32,8 @@ const MeatListPage = () => {
   } = useCustomHook();
   const [GlistData, setGlistData] = useState([]);
   const { ishop } = useParams();
-  const [loading, setLoading] = useState(false);
+
+  const [fetching, setFetching] = useState(false);
   // const [selectFilter, setSelectFilter] = useState("lastest");
   const [cateSearch, setCateSearch] = useState("");
 
@@ -44,29 +45,33 @@ const MeatListPage = () => {
   }, [page, search, category, refresh]);
 
   const successFn = result => {
-    setLoading(false);
+    setFetching(false);
     setGlistData([...GlistData, ...result]);
     // setGlistData(result);
     console.log(result);
   };
   const failFn = result => {
-    // setLoading(false);
+    setFetching(false);
     console.log(result);
   };
   const errorFn = result => {
-    // setLoading(false);
+    setFetching(false);
     console.log(result);
   };
   const navigate = useNavigate();
+  const [selectedCategory, setSelectedCategory] = useState(null);
   const handleFilterClick = category => {
-    if (category == 6) {
-      openModal("해산물", "해산물 메뉴는 준비중입니다.", () => {
-        closeModal;
-        navigate(-1);
-      });
+    if (category !== selectedCategory) {
+      if (category == 6) {
+        openModal("해산물", "해산물 메뉴는 준비중입니다.", () => {
+          navigate(-1), closeModal();
+        });
+      }
+
+      setGlistData([]);
+      MoveToList({ page: 1, search: "", category });
+      setSelectedCategory(category);
     }
-    setGlistData([]);
-    MoveToList({ page: 1, search: "", category });
   };
   const handleSearchChange = e => {
     setCateSearch(e.target.value);
@@ -81,6 +86,7 @@ const MeatListPage = () => {
   };
   return (
     <ListWrap>
+      {fetching ? <Fetching /> : null}
       {isModal.isOpen && (
         <ResultModal
           title={isModal.title}
@@ -131,11 +137,8 @@ const MeatListPage = () => {
         </SearchWrap>
       </form>
 
-      {loading ? (
-        <Loading />
-      ) : (
-        <GCardComponent data={GlistData} ishop={ishop} />
-      )}
+      <GCardComponent data={GlistData} ishop={ishop} />
+
       <ListMoreViewBtnWrap>
         <ListMoreViewBtn onClick={handleMoreView}>
           <span>더보기</span>

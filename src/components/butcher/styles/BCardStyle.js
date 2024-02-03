@@ -4,7 +4,7 @@ import { ColorStyle, FontSize } from "../../../styles/common/CommonStyle";
 // 고깃집 가게 카드 컴포넌트
 export const CardWrapper = styled.div`
   width: 1180px;
-  padding-top: 30px;
+  padding-top: 80px;
 `;
 export const ButcherStoreCard = styled.div`
   font-family: "DAEAM_LEE_TAE_JOON";

@@ -68,9 +68,9 @@ export const changeBookmark = async storeNum => {
 
 export const postPickup = async ({
   pickupData,
-  successFn,
-  failFn,
-  errorFn,
+  successPickupFn,
+  failPickupFn,
+  errorPickupFn,
 }) => {
   console.log("레저데이따", pickupData);
   try {
@@ -79,12 +79,12 @@ export const postPickup = async ({
     const res = await authAxios.post(`${host}/pickup`, pickupData, header);
     const status = res.status.toString();
     if (status.charAt(0) === "2") {
-      successFn(res.data);
+      successPickupFn(res.data);
     } else {
-      failFn("");
+      failPickupFn("");
     }
   } catch (error) {
-    errorFn("");
+    errorPickupFn(error);
     //
   }
 };

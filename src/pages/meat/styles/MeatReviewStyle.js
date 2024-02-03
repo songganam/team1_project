@@ -38,7 +38,7 @@ export const ReviewContentWrap = styled.div`
 `;
 export const ReviewWrapper = styled.div`
   display: flex;
-  width: 530px;
+  width: 600px;
   height: 450px;
   align-items: flex-start;
   align-content: flex-start;
@@ -48,7 +48,7 @@ export const ReviewWrapper = styled.div`
 // export const
 export const ReviewFormWrap = styled.div`
   display: flex;
-  width: 530px;
+  width: 600px;
   align-items: center;
   flex-shrink: 0;
 `;
@@ -151,7 +151,7 @@ export const ReviewInputWrap = styled.div`
   width: 366px;
 `;
 export const ReviewCommentInput = styled(TextareaAutosize)`
-  width: 366px;
+  width: 430px;
   resize: none;
   font-size: 14px;
   font-family: "Pretendard";
@@ -308,22 +308,34 @@ export const ReviewSubmitBtn = styled.button`
     line-height: 125%; /* 23.75px */
   }
 `;
+export const ImageSelector = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 2px;
+`;
 
 export const ImageBox = styled.div`
-  &.fristImage {
-    img {
-      width: 200px;
-      height: 200px;
-    }
-  }
-  &.subImage {
-    display: flex;
-    .subImageItem {
-      border: 1px solid black;
-      img {
-        width: 100px;
-        height: 100px;
-      }
-    }
+  display: flex;
+  gap: 2px;
+`;
+
+export const AddImageBtn = styled.button`
+  display: flex;
+  padding: 10px 5px;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  border-radius: 10px;
+  border: 2px solid var(--sub, #066e52);
+  background: #fff;
+  span {
+    color: var(--primary, #d60117);
+    text-align: center;
+    font-family: DAEAM_LEE_TAE_JOON;
+    font-size: 19px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 125%; /* 23.75px */
   }
 `;

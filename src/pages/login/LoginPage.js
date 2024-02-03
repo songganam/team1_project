@@ -135,7 +135,7 @@ const LoginPage = () => {
       )}
       <LoginPageWrap>
         <TitleHeader
-          timg="https://picsum.photos/1920/215/?category=meat"
+          timg={process.env.PUBLIC_URL + `/assets/images/login_header.png`}
           tname="로그인"
           tcontent="우울할 땐 고기 앞으로"
         ></TitleHeader>

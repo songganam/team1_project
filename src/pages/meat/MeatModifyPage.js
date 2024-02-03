@@ -23,6 +23,7 @@ import ResultModal from "../../components/common/ResultModal";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { putMyBook } from "../../api/MyApi";
 import ReserCalendar from "../../components/meat/ModifyCalendar";
+import Fetching from "../../components/common/Fetching";
 
 // 예약 변경 페이지
 const MeatModifyPage = () => {
@@ -33,6 +34,7 @@ const MeatModifyPage = () => {
   const headcount = queryParams.get("headcount");
   const date = queryParams.get("date");
   const request = queryParams.get("request");
+  const [fetching, setFetching] = useState(false);
 
   console.log("예약PK", ireser);
   console.log("이름", name);
@@ -185,24 +187,34 @@ const MeatModifyPage = () => {
         closeModal,
       );
     }
+    setFetching(true);
     putMyBook({ reserChangeForm, successFn, failFn, errorFn });
 
-    openModal("예약변경완료", "예약변경이 완료되었습니다.", submitModal);
     console.log("내용 :", reserChangeForm);
     return reserChangeForm;
   };
   const successFn = result => {
+    setFetching(false);
     console.log(result);
+    openModal("예약변경완료", "예약변경이 완료되었습니다.", submitModal);
   };
   const failFn = result => {
+    setFetching(false);
     console.log(result);
   };
-  const errorFn = result => {
-    console.log(result);
+  const errorFn = error => {
+    setFetching(false);
+    if (error.response && error.response.status === 400) {
+      openModal("예약 실패", "시간을 기입해주세요.", closeModal);
+    }
+    if (error.response && error.response.status === 500) {
+      openModal("예약 실패", "관리자에게 문의해주세요.", closeModal);
+    }
   };
 
   return (
     <div>
+      {fetching ? <Fetching /> : null}
       {isModal.isOpen && (
         <ResultModal
           title={isModal.title}
