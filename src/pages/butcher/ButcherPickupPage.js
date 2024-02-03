@@ -31,6 +31,7 @@ import {
   ReserWrapper,
   ReviewImageDeleteBtn,
 } from "./styles/ButcherPickupStyle";
+import Fetching from "../../components/common/Fetching";
 
 const MeatDetailPage = () => {
   const { openModal, isModal, closeModal } = useCustomHook();
@@ -40,7 +41,8 @@ const MeatDetailPage = () => {
   const queryParams = new URLSearchParams(location.search);
   const name = queryParams.get("name");
   const storeName = location.state?.storeName;
-  const [loading, setLoading] = useState(false);
+  const [fetching, setFetching] = useState(false);
+
   const [storeInfo, setStoreInfo] = useState({});
   const [selectedItems, setSelectedItems] = useState([
     { item: "", quantity: 1 },
@@ -58,17 +60,15 @@ const MeatDetailPage = () => {
   const successFn = result => {
     console.log(result);
     setStoreInfo(result);
-    setLoading(false);
+    setFetching(false);
   };
   const failFn = result => {
     console.log(result);
     setStoreInfo(result);
-    setLoading(false);
+    setFetching(false);
   };
   const errorFn = error => {
-    if (error.response && error.response.status === 400) {
-      openModal("픽업 실패", "양식을 다시 확인해주세요.", closeModal);
-    }
+    console.log(error);
   };
 
   const handleAddForm = () => {
@@ -227,13 +227,34 @@ const MeatDetailPage = () => {
       menus: menus,
     };
     console.log("픽업데이터 ", pickupData);
-    postPickup({ pickupData, successFn, failFn, errorFn });
-    openModal("예약완료", "예약이 완료되었습니다.", () => {
+    setFetching(true);
+    postPickup({ pickupData, successPickupFn, failPickupFn, errorPickupFn });
+  };
+  const successPickupFn = result => {
+    console.log(result);
+    setStoreInfo(result);
+    setFetching(false);
+    openModal("등록완료", "픽업예약이 완료되었습니다.", () => {
       closeModal, navigate(-1);
     });
   };
+  const failPickupFn = result => {
+    console.log(result);
+    setStoreInfo(result);
+    setFetching(false);
+  };
+  const errorPickupFn = error => {
+    setFetching(false);
+    if (error.response && error.response.status === 400) {
+      openModal("등록 실패", "양식을 다시 확인해주세요.", closeModal);
+    }
+    if (error.response && error.response.status === 500) {
+      openModal("등록 실패", "관리자에게 문의해주세요.", closeModal);
+    }
+  };
   return (
     <div>
+      {fetching ? <Fetching /> : null}
       {isModal.isOpen && (
         <ResultModal
           title={isModal.title}

@@ -23,12 +23,14 @@ import ResultModal from "../../components/common/ResultModal";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { postReser } from "../../api/meatApi";
 import dayjs from "dayjs";
+import Fetching from "../../components/common/Fetching";
 
 // 고깃집 리뷰 쓰기 페이지입니다.
 const MeatReservationPage = () => {
   const { ishop } = useParams();
   const location = useLocation();
   const storeName = location.state?.storeName;
+  const [fetching, setFetching] = useState(false);
   // ! Modal Control
   const navigate = useNavigate();
   const [isModal, setIsModal] = useState({
@@ -143,24 +145,33 @@ const MeatReservationPage = () => {
         closeModal,
       );
     }
+    setFetching(true);
     postReser({ reserData, successFn, failFn, errorFn });
-    openModal("예약완료", "예약이 완료되었습니다.", submitModal);
+
     console.log("내용 :", reserData);
     return reserData;
   };
   const successFn = result => {
+    setFetching(false);
+    openModal("예약완료", "예약이 완료되었습니다.", submitModal);
     console.log(result);
   };
   const failFn = result => {
+    setFetching(false);
     console.log(result);
   };
   const errorFn = error => {
+    setFetching(false);
     if (error.response && error.response.status === 400) {
       openModal("예약 실패", "시간을 기입해주세요.", closeModal);
+    }
+    if (error.response && error.response.status === 500) {
+      openModal("예약 실패", "관리자에게 문의해주세요.", closeModal);
     }
   };
   return (
     <div>
+      {fetching ? <Fetching /> : null}
       {isModal.isOpen && (
         <ResultModal
           title={isModal.title}

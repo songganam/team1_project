@@ -55,13 +55,14 @@ import {
   ThumbnailStyle,
 } from "../meat/styles/MeatDetailStyle";
 import Button from "../../components/button/Button";
+import Fetching from "../../components/common/Fetching";
 
 const MeatDetailPage = () => {
   const navigate = useNavigate();
   const { ibutcher } = useParams();
   const { isModal, openModal, closeModal, moveToLogin } = useCustomHook();
   const [storeInfo, setStoreInfo] = useState({});
-  const [loading, setLoading] = useState(false);
+  const [fetching, setFetching] = useState(false);
   const { isLogin } = useCustomLogin();
   const isBookInfo = storeInfo.isBook;
 
@@ -74,7 +75,7 @@ const MeatDetailPage = () => {
   };
 
   useEffect(() => {
-    setLoading(true);
+    setFetching(true);
     getBInfo({ isLogin, ibutcher, successFn, failFn, errorFn });
     setBookmark(isBookInfo);
   }, [isLogin, ibutcher, isBookInfo]);
@@ -82,16 +83,16 @@ const MeatDetailPage = () => {
   const successFn = result => {
     console.log(result);
     setStoreInfo(result);
-    setLoading(false);
+    setFetching(false);
     // console.log("DPage res : ", storeInfo);
   };
   const failFn = result => {
     console.log(result);
-    setLoading(true);
+    setFetching(true);
   };
   const errorFn = result => {
     console.log(result);
-    setLoading(true);
+    setFetching(true);
   };
   // ! BookMark, Go Reservation Btn Logic
   const [bookmark, setBookmark] = useState(isBookInfo || 0);
@@ -140,6 +141,7 @@ const MeatDetailPage = () => {
   console.log(storeInfo.pics);
   return (
     <div>
+      {fetching ? <Fetching /> : null}
       {isModal.isOpen && (
         <ResultModal
           title={isModal.title}

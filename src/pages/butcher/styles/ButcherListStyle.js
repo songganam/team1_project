@@ -28,8 +28,9 @@ export const KindOfMeat = styled.div`
   }
 `;
 export const SearchWrap = styled.div`
-  /* margin-top: 30px; */
-  /* float: right; */
+  margin-top: 30px;
+  float: right;
+  margin-right: 20px;
   position: relative;
   display: flex;
   align-items: flex-start;

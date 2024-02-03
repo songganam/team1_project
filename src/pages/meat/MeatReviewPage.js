@@ -1,14 +1,16 @@
 import moment from "moment";
 import React, { useRef, useState } from "react";
-import { useLocation, useParams } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { postReview } from "../../api/meatApi";
-import Button from "../../components/button/Button";
 import Fetching from "../../components/common/Fetching";
 import ResultModal from "../../components/common/ResultModal";
 import SelectedModal from "../../components/common/SelectedModal";
+import useCustomHook from "../../components/meat/hooks/useCustomHook";
 import useCustomMove from "../../hooks/useCustomMove";
 import {
+  AddImageBtn,
   ImageBox,
+  ImageSelector,
   ReviewCommentInput,
   ReviewCommentItem,
   ReviewCommentItemWrap,
@@ -17,9 +19,6 @@ import {
   ReviewContent,
   ReviewContentWrap,
   ReviewFormWrap,
-  ReviewImageWrap,
-  ReviewInput,
-  ReviewInputLabel,
   ReviewInputWrap,
   ReviewItem,
   ReviewItemWrap,
@@ -54,7 +53,7 @@ const MeatReviewPage = () => {
   const checkShop = queryParams.get("checkShop");
   const name = queryParams.get("name");
   const ishop = queryParams.get("ishop");
-
+  const { isModal, openModal, closeModal, moveToLogin } = useCustomHook();
   // ! Call date
   const createdate = new Date();
   const nowdata = moment(createdate).format("YYYY-MM-DD");
@@ -92,16 +91,20 @@ const MeatReviewPage = () => {
     // e.target.files는 사용자가 선택한 파일들의 목록을 포함
     const files = e.target.files;
     if (files) {
+      const totalImages = images.length + files.length;
+      if (totalImages > 5) {
+        openModal(
+          "이미지오류",
+          "이미지는 5장까지 업로드 가능합니다.",
+          closeModal,
+        );
+        return;
+      }
       // 사용자가 선택한 파일로부터 URL을 생성
       const newImages = Array.from(files).map(file =>
-        // 각 파일에 대해 임시 URL을 생성
-        // 이 URL은 브라우저 내에서 파일을 참조할 수 있는 경로를 제공
         URL.createObjectURL(file),
       );
-      // 기존 이미지 목록에 새로운 이미지 URL들을 추가
-      // ...prevImages는 기존의 이미지 목록
-      // ...newImages는 새로운 이미지 URL목록을 펼쳐서 하나의 배열로 합치는 작업
-      // 최종적으로 기존 이미지 목록에 새로운 이미지들이 추가
+
       setImages(prevImages => [...prevImages, ...newImages]);
     }
   };
@@ -168,7 +171,7 @@ const MeatReviewPage = () => {
   const [popContent, setPopContent] = useState(false);
   const [popRedirect, setPopRedirect] = useState(false);
   const [showModal, setShowModal] = useState(false);
-
+  const navigate = useNavigate();
   // 확인 버튼 클릭 시
   const handleConfirm = product => {
     // 글 등록 로직 실행
@@ -177,14 +180,6 @@ const MeatReviewPage = () => {
     setShowModal(false);
   };
 
-  const closeModal = () => {
-    // 모달창 닫기
-    setAddResult(false);
-    if (popRedirect === true) {
-      // 목록으로 가기
-      moveToList({ page: 1 });
-    }
-  };
   // 취소 버튼 클릭 시
   const handleCancel = () => {
     // 모달 닫기
@@ -205,10 +200,9 @@ const MeatReviewPage = () => {
   const successFn = addResult => {
     console.log("글 등록 성공", addResult);
     setFetching(false);
-    setAddResult(true);
-    setPopTitle("글 등록 성공");
-    setPopContent("글 등록에 성공하였습니다.");
-    setPopRedirect(true);
+    openModal("등록성공", "리뷰가 등록 되었습니다.", () => {
+      closeModal(), navigate("/my/review");
+    });
   };
   const failFn = addResult => {
     console.log("글 등록 실패", addResult);
@@ -218,19 +212,27 @@ const MeatReviewPage = () => {
     setPopContent("오류가 발생하였습니다. 잠시 후 다시 시도해주세요");
     setPopRedirect(false);
   };
-  const errorFn = addResult => {
+  const errorFn = error => {
     console.log("글 등록 실패", addResult);
-    setFetching(false);
-    setAddResult(true);
-    setPopTitle("서버 오류");
-    setPopContent("서버가 불안정합니다. 관리자에게 문의해주세요.");
-    setPopRedirect(false);
+    if (error.response && error.response.status === 400) {
+      openModal("등록 실패", "데이터를 확인해주세요.", closeModal);
+    }
+    if (error.response && error.response.status === 500) {
+      openModal("등록 실패", "관리자에게 문의해주세요.", closeModal);
+    }
   };
 
   const { moveToList } = useCustomMove();
 
   return (
     <ReviewWrap>
+      {isModal.isOpen && (
+        <ResultModal
+          title={isModal.title}
+          content={isModal.content}
+          callFn={isModal.callFn}
+        />
+      )}
       <ReviewItemWrap>
         {fetching ? <Fetching /> : null}
         <ReviewTitle>
@@ -305,60 +307,51 @@ const MeatReviewPage = () => {
                 />
               </ReviewInputWrap>
             </ReviewCommentItemWrap>
-          </ReviewWrapper>
-          {/* 이미지 첨부 */}
-          {/* process.env.PUBLIC_URL +
-                `/assets/images/main_image_select.png` */}
-          {/* 
-        // TODO 첫 input state 줘서 투명도 없애고 보여주고 그다음부터는
-        // TODO 이미지가 들어오면? 투명하게 보이도록
-        */}
-          <ReviewImageWrap>
-            <div>
-              <ReviewImageWrap>
-                {/* <div onClick={handleClickImg}>
-                  <Button bttext="사진추가" />
-                </div> */}
-                <div className="inputBox">
-                  <ReviewInputLabel
-                    htmlFor="main-page"
-                    onClick={handleClickImg}
-                    mainImageSelect={mainImageSelect}
-                  >
-                    <ReviewInput
+            <ReviewFormWrap>
+              <ReviewCommentWrap>
+                <ReviewCommentItem>
+                  <span>사진</span>
+                </ReviewCommentItem>
+                <ReviewCommentSubItem>
+                  <span>(5장 제한)</span>
+                </ReviewCommentSubItem>
+              </ReviewCommentWrap>
+              <ReviewContent>
+                <ImageSelector>
+                  <div onClick={handleClickImg}>
+                    <AddImageBtn>
+                      <span>사진추가</span>
+                    </AddImageBtn>
+                  </div>
+                  <div className="inputBox">
+                    <input
                       type="file"
                       ref={uploadRef}
                       multiple={true}
                       style={{ display: "none" }}
                       onChange={handleFileChange}
                     />
-                  </ReviewInputLabel>
-                  <div className="previewBox">
-                    {images.map((src, index) => (
-                      <ImageBox
-                        key={index}
-                        className={index === 0 ? "fristImage" : "subImage"}
-                      >
-                        <div className={index === 0 ? "" : "subImageItem"}>
-                          <img
-                            src={src}
-                            alt={`미리보기${index}`}
-                            // style={{
-                            //   maxWidth: "60px",
-                            //   margin: "5px",
-                            //   cursor: "pointer",
-                            //   borderRadius: "5px",
-                            // }}
-                            onClick={() => deleteImage(index)}
-                          />
-                        </div>
-                      </ImageBox>
-                    ))}
+                    <ImageBox>
+                      {images.map((src, index) => (
+                        <img
+                          key={index}
+                          src={src}
+                          alt={`미리보기${index}`}
+                          style={{
+                            maxWidth: "60px",
+                            margin: "5px",
+                            cursor: "pointer",
+                            borderRadius: "5px",
+                          }}
+                          onClick={() => deleteImage(index)}
+                        />
+                      ))}
+                    </ImageBox>
                   </div>
-                </div>
-              </ReviewImageWrap>
-            </div>
-          </ReviewImageWrap>
+                </ImageSelector>
+              </ReviewContent>
+            </ReviewFormWrap>
+          </ReviewWrapper>
         </ReviewContentWrap>
       </ReviewItemWrap>
       {/* submit button */}

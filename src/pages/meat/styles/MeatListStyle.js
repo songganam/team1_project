@@ -30,7 +30,7 @@ export const KindOfMeat = styled.div`
 export const SearchWrap = styled.div`
   position: relative;
   float: right;
-  margin-right: 60px;
+  margin-right: 20px;
   display: flex;
   align-items: flex-start;
   gap: 3px;

@@ -308,3 +308,4 @@ export const ReviewSubmitBtn = styled.button`
     line-height: 125%; /* 23.75px */
   }
 `;
+
