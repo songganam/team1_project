@@ -6,10 +6,17 @@
 <div align = "center">
     <p>프론트엔드 & 백엔드 협업 프로젝트</p>
     <h4>고깃집 검색 및 예약관리 서비스</h4>
-    <h1>고기-로</h1>    
+    <h1>고기-로</h1>
+    <h2>
+        :clapper:<br/>
+        Project demo video
+    </h2>
+    <h3>
+        시연 영상
+    </h3>    
     <span>        
-        <a herf="http://youtu.be/ToPfr4-frgw?si=vm8abHeZZjoiYTQ/" target="blank">
-            🔹 시연 영상 바로가기
+        <a href="https://youtu.be/ToPfr4-frgw?si=eXPoT0nfMPvG4nNv" target="blank">
+            🔹 시연영상 바로가기
         </a>
     </span>
 <br/><br/>
