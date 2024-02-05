@@ -368,7 +368,7 @@ const JaddPage = () => {
         />
       )}
       <TitleHeader
-        timg="https://picsum.photos/1920/215/?category=meat"
+        timg={`${process.env.PUBLIC_URL}/assets/images/join_header.png`}
         tname="회원가입"
         tcontent="오늘도 맛있는 고기와 함께하세요"
       ></TitleHeader>
