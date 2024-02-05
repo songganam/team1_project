@@ -9,7 +9,7 @@
     <h1>고기-로</h1>    
     <span>
         🔹
-        <a herf="https://youtu.be/ToPfr4-frgw?si=oVjtB07KG1lg0hDq" target="_blank">
+        <a herf="https://youtu.be/ToPfr4-frgw?si=oVjtB07KG1lg0hDq" target="blank">
             시연 영상 바로가기
         </a>
     </span>
@@ -21,7 +21,7 @@
     </h2>
     <h3>배포</h3>
     <span>
-        <a href="http://192.168.0.144:5221/" target="_blank">
+        <a href="http://192.168.0.144:5221/" target="blank">
             사이트 바로가기
         </a>
     </span>
