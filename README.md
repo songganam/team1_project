@@ -44,7 +44,7 @@
     인생은 고기서 고기다.
   </h4>
   <p>
-    - SHOPPING + CART = SHOPPANG
+    - 고기-로( = gogiro) : 고깃집 로드(road)
   </p>  
   <h4>
     :heavy_check_mark:
