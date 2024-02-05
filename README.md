@@ -7,10 +7,9 @@
     <p>프론트엔드 & 백엔드 협업 프로젝트</p>
     <h4>고깃집 검색 및 예약관리 서비스</h4>
     <h1>고기-로</h1>    
-    <span>
-        🔹
+    <span>        
         <a herf="https://youtu.be/ToPfr4-frgw?si=oVjtB07KG1lg0hDq" target="blank">
-            시연 영상 바로가기
+            🔹 시연 영상 바로가기
         </a>
     </span>
 <br/><br/>
@@ -22,7 +21,7 @@
     <h3>배포</h3>
     <span>
         <a href="http://192.168.0.144:5221/" target="blank">
-            사이트 바로가기
+            🔹 사이트 바로가기
         </a>
     </span>
     <h2>
