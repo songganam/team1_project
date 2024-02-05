@@ -8,7 +8,7 @@
     <h4>고깃집 검색 및 예약관리 서비스</h4>
     <h1>고기-로</h1>    
     <span>        
-        <a herf="https://youtu.be/ToPfr4-frgw?si=oVjtB07KG1lg0hDq" target="blank">
+        <a herf="http://youtu.be/ToPfr4-frgw?si=vm8abHeZZjoiYTQx" target="blank">
             🔹 시연 영상 바로가기
         </a>
     </span>
