@@ -1,11 +1,14 @@
 import React, { useEffect, useState } from "react";
 import { Map, MapMarker } from "react-kakao-maps-sdk";
 import { useNavigate, useParams } from "react-router";
-import { changeBookmark, getGInfo } from "../../api/meatApi";
-import { Swiper, SwiperSlide } from "swiper/react";
 import "swiper/css";
 import "swiper/css/navigation";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { API_SERVER_HOST } from "../../api/config";
+import { changeBookmark, getGInfo } from "../../api/meatApi";
+import Button from "../../components/button/Button";
 import CountingStar from "../../components/common/CountingStar";
+import Fetching from "../../components/common/Fetching";
 import ResultModal from "../../components/common/ResultModal";
 import useCustomHook from "../../components/meat/hooks/useCustomHook";
 import useCustomLogin from "../../components/meat/hooks/useCustomLogin";
@@ -36,24 +39,18 @@ import {
   OverlayItem,
   OverlayWrap,
   ReadWrap,
-  ReivewImageWrap,
   ReserBtn,
   ReviewContent,
   ReviewContentWrap,
   ReviewContentmWrap,
   ReviewItemWrap,
-  ReviewMainImage,
   ReviewProfileImage,
   ReviewProfileWrap,
-  ReviewSubImage,
   ReviewTitle,
   ReviewUserProfile,
   ReviewWrap,
   ThumbnailStyle,
 } from "./styles/MeatDetailStyle";
-import { API_SERVER_HOST } from "../../api/config";
-import Button from "../../components/button/Button";
-import Fetching from "../../components/common/Fetching";
 
 const MeatDetailPage = () => {
   const navigate = useNavigate();
@@ -420,10 +417,17 @@ star
                   <ReviewContentmWrap>
                     <ReviewProfileWrap>
                       <ReviewProfileImage>
-                        <img
-                          src="https://picsum.photos/370/350/?category=meat"
-                          alt=""
-                        />
+                        {review.writerPic ? (
+                          <img
+                            src={`${baseApi}/pic/user/${review.iuser}/${review.writerPic}`}
+                            alt="프로필사진"
+                          />
+                        ) : (
+                          <img
+                            src={`${process.env.PUBLIC_URL}/assets/images/user_profile.png`}
+                            alt="기본사진"
+                          />
+                        )}
                       </ReviewProfileImage>
                       <ReviewUserProfile>
                         <div>

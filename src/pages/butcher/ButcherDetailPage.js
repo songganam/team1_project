@@ -65,6 +65,8 @@ const MeatDetailPage = () => {
   const [fetching, setFetching] = useState(false);
   const { isLogin } = useCustomLogin();
   const isBookInfo = storeInfo.isBook;
+  const defaultMenuImage =
+    process.env.PUBLIC_URL + `/assets/images/favicon.png`;
 
   const baseApi = API_SERVER_HOST;
   const host = `${baseApi}/pic/butcher/`;
@@ -236,10 +238,14 @@ const MeatDetailPage = () => {
                 <MenuCardWrap key={index}>
                   {/* 그림 */}
                   <MenuCardImageWrap>
-                    <img
-                      src="https://picsum.photos/370/350/?category=meat"
-                      alt=""
-                    />
+                    {item.pic === null ? (
+                      <img src={defaultMenuImage} alt="defaultImage" />
+                    ) : (
+                      <img
+                        src={`${baseApi}/pic/butcher/${storeInfo.ibutcher}/menu/${item.pics}`}
+                        alt=""
+                      />
+                    )}
                   </MenuCardImageWrap>
                   {/* 
 // ! 가게 정보
@@ -366,10 +372,17 @@ const MeatDetailPage = () => {
                   <ReviewContentmWrap>
                     <ReviewProfileWrap>
                       <ReviewProfileImage>
-                        <img
-                          src="https://picsum.photos/370/350/?category=meat"
-                          alt=""
-                        />
+                        {review.writerPic ? (
+                          <img
+                            src={`${baseApi}/pic/user/${review.iuser}/${review.writerPic}`}
+                            alt="프로필사진"
+                          />
+                        ) : (
+                          <img
+                            src={`${process.env.PUBLIC_URL}/assets/images/user_profile.png`}
+                            alt="기본사진"
+                          />
+                        )}
                       </ReviewProfileImage>
                       <ReviewUserProfile>
                         <div>
