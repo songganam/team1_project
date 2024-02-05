@@ -93,7 +93,7 @@ export const postReview = async ({ product, successFn, failFn, errorFn }) => {
       failFn("글 등록 오류", res.statusText);
     }
   } catch (error) {
-    console.log("글 등록 서버오류", error.response.data);
-    errorFn("글 등록 서버오류", error.response.data);
+    // console.log("글 등록 서버오류", error.response.data);
+    errorFn(error);
   }
 };

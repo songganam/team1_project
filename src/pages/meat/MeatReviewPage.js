@@ -161,6 +161,7 @@ const MeatReviewPage = () => {
     // 데이터 전송 중임을 나타내는 상태 true
     setFetching(true);
     // formData를 서버에 전송
+
     postReview({ product: formData, successFn, failFn, errorFn });
   };
 
@@ -215,9 +216,11 @@ const MeatReviewPage = () => {
   const errorFn = error => {
     console.log("글 등록 실패", addResult);
     if (error.response && error.response.status === 400) {
-      openModal("등록 실패", "데이터를 확인해주세요.", closeModal);
+      setFetching(false);
+      openModal("등록 실패", "입력정보를 확인해주세요.", closeModal);
     }
     if (error.response && error.response.status === 500) {
+      setFetching(false);
       openModal("등록 실패", "관리자에게 문의해주세요.", closeModal);
     }
   };
