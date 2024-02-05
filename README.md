@@ -15,7 +15,7 @@
         시연 영상
     </h3>    
     <span>        
-        <a href="https://youtu.be/ToPfr4-frgw?si=eXPoT0nfMPvG4nNv" target="blank">
+        <a href="https://youtu.be/ToPfr4-frgw?si=eXPoT0nfMPvG4nNv" target="_blank">
             🔹 시연영상 바로가기
         </a>
     </span>
@@ -27,7 +27,7 @@
     </h2>
     <h3>배포</h3>
     <span>
-        <a href="http://192.168.0.144:5221/" target="blank">
+        <a href="http://192.168.0.144:5221/" target="_blank">
             🔹 사이트 바로가기
         </a>
     </span>
