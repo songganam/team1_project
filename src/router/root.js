@@ -7,6 +7,8 @@ import butcherRouter from "./butcherRouter";
 import saleRouter from "./saleRouter";
 import communityRouter from "./communityRouter";
 import myRouter from "./myRouter";
+import adminRouter from "./adminRouter";
+import supervisorRouter from "./supervisorRouter";
 
 // 어바웃 페이지
 const LazyAboutPage = lazy(() => import("../pages/about/AboutPage"));
@@ -34,6 +36,14 @@ const LazyMyPage = lazy(() => import("../pages/my/MyPage"));
 
 // 오류 페이지
 const LazyNotFoundPage = lazy(() => import("../pages/notfound/NotFound"));
+
+// 가게 관리자 페이지
+const LazyAdminPage = lazy(() => import("../pages/admin/AdminPage"));
+
+// 총 관리자 페이지
+const LazySupervisorPage = lazy(() =>
+  import("../pages/supervisor/SupervisorPage"),
+);
 
 // 테스트용 로그인 페이지
 const LazyGaraLogin = lazy(() => import("../redux/GaraLogin"));
@@ -116,6 +126,24 @@ const router = createBrowserRouter([
       </Suspense>
     ),
     children: myRouter(),
+  },
+  {
+    path: "/admin/",
+    element: (
+      <Suspense fallback={<Loading />}>
+        <LazyAdminPage />
+      </Suspense>
+    ),
+    children: adminRouter(),
+  },
+  {
+    path: "/svisor/",
+    element: (
+      <Suspense fallback={<Loading />}>
+        <LazySupervisorPage />
+      </Suspense>
+    ),
+    children: supervisorRouter(),
   },
   {
     path: "*",
