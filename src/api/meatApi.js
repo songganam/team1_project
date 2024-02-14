@@ -100,15 +100,17 @@ export const postReview = async ({ product, successFn, failFn, errorFn }) => {
 
 const dataApi =
   "https://api.odcloud.kr/api/nts-businessman/v1/status?serviceKey=UpSO0EUsJ1unPMAMztp9%2BGra9qwB%2FgAGPyetTwD14E4ZcNXP85AhXwOKfmjVQ%2FcyL4XCZiToNl0xrnBi3WJObg%3D%3D";
-export const postAdmin = async ({ dataForm }) => {
+export const postBusiNum = async ({ dataForm, successFn, errorFn }) => {
   console.log("데이터폼", dataForm);
   const header = {
     headers: { "Content-Type": "application/json", Accept: "application/json" },
   };
   try {
     const res = await axios.post(`${dataApi}`, dataForm);
-    console.log(res.data);
+    const returnData = res.data;
+    // console.log(resultData);
+    successFn(returnData);
   } catch (error) {
-    console.log(error);
+    errorFn(error);
   }
 };
