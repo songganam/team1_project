@@ -5,10 +5,12 @@ import App from "./App";
 import { Provider } from "react-redux";
 // 저장소 (전역)
 import store from "./store/store";
+import GoTop from "./components/common/GoTop";
 
 const root = ReactDOM.createRoot(document.getElementById("root"));
 root.render(
   <Provider store={store}>
     <App />
+    <GoTop />
   </Provider>,
 );
