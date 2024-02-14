@@ -117,7 +117,7 @@ const App = () => {
             </Suspense>
           }
         >
-          {/* 회원가입 페이지 첫화면 */}
+          {/* 마이페이지 첫화면 */}
           <Route path="" element={<Navigate to="book" />}></Route>
           <Route
             path="list"
