@@ -8,6 +8,7 @@ import { getNum } from "../../../util/utils";
 import useModal from "./useModal";
 import useSelectModal from "./useSelectModal";
 import useCustomLogin from "./useCustomLogin";
+import useEmptyModal from "./useEmptyModal";
 const useCustomHook = () => {
   const navigate = useNavigate();
   const [urlSearchParams, setUrlSearchPrams] = useSearchParams();
@@ -19,6 +20,7 @@ const useCustomHook = () => {
     confirmSelectModal,
     cancelSelectModal,
   } = useSelectModal();
+  const { isEmptyModal, openEmptyModal, closeEmptyModal } = useEmptyModal();
 
   const page = urlSearchParams.get("page")
     ? parseInt(urlSearchParams.get("page"))
@@ -132,6 +134,9 @@ const useCustomHook = () => {
     confirmSelectModal,
     cancelSelectModal,
     moveToBReser,
+    openEmptyModal,
+    isEmptyModal,
+    closeEmptyModal,
   };
 };
 export default useCustomHook;

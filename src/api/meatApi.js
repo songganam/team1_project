@@ -114,3 +114,23 @@ export const postBusiNum = async ({ dataForm, successFn, errorFn }) => {
     errorFn(error);
   }
 };
+
+export const getCoord = async ({ fullAddress, successCoordFn }) => {
+  console.log("넘겨짐", fullAddress);
+  try {
+    const res = await axios.get(
+      "https://dapi.kakao.com/v2/local/search/address.json",
+      {
+        params: { query: fullAddress },
+        headers: {
+          Authorization: `KakaoAK ${process.env.REACT_APP_KAKAO_API_KEY}`,
+        }, // 카카오 REST API 키를 입력해주세요.
+      },
+    );
+    const locationData = res.data.documents[0];
+    console.log(`위도: ${locationData.y}, 경도: ${locationData.x}`);
+    successCoordFn(locationData);
+  } catch (error) {
+    console.log(error);
+  }
+};

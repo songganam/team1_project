@@ -1,7 +1,9 @@
 import React, { useState } from "react";
+import DaumPostcodeEmbed from "react-daum-postcode";
+import { getCoord, postBusiNum } from "../../api/meatApi";
+import EmptyModal from "../../components/common/EmptyModal";
 import useCustomHook from "../../components/meat/hooks/useCustomHook";
-import Layout from "../../layouts/Layout";
-import { postBusiNum } from "../../api/meatApi";
+import TitleHeader from "../../components/titleheader/TitleHeader";
 import {
   DefaultBt,
   JaddAddressBts,
@@ -14,7 +16,6 @@ import {
   JaddPageWrap,
   JaddPwWrap,
 } from "../join/styles/JaddPageStyle";
-import TitleHeader from "../../components/titleheader/TitleHeader";
 
 const initState = {
   bId: "",
@@ -22,6 +23,7 @@ const initState = {
   checkBpw: "",
   bNo: "",
   bName: "",
+  bAddress: "",
 };
 const AdminJoinPage = () => {
   // @COMMENT join-form-data , fetching state
@@ -36,6 +38,9 @@ const AdminJoinPage = () => {
     openSelectModal,
     cancelSelectModal,
     confirmSelectModal,
+    isEmptyModal,
+    openEmptyModal,
+    closeEmptyModal,
   } = useCustomHook();
 
   const handleChange = e => {
@@ -84,15 +89,49 @@ const AdminJoinPage = () => {
     }
   };
 
+  // @COMMENT daum-post
+  const handleComplete = data => {
+    let fullAddress = data.address;
+    let extraAddress = "";
+
+    if (data.addressType === "R") {
+      if (data.bname !== "") {
+        extraAddress += data.bname;
+      }
+      if (data.buildingName !== "") {
+        extraAddress +=
+          extraAddress !== "" ? `, ${data.buildingName}` : data.buildingName;
+      }
+      fullAddress += extraAddress !== "" ? ` (${extraAddress})` : "";
+    }
+
+    console.log(fullAddress); // e.g. '서울 성동구 왕십리로2길 20 (성수동1가)'
+    setSignUpData({ ...signUpData, bAddress: fullAddress });
+    getCoord({ fullAddress, successCoordFn });
+    closeEmptyModal();
+  };
+  // @COMMENT X, Y Coord Value
+  const successCoordFn = result => {
+    console.log("result value ", result);
+    const xValue = result.x;
+    const yValue = result.y;
+    console.log("result xValue ", xValue);
+    console.log("result yValue ", yValue);
+  };
+
+  const handleTest = () => {
+    console.log("modal on");
+    openEmptyModal(<DaumPostcodeEmbed onComplete={handleComplete} />);
+  };
+
   return (
     <JaddPageWrap>
+      {isEmptyModal.isOpen && <EmptyModal content={isEmptyModal.content} />}
       <TitleHeader
         timg={`${process.env.PUBLIC_URL}/assets/images/join_header.png`}
         tname="사장님 회원가입"
         tcontent="세상에 나쁜 고기는 없다."
       />
-
-      <div>회원기입 폼</div>
       {/* 필요한 데이터 */}
       <JaddPageMain>
         <JaddPageInfo>
@@ -164,6 +203,23 @@ const AdminJoinPage = () => {
               onChange={e => handleChange(e)}
             />
           </JaddNameWrap>
+          <br />
+          <JaddNickNameWrap>
+            <label htmlFor="bAddress">주소</label>
+            <JaddNickNameInner>
+              <input
+                type="text"
+                name="bNo"
+                value={signUpData.bAddress}
+                className="JaddNickName"
+                placeholder="주소다 이말이야"
+                onChange={e => handleChange(e)}
+              />
+              <DefaultBt onClick={handleTest} className="JaddNickName-Bt">
+                주소찾기
+              </DefaultBt>
+            </JaddNickNameInner>
+          </JaddNickNameWrap>
 
           <JaddAddressBts>
             <DefaultBt
@@ -188,5 +244,4 @@ const AdminJoinPage = () => {
     </JaddPageWrap>
   );
 };
-
 export default AdminJoinPage;
