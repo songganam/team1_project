@@ -2,7 +2,7 @@ import React from "react";
 import Button from "../button/Button";
 
 // 타이틀, 내용, 확인버튼 클릭 시 콜백 함수
-const EmptyModal = ({ content }) => {
+const EmptyModal = ({ content, callFn }) => {
   const popstyle = {
     position: "fixed",
     display: "flex",
@@ -15,9 +15,14 @@ const EmptyModal = ({ content }) => {
     background: "rgba(0,0,0,0.7)",
     zIndex: 999,
   };
+  const handleClick = e => {
+    if (e.target === e.currentTarget) {
+      callFn();
+    }
+  };
 
   return (
-    <div style={popstyle}>
+    <div style={popstyle} onClick={handleClick}>
       <div
         style={{
           background: "#fff",
