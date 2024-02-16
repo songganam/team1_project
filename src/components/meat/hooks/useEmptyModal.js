@@ -5,11 +5,12 @@ function useEmptyModal() {
   const [isEmptyModal, setIsEmptyModal] = useState({
     isOpen: false,
     content: "",
+    callFn: null,
   });
   const navgate = useNavigate();
 
-  const openEmptyModal = content => {
-    setIsEmptyModal({ isOpen: true, content });
+  const openEmptyModal = (content, callFn) => {
+    setIsEmptyModal({ isOpen: true, content, callFn });
   };
 
   const closeEmptyModal = () => {

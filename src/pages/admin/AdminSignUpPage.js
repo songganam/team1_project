@@ -16,14 +16,24 @@ import {
   JaddPageWrap,
   JaddPwWrap,
 } from "../join/styles/JaddPageStyle";
+import {
+  ActiveCate,
+  CateSelectWrap,
+  NoActiveCate,
+  SelectedCate,
+} from "./styles/AdminSignUpStyles";
 
 const initState = {
-  bId: "",
-  bPw: "",
-  checkBpw: "",
-  bNo: "",
-  bName: "",
-  bAddress: "",
+  id: "",
+  upw: "",
+  checkUpw: "",
+  num: "",
+  name: "",
+  shopName: "",
+  x: "",
+  y: "",
+  location: "",
+  imeat: 0,
 };
 const AdminJoinPage = () => {
   // @COMMENT join-form-data , fetching state
@@ -51,10 +61,11 @@ const AdminJoinPage = () => {
   // b_no:["사업자등록번호"]
   const handleClickBusiCheck = () => {
     const dataForm = {
-      b_no: [`${signUpData.bNo}`],
+      b_no: [`${signUpData.num}`],
     };
     postBusiNum({ dataForm, successFn, errorFn });
   };
+
   // 5048525999, 1231231231 ,0012402024
   const successFn = result => {
     const resultData = result.data[0].b_stt;
@@ -74,12 +85,19 @@ const AdminJoinPage = () => {
   };
 
   const handleClickPost = () => {
+    // @COMMENT except pic
     const data = {
-      bId: signUpData.bId,
-      bPw: signUpData.bPw,
-      checkBpw: signUpData.checkBpw,
-      bNo: signUpData.bNo,
-      bName: signUpData.bName,
+      id: signUpData.id,
+      upw: signUpData.upw,
+      checkUpw: signUpData.checkUpw,
+      num: signUpData.num,
+      name: signUpData.name,
+      shopName: signUpData.shopName,
+      imeat: signUpData.imeat,
+      // hiddenValue
+      x: signUpData.x,
+      y: signUpData.y,
+      location: signUpData.location,
     };
     console.log("결과값 : ", data);
     if (ckeckFlag === false) {
@@ -113,20 +131,43 @@ const AdminJoinPage = () => {
   // @COMMENT X, Y Coord Value
   const successCoordFn = result => {
     console.log("result value ", result);
-    const xValue = result.x;
-    const yValue = result.y;
-    console.log("result xValue ", xValue);
-    console.log("result yValue ", yValue);
+    // const xValue = result.x;
+    // const yValue = result.y;
+    setSignUpData(prev => ({ ...prev, x: result.x, y: result.y }));
   };
 
   const handleTest = () => {
     console.log("modal on");
-    openEmptyModal(<DaumPostcodeEmbed onComplete={handleComplete} />);
+    openEmptyModal(
+      <DaumPostcodeEmbed onComplete={handleComplete} />,
+      closeEmptyModal,
+    );
+  };
+
+  // @COMMENT Store Category
+  const RadioBtnActive =
+    process.env.PUBLIC_URL + `/assets/images/radioBtn_active.png`;
+  const RadioBtnNone =
+    process.env.PUBLIC_URL + `/assets/images/radioBtn_none.png`;
+
+  const [selectedCate, setSelectedCate] = useState(0);
+  const storeCategory = ["돼지", "소", "닭", "오리", "양"];
+  const handleClickCate = index => {
+    setSelectedCate(index);
+  };
+  const [selectedMeat, setSelectedMeat] = useState();
+  const handleClickMeat = index => {
+    setSelectedMeat(index);
   };
 
   return (
     <JaddPageWrap>
-      {isEmptyModal.isOpen && <EmptyModal content={isEmptyModal.content} />}
+      {isEmptyModal.isOpen && (
+        <EmptyModal
+          content={isEmptyModal.content}
+          callFn={isEmptyModal.callFn}
+        />
+      )}
       <TitleHeader
         timg={`${process.env.PUBLIC_URL}/assets/images/join_header.png`}
         tname="사장님 회원가입"
@@ -136,23 +177,24 @@ const AdminJoinPage = () => {
       <JaddPageMain>
         <JaddPageInfo>
           <JaddNameWrap>
-            <label htmlFor="bId">아이디</label>
+            <label htmlFor="id">아이디</label>
             <input
               type="text"
-              name="bId"
-              value={signUpData.bId}
+              name="id"
+              value={signUpData.id}
               className="JaddName"
               placeholder="아이디임"
               onChange={e => handleChange(e)}
+              maxLength={20}
             />
           </JaddNameWrap>
           <br />
           <JaddPwWrap>
-            <label htmlFor="bPw">비밀번호</label>
+            <label htmlFor="upw">비밀번호</label>
             <input
               type="password"
-              name="bPw"
-              value={signUpData.bPw}
+              name="upw"
+              value={signUpData.upw}
               className="JaddPw"
               placeholder="비번임"
               onChange={e => handleChange(e)}
@@ -160,11 +202,11 @@ const AdminJoinPage = () => {
           </JaddPwWrap>
           <br />
           <JaddMorePwWrap>
-            <label htmlFor="checkBpw">비밀번호 확인</label>
+            <label htmlFor="checkUpw">비밀번호 확인</label>
             <input
               type="password"
-              name="checkBpw"
-              value={signUpData.checkBpw}
+              name="checkUpw"
+              value={signUpData.checkUpw}
               className="JaddMorePw"
               placeholder="비번체크다"
               onChange={e => handleChange(e)}
@@ -172,12 +214,12 @@ const AdminJoinPage = () => {
           </JaddMorePwWrap>
           <br />
           <JaddNickNameWrap>
-            <label htmlFor="bNo">사업자등록번호</label>
+            <label htmlFor="num">사업자등록번호</label>
             <JaddNickNameInner>
               <input
                 type="text"
-                name="bNo"
-                value={signUpData.bNo}
+                name="num"
+                value={signUpData.num}
                 className="JaddNickName"
                 placeholder="사업자번호임 제대로 적어"
                 maxLength={10}
@@ -205,12 +247,12 @@ const AdminJoinPage = () => {
           </JaddNameWrap>
           <br />
           <JaddNickNameWrap>
-            <label htmlFor="bAddress">주소</label>
+            <label htmlFor="location">주소</label>
             <JaddNickNameInner>
               <input
                 type="text"
-                name="bNo"
-                value={signUpData.bAddress}
+                name="location"
+                value={signUpData.location}
                 className="JaddNickName"
                 placeholder="주소다 이말이야"
                 onChange={e => handleChange(e)}
@@ -220,6 +262,43 @@ const AdminJoinPage = () => {
               </DefaultBt>
             </JaddNickNameInner>
           </JaddNickNameWrap>
+          <br />
+          <JaddNameWrap>
+            <label htmlFor="bId">가게이름</label>
+            <input
+              type="text"
+              name="shopName"
+              value={signUpData.shopName}
+              className="JaddName"
+              placeholder="아이디임"
+              onChange={e => handleChange(e)}
+            />
+          </JaddNameWrap>
+          <br />
+          <JaddNameWrap>
+            <CateSelectWrap>
+              <SelectedCate
+                selected={selectedCate === 0}
+                onClick={() => handleClickCate(0)}
+              >
+                고깃집
+              </SelectedCate>
+              <SelectedCate
+                selected={selectedCate === 1}
+                onClick={() => handleClickCate(1)}
+              >
+                정육점
+              </SelectedCate>
+            </CateSelectWrap>
+
+            <div>라디오버튼임 ㄹㅇㅋㅋ</div>
+            {storeCategory.map((category, index) => (
+              <div key={index} onClick={() => handleClickMeat(index)}>
+                {/*@COMMENT 주소달아줘야함*/}
+                <img />
+              </div>
+            ))}
+          </JaddNameWrap>
 
           <JaddAddressBts>
             <DefaultBt
