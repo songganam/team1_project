@@ -1,7 +1,12 @@
 import React from "react";
+import Modify from "../../components/adminInfo/Modify";
 
 const AdminInfoPage = () => {
-  return <h1>매장 정보 관리 페이지</h1>;
+  return (
+    <div>
+      <Modify />
+    </div>
+  );
 };
 
 export default AdminInfoPage;
