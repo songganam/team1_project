@@ -35,3 +35,23 @@ export const SelectedCate = styled.div`
         : "var(--gray-scale-100, #f5f5f5)"};
   }
 `;
+
+export const SelectMeatWrap = styled.div`
+  padding-top: 30px;
+  /* display: block; */
+  position: relative;
+  span {
+    font-size: 14px;
+  }
+`;
+export const SelectMeatItem = styled.div`
+  padding: 10px 10px 0 0;
+  /* position: relative; */
+  display: flex;
+  /* justify-content: center; */
+  align-items: center;
+  gap: 10px;
+  span {
+    font-size: 19px;
+  }
+`;

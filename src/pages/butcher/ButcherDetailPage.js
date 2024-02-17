@@ -5,10 +5,19 @@ import "swiper/css";
 import "swiper/css/navigation";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { changeBookmark, getBInfo } from "../../api/butcherApi";
+import { API_SERVER_HOST } from "../../api/config";
+import Button from "../../components/button/Button";
 import CountingStar from "../../components/common/CountingStar";
+import Fetching from "../../components/common/Fetching";
 import ResultModal from "../../components/common/ResultModal";
 import useCustomHook from "../../components/meat/hooks/useCustomHook";
 import useCustomLogin from "../../components/meat/hooks/useCustomLogin";
+import {
+  ImgStyle,
+  LargeImgStyle,
+  MoreBtnWrap,
+  ThumbnailStyle,
+} from "../meat/styles/MeatDetailStyle";
 import {
   InfoContent,
   InfoContentWrap,
@@ -33,29 +42,17 @@ import {
   OverlayItem,
   OverlayWrap,
   ReadWrap,
-  ReivewImageWrap,
   ReserBtn,
   ReviewContent,
   ReviewContentWrap,
   ReviewContentmWrap,
   ReviewItemWrap,
-  ReviewMainImage,
   ReviewProfileImage,
   ReviewProfileWrap,
-  ReviewSubImage,
   ReviewTitle,
   ReviewUserProfile,
   ReviewWrap,
 } from "./styles/ButcherDetailStyle";
-import { API_SERVER_HOST } from "../../api/config";
-import {
-  ImgStyle,
-  LargeImgStyle,
-  MoreBtnWrap,
-  ThumbnailStyle,
-} from "../meat/styles/MeatDetailStyle";
-import Button from "../../components/button/Button";
-import Fetching from "../../components/common/Fetching";
 
 const MeatDetailPage = () => {
   const navigate = useNavigate();

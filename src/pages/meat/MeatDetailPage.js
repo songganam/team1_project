@@ -52,38 +52,85 @@ import {
   ThumbnailStyle,
 } from "./styles/MeatDetailStyle";
 
+// @COMMENT use React-Query
+import { useQuery } from "@tanstack/react-query";
+
+const initState = {
+  ishop: 0,
+  name: "",
+  location: "",
+  open: "",
+  tel: "",
+  x: "",
+  y: "",
+  star: 0,
+  isBook: 0,
+  facilities: [""],
+  pics: [""],
+  menus: [
+    {
+      price: 0,
+      menu: "",
+      pic: "",
+    },
+  ],
+  reviews: [
+    {
+      iuser: 0,
+      writerPic: "",
+      ireview: 0,
+      nickname: "",
+      star: 0,
+      review: "",
+      pic: [""],
+    },
+  ],
+};
+
 const MeatDetailPage = () => {
   const navigate = useNavigate();
   const { ishop } = useParams();
   const { isModal, openModal, closeModal, moveToLogin } = useCustomHook();
-  const [storeInfo, setStoreInfo] = useState({});
   const { isLogin } = useCustomLogin();
-  const isBookInfo = storeInfo.isBook;
   const baseApi = API_SERVER_HOST;
   // const host = `${baseApi}/pic`;
   const host = `${baseApi}/pic/shop/${ishop}/shop_pic/`;
   const [fetching, setFetching] = useState(false);
 
-  useEffect(() => {
-    setFetching(true);
-    getGInfo({ isLogin, ishop, successFn, failFn, errorFn });
-    setBookmark(isBookInfo);
-  }, [isLogin, ishop, isBookInfo]);
+  // @COMMENT use React-query
+  const { data, isFetching } = useQuery({
+    queryKey: ["storeInfo", isLogin, ishop],
+    queryFn: () => getGInfo({ ishop }),
+    staleTime: 1000 * 60,
+  });
+  const storeInfo = data || initState;
+  // console.log("R-Query Response : ", storeInfo);
+  // console.log("R-Query Params ", ishop);
 
-  const successFn = result => {
-    console.log(result);
-    setStoreInfo(result);
-    setFetching(false);
-    // console.log("DPage res : ", storeInfo);
-  };
-  const failFn = result => {
-    console.log(result);
-    setFetching(true);
-  };
-  const errorFn = result => {
-    console.log(result);
-    setFetching(true);
-  };
+  const isBookInfo = storeInfo.isBook;
+
+  // const [storeInfo, setStoreInfo] = useState({});
+  // useEffect(() => {
+  //   setFetching(true);
+  //   getGInfo({ isLogin, ishop, successFn, failFn, errorFn });
+  //   setBookmark(isBookInfo);
+  // }, [isLogin, ishop, isBookInfo]);
+
+  // const successFn = result => {
+  //   console.log(result);
+  //   setStoreInfo(result);
+  //   setFetching(false);
+  //   // console.log("DPage res : ", storeInfo);
+  // };
+  // const failFn = result => {
+  //   console.log(result);
+  //   setFetching(true);
+  // };
+  // const errorFn = result => {
+  //   console.log(result);
+  //   setFetching(true);
+  // };
+
   // ! BookMark, Go Reservation Btn Logic
   const [bookmark, setBookmark] = useState(isBookInfo || 0);
   console.log("호출 ", host);

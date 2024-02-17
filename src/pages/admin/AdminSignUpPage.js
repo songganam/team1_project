@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useRef, useState } from "react";
 import DaumPostcodeEmbed from "react-daum-postcode";
 import { getCoord, postBusiNum } from "../../api/meatApi";
 import EmptyModal from "../../components/common/EmptyModal";
@@ -11,15 +11,16 @@ import {
   JaddNameWrap,
   JaddNickNameInner,
   JaddNickNameWrap,
+  JaddPageImage,
   JaddPageInfo,
   JaddPageMain,
   JaddPageWrap,
   JaddPwWrap,
 } from "../join/styles/JaddPageStyle";
 import {
-  ActiveCate,
   CateSelectWrap,
-  NoActiveCate,
+  SelectMeatItem,
+  SelectMeatWrap,
   SelectedCate,
 } from "./styles/AdminSignUpStyles";
 
@@ -57,6 +58,25 @@ const AdminJoinPage = () => {
     setSignUpData({ ...signUpData, [e.target.name]: e.target.value });
   };
 
+  // @COMMENT Uploading Image
+  const [image, setImage] = useState(null);
+  const [selectedImage, setSelectedImage] = useState(null);
+  const uploadRef = useRef();
+  const handleClickImg = () => {
+    uploadRef.current.click();
+  };
+  const handleFileChange = e => {
+    const file = e.target.files[0];
+    if (file) {
+      const previewUrl = URL.createObjectURL(file);
+      setImage(previewUrl);
+      setSelectedImage(file);
+    }
+  };
+  const deleteImage = () => {
+    setImage(null);
+  };
+
   // @COMMENT 사업자 등록이 완료되었다는 Flag
   // b_no:["사업자등록번호"]
   const handleClickBusiCheck = () => {
@@ -87,6 +107,7 @@ const AdminJoinPage = () => {
   const handleClickPost = () => {
     // @COMMENT except pic
     const data = {
+      pic: selectedImage,
       id: signUpData.id,
       upw: signUpData.upw,
       checkUpw: signUpData.checkUpw,
@@ -107,6 +128,20 @@ const AdminJoinPage = () => {
     }
   };
 
+  // @COMMENT Password
+  const [message, setMessage] = useState("");
+  const [messageColor, setMessageColor] = useState("");
+
+  const handleValiation = () => {
+    if (signUpData.upw === signUpData.checkUpw) {
+      setMessage("비밀번호가 일치합니다.");
+      setMessageColor("green");
+    } else {
+      setMessage("비밀번호가 일치하지 않습니다.");
+      setMessageColor("red");
+    }
+  };
+
   // @COMMENT daum-post
   const handleComplete = data => {
     let fullAddress = data.address;
@@ -124,7 +159,7 @@ const AdminJoinPage = () => {
     }
 
     console.log(fullAddress); // e.g. '서울 성동구 왕십리로2길 20 (성수동1가)'
-    setSignUpData({ ...signUpData, bAddress: fullAddress });
+    setSignUpData({ ...signUpData, location: fullAddress });
     getCoord({ fullAddress, successCoordFn });
     closeEmptyModal();
   };
@@ -154,10 +189,20 @@ const AdminJoinPage = () => {
   const storeCategory = ["돼지", "소", "닭", "오리", "양"];
   const handleClickCate = index => {
     setSelectedCate(index);
+    if (index === 1) {
+      setSelectedMeat(0);
+      setSignUpData({ ...signUpData, imeat: 0 });
+      // console.log("imeat 변경값 :", signUpData.imeat);
+    } else {
+      setSelectedMeat(null);
+      setSignUpData({ ...signUpData, imeat: null });
+    }
   };
   const [selectedMeat, setSelectedMeat] = useState();
   const handleClickMeat = index => {
     setSelectedMeat(index);
+    setSignUpData({ ...signUpData, imeat: index + 1 });
+    // console.log("imeat 변경값 :", signUpData.imeat);
   };
 
   return (
@@ -176,6 +221,43 @@ const AdminJoinPage = () => {
       {/* 필요한 데이터 */}
       <JaddPageMain>
         <JaddPageInfo>
+          <JaddPageImage>
+            {/* 프로필 사진 미리 보기 */}
+            <div className="previewBox">
+              {image ? (
+                <img src={image} alt="프로필미리보기" />
+              ) : (
+                <img
+                  src={`${process.env.PUBLIC_URL}/assets/images/user_profile.png`}
+                  alt={`미리보기`}
+                  onClick={deleteImage}
+                />
+              )}
+            </div>
+
+            {/* 파일 업로드 버튼 */}
+            <div className="uploadBox" onClick={handleClickImg}>
+              <div>
+                <img
+                  src={`${process.env.PUBLIC_URL}/assets/images/profile_camera.svg`}
+                  alt="업로드 버튼"
+                />
+                <input
+                  type="file"
+                  ref={uploadRef}
+                  style={{ display: "none" }}
+                  onChange={handleFileChange}
+                />
+              </div>
+            </div>
+
+            {/* 커스텀 스타일이 적용된 버튼 */}
+            {/* <button
+            className="JaddPage-img-button "
+
+          ></button> */}
+          </JaddPageImage>
+
           <JaddNameWrap>
             <label htmlFor="id">아이디</label>
             <input
@@ -189,29 +271,45 @@ const AdminJoinPage = () => {
             />
           </JaddNameWrap>
           <br />
-          <JaddPwWrap>
-            <label htmlFor="upw">비밀번호</label>
-            <input
-              type="password"
-              name="upw"
-              value={signUpData.upw}
-              className="JaddPw"
-              placeholder="비번임"
-              onChange={e => handleChange(e)}
-            />
-          </JaddPwWrap>
-          <br />
-          <JaddMorePwWrap>
-            <label htmlFor="checkUpw">비밀번호 확인</label>
-            <input
-              type="password"
-              name="checkUpw"
-              value={signUpData.checkUpw}
-              className="JaddMorePw"
-              placeholder="비번체크다"
-              onChange={e => handleChange(e)}
-            />
-          </JaddMorePwWrap>
+          <form action="" method="post">
+            <JaddPwWrap>
+              <label htmlFor="upw">비밀번호</label>
+              <input
+                type="password"
+                name="upw"
+                value={signUpData.upw}
+                className="JaddPw"
+                placeholder="비번임"
+                onChange={e => handleChange(e)}
+              />
+            </JaddPwWrap>
+            <br />
+            <JaddMorePwWrap>
+              <label htmlFor="checkUpw">비밀번호 확인</label>
+              <input
+                type="password"
+                name="checkUpw"
+                value={signUpData.checkUpw}
+                className="JaddMorePw"
+                placeholder="비번체크다"
+                onChange={e => handleChange(e)}
+                onBlur={handleValiation}
+              />
+              {message !== "" &&
+                signUpData.upw !== "" &&
+                signUpData.checkUpw !== "" && (
+                  <div
+                    style={{
+                      color: messageColor,
+                      fontSize: "14px",
+                      paddingTop: "5px",
+                    }}
+                  >
+                    {message}
+                  </div>
+                )}
+            </JaddMorePwWrap>
+          </form>
           <br />
           <JaddNickNameWrap>
             <label htmlFor="num">사업자등록번호</label>
@@ -235,11 +333,11 @@ const AdminJoinPage = () => {
           </JaddNickNameWrap>
           <br />
           <JaddNameWrap>
-            <label htmlFor="bName">이름</label>
+            <label htmlFor="name">이름</label>
             <input
               type="text"
-              name="bName"
-              value={signUpData.bName}
+              name="name"
+              value={signUpData.name}
               className="JaddName"
               placeholder="실명"
               onChange={e => handleChange(e)}
@@ -255,6 +353,7 @@ const AdminJoinPage = () => {
                 value={signUpData.location}
                 className="JaddNickName"
                 placeholder="주소다 이말이야"
+                readOnly
                 onChange={e => handleChange(e)}
               />
               <DefaultBt onClick={handleTest} className="JaddNickName-Bt">
@@ -270,7 +369,7 @@ const AdminJoinPage = () => {
               name="shopName"
               value={signUpData.shopName}
               className="JaddName"
-              placeholder="아이디임"
+              placeholder="가게이름임"
               onChange={e => handleChange(e)}
             />
           </JaddNameWrap>
@@ -290,14 +389,25 @@ const AdminJoinPage = () => {
                 정육점
               </SelectedCate>
             </CateSelectWrap>
-
-            <div>라디오버튼임 ㄹㅇㅋㅋ</div>
-            {storeCategory.map((category, index) => (
-              <div key={index} onClick={() => handleClickMeat(index)}>
-                {/*@COMMENT 주소달아줘야함*/}
-                <img />
-              </div>
-            ))}
+            {selectedCate === 0 && (
+              <SelectMeatWrap>
+                <div>
+                  <span>고기 종류를 선택해주세요.</span>
+                </div>
+                {storeCategory.map((imeat, index) => (
+                  <SelectMeatItem key={index}>
+                    <img
+                      src={
+                        selectedMeat === index ? RadioBtnActive : RadioBtnNone
+                      }
+                      alt=""
+                      onClick={() => handleClickMeat(index)}
+                    />
+                    <span>{storeCategory[index]}</span>
+                  </SelectMeatItem>
+                ))}
+              </SelectMeatWrap>
+            )}
           </JaddNameWrap>
 
           <JaddAddressBts>

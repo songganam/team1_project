@@ -23,6 +23,7 @@ export const getGList = async ({ param, successFn, failFn, errorFn }) => {
   }
 };
 // Auth test
+// @COMMENT react-QUERY
 export const getGInfo = async ({
   isLogin,
   ishop,
@@ -37,7 +38,8 @@ export const getGInfo = async ({
     const status = res.status.toString();
     if (status.charAt(0) === "2") {
       console.log("목록 호출 성공");
-      successFn(res.data);
+      // successFn(res.data);
+      return res.data;
     } else {
       failFn("목록 호출 오류");
     }
