@@ -1,6 +1,13 @@
 import React, { useState } from "react";
 import Layout from "../../layouts/Layout";
 import { Outlet, useNavigate } from "react-router";
+import {
+  SupervisorPageContent,
+  SupervisorPageData,
+  SupervisorPageMenu,
+  SupervisorPageMenuBar,
+  SupervisorPageWrapper,
+} from "./styles/SupervisorPageStyle";
 
 const SupervisorPage = () => {
   // 패스 이동
@@ -33,11 +40,21 @@ const SupervisorPage = () => {
 
   return (
     <Layout>
-      <button onClick={handleClickSvShop}>매장 관리</button>
-      <button onClick={handleClickSvUser}>유저 관리</button>
-      <button onClick={handleClickSvReport}>신고 관리</button>
-      <button onClick={handleClickSvNotice}>공지사항 등록</button>
-      <Outlet />
+      <SupervisorPageWrapper>
+        <SupervisorPageData>
+          <SupervisorPageMenuBar>
+            <SupervisorPageMenu>
+              <button onClick={handleClickSvShop}>매장 관리</button>
+              <button onClick={handleClickSvUser}>유저 관리</button>
+              <button onClick={handleClickSvReport}>신고 관리</button>
+              <button onClick={handleClickSvNotice}>공지사항 등록</button>
+            </SupervisorPageMenu>
+          </SupervisorPageMenuBar>
+          <SupervisorPageContent>
+            <Outlet />
+          </SupervisorPageContent>
+        </SupervisorPageData>
+      </SupervisorPageWrapper>
     </Layout>
   );
 };
