@@ -1,6 +1,13 @@
 import React, { useState } from "react";
 import Layout from "../../layouts/Layout";
 import { Outlet, useNavigate } from "react-router";
+import {
+  AdiminPageMenuBar,
+  AdminPageContent,
+  AdminPageData,
+  AdminPageMenu,
+  AdminPageWrapper,
+} from "./styles/AdminPageStyle";
 
 const AdminPage = () => {
   // 패스 이동
@@ -39,12 +46,22 @@ const AdminPage = () => {
 
   return (
     <Layout>
-      <button onClick={handleClickAdInfo}>매장 정보 관리</button>
-      <button onClick={handleClickAdMenu}>메뉴 관리</button>
-      <button onClick={handleClickAdBook}>예약 관리</button>
-      <button onClick={handleClickAdReview}>리뷰 관리</button>
-      <button onClick={handleClickAdDoc}>매장 분석</button>
-      <Outlet />
+      <AdminPageWrapper>
+        <AdminPageData>
+          <AdiminPageMenuBar>
+            <AdminPageMenu>
+              <button onClick={handleClickAdInfo}>매장 정보 관리</button>
+              <button onClick={handleClickAdMenu}>메뉴 관리</button>
+              <button onClick={handleClickAdBook}>예약 관리</button>
+              <button onClick={handleClickAdReview}>리뷰 관리</button>
+              <button onClick={handleClickAdDoc}>매장 분석</button>
+            </AdminPageMenu>
+          </AdiminPageMenuBar>
+          <AdminPageContent>
+            <Outlet />
+          </AdminPageContent>
+        </AdminPageData>
+      </AdminPageWrapper>
     </Layout>
   );
 };
