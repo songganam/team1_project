@@ -7,14 +7,15 @@ const host = `${API_SERVER_HOST}/api`;
 // 0이 아니면 로그인 0이면 로그아웃 상태 true = 로그아웃 상태 / false = 로그인 상태
 
 //! GET Meat List Page
-export const getGList = async ({ param, successFn, failFn, errorFn }) => {
-  console.log("파라미터", param);
+export const getGList = async ({ params, successFn, failFn, errorFn }) => {
+  console.log("파라미터", params);
   try {
-    const res = await axios.get(`${host}/shop`, { params: param });
+    const res = await axios.get(`${host}/shop`, { params: params });
     const status = res.status.toString();
     if (status.charAt(0) === "2") {
       console.log("목록 호출 성공");
-      successFn(res.data);
+      // successFn(res.data);
+      return res.data;
     } else {
       failFn("목록 호출 오류");
     }

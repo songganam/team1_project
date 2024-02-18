@@ -152,3 +152,17 @@ export const getOne = async ({ iboard, successFn, failFn, errorFn }) => {
     errorFn("상세보기 호출 서버오류");
   }
 };
+// 해당 글 좋아요!
+
+export const postFav = async ({ iboard, iuser }) => {
+  try {
+    const response = await authAxios.get(`${host}/fav`, {
+      headers: { "Content-Type": "application/json" },
+      params: { iuser, iboard },
+    });
+    console.log("axios 실행");
+    return response.data;
+  } catch (error) {
+    console.log(error);
+  }
+};

@@ -22,19 +22,29 @@ const useCustomHook = () => {
   } = useSelectModal();
   const { isEmptyModal, openEmptyModal, closeEmptyModal } = useEmptyModal();
 
+  // @COMMENT SearchParams (page,category,search,filter)
   const page = urlSearchParams.get("page")
     ? parseInt(urlSearchParams.get("page"))
     : 1;
+
   const search = urlSearchParams.get("search") || "";
+
   const category = urlSearchParams.get("category")
     ? parseInt(urlSearchParams.get("category"))
     : 0;
+
+  const filter = urlSearchParams.get("filter")
+    ? parseInt(urlSearchParams.get("filter"))
+    : 0;
+
   const defaultQueryString = createSearchParams({
     page,
     search,
     category,
+    filter,
   }).toString();
 
+  // @COMMENT Page Query
   const MoveToPage = PageParam => {
     let queryStr = "";
     if (PageParam) {
@@ -49,6 +59,20 @@ const useCustomHook = () => {
     navigate({ pathname: "../list", search: queryStr });
   };
 
+  // @COMMENT Filter Query
+  const MoveToFilter = FilterParam => {
+    let queryStr = "";
+    if (FilterParam) {
+      const FilterNum = getNum(FilterParam.filter, filter);
+      queryStr = createSearchParams({
+        filter: FilterNum,
+      }).toString();
+    } else {
+      queryStr = defaultQueryString;
+    }
+    navigate({ pathname: "../list", search: queryStr });
+  };
+  // @COMMENT Category Query
   const MoveToList = CategoryParam => {
     let queryStr = "";
     if (CategoryParam) {
@@ -118,6 +142,8 @@ const useCustomHook = () => {
     page,
     search,
     category,
+    filter,
+    MoveToFilter,
     MoveToList,
     moveToRead,
     moveToSearch,

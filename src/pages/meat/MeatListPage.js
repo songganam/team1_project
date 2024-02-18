@@ -5,6 +5,7 @@ import Fetching from "../../components/common/Fetching";
 import ResultModal from "../../components/common/ResultModal";
 import GCardComponent from "../../components/meat/GCardComponent";
 import useCustomHook from "../../components/meat/hooks/useCustomHook";
+import { useQuery, useQueryClient } from "@tanstack/react-query";
 import {
   KindOfMeat,
   KindOfMeatWrap,
@@ -17,48 +18,70 @@ import {
   SearchWrap,
 } from "./styles/MeatListStyle";
 // 고깃집 목록보기 페이지입니다.
+
+const initState = [
+  {
+    ishop: 0,
+    name: "",
+    location: "",
+    count: 0,
+    pics: [""],
+    facilities: [""],
+  },
+];
 const MeatListPage = () => {
   const {
     page,
     search,
     category,
+    filter,
     MoveToList,
     MoveToPage,
+    MoveToFilter,
+    moveToSearch,
     refresh,
     isModal,
     openModal,
     closeModal,
-    moveToSearch,
   } = useCustomHook();
-  const [GlistData, setGlistData] = useState([]);
+  // const [GlistData, setGlistData] = useState(initState);
   const { ishop } = useParams();
 
   const [fetching, setFetching] = useState(false);
   // const [selectFilter, setSelectFilter] = useState("lastest");
   const [cateSearch, setCateSearch] = useState("");
+  const params = { page, search, category, filter };
 
-  console.log("ref :", refresh);
+  // @COMMENT React-query
+  const { data, isFetching } = useQuery({
+    queryKey: ["meat/list", params, refresh],
+    queryFn: () => getGList({ params }),
+    staleTime: 1000 * 60,
+  });
+  const serverData = data || initState;
+  console.log("serverData", serverData);
+  const clinet = useQueryClient();
+  // useEffect(() => {
+  // const param = { page, search, category, filter };
+  //   getGList({ param, successFn, failFn, errorFn });
+  // }, [page, search, category, refresh, filter]);
 
-  useEffect(() => {
-    const param = { page, search, category };
-    getGList({ param, successFn, failFn, errorFn });
-  }, [page, search, category, refresh]);
-
-  const successFn = result => {
-    setFetching(false);
-    setGlistData([...GlistData, ...result]);
-    // setGlistData(result);
-    console.log(result);
-  };
-  const failFn = result => {
-    setFetching(false);
-    console.log(result);
-  };
-  const errorFn = result => {
-    setFetching(false);
-    console.log(result);
-  };
+  // const successFn = result => {
+  //   setFetching(false);
+  //   setGlistData([...GlistData, ...result]);
+  //   // setGlistData(result);
+  //   console.log(result);
+  // };
+  // const failFn = result => {
+  //   setFetching(false);
+  //   console.log(result);
+  // };
+  // const errorFn = result => {
+  //   setFetching(false);
+  //   console.log(result);
+  // };
   const navigate = useNavigate();
+
   const [selectedCategory, setSelectedCategory] = useState(null);
   const handleFilterClick = category => {
     if (category !== selectedCategory) {
@@ -68,7 +91,8 @@ const MeatListPage = () => {
         });
       }
 
-      setGlistData([]);
+      // setGlistData([]);
+      // serverData([]);
       MoveToList({ page: 1, search: "", category });
       setSelectedCategory(category);
     }
@@ -77,12 +101,18 @@ const MeatListPage = () => {
     setCateSearch(e.target.value);
   };
   const handleSearchSubmit = e => {
-    setGlistData([]);
+    // setGlistData([]);
+    // serverData([]);
     moveToSearch({ page: 1, search: cateSearch });
     e.preventDefault();
   };
   const handleMoreView = () => {
     MoveToPage({ page: page + 1 });
+  };
+
+  // @COMMENT FIlter
+  const handleClickFilter = filter => {
+    MoveToFilter({ filter });
   };
   return (
     <ListWrap>
@@ -120,6 +150,12 @@ const MeatListPage = () => {
           <span>해산물</span>
         </KindOfMeat>
       </KindOfMeatWrap>
+      {/* @COMMENT Filter Test */}
+      <div>
+        <button onClick={() => handleClickFilter("0")}>등록순</button>
+        <button onClick={() => handleClickFilter("1")}>별점순</button>
+        <button onClick={() => handleClickFilter("2")}>북마크순</button>
+      </div>
       <form onSubmit={handleSearchSubmit}>
         <SearchWrap>
           <SearchBar>
@@ -137,7 +173,7 @@ const MeatListPage = () => {
         </SearchWrap>
       </form>
 
-      <GCardComponent data={GlistData} ishop={ishop} />
+      <GCardComponent serverData={serverData} ishop={ishop} />
 
       <ListMoreViewBtnWrap>
         <ListMoreViewBtn onClick={handleMoreView}>
