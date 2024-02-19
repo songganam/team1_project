@@ -15,9 +15,9 @@ import {
 } from "./styles/GCardStyle";
 import { API_SERVER_HOST } from "../../api/config";
 
-const GCardComponent = ({ data }) => {
+const GCardComponent = ({ serverData }) => {
   const navigate = useNavigate();
-  console.log(data);
+  console.log(serverData);
   const { ishop } = useParams();
   const { moveToRead, moveToReser, isModal, openModal, moveToLogin } =
     useCustomHook();
@@ -48,8 +48,8 @@ const GCardComponent = ({ data }) => {
           callFn={isModal.callFn}
         />
       )}
-      {data &&
-        data.map(item => (
+      {serverData &&
+        serverData.map(item => (
           <MeatStoreCard
             key={item.ishop}
             onClick={() => moveToRead(item.ishop)}

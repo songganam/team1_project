@@ -6,6 +6,7 @@ import {
   deleteOne,
   getOne,
   postComment,
+  postFav,
 } from "../../api/communityApi";
 import { API_SERVER_HOST } from "../../api/config";
 import useCustomMove from "../../hooks/useCustomMove";
@@ -35,6 +36,8 @@ import {
   TitleBoxStyle,
   WriterBoxStyle,
 } from "./styles/ReadStyle";
+// @COMMENT import React-Query
+import { useMutation } from "@tanstack/react-query";
 
 const host = API_SERVER_HOST;
 // 서버데이터 초기값
@@ -349,6 +352,28 @@ const Read = () => {
     setPopContent("서버가 불안정합니다. 잠시 후 다시 시도 해주세요.");
   };
 
+  // @COMMENT React-query Mutation (Like function)
+  //  /api/community/fav initState
+  const initStatefav = {
+    iuser: 0,
+    iboard: 0,
+  };
+  // use Mutation
+  const iuser = authState.iuser;
+  // const dataForm = {
+  //   iuser: parseInt(iuser),
+  //   iboard: parseInt(iboard),
+  // };
+  // console.log("데이터 폼 테스트 :", dataForm);
+  const addMutation = useMutation({
+    mutationFn: fav => postFav({ iboard, iuser }),
+  });
+  const handleClickFav = () => {
+    console.log("데이터다 :", iboard, iuser);
+    // console.log("test2", dataForm);
+    addMutation.mutate();
+  };
+
   return (
     <WrapStyle>
       {fetching ? <Fetching /> : null}
@@ -362,7 +387,10 @@ const Read = () => {
               src={`${process.env.PUBLIC_URL}/assets/images/view_eye.svg`}
               alt="img"
             />
-            <div className="viewCount"></div>
+            <div className="viewCount">
+              {/* @COMMENT TEST LIKE BUTTON */}
+              <button onClick={handleClickFav}>좋아요버튼</button>
+            </div>
           </div>
         </WriterBoxStyle>
       </TitleBoxStyle>
