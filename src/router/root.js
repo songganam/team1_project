@@ -46,7 +46,7 @@ const LazySupervisorPage = lazy(() =>
 );
 
 // 테스트용 로그인 페이지
-// const LazyAdminSign = lazy(() => import("../pages/adminlogin/AdminSignPage"));
+const LazyAdSignupPage = lazy(() => import("../pages/join/AdminSignUpPage"));
 
 const router = createBrowserRouter([
   {
@@ -150,6 +150,14 @@ const router = createBrowserRouter([
     element: (
       <Suspense fallback={<Loading />}>
         <LazyNotFoundPage />
+      </Suspense>
+    ),
+  },
+  {
+    path: "/admin/signup",
+    element: (
+      <Suspense fallback={<Loading />}>
+        <LazyAdSignupPage />
       </Suspense>
     ),
   },

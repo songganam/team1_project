@@ -16,7 +16,7 @@ import {
   JaddPageMain,
   JaddPageWrap,
   JaddPwWrap,
-} from "../join/styles/JaddPageStyle";
+} from "./styles/JaddPageStyle";
 import {
   CateSelectWrap,
   SelectMeatItem,
@@ -392,20 +392,25 @@ const AdminJoinPage = () => {
             {selectedCate === 0 && (
               <SelectMeatWrap>
                 <div>
-                  <span>고기 종류를 선택해주세요.</span>
+                  {storeCategory.map((imeat, index) => (
+                    <SelectMeatItem key={index}>
+                      <div>
+                        <img
+                          src={
+                            selectedMeat === index
+                              ? RadioBtnActive
+                              : RadioBtnNone
+                          }
+                          alt=""
+                          onClick={() => handleClickMeat(index)}
+                        />
+                      </div>
+                      <div>
+                        <span>{storeCategory[index]}</span>
+                      </div>
+                    </SelectMeatItem>
+                  ))}
                 </div>
-                {storeCategory.map((imeat, index) => (
-                  <SelectMeatItem key={index}>
-                    <img
-                      src={
-                        selectedMeat === index ? RadioBtnActive : RadioBtnNone
-                      }
-                      alt=""
-                      onClick={() => handleClickMeat(index)}
-                    />
-                    <span>{storeCategory[index]}</span>
-                  </SelectMeatItem>
-                ))}
               </SelectMeatWrap>
             )}
           </JaddNameWrap>
