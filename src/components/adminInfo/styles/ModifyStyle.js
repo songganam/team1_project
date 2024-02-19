@@ -21,7 +21,7 @@ export const NavStyle = styled.div`
   box-shadow: 0px 1px 2px -1px rgba(0, 0, 0, 0.1),
     0px 1px 3px 0px rgba(0, 0, 0, 0.1);
 
-  .pageTitle {
+  .page-title {
     display: flex;
     width: 136px;
     justify-content: space-between;
@@ -100,10 +100,10 @@ export const BoxInnerStyle = styled.div`
     font-weight: 600;
     line-height: 150%; /* 24px */
   }
-  .textGuide {
+  .text-guide {
     display: flex;
     align-items: flex-start;
-    color: var(--gray-800, #1f2937);
+    color: var(--gray-500, #6b7280);
     /* 12/regular */
     font-family: Pretendard;
     font-size: 12px;
@@ -111,12 +111,12 @@ export const BoxInnerStyle = styled.div`
     font-weight: 400;
     line-height: 150%; /* 18px */
   }
-  .textLength {
+  .text-length {
     display: flex;
     justify-content: flex-end;
     align-items: flex-start;
     flex: 1 0 0;
-    color: var(--gray-800, #1f2937);
+    color: var(--gray-500, #6b7280);
     text-align: right;
     /* 12/regular */
     font-family: Pretendard;
@@ -125,18 +125,18 @@ export const BoxInnerStyle = styled.div`
     font-weight: 400;
     line-height: 150%; /* 18px */
   }
-  .picsContainer {
+  .pics-container {
     display: flex;
     flex-direction: column;
     align-items: flex-start;
     gap: 16px;
   }
-  .picsThumb {
+  .pics-thumb {
     display: flex;
     align-items: center;
     gap: 10px;
   }
-  .nameGuide {
+  .name-guide {
     display: flex;
     width: 500px;
     justify-content: space-between;
@@ -157,15 +157,15 @@ export const BoxInnerStyle = styled.div`
     gap: 8px;
     align-self: stretch;
   }
-  .locationBox {
+  .location-box {
     display: flex;
     align-items: flex-start;
     gap: 6px;
-    .locationInputBox {
-      display: flex;
-      flex-direction: column;
-      align-items: flex-start;
-      gap: 8px;
-    }
+  }
+  .location-input-box {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
   }
 `;
