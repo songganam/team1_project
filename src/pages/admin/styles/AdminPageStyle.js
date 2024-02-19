@@ -41,6 +41,8 @@ export const AdminPageMenu = styled.div`
 
 export const AdminPageContent = styled.div`
   position: relative;
+
   width: calc(100% - 210px);
   /* background-color: pink; */
+
 `;
