@@ -9,7 +9,7 @@ export const AdminPageData = styled.div`
   position: relative;
   display: flex;
   align-items: flex-start;
-  background-color: blue;
+  /* background-color: blue; */
 `;
 
 export const AdiminPageMenuBar = styled.div`
@@ -41,6 +41,6 @@ export const AdminPageMenu = styled.div`
 
 export const AdminPageContent = styled.div`
   position: relative;
-  width: 730px;
-  background-color: pink;
+  width: calc(100% - 210px);
+  /* background-color: pink; */
 `;
