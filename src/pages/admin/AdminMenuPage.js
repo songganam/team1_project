@@ -1,7 +1,12 @@
 import React from "react";
+import MenuList from "../../components/adminInfo/MenuList";
 
 const AdminMenuPage = () => {
-  return <h1>매장 메뉴 관리 페이지</h1>;
+  return (
+    <div>
+      <MenuList />
+    </div>
+  );
 };
 
 export default AdminMenuPage;
