@@ -9,6 +9,10 @@ import {
 } from "./styles/ModifyStyle";
 import RadioInput from "./RadioInput";
 import CheckBoxInput from "./CheckBoxInput";
+import TextField from "./TextField";
+import TextFieldAdress from "./TextFieldAdress";
+import TextareaField from "./TextareaField";
+import AdminHeader from "./AdminHeader";
 
 const Modify = () => {
   // 라디오 버튼 관련
@@ -47,14 +51,15 @@ const Modify = () => {
     // 여기에서 selectedValues를 API 호출 등을 통해 서버로 전송할 수 있습니다.
   };
 
+  // 텍스트 길이 관련
+  const [textLength, setTextLength] = useState(0);
+  const handleInputChange = length => {
+    setTextLength(length); // 입력된 텍스트의 길이를 업데이트
+  };
+
   return (
     <AdminInfoWrapStyle>
-      <NavStyle>
-        <div className="page-title">매장 정보 관리</div>
-        <div>
-          <Button bttext="저장" />
-        </div>
-      </NavStyle>
+      <AdminHeader title="매장 정보 관리" />
       <ShopStyle>
         <BackgroundBoxStyle>
           <BoxInnerStyle>
@@ -129,14 +134,17 @@ const Modify = () => {
             </div>
             <div>
               <form>
-                <input type="text" name="name" />
+                <TextField
+                  placeholder="상호명을 입력하세요"
+                  onInputChange={handleInputChange}
+                />
               </form>
             </div>
             <div className="name-guide">
               <div className="text-guide">
                 숫자, 한글, 영문, 특수문자 사용가능
               </div>
-              <div className="text-length">0/30</div>
+              <div className="text-length">{textLength}/30</div>
             </div>
           </BoxInnerStyle>
         </BackgroundBoxStyle>
@@ -149,7 +157,7 @@ const Modify = () => {
               </div>
               <div>
                 <form>
-                  <input type="text" name="tel" />
+                  <TextField placeholder="전화번호를 입력하세요" />
                 </form>
               </div>
             </div>
@@ -160,14 +168,20 @@ const Modify = () => {
               </div>
               <div>
                 <form>
-                  <textarea />
+                  <TextareaField
+                    placeholder="
+                    [평 일] 06:00 ~ 23:00 
+                    [주 말] 10:00 ~ 19:00 
+                    [휴무일] 매월 둘째주 화요일"
+                    onInputChange={handleInputChange}
+                  />
                 </form>
               </div>
               <div className="name-guide">
                 <div className="text-guide">
                   숫자, 한글, 영문, 특수문자 사용가능
                 </div>
-                <div className="text-length">0/50</div>
+                <div className="text-length">{textLength}/100</div>
               </div>
             </div>
           </BoxInnerStyle>
@@ -182,12 +196,12 @@ const Modify = () => {
               <div className="location-input-box">
                 <div>
                   <form>
-                    <input type="text" name="adress" />
+                    <TextFieldAdress placeholder="주소 검색을 이용해주세요" />
                   </form>
                 </div>
                 <div>
                   <form>
-                    <input type="text" name="adressDetail" />
+                    <TextFieldAdress placeholder="상세 주소를 입력해주세요" />
                   </form>
                 </div>
               </div>
@@ -205,7 +219,7 @@ const Modify = () => {
             </div>
             <div>
               <form>
-                <input type="text" name="deposit" />
+                <TextField placeholder="예약금을 입력해주세요" />
               </form>
             </div>
             <div className="text-guide">숫자만 사용가능, 단위: 원</div>
