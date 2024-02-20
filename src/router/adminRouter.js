@@ -8,7 +8,7 @@ const LazyAdMenuPage = lazy(() => import("../pages/admin/AdminMenuPage"));
 const LazyAdBookPage = lazy(() => import("../pages/admin/AdminBookPage"));
 const LazyAdReviewPage = lazy(() => import("../pages/admin/AdminReviewPage"));
 const LazyAdDocPage = lazy(() => import("../pages/admin/AdminDocPage"));
-const LazyAdSignupPage = lazy(() => import("../pages/admin/AdminSignUpPage"));
+
 
 const adminRouter = () => {
   return [
@@ -50,14 +50,6 @@ const adminRouter = () => {
       element: (
         <Suspense fallback={<Loading />}>
           <LazyAdDocPage />
-        </Suspense>
-      ),
-    },
-    {
-      path: "signup",
-      element: (
-        <Suspense fallback={<Loading />}>
-          <LazyAdSignupPage />
         </Suspense>
       ),
     },

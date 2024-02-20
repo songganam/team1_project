@@ -34,12 +34,15 @@
 }
 
 .swiper-slide img {
+  border-radius: 10px;
+
   display: block;
   width: 300px;
   height: 180px;
   object-fit: cover;
 }
 .mySwiper img {
-  width: 66px;
+  border-radius: 5px;
+  width: 50px;
   height: 50px;
 }
