@@ -50,7 +50,7 @@ export const BackgroundBoxStyle = styled.div`
   padding: 20px 30px;
   flex-direction: column;
   align-items: flex-start;
-  gap: 10px;
+  gap: 16px;
   border-radius: 8px;
   background: #fff;
 
@@ -167,5 +167,33 @@ export const BoxInnerStyle = styled.div`
     flex-direction: column;
     align-items: flex-start;
     gap: 8px;
+  }
+  .menu-pics {
+    display: flex;
+    width: 500px;
+    align-items: flex-start;
+    align-content: flex-start;
+    gap: 10px;
+    flex-wrap: wrap;
+  }
+`;
+export const MenuAddPicInnerStyle = styled(BoxInnerStyle)`
+  display: flex;
+  flex-direction: row;
+  width: 500px;
+  justify-content: space-between;
+  align-items: flex-start;
+  flex-shrink: 0;
+  .menu-add-pic {
+    display: flex;
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 8px;
+  }
+  .btn-wrap {
+    display: flex;
+    justify-content: flex-end;
+    align-items: flex-start;
+    gap: 10px;
   }
 `;
