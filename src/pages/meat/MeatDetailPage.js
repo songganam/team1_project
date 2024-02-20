@@ -359,58 +359,6 @@ const MeatDetailPage = () => {
           </MapApiWrapper>
         )}
 
-        {/*
-// ! NOTICE AREA
-*/}
-        {/* <NoticeWrap>
-<NoticeTitle>
-<span>가게소식</span>
-</NoticeTitle>
-<NoticeCardWrap>
-<NoticeCard>
-<NoticeCardImage>
-<img src="https://picsum.photos/370/300/?category=meat" alt="" />
-</NoticeCardImage>
-<NoticeCardContent>
-<NoticeCardTitleWrap>
-<NoticeCardTitle>
-<span>2024 새해맞이 이벤트</span>
-</NoticeCardTitle>
-<NoticeCardDate>
-<span>2024.01.01</span>
-</NoticeCardDate>
-</NoticeCardTitleWrap>
-<NoticeCardItem>
-<span>
-2024년의 해가 밝았습니다. 여러분들의 바람이 올해에도
-이루어지길 바라며 소소한 이벤트를 하나 공지하고자 합니다.
-</span>
-</NoticeCardItem>
-</NoticeCardContent>
-</NoticeCard>
-</NoticeCardWrap>
-</NoticeWrap> */}
-
-        {/*
-// ! REVIEW AREA
-*/}
-
-        {/*
-ireview
-:
-19
-nickname
-:
-"똥퍼아저씨"
-pic
-:
-['e0c9f247-ced5-42ed-9ce2-1e870d8c94eb.jpg']
-review
-:
-"아아아아ㅏ"
-star
-:
-1 */}
         {/* 고기집 리뷰사진: /pic/shop/가게pk/reveiw/리뷰pk/사진이름 */}
         <ReviewWrap>
           {storeInfo?.reviews?.length === 0 ? (

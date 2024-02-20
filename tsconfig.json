@@ -1,0 +1,25 @@
+{
+  "compilerOptions": {
+    /* Visit https://aka.ms/tsconfig to read more about this file */
+
+    /* Language and Environment */
+    "target": "ES2016" /* TypeScript 가 JS 로 변환하는 버전 */,
+    "lib": [
+      "dom",
+      "dom.Iterable"
+    ] /* Specify a set of bundled library declaration files that describe the target runtime environment. */,
+    "jsx": "react-jsx" /* JSX를 처리하는 방식( next.js 에서는 preserve) */,
+
+    "module": "commonjs" /* 모듈 코드 생성 JS 버전 */,
+
+    /* JavaScript Support */
+    "allowJs": true /* js 파일을 컴파일에 포함시킬지 여부 */,
+    "noEmit": true /* 출력파일을 생성할지 말지 결정 */,
+    "esModuleInterop": true /* ES모듈과 CommonJS 모듈간의 상호 연동 가능 */,
+    "forceConsistentCasingInFileNames": true /* import 하는 경우 대소문자 구분 */,
+
+    /* Type Checking */
+    "strict": true /* JS 엄격모드 는 필수 사항 */,
+    "skipLibCheck": true /* 타입스크립트 라이브러리 정의 파일 검토 생략 ( .d.ts files.) */
+  }
+}
