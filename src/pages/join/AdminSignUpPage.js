@@ -23,6 +23,8 @@ import {
   SelectMeatWrap,
   SelectedCate,
 } from "./styles/AdminSignUpStyles";
+import RadioInput from "../../components/adminInfo/RadioInput";
+import { BoxInnerStyle } from "../../components/adminInfo/styles/ModifyStyle";
 
 const initState = {
   id: "",
@@ -142,7 +144,7 @@ const AdminJoinPage = () => {
     }
   };
 
-  // @COMMENT daum-post
+  // @COMMENT daum-post (여기는 건들면 안돼용!!!)
   const handleComplete = data => {
     let fullAddress = data.address;
     let extraAddress = "";
@@ -157,9 +159,10 @@ const AdminJoinPage = () => {
       }
       fullAddress += extraAddress !== "" ? ` (${extraAddress})` : "";
     }
-
+    // fullAddress가 이제 대구 동구 머시기저시기 찍히는 변수입니다.
     console.log(fullAddress); // e.g. '서울 성동구 왕십리로2길 20 (성수동1가)'
     setSignUpData({ ...signUpData, location: fullAddress });
+    // 이건 X,Y 값을 알아내기 위한 API이기때문에 필요없으시면 사용하실 필요 없습니다.
     getCoord({ fullAddress, successCoordFn });
     closeEmptyModal();
   };
@@ -170,10 +173,12 @@ const AdminJoinPage = () => {
     // const yValue = result.y;
     setSignUpData(prev => ({ ...prev, x: result.x, y: result.y }));
   };
-
+  // @COMMENT 다음포스트 호출
   const handleTest = () => {
     console.log("modal on");
     openEmptyModal(
+      // 얘가 다음 포스트 입니다. 저는 모달안에다가 띄우기 위해서 이렇게 했지만
+      // 다른 방식으로 사용하셔도 무방합니다.
       <DaumPostcodeEmbed onComplete={handleComplete} />,
       closeEmptyModal,
     );
@@ -204,6 +209,13 @@ const AdminJoinPage = () => {
     setSignUpData({ ...signUpData, imeat: index + 1 });
     // console.log("imeat 변경값 :", signUpData.imeat);
   };
+
+  const [selectedRadioValue, setSelectedRadioValue] = useState("돼지");
+  const handleRadioChange = e => {
+    setSelectedRadioValue(e.target.value);
+    console.log(e.target.value);
+  };
+  const options = ["돼지", "소", "닭", "오리", "양"];
 
   return (
     <JaddPageWrap>
@@ -390,28 +402,23 @@ const AdminJoinPage = () => {
               </SelectedCate>
             </CateSelectWrap>
             {selectedCate === 0 && (
-              <SelectMeatWrap>
-                <div>
-                  {storeCategory.map((imeat, index) => (
-                    <SelectMeatItem key={index}>
-                      <div>
-                        <img
-                          src={
-                            selectedMeat === index
-                              ? RadioBtnActive
-                              : RadioBtnNone
-                          }
-                          alt=""
-                          onClick={() => handleClickMeat(index)}
+              <div>
+                <SelectMeatWrap>
+                  <BoxInnerStyle>
+                    <form>
+                      {options.map((option, index) => (
+                        <RadioInput
+                          key={option}
+                          name={options[index]}
+                          value={`${index + 1}`} // 1, 2, 3, 4, 5로 설정
+                          checked={selectedRadioValue === `${index + 1}`}
+                          onChange={handleRadioChange}
                         />
-                      </div>
-                      <div>
-                        <span>{storeCategory[index]}</span>
-                      </div>
-                    </SelectMeatItem>
-                  ))}
-                </div>
-              </SelectMeatWrap>
+                      ))}
+                    </form>
+                  </BoxInnerStyle>
+                </SelectMeatWrap>
+              </div>
             )}
           </JaddNameWrap>
 

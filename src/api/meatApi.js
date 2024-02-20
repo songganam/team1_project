@@ -25,13 +25,7 @@ export const getGList = async ({ params, successFn, failFn, errorFn }) => {
 };
 // Auth test
 // @COMMENT react-QUERY
-export const getGInfo = async ({
-  isLogin,
-  ishop,
-  successFn,
-  failFn,
-  errorFn,
-}) => {
+export const getGInfo = async ({ isLogin, ishop }) => {
   try {
     const header = { headers: { "Content-Type": "application/json" } };
     const axiosInstance = isLogin ? authAxios : axios;
@@ -42,10 +36,10 @@ export const getGInfo = async ({
       // successFn(res.data);
       return res.data;
     } else {
-      failFn("목록 호출 오류");
+      console.log("목록 호출 오류");
     }
   } catch (error) {
-    errorFn(error);
+    console.log(error);
   }
 };
 
