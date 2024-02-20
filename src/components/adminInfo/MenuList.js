@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   AdminInfoWrapStyle,
   BackgroundBoxStyle,
@@ -9,16 +9,19 @@ import {
 } from "./styles/ModifyStyle";
 import Button from "../button/Button";
 import Menu from "./Menu";
+import TextField from "./TextField";
+import AdminHeader from "./AdminHeader";
 
 const MenuList = () => {
+  // 텍스트 길이 관련
+  const [textLength, setTextLength] = useState(0);
+  const handleInputChange = length => {
+    setTextLength(length); // 입력된 텍스트의 길이를 업데이트
+  };
+
   return (
     <AdminInfoWrapStyle>
-      <NavStyle>
-        <div className="page-title">메뉴 관리</div>
-        <div>
-          <Button bttext="저장" />
-        </div>
-      </NavStyle>
+      <AdminHeader title="메뉴 관리" />
       <ShopStyle>
         <BackgroundBoxStyle>
           <BoxInnerStyle>
@@ -71,14 +74,17 @@ const MenuList = () => {
             </div>
             <div>
               <form>
-                <input type="text" name="name" />
+                <TextField
+                  placeholder="메뉴이름을 입력하세요"
+                  onInputChange={handleInputChange}
+                />
               </form>
             </div>
             <div className="name-guide">
               <div className="text-guide">
                 숫자, 한글, 영문, 특수문자 사용가능
               </div>
-              <div className="text-length">0/30</div>
+              <div className="text-length">{textLength}/30</div>
             </div>
           </BoxInnerStyle>
           <BoxInnerStyle>
@@ -88,7 +94,7 @@ const MenuList = () => {
             </div>
             <div>
               <form>
-                <input type="text" name="deposit" />
+                <TextField placeholder="메뉴가격을 입력해주세요" />
               </form>
             </div>
             <div className="text-guide">숫자만 사용가능, 단위: 원</div>
