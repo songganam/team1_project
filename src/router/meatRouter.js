@@ -3,7 +3,7 @@ import { Navigate } from "react-router";
 import Loading from "../components/loading/Loading";
 
 // 고깃집 페이지
-const LazyGbookPage = lazy(() => import("../pages/meat/MeatReviewPage"));
+const LazyGbookPage = lazy(() => import("../pages/meat/TSMeatReviewPage"));
 const LazyGlistPage = lazy(() => import("../pages/meat/TSMeatListPage"));
 const LazyGreadPage = lazy(() => import("../pages/meat/TSMeatDeatilPage"));
 const LazyGaddPage = lazy(() => import("../pages/meat/MeatReservationPage"));

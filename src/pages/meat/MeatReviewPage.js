@@ -51,7 +51,15 @@ const MeatReviewPage = () => {
   const checkShop = queryParams.get("checkShop");
   const name = queryParams.get("name");
   const ishop = queryParams.get("ishop");
-  const { isModal, openModal, closeModal } = useCustomHook();
+  const {
+    isModal,
+    openModal,
+    closeModal,
+    openSelectModal,
+    isSelectModal,
+    confirmSelectModal,
+    cancelSelectModal,
+  } = useCustomHook();
   // ! Call date
   const createdate = new Date();
   const nowdata = moment(createdate).format("YYYY-MM-DD");
@@ -59,7 +67,6 @@ const MeatReviewPage = () => {
 
   // 로딩창 연결
   const [fetching, setFetching] = useState(false);
-
   const [reviewData, setReviewData] = useState(initState);
 
   // 글 작성 시 내용 업데이트, 텍스트 필드의 변경사항 처리
@@ -116,9 +123,27 @@ const MeatReviewPage = () => {
       prevImages.filter((_, index) => index !== indexToDelete),
     );
   };
+
+  // @AREA React-Query
   const addMutation = useMutation({
-    mutationFn: reviewData =>
-      postReview({ reviewData, successFn, failFn, errorFn }),
+    mutationFn: reviewData => postReview({ reviewData }),
+    onSuccess: result => {
+      setFetching(false);
+      openModal("등록 성공", "리뷰가 등록되었습니다", () => {
+        closeModal();
+        navigate("/my/review");
+      });
+    },
+    onError: error => {
+      if (error.response && error.response.status === 400) {
+        setFetching(false);
+        openModal("등록 실패", "입력정보를 확인해주세요.", closeModal);
+      }
+      if (error.response && error.response.status === 500) {
+        setFetching(false);
+        openModal("등록 실패", "관리자에게 문의해주세요.", closeModal);
+      }
+    },
   });
   // 파일 업로드 실행
   const handleClick = async reviewData => {
@@ -167,58 +192,59 @@ const MeatReviewPage = () => {
   };
 
   // 모달창 관련
-  const [addResult, setAddResult] = useState(false);
-  const [popTitle, setPopTitle] = useState("");
-  const [popContent, setPopContent] = useState(false);
-  const [popRedirect, setPopRedirect] = useState(false);
-  const [showModal, setShowModal] = useState(false);
+
   const navigate = useNavigate();
   // 확인 버튼 클릭 시
   const handleConfirm = reviewData => {
     // 글 등록 로직 실행
     handleClick(reviewData);
     // 모달 닫기
-    setShowModal(false);
+    cancelSelectModal();
   };
 
   // 취소 버튼 클릭 시
   const handleCancel = () => {
     // 모달 닫기
-    setShowModal(false);
+    cancelSelectModal();
   };
 
   // 글 등록 버튼 클릭 핸들러
   const handleAddClick = () => {
     // 모달 띄우기
-    setShowModal(true);
+    openSelectModal(
+      "글 등록확인",
+      "글을 등록하시겠습니까?",
+      () => handleConfirm(reviewData),
+      handleCancel,
+    );
   };
 
-  const successFn = addResult => {
-    console.log("글 등록 성공", addResult);
-    setFetching(false);
-    openModal("등록성공", "리뷰가 등록 되었습니다.", () => {
-      closeModal(), navigate("/my/review");
-    });
-  };
-  const failFn = addResult => {
-    console.log("글 등록 실패", addResult);
-    setFetching(false);
-    setAddResult(false);
-    setPopTitle("글 등록 실패");
-    setPopContent("오류가 발생하였습니다. 잠시 후 다시 시도해주세요");
-    setPopRedirect(false);
-  };
-  const errorFn = error => {
-    console.log("글 등록 실패", addResult);
-    if (error.response && error.response.status === 400) {
-      setFetching(false);
-      openModal("등록 실패", "입력정보를 확인해주세요.", closeModal);
-    }
-    if (error.response && error.response.status === 500) {
-      setFetching(false);
-      openModal("등록 실패", "관리자에게 문의해주세요.", closeModal);
-    }
-  };
+  // const successFn = addResult => {
+  //   console.log("글 등록 성공", addResult);
+  //   setFetching(false);
+  //   openModal("등록성공", "리뷰가 등록 되었습니다.", () => {
+  //     closeModal(), navigate("/my/review");
+  //   });
+  // };
+  // const failFn = addResult => {
+  //   console.log("글 등록 실패", addResult);
+  //   setFetching(false);
+  //   setAddResult(false);
+  //   setPopTitle("글 등록 실패");
+  //   setPopContent("오류가 발생하였습니다. 잠시 후 다시 시도해주세요");
+  //   setPopRedirect(false);
+  // };
+  // const errorFn = error => {
+  //   console.log("글 등록 실패", addResult);
+  //   if (error.response && error.response.status === 400) {
+  //     setFetching(false);
+  //     openModal("등록 실패", "입력정보를 확인해주세요.", closeModal);
+  //   }
+  //   if (error.response && error.response.status === 500) {
+  //     setFetching(false);
+  //     openModal("등록 실패", "관리자에게 문의해주세요.", closeModal);
+  //   }
+  // };
 
   const { moveToList } = useCustomMove();
 
@@ -231,6 +257,15 @@ const MeatReviewPage = () => {
           callFn={isModal.callFn}
         />
       )}
+      {isSelectModal.isOpen && (
+        <SelectedModal
+          title={isSelectModal.title}
+          content={isSelectModal.content}
+          confirmFn={isSelectModal.confirmFn}
+          cancelFn={isSelectModal.cancelFn}
+        />
+      )}
+
       <ReviewItemWrap>
         {fetching ? <Fetching /> : null}
         <ReviewTitle>
@@ -356,21 +391,6 @@ const MeatReviewPage = () => {
       <ReviewSubmitBtn onClick={handleAddClick}>
         <span>작성완료</span>
       </ReviewSubmitBtn>
-      {showModal ? (
-        <SelectedModal
-          title="글 등록 확인"
-          content="글을 등록하시겠습니까?"
-          confirmFn={() => handleConfirm(reviewData)}
-          cancelFn={handleCancel}
-        />
-      ) : null}
-      {addResult ? (
-        <ResultModal
-          title={popTitle}
-          content={popContent}
-          callFn={closeModal}
-        />
-      ) : null}
     </ReviewWrap>
   );
 };

@@ -1,11 +1,11 @@
-import React, { useEffect, useRef, useState } from "react";
-import { loadPaymentWidget, ANONYMOUS } from "@tosspayments/payment-widget-sdk";
+import { loadPaymentWidget } from "@tosspayments/payment-widget-sdk";
 import { nanoid } from "nanoid";
+import { useEffect, useRef, useState } from "react";
 
 // 구매자의 고유 아이디를 불러와서 customerKey로 설정하세요.
 // 이메일・전화번호와 같이 유추가 가능한 값은 안전하지 않습니다.
 const widgetClientKey = "test_ck_6bJXmgo28eD0pPL4knJXrLAnGKWx";
-const customerKey = "OI0aqvHyUVGNgJULJ9UBS";
+const customerKey = "n9VRnRWwWbIlYVD3OGuzM";
 // const paymentWidget = PaymentWidget(widgetClientKey, PaymentWidget.ANONYMOUS) // 비회원 결제
 
 export function CheckoutPage() {

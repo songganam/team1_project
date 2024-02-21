@@ -30,7 +30,7 @@ export function SuccessPage() {
         navigate(`/fail?message=${json.message}&code=${json.code}`);
         return;
       }
-
+      console.log(requestData);
       // 결제 성공 비즈니스 로직을 구현하세요.
     }
     confirm();
