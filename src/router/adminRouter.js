@@ -4,7 +4,7 @@ import Loading from "../components/loading/Loading";
 
 // 가게 관리자 페이지
 const LazyAdInfoPage = lazy(() => import("../pages/admin/TSAdminInfoPage"));
-const LazyAdMenuPage = lazy(() => import("../pages/admin/AdminMenuPage"));
+const LazyAdMenuPage = lazy(() => import("../pages/admin/TSAdminMenuPage"));
 const LazyAdBookPage = lazy(() => import("../pages/admin/AdminBookPage"));
 const LazyAdReviewPage = lazy(() => import("../pages/admin/AdminReviewPage"));
 const LazyAdDocPage = lazy(() => import("../pages/admin/AdminDocPage"));

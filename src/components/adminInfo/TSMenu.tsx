@@ -1,8 +1,8 @@
-import { MenuStyle } from "./styles/MenuStyle";
+import { TSMenuStyle } from "./styles/TSMenuStyle";
 
-const Menu = () => {
+const TSMenu = () => {
   return (
-    <MenuStyle>
+    <TSMenuStyle>
       <div className="menu-img">
         <img src={`${process.env.PUBLIC_URL}/assets/images/menuImg.png`} />
       </div>
@@ -10,8 +10,8 @@ const Menu = () => {
         <div>갈비살 [500g]</div>
         <div>38,000원</div>
       </div>
-    </MenuStyle>
+    </TSMenuStyle>
   );
 };
 
-export default Menu;
+export default TSMenu;

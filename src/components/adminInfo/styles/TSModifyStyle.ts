@@ -1,6 +1,6 @@
 import styled from "@emotion/styled";
 
-export const AdminInfoWrapStyle = styled.div`
+export const TSAdminInfoWrapStyle = styled.div`
   position: relative;
   display: flex;
   flex-direction: column;
@@ -8,7 +8,7 @@ export const AdminInfoWrapStyle = styled.div`
   gap: 17px;
   font-family: Pretendard;
 `;
-export const NavStyle = styled.div`
+export const TSNavStyle = styled.div`
   position: relative;
   display: flex;
   width: 100%;
@@ -34,7 +34,7 @@ export const NavStyle = styled.div`
     line-height: normal;
   }
 `;
-export const ShopStyle = styled.div`
+export const TSShopStyle = styled.div`
   position: relative;
   display: flex;
   padding-left: 80px;
@@ -42,7 +42,7 @@ export const ShopStyle = styled.div`
   align-items: flex-start;
   gap: 10px;
 `;
-export const BackgroundBoxStyle = styled.div`
+export const TSBackgroundBoxStyle = styled.div`
   position: relative;
   display: flex;
   width: 560px;
@@ -57,7 +57,7 @@ export const BackgroundBoxStyle = styled.div`
   box-shadow: 0px 1px 2px -1px rgba(0, 0, 0, 0.1),
     0px 1px 3px 0px rgba(0, 0, 0, 0.1);
 `;
-export const BoxInnerStyle = styled.div`
+export const TSBoxInnerStyle = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
@@ -176,7 +176,7 @@ export const BoxInnerStyle = styled.div`
     flex-wrap: wrap;
   }
 `;
-export const MenuAddPicInnerStyle = styled(BoxInnerStyle)`
+export const TSMenuAddPicInnerStyle = styled(TSBoxInnerStyle)`
   display: flex;
   flex-direction: row;
   width: 500px;

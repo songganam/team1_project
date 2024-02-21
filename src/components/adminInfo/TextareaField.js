@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { TextareaFieldStyle } from "./styles/TextareaFieldStyle";
 
 const TextareaField = ({ placeholder, onInputChange }) => {
