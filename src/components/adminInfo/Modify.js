@@ -1,18 +1,17 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import Button from "../button/Button";
+import AdminHeader from "./AdminHeader";
+import CheckBoxInput from "./CheckBoxInput";
+import RadioInput from "./RadioInput";
+import TextField from "./TextField";
+import TextFieldAdress from "./TextFieldAdress";
+import TextareaField from "./TextareaField";
 import {
   AdminInfoWrapStyle,
   BackgroundBoxStyle,
   BoxInnerStyle,
-  NavStyle,
   ShopStyle,
 } from "./styles/ModifyStyle";
-import RadioInput from "./RadioInput";
-import CheckBoxInput from "./CheckBoxInput";
-import TextField from "./TextField";
-import TextFieldAdress from "./TextFieldAdress";
-import TextareaField from "./TextareaField";
-import AdminHeader from "./AdminHeader";
 
 const Modify = () => {
   // 라디오 버튼 관련
@@ -196,7 +195,10 @@ const Modify = () => {
               <div className="location-input-box">
                 <div>
                   <form>
-                    <TextFieldAdress placeholder="주소 검색을 이용해주세요" />
+                    <TextFieldAdress
+                      placeholder="주소 검색을 이용해주세요"
+                      readonly={true}
+                    />
                   </form>
                 </div>
                 <div>
