@@ -35,7 +35,6 @@ const RadioInput = ({ name, value, checked, onChange }) => {
           </svg>
         )}
       </div>
-
       {name}
       {/* {value} */}
     </RadioLableStyle>
