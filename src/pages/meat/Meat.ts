@@ -15,4 +15,13 @@ interface Glist {
     menu: string;
     pic: string;
   }[];
+  reviews: {
+    iuser: number;
+    writerPic: string;
+    ireview: number;
+    nickname: string;
+    star: number;
+    review: string;
+    pic: string[];
+  }[];
 }

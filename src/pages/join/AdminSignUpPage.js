@@ -1,9 +1,16 @@
-import React, { useRef, useState } from "react";
+import { useRef, useState } from "react";
 import DaumPostcodeEmbed from "react-daum-postcode";
 import { getCoord, postBusiNum } from "../../api/meatApi";
+import RadioInput from "../../components/adminInfo/RadioInput";
+import { BoxInnerStyle } from "../../components/adminInfo/styles/ModifyStyle";
 import EmptyModal from "../../components/common/EmptyModal";
 import useCustomHook from "../../components/meat/hooks/useCustomHook";
 import TitleHeader from "../../components/titleheader/TitleHeader";
+import {
+  CateSelectWrap,
+  SelectMeatWrap,
+  SelectedCate,
+} from "./styles/AdminSignUpStyles";
 import {
   DefaultBt,
   JaddAddressBts,
@@ -17,14 +24,6 @@ import {
   JaddPageWrap,
   JaddPwWrap,
 } from "./styles/JaddPageStyle";
-import {
-  CateSelectWrap,
-  SelectMeatItem,
-  SelectMeatWrap,
-  SelectedCate,
-} from "./styles/AdminSignUpStyles";
-import RadioInput from "../../components/adminInfo/RadioInput";
-import { BoxInnerStyle } from "../../components/adminInfo/styles/ModifyStyle";
 
 const initState = {
   id: "",

@@ -1,11 +1,11 @@
-import React, { MouseEvent, useEffect, useState } from "react";
+import { MouseEvent, useState } from "react";
 import { Map, MapMarker } from "react-kakao-maps-sdk";
 import { useNavigate, useParams } from "react-router";
 import "swiper/css";
 import "swiper/css/navigation";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { API_SERVER_HOST } from "../../api/config";
-import { changeBookmark, getGInfo } from "../../api/meatApi";
+import { changeBookmark } from "../../api/meatApi";
 import Button from "../../components/button/Button";
 import CountingStar from "../../components/common/CountingStar";
 import Fetching from "../../components/common/Fetching";
@@ -55,34 +55,6 @@ import {
 // @COMMENT use React-Query
 import { useQuery } from "@tanstack/react-query";
 import { getGInfoTS } from "../../api/typeApi";
-
-interface Glist {
-  ishop: number;
-  name: string;
-  location: string;
-  open: string;
-  tel: string;
-  x: string;
-  y: string;
-  star: number;
-  isBook: number;
-  facilities: string[];
-  pics: string[];
-  menus: {
-    price: number;
-    menu: string;
-    pic: string;
-  }[];
-  reviews: {
-    iuser: number;
-    writerPic: string;
-    ireview: number;
-    nickname: string;
-    star: number;
-    review: string;
-    pic: string[];
-  }[];
-}
 
 const initState: Glist = {
   ishop: 0,
