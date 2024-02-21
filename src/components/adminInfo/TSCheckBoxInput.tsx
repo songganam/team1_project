@@ -1,13 +1,28 @@
-import { CheckBoxLabelStyle } from "./styles/CheckBoxLabelStyle";
+import { ChangeEvent } from "react";
+import { TSCheckBoxLabelStyle } from "./styles/TSCheckBoxLabelStyle";
 
-const CheckBoxInput = ({ name, checked, onChange, value, label }) => {
+// props 타입 정의
+interface TSCheckBoxInputProps {
+  name: string;
+  checked: boolean;
+  onChange: (event: ChangeEvent<HTMLInputElement>) => void;
+  value: string;
+  label: string;
+}
+
+const TSCheckBoxInput: React.FC<TSCheckBoxInputProps> = ({
+  name,
+  checked,
+  onChange,
+  value,
+  label,
+}) => {
   return (
-    <CheckBoxLabelStyle>
+    <TSCheckBoxLabelStyle>
       <input
         type="checkbox"
         value={value}
         name={name}
-        label={label}
         checked={checked}
         onChange={onChange}
       />
@@ -42,8 +57,8 @@ const CheckBoxInput = ({ name, checked, onChange, value, label }) => {
         )}
       </div>
       {label}
-    </CheckBoxLabelStyle>
+    </TSCheckBoxLabelStyle>
   );
 };
 
-export default CheckBoxInput;
+export default TSCheckBoxInput;

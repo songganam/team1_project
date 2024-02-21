@@ -1,11 +1,11 @@
-import Modify from "../../components/adminInfo/Modify";
+import TSModify from "../../components/adminInfo/TSModify";
 
-const AdminInfoPage = () => {
+const TSAdminInfoPage = () => {
   return (
     <div>
-      <Modify />
+      <TSModify />
     </div>
   );
 };
 
-export default AdminInfoPage;
+export default TSAdminInfoPage;
