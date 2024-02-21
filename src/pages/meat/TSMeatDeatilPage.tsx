@@ -55,6 +55,7 @@ import {
 // @COMMENT use React-Query
 import { useQuery } from "@tanstack/react-query";
 import { getGInfoTS } from "../../api/typeApi";
+import { Glist } from "./Meat";
 
 const initState: Glist = {
   ishop: 0,
