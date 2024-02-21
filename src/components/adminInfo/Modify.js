@@ -115,7 +115,7 @@ const Modify = () => {
                 {options.map((option, index) => (
                   <RadioInput
                     key={option}
-                    name="imeat"
+                    name={option}
                     value={option}
                     checked={selectedRadioValue === option}
                     onChange={handleRadioChange}
