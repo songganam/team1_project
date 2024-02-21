@@ -1,6 +1,6 @@
-import axios from "axios";
+import axios, { AxiosError } from "axios";
 import authAxios from "../util/tokenUtil";
-import { ListParam } from "../pages/meat/Meat";
+import { ListParam, ReserForm, ReviewForm } from "../pages/meat/Meat";
 
 export const API_SERVER_HOST = "";
 const host = `${API_SERVER_HOST}/api`;
@@ -49,5 +49,37 @@ export const getGListTS = async ({ params }: { params: ListParam }) => {
     }
   } catch (error) {
     console.log(error);
+  }
+};
+//  @AREA POST Review
+export const postReviewTS = async ({
+  reviewData,
+}: {
+  reviewData: FormData;
+}) => {
+  try {
+    const header = { headers: { "Content-Type": "multipart/form-data" } };
+    const res = await authAxios.post(`${host}/review`, reviewData, header);
+    // const status = res.status.toString();
+    return res.data;
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+};
+
+// @AREA POST Reservation
+export const postReserTS = async ({ reserData }: { reserData: ReserForm }) => {
+  // console.log("레저데이따", reserData);
+  try {
+    //
+    const header = { headers: { "Content-Type": "application/json" } };
+    const res = await authAxios.post(`${host}/reservation`, reserData, header);
+    // const status = res.status.toString();
+    return res.data;
+  } catch (error) {
+    console.log(error);
+    throw error;
+    //
   }
 };

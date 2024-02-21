@@ -9,6 +9,7 @@ import communityRouter from "./communityRouter";
 import myRouter from "./myRouter";
 import adminRouter from "./adminRouter";
 import supervisorRouter from "./supervisorRouter";
+import { CheckoutPage } from "../pages/payment/Checkout";
 
 // 어바웃 페이지
 const LazyAboutPage = lazy(() => import("../pages/about/AboutPage"));
@@ -44,10 +45,11 @@ const LazyAdminPage = lazy(() => import("../pages/admin/AdminPage"));
 const LazySupervisorPage = lazy(() =>
   import("../pages/supervisor/SupervisorPage"),
 );
-
-// 테스트용 로그인 페이지
 const LazyAdSignupPage = lazy(() => import("../pages/join/AdminSignUpPage"));
+
+// 테스트용 페이지
 const LazyGaraPage = lazy(() => import("../redux/GaraLogin"));
+const LazyPaymentPage = lazy(() => import("../pages/payment/Checkout"));
 
 const router = createBrowserRouter([
   {
@@ -167,6 +169,15 @@ const router = createBrowserRouter([
     element: (
       <Suspense fallback={<Loading />}>
         <LazyGaraPage />
+      </Suspense>
+    ),
+  },
+  {
+    path: "/payment",
+    element: (
+      <Suspense fallback={<Loading />}>
+        {/* <LazyPaymentPage /> */}
+        <CheckoutPage />
       </Suspense>
     ),
   },

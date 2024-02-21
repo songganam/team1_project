@@ -51,3 +51,25 @@ export type ListQuery = {
   category: number;
   filter: number;
 };
+
+export interface ReviewForm {
+  pics: string[];
+  dto: {
+    checkShop: number;
+    ireser: number;
+    ishop: number;
+    star: number;
+    review: string;
+  };
+}
+
+export interface ReserForm {
+  ishop: number;
+  date: string;
+  headCount: number;
+  request: string;
+}
+export interface ReserTimeBtnProps {
+  clicked: boolean;
+  // onClick: () => void;
+}
