@@ -1,4 +1,4 @@
-import React from "react";
+import React, { useState } from "react";
 import {
   SupervisorUserHeader,
   SupervisorUserMain,
@@ -7,6 +7,10 @@ import {
 import { useTable } from "react-table";
 
 const SupervisorUserPage = () => {
+
+
+
+  // 테이블 
   const data = [
     {
       name: 1,
@@ -48,6 +52,8 @@ const SupervisorUserPage = () => {
     useTable({ columns, data });
 
   return (
+    
+
     <SupervisorUserWrapper>
       <h1>계정 관리</h1>
       <SupervisorUserHeader></SupervisorUserHeader>

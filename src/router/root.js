@@ -47,6 +47,7 @@ const LazySupervisorPage = lazy(() =>
 
 // 테스트용 로그인 페이지
 const LazyAdSignupPage = lazy(() => import("../pages/join/AdminSignUpPage"));
+const LazyGaraPage = lazy(() => import("../redux/GaraLogin"));
 
 const router = createBrowserRouter([
   {
@@ -158,6 +159,14 @@ const router = createBrowserRouter([
     element: (
       <Suspense fallback={<Loading />}>
         <LazyAdSignupPage />
+      </Suspense>
+    ),
+  },
+  {
+    path: "/test",
+    element: (
+      <Suspense fallback={<Loading />}>
+        <LazyGaraPage />
       </Suspense>
     ),
   },

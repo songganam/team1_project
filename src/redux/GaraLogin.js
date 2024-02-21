@@ -1,237 +1,105 @@
-import React, { useState } from "react";
-import { Outlet, useNavigate } from "react-router-dom";
-import Fetching from "../components/common/Fetching";
-import ResultModal from "../components/common/ResultModal";
-import SelectedModal from "../components/common/SelectedModal";
-import useCustomHook from "../components/meat/hooks/useCustomHook";
-import TitleHeader from "../components/titleheader/TitleHeader";
-import {
-  DefaultBt,
-  JaddAddressBts,
-  JaddAddressWrap,
-  JaddMailWrap,
-  JaddMorePwWrap,
-  JaddNameWrap,
-  JaddPageInfo,
-  JaddPageMain,
-  JaddPageWrap,
-  JaddPwWrap,
-} from "../pages/join/styles/JaddPageStyle";
+import React, { useMemo } from "react";
+import { useTable, useSortBy, useFilters } from "react-table";
 
-// 회원가입 작성 페이지입니다.
-const JaddPage = () => {
-  // const [todo, setTodo] = useState({});
+// 사용자 정의 필터 컴포넌트
+const SelectColumnFilter = ({ column }) => {
+  const { filterValue, setFilter } = column;
 
-  const initState = {
-    bNo: "",
-    bName: "",
-    bStartAt: "",
-    bAddress: "",
-    bId: "",
-    bPassword: "",
-    bStoreName: "",
-  };
-  const [adminData, setAdminData] = useState(initState);
-  const [fetching, setFetching] = useState(false);
-
-  const handleChange = e => {
-    setAdminData({ ...adminData, [e.target.name]: e.target.value });
-    setMessage(""); // (비밀번호 확인 메시지) 사용자가 다시 입력할 때 메시지 초기화
-  };
-
-  const {
-    isModal,
-    openModal,
-    closeModal,
-    isSelectModal,
-    openSelectModal,
-    confirmSelectModal,
-    cancelSelectModal,
-  } = useCustomHook();
-
-  const handleClick = async adminData => {};
-
-  // 회원가입 등록 시 resultModal 닫기 callFn
-
-  // 글 등록 버튼 클릭 핸들러
-  const handleAddClick = () => {
-    const bNo = {
-      b_no: [adminData.bNo],
-    };
-    console.log("bNo", bNo);
-
-    const dto = {
-      bName: adminData.bName,
-      bStartAt: adminData.bStartAt,
-      bAddress: adminData.bAddress,
-      bId: adminData.bId,
-      bPassword: adminData.bPassword,
-      bStoreName: adminData.bStoreName,
-    };
-    console.log("dto", dto);
-  };
-
-  // Submit Result Action
-  const successFn = addResult => {};
-  const failFn = addResult => {};
-  const errorFn = addResult => {};
-
-  // 비밀번호 확인 메시지
-  const [message, setMessage] = useState("");
-  const [messageColor, setMessageColor] = useState("");
-
-  const handleValiation = () => {
-    if (adminData.upw === adminData.checkUpw) {
-      setMessage("비밀번호가 일치합니다.");
-      setMessageColor("green");
-    } else {
-      setMessage("비밀번호가 일치하지 않습니다.");
-      setMessageColor("red");
-    }
-  };
-
-  // 패스 이동하기
-  const navigate = useNavigate();
-
-  const handleClickCancel = () => {
-    navigate("/");
-  };
-
-  const callModal = () => {
-    openModal("테스트", "테스트입니다", closeModal);
-  };
+  // 필터링을 위한 유니크한 값 추출
+  const options = useMemo(() => {
+    const uniqueValues = new Set(column.data.map(item => item[column.id]));
+    return [...uniqueValues];
+  }, [column]);
 
   return (
-    <JaddPageWrap>
-      {fetching ? <Fetching /> : null}
-      {isModal.isOpen && (
-        <ResultModal
-          title={isModal.title}
-          content={isModal.content}
-          callFn={isModal.callFn}
-        />
-      )}
-      {isSelectModal.isOpen && (
-        <SelectedModal
-          title={isSelectModal.title}
-          content={isSelectModal.content}
-          confirmFn={isSelectModal.confirmFn}
-          cancelFn={isSelectModal.cancelFn}
-        />
-      )}
-      <TitleHeader
-        timg={`${process.env.PUBLIC_URL}/assets/images/join_header.png`}
-        tname="회원가입"
-        tcontent="오늘도 맛있는 고기와 함께하세요"
-      ></TitleHeader>
-      <JaddPageMain>
-        <JaddPageInfo>
-          <div className="JaddMailInfo">
-            <JaddMailWrap>
-              <label>아이디</label>
-              <input
-                type="text"
-                name="bId"
-                value={adminData.bId}
-                className="JoinMail"
-                placeholder="아이디는 4-8글자입니다."
-                onChange={e => handleChange(e)}
-              ></input>
-            </JaddMailWrap>
-            <br />
-
-            <form action="" method="post">
-              <JaddPwWrap>
-                <label>비밀번호</label>
-                <input
-                  type="password"
-                  name="bPassword"
-                  value={adminData.bPassword}
-                  className="JaddPw"
-                  placeholder="비밀번호를 입력하세요.(특수문자 포함 4-8자)"
-                  onChange={e => handleChange(e)}
-                />
-              </JaddPwWrap>
-              <br />
-              <JaddMorePwWrap>
-                <label>비밀번호 확인</label>
-                <input
-                  type="password"
-                  name="checkbPassword"
-                  value={adminData.checkbPassword}
-                  className="JaddMorePw"
-                  placeholder="입력한 비밀번호를 한번 더 확인하세요."
-                  onChange={e => handleChange(e)}
-                  maxLength="8"
-                  minLength="4"
-                  onBlur={handleValiation}
-                />
-                {message !== "" &&
-                  adminData.upw !== "" &&
-                  adminData.checkUpw !== "" && (
-                    <div
-                      style={{
-                        color: messageColor,
-                        fontSize: "14px",
-                        paddingTop: "5px",
-                      }}
-                    >
-                      {message}
-                    </div>
-                  )}
-              </JaddMorePwWrap>
-            </form>
-            <br />
-            <JaddNameWrap>
-              <label>사업자등록번호</label>
-              <input
-                type="text"
-                name="bNo"
-                value={adminData.bNo}
-                className="JaddName"
-                placeholder="10자리 정확히 입력해주세요. (- 제외)"
-                onChange={e => handleChange(e)}
-              ></input>
-            </JaddNameWrap>
-
-            <br />
-            <JaddAddressWrap>
-              <label>주소</label>
-              <input
-                type="text"
-                name="bAddress"
-                value={adminData.bAddress}
-                className="JaddAddress"
-                placeholder="거주 중인 주소를 입력하세요."
-                onChange={e => handleChange(e)}
-              ></input>
-            </JaddAddressWrap>
-            <JaddAddressBts>
-              <DefaultBt
-                type="button"
-                className="join-button"
-                onClick={handleAddClick}
-              >
-                회원가입
-              </DefaultBt>
-              <button
-                type="button"
-                className="cancel-button"
-                onClick={() => {
-                  handleClickCancel();
-                }}
-              >
-                취소하기
-              </button>
-            </JaddAddressBts>
-          </div>
-        </JaddPageInfo>
-
-        <div>
-          <Outlet />
-        </div>
-      </JaddPageMain>
-    </JaddPageWrap>
+    <select
+      value={filterValue}
+      onChange={e => setFilter(e.target.value || undefined)}
+    >
+      <option value="">전체</option>
+      {options.map((option, index) => (
+        <option key={index} value={option}>
+          {option}
+        </option>
+      ))}
+    </select>
   );
 };
-export default JaddPage;
+
+const TableWithSelectFilter = ({ columns, data }) => {
+  const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
+    useTable(
+      {
+        columns,
+        data,
+      },
+      useFilters, // 필터 사용
+      useSortBy, // 정렬 사용
+    );
+
+  return (
+    <table {...getTableProps()}>
+      <thead>
+        {headerGroups.map((headerGroup, index) => (
+          <tr key={index} {...headerGroup.getHeaderGroupProps()}>
+            {headerGroup.headers.map(column => (
+              <th
+                key={column.id}
+                {...column.getHeaderProps(column.getSortByToggleProps())}
+              >
+                {column.render("Header")}
+                {/* 컬럼별로 사용자 정의 필터 렌더링 */}
+                {column.canFilter && <SelectColumnFilter column={column} />}
+              </th>
+            ))}
+          </tr>
+        ))}
+      </thead>
+      <tbody {...getTableBodyProps()}>
+        {rows.map(row => {
+          prepareRow(row);
+          return (
+            <tr key={row.id} {...row.getRowProps()}>
+              {row.cells.map(cell => (
+                <td key={row.id} {...cell.getCellProps()}>
+                  {cell.render("Cell")}
+                </td>
+              ))}
+            </tr>
+          );
+        })}
+      </tbody>
+    </table>
+  );
+};
+
+// 사용할 컬럼 및 데이터 정의
+const columns = [
+  {
+    Header: "이름",
+    accessor: "name",
+  },
+  {
+    Header: "나이",
+    accessor: "age",
+    Filter: SelectColumnFilter, // 전체 테이블에 일괄적으로 사용하려면 여기에 추가 가능
+  },
+  {
+    Header: "성별",
+    accessor: "gender",
+    Filter: SelectColumnFilter, // 전체 테이블에 일괄적으로 사용하려면 여기에 추가 가능
+  },
+];
+
+const data = [
+  { name: "John", age: 25, gender: "Male" },
+  { name: "Jane", age: 30, gender: "Female" },
+  // 데이터 계속 추가...
+];
+
+// TableWithSelectFilter 컴포넌트 사용
+function App() {
+  return <TableWithSelectFilter columns={columns} data={data} />;
+}
+
+export default App;
