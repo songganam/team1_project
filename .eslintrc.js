@@ -7,9 +7,6 @@ module.exports = {
   extends: ["eslint:recommended", "plugin:react/recommended", "prettier"],
   overrides: [
     {
-      env: {
-        node: true,
-      },
       files: [".eslintrc.{js,cjs}"],
       parserOptions: {
         sourceType: "script",

@@ -1,5 +1,5 @@
 import moment from "moment";
-import React, { useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { postReview } from "../../api/meatApi";
 import Fetching from "../../components/common/Fetching";
@@ -29,7 +29,7 @@ import {
   ReviewWrap,
   ReviewWrapper,
 } from "./styles/MeatReviewStyle";
-
+import { useMutation } from "@tanstack/react-query";
 const initState = {
   pics: [],
   checkShop: 0,
@@ -43,8 +43,6 @@ const MeatReviewPage = () => {
   const noCountStar =
     process.env.PUBLIC_URL + `/assets/images/star_no_count.svg`;
   const countStar = process.env.PUBLIC_URL + `/assets/images/star_count.svg`;
-  const mainImageSelect =
-    process.env.PUBLIC_URL + `/assets/images/main_image_select.png`;
 
   // ! 유저 정보 가져오기
   const location = useLocation();
@@ -53,7 +51,7 @@ const MeatReviewPage = () => {
   const checkShop = queryParams.get("checkShop");
   const name = queryParams.get("name");
   const ishop = queryParams.get("ishop");
-  const { isModal, openModal, closeModal, moveToLogin } = useCustomHook();
+  const { isModal, openModal, closeModal } = useCustomHook();
   // ! Call date
   const createdate = new Date();
   const nowdata = moment(createdate).format("YYYY-MM-DD");
@@ -62,15 +60,15 @@ const MeatReviewPage = () => {
   // 로딩창 연결
   const [fetching, setFetching] = useState(false);
 
-  const [product, setProduct] = useState(initState);
+  const [reviewData, setReviewData] = useState(initState);
 
   // 글 작성 시 내용 업데이트, 텍스트 필드의 변경사항 처리
   const handleChange = e => {
-    setProduct({ ...product, [e.target.name]: e.target.value });
+    setReviewData({ ...reviewData, [e.target.name]: e.target.value });
   };
 
   const handleStarClick = star => {
-    setProduct({ ...product, star: star });
+    setReviewData({ ...reviewData, star: star });
   };
 
   // useRef(DOM 요소를 참조한다.)
@@ -118,9 +116,12 @@ const MeatReviewPage = () => {
       prevImages.filter((_, index) => index !== indexToDelete),
     );
   };
-
+  const addMutation = useMutation({
+    mutationFn: reviewData =>
+      postReview({ reviewData, successFn, failFn, errorFn }),
+  });
   // 파일 업로드 실행
-  const handleClick = async product => {
+  const handleClick = async reviewData => {
     const formData = new FormData();
 
     // 글 정보를 담은 dto Blob객체 생성
@@ -130,8 +131,8 @@ const MeatReviewPage = () => {
           ireser: ireser,
           ishop: ishop,
           checkShop: checkShop,
-          star: product.star,
-          review: product.review,
+          star: reviewData.star,
+          review: reviewData.review,
         }),
       ],
       // JSON 형식으로 설정
@@ -161,12 +162,11 @@ const MeatReviewPage = () => {
     // 데이터 전송 중임을 나타내는 상태 true
     setFetching(true);
     // formData를 서버에 전송
-
-    postReview({ product: formData, successFn, failFn, errorFn });
+    addMutation.mutate(formData);
+    // postReview({ reviewData: formData, successFn, failFn, errorFn });
   };
 
   // 모달창 관련
-  const [result, setResult] = useState(false);
   const [addResult, setAddResult] = useState(false);
   const [popTitle, setPopTitle] = useState("");
   const [popContent, setPopContent] = useState(false);
@@ -174,9 +174,9 @@ const MeatReviewPage = () => {
   const [showModal, setShowModal] = useState(false);
   const navigate = useNavigate();
   // 확인 버튼 클릭 시
-  const handleConfirm = product => {
+  const handleConfirm = reviewData => {
     // 글 등록 로직 실행
-    handleClick(product);
+    handleClick(reviewData);
     // 모달 닫기
     setShowModal(false);
   };
@@ -191,11 +191,6 @@ const MeatReviewPage = () => {
   const handleAddClick = () => {
     // 모달 띄우기
     setShowModal(true);
-
-    console.log("!n", name);
-    console.log("!s", ishop);
-    console.log("!r", ireser);
-    console.log("!c", checkShop);
   };
 
   const successFn = addResult => {
@@ -277,7 +272,7 @@ const MeatReviewPage = () => {
                 {[1, 2, 3, 4, 5].map(star => (
                   <ReviewRatingStar
                     key={star}
-                    src={star <= product.star ? countStar : noCountStar}
+                    src={star <= reviewData.star ? countStar : noCountStar}
                     alt=""
                     onClick={() => handleStarClick(star)}
                   />
@@ -305,7 +300,7 @@ const MeatReviewPage = () => {
                   placeholder="리뷰를 작성해주세요."
                   height={375}
                   onChange={e => handleChange(e)}
-                  value={product.review}
+                  value={reviewData.review}
                   maxLength={30}
                 />
               </ReviewInputWrap>
@@ -365,7 +360,7 @@ const MeatReviewPage = () => {
         <SelectedModal
           title="글 등록 확인"
           content="글을 등록하시겠습니까?"
-          confirmFn={() => handleConfirm(product)}
+          confirmFn={() => handleConfirm(reviewData)}
           cancelFn={handleCancel}
         />
       ) : null}

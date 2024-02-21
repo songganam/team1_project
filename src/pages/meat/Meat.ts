@@ -1,4 +1,4 @@
-interface Glist {
+export interface Glist {
   ishop: number;
   name: string;
   location: string;
@@ -25,3 +25,29 @@ interface Glist {
     pic: string[];
   }[];
 }
+
+export interface List {
+  ishop: number;
+  name: string;
+  location: string;
+  count: number;
+  pics: string[];
+  facilities: string[];
+}
+export interface PropsList {
+  serverData: any;
+}
+
+export interface ListParam {
+  page: number;
+  search: string;
+  category: number;
+  filter: number;
+}
+
+export type ListQuery = {
+  page: number;
+  search: string;
+  category: number;
+  filter: number;
+};
