@@ -3,12 +3,11 @@ import { Navigate } from "react-router";
 import Loading from "../components/loading/Loading";
 
 // 가게 관리자 페이지
-const LazyAdInfoPage = lazy(() => import("../pages/admin/AdminInfoPage"));
+const LazyAdInfoPage = lazy(() => import("../pages/admin/TSAdminInfoPage"));
 const LazyAdMenuPage = lazy(() => import("../pages/admin/AdminMenuPage"));
 const LazyAdBookPage = lazy(() => import("../pages/admin/AdminBookPage"));
 const LazyAdReviewPage = lazy(() => import("../pages/admin/AdminReviewPage"));
 const LazyAdDocPage = lazy(() => import("../pages/admin/AdminDocPage"));
-
 
 const adminRouter = () => {
   return [

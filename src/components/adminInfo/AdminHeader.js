@@ -1,6 +1,5 @@
-import React from "react";
-import { NavStyle } from "./styles/ModifyStyle";
 import Button from "../button/Button";
+import { NavStyle } from "./styles/ModifyStyle";
 
 const AdminHeader = ({ title }) => {
   return (

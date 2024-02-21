@@ -1,7 +1,7 @@
-import React, { useState } from "react";
+import { useState } from "react";
 import { InputStyle, TextFieldAdressStyle } from "./styles/TextFieldStyle";
 
-const TextFieldAdress = ({ placeholder }) => {
+const TextFieldAdress = ({ placeholder, readonly = false }) => {
   const [value, setValue] = useState("");
   const [state, setState] = useState("default");
 
@@ -26,6 +26,7 @@ const TextFieldAdress = ({ placeholder }) => {
       <InputStyle
         type="text"
         placeholder={placeholder}
+        readOnly={readonly}
         value={value}
         onChange={handleChange}
         onFocus={handleFocus}

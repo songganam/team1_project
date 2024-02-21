@@ -1,4 +1,3 @@
-import React from "react";
 import { RadioLableStyle } from "./styles/RadioLabelStyle";
 
 const RadioInput = ({ name, value, checked, onChange }) => {
