@@ -68,7 +68,7 @@ export const SvisorReportOption = styled.div`
 `;
 export const SvisorTable = styled.div`
   width: 1180px;
-  color: #5C5C5C;
+  color: #5c5c5c;
 
   /* align-items: center; */
 
