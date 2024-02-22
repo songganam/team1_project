@@ -1,9 +1,9 @@
-import { FontSizeOutlined } from "@ant-design/icons";
 import styled from "@emotion/styled";
-import { ColorStyle } from "../../../styles/common/CommonStyle";
+import { ColorStyle, FontSize } from "../../../styles/common/CommonStyle";
 
 export const SupervisorPageWrapper = styled.div`
   position: relative;
+  margin-top: 114px;
 `;
 
 export const SupervisorPageData = styled.div`
@@ -14,10 +14,11 @@ export const SupervisorPageData = styled.div`
 `;
 
 export const SupervisorPageMenuBar = styled.div`
-  position: relative;
+  position: fixed;
   width: 210px;
   height: 1530px;
   background-color: #202734;
+  z-index: 999;
 `;
 
 export const SupervisorPageMenu = styled.div`
@@ -28,7 +29,7 @@ export const SupervisorPageMenu = styled.div`
     display: flex;
     align-items: center;
     font-family: Pretendard;
-    font-size: ${FontSizeOutlined.strong};
+    font-size: ${FontSize.strong};
     color: ${ColorStyle.g600};
     font-style: normal;
     font-weight: 400;
@@ -43,5 +44,6 @@ export const SupervisorPageMenu = styled.div`
 export const SupervisorPageContent = styled.div`
   position: relative;
   width: 730px;
+  width: calc(100% - 210px);
   background-color: pink;
 `;

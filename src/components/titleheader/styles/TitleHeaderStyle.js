@@ -3,6 +3,7 @@ import { ColorStyle, FontSize } from "../../../styles/common/CommonStyle";
 
 export const TitleHeaderWrapper = styled.div`
   position: relative;
+  margin-top: 114px;
   img {
     width: 100%;
     height: 215px;

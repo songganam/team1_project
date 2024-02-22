@@ -7,7 +7,7 @@ import {
 // props 타입 정의
 interface TSTextFieldAdressProps {
   placeholder: string;
-  readonly: boolean;
+  readonly?: boolean;
 }
 
 // state 타입 정의

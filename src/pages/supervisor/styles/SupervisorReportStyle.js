@@ -24,8 +24,7 @@ export const SupervisorReportHeader = styled.div`
   align-items: center;
   background: #fff;
   /* Shadow */
-  box-shadow: 0px 1px 2px -1px rgba(0, 0, 0, 0.1),
-    0px 1px 3px 0px rgba(0, 0, 0, 0.1);
+  box-shadow: 0px 1px 2px -1px rgba(0, 0, 0, 0.1), 0px 1px 3px 0px rgba(0, 0, 0, 0.1);
 
   .page-title {
     display: flex;

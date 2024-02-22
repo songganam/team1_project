@@ -3,6 +3,7 @@ import { ColorStyle, FontSize } from "../../../styles/common/CommonStyle";
 
 export const AdminPageWrapper = styled.div`
   position: relative;
+  margin-top: 114px;
 `;
 
 export const AdminPageData = styled.div`
@@ -13,10 +14,11 @@ export const AdminPageData = styled.div`
 `;
 
 export const AdiminPageMenuBar = styled.div`
-  position: relative;
+  position: fixed;
   width: 210px;
   height: 1530px;
   background-color: #202734;
+  z-index: 999;
 `;
 
 export const AdminPageMenu = styled.div`
