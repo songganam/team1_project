@@ -1,8 +1,8 @@
 import React, { useState } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
-import Layout from "../../layouts/Layout";
-import { Wrapper } from "../../styles/common/LayoutStyles";
-import TitleHeader from "../../components/titleheader/TitleHeader";
+import Layout from "../../../layouts/Layout";
+import { Wrapper } from "../../../styles/common/LayoutStyles";
+import TitleHeader from "../../../components/titleheader/TitleHeader";
 
 // 고깃집 메인 페이지입니다.
 const GogiPage = () => {

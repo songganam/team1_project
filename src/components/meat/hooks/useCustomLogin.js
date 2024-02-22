@@ -1,37 +1,66 @@
-import { useDispatch, useSelector } from "react-redux";
-import { useNavigate } from "react-router-dom";
-import { loginPostAsync, logout } from "../../../redux/authSlice";
 import axios from "axios";
+import { useNavigate } from "react-router-dom";
+import { useRecoilState, useResetRecoilState } from "recoil";
+import { loginPost } from "../../../api/loginApi";
+import { atomSignState } from "../../../atom/atomSignState";
+import { removeCookie, setCookie } from "../../../util/CookiesUtil";
 
 const useCustomLogin = () => {
+  // @RECOIL
+  const [loginState, setLoginState] = useRecoilState(atomSignState);
+  const resetSignState = useResetRecoilState(atomSignState);
+
   const navigate = useNavigate();
-  const dispatch = useDispatch();
-  const authState = useSelector(state => state.authSlice);
+  // @RTK
+  // const authState = useSelector(state => state.authSlice);
+  // const dispatch = useDispatch();
   const API_SERVER_HOST = "";
   const host = `${API_SERVER_HOST}/api/user`;
-
   // 로그인 상태값 파악
-  const isLogin = authState.result == 1 ? true : false;
-
+  // @RECOIL
+  const isLogin = loginState.result == 1 ? true : false;
+  // @RTK
+  // const isLogin = authState.result == 1 ? true : false;
   // 로그인 기능
-  const doLogin = async ({ authParam, successFn, failFn, errorFn }) => {
+  // @RTK
+  // const doLogin = async ({ authParam, successFn, failFn, errorFn }) => {
+  // @RECOIL
+  const doLogin = async ({ authParam }) => {
     // 로그인 어느화면에서 실행이 될 소지가 높아요.
     // 로그인 상태 업데이트
-    const action = await dispatch(
-      loginPostAsync({ authParam, successFn, failFn, errorFn }),
-    );
+    // Recoil
+    // @RECOIL
+    const result = await loginPost({ authParam });
+    // @RTK
+    // const action = await dispatch(
+    //   loginPostAsync({ authParam, successFn, failFn, errorFn }),
+    // );
     // 결과값
-    return action.payload;
+    // return action.payload;
+    // @RECOIL
+    saveAsCookie(result);
+    return result;
+  };
+  // @RECOIL
+  const saveAsCookie = result => {
+    setLoginState(result);
+    setCookie("member", JSON.stringify(result), 1);
   };
 
   // 로그아웃 기능
   const doLogout = async () => {
-    dispatch(logout());
+    // @RECOIL
+    resetSignState();
+    // @RTK
+    // dispatch(logout());
+    removeCookie("member");
     try {
       const header = { headers: { "Content-Type": "application/json" } };
       const res = await axios.post(`${host}/signout`, header);
       if (res.status === 200) {
         console.log("rt cookie 삭제"); // successFn(res.data);
+        console.log(res.data);
+        // moveToPath("/");
       } else {
         // failFn("");
       }
@@ -57,7 +86,8 @@ const useCustomLogin = () => {
   };
 
   return {
-    authState,
+    // authState,
+    loginState,
     isLogin,
     doLogin,
     doLogout,

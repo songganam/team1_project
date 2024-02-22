@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router";
-import { getGList } from "../../api/meatApi";
-import Fetching from "../../components/common/Fetching";
-import ResultModal from "../../components/common/ResultModal";
-import GCardComponent from "../../components/meat/GCardComponent";
-import useCustomHook from "../../components/meat/hooks/useCustomHook";
+import { getGList } from "../../../api/meatApi";
+import Fetching from "../../../components/common/Fetching";
+import ResultModal from "../../../components/common/ResultModal";
+import GCardComponent from "../../../components/meat/GCardComponent";
+import useCustomHook from "../../../components/meat/hooks/useCustomHook";
 import { useQuery, useQueryClient } from "@tanstack/react-query";
 import {
   KindOfMeat,
@@ -16,7 +16,7 @@ import {
   SearchIconWrap,
   SearchInput,
   SearchWrap,
-} from "./styles/MeatListStyle";
+} from "../styles/MeatListStyle";
 // 고깃집 목록보기 페이지입니다.
 
 const initState = [

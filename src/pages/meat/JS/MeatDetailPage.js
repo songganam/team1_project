@@ -4,14 +4,14 @@ import { useNavigate, useParams } from "react-router";
 import "swiper/css";
 import "swiper/css/navigation";
 import { Swiper, SwiperSlide } from "swiper/react";
-import { API_SERVER_HOST } from "../../api/config";
-import { changeBookmark, getGInfo } from "../../api/meatApi";
-import Button from "../../components/button/Button";
-import CountingStar from "../../components/common/CountingStar";
-import Fetching from "../../components/common/Fetching";
-import ResultModal from "../../components/common/ResultModal";
-import useCustomHook from "../../components/meat/hooks/useCustomHook";
-import useCustomLogin from "../../components/meat/hooks/useCustomLogin";
+import { API_SERVER_HOST } from "../../../api/config";
+import { changeBookmark, getGInfo } from "../../../api/meatApi";
+import Button from "../../../components/button/Button";
+import CountingStar from "../../../components/common/CountingStar";
+import Fetching from "../../../components/common/Fetching";
+import ResultModal from "../../../components/common/ResultModal";
+import useCustomHook from "../../../components/meat/hooks/useCustomHook";
+import useCustomLogin from "../../../components/meat/hooks/useCustomLogin";
 import {
   ImgStyle,
   InfoContent,
@@ -50,7 +50,7 @@ import {
   ReviewUserProfile,
   ReviewWrap,
   ThumbnailStyle,
-} from "./styles/MeatDetailStyle";
+} from "../styles/MeatDetailStyle";
 
 // @COMMENT use React-Query
 import { useQuery } from "@tanstack/react-query";

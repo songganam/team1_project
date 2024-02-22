@@ -4,21 +4,7 @@ import axios from "axios";
 export const API_SERVER_HOST = "";
 const signHost = `${API_SERVER_HOST}/api/user`;
 
-// 응답 인터셉터 추가
-// axios.interceptors.response.use(
-//   function (response) {
-//     return response;
-//   },
-//   function (error) {
-//     if (error.response && error.response.status === 400) {
-//       console.log("비밀번호가 틀렸습니다.");
-//     }
-//     // 오류를 던지지 않고 null을 반환합니다.
-//     return null;
-//   },
-// );
-
-export const loginPost = async ({ authParam, successFn, failFn, errorFn }) => {
+export const loginPost = async ({ authParam }) => {
   try {
     const header = { headers: { "Content-Type": "application/json" } };
     const data = {
@@ -27,31 +13,30 @@ export const loginPost = async ({ authParam, successFn, failFn, errorFn }) => {
     };
     const res = await axios.post(`${signHost}/signin`, data, header);
     if (res && res.status < 400) {
-      successFn(res.data);
-
+      console.log(res.data);
       return res.data;
     } else {
-      failFn("");
+      console.log("");
     }
   } catch (error) {
-    errorFn(error);
+    console.log(error);
   }
 };
-let response = null;
-export const logoutPost = async ({ successFn, failFn, errorFn }) => {
+
+export const logoutPost = async () => {
   try {
     const header = { headers: { "Content-Type": "application/json" } };
 
     const res = await axios.post(`${signHost}/signout`, header);
     if (res.status === 400) {
-      successFn(res.data);
+      console.log(res.data);
       return res.data;
     } else {
-      failFn("");
+      console.log("");
     }
   } catch (error) {
     if (error && error.response && error.response.status === 400) {
-      errorFn(
+      console.log(
         "로그인에 실패하였습니다. 서버가 불안정합니다. 다시 시도해주세요.",
       );
     }

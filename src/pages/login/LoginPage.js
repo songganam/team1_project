@@ -16,13 +16,7 @@ import {
   LoginPagePW,
   LoginPageWrap,
 } from "./styles/LoginPageStyle";
-
-// 로그인 페이지입니다.
-
-// const initState = {
-//   id: "",
-//   password: "",
-// };
+import { CateSelectWrap, SelectedCate } from "../join/styles/AdminSignUpStyles";
 
 const initState = {
   email: "",
@@ -50,7 +44,7 @@ const LoginPage = () => {
       return; // 추가된 부분: 조건을 만족하면 함수 종료
     }
     try {
-      await doLogin({ authParam, successFn, failFn, errorFn });
+      await doLogin({ authParam });
       loginComplete();
     } catch (error) {
       console.log(error);
@@ -124,6 +118,11 @@ const LoginPage = () => {
     }
   }, []);
 
+  const [selectedCate, setSelectedCate] = useState(0);
+  const handleClickCate = index => {
+    setSelectedCate(index);
+  };
+
   return (
     <Layout>
       {isModal.isOpen && (
@@ -141,6 +140,21 @@ const LoginPage = () => {
         ></TitleHeader>
         <LoginPageMain>
           <LoginPageInfo>
+            <CateSelectWrap>
+              <SelectedCate
+                selected={selectedCate === 0}
+                onClick={() => handleClickCate(0)}
+              >
+                일반 이용자
+              </SelectedCate>
+              <SelectedCate
+                selected={selectedCate === 1}
+                onClick={() => handleClickCate(1)}
+              >
+                가게 사장님
+              </SelectedCate>
+            </CateSelectWrap>
+
             {/* 적는 란 */}
             <LoginPageID
               type="text"
