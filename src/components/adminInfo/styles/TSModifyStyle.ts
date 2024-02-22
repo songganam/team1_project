@@ -9,16 +9,17 @@ export const TSAdminInfoWrapStyle = styled.div`
   font-family: Pretendard;
 `;
 export const TSNavStyle = styled.div`
-  position: relative;
+  position: fixed;
+  top: 114px;
+  left: 210px;
   display: flex;
-  width: 100%;
+  width: calc(100% - 210px);
   padding: 11px 36px;
   justify-content: space-between;
   align-items: center;
   background: #fff;
   /* Shadow */
-  box-shadow: 0px 1px 2px -1px rgba(0, 0, 0, 0.1),
-    0px 1px 3px 0px rgba(0, 0, 0, 0.1);
+  box-shadow: 0px 1px 2px -1px rgba(0, 0, 0, 0.1), 0px 1px 3px 0px rgba(0, 0, 0, 0.1);
 
   .page-title {
     display: flex;
@@ -27,7 +28,6 @@ export const TSNavStyle = styled.div`
     align-items: center;
     flex-shrink: 0;
     color: var(--grayscale-90, #1c1c1e);
-
     font-size: 24px;
     font-style: normal;
     font-weight: 700;
@@ -41,6 +41,11 @@ export const TSShopStyle = styled.div`
   flex-direction: column;
   align-items: flex-start;
   gap: 10px;
+  // topNavBar 고정 시 적용
+  margin-top: 85px;
+  margin-bottom: 50px;
+  margin-left: 210px;
+  z-index: -999;
 `;
 export const TSBackgroundBoxStyle = styled.div`
   position: relative;
@@ -54,8 +59,7 @@ export const TSBackgroundBoxStyle = styled.div`
   background: #fff;
 
   /* shadow */
-  box-shadow: 0px 1px 2px -1px rgba(0, 0, 0, 0.1),
-    0px 1px 3px 0px rgba(0, 0, 0, 0.1);
+  box-shadow: 0px 1px 2px -1px rgba(0, 0, 0, 0.1), 0px 1px 3px 0px rgba(0, 0, 0, 0.1);
 `;
 export const TSBoxInnerStyle = styled.div`
   display: flex;

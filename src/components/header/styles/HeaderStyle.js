@@ -53,7 +53,12 @@ export const BarStyle = styled.div`
 `;
 
 export const HeaderStyle = styled.div`
-  position: relative;
+  position: fixed;
+  width: 100%;
+  top: 0;
+  left: 0;
+  z-index: 999;
+  background-color: #fff;
   display: flex;
   flex-wrap: wrap;
   justify-content: space-between;

@@ -17,9 +17,7 @@ interface OwnerModify {
   };
 }
 
-export const putShopInfo = async (
-  shopInfo: OwnerModify,
-): Promise<OwnerModify | undefined> => {
+export const putShopInfo = async (shopInfo: OwnerModify): Promise<OwnerModify | undefined> => {
   try {
     const header = { headers: { "Content-Type": "multipart/form-data" } };
     const response = await axios.put(`${host}`, shopInfo, header);

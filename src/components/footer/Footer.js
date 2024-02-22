@@ -4,7 +4,7 @@ import { ContentStyle, FooterStyle, LineStyle } from "./styles/FooterStyle";
 
 const Footer = () => {
   return (
-    <footer>
+    <footer style={{ position: "relative", zIndex: "999" }}>
       <FooterStyle background={ColorStyle.g700} color={ColorStyle.grayScale}>
         <ul>
           <li>고객센터: 053-123-4567</li>
@@ -28,11 +28,7 @@ const Footer = () => {
         </FooterStyle>
         <LineStyle />
         <div>
-          <ContentStyle
-            fontWeight="bold"
-            color={ColorStyle.g900}
-            marginTop="21px"
-          >
+          <ContentStyle fontWeight="bold" color={ColorStyle.g900} marginTop="21px">
             <ul>
               <li>(주)고기로</li>
             </ul>
@@ -47,10 +43,7 @@ const Footer = () => {
           </ContentStyle>
           <ContentStyle color={ColorStyle.g800} marginTop="1vw">
             <ul>
-              <li>
-                대구광역시 중구 고기로 92길, 고기 192호(남산동,
-                고기폴리스지식산업센터)
-              </li>
+              <li>대구광역시 중구 고기로 92길, 고기 192호(남산동, 고기폴리스지식산업센터)</li>
               <li>호스팅서비스 제공업체: 고기요</li>
             </ul>
           </ContentStyle>
@@ -62,9 +55,8 @@ const Footer = () => {
           <ContentStyle color={ColorStyle.p500} fontWeight="bold">
             <ul>
               <li>
-                본 사이트에서 제공되는 모든 정보는 고깃집을 고르는 데
-                참고자료이며, 서비스 이용에 따른 최종 책임은 이용자에게
-                있습니다.
+                본 사이트에서 제공되는 모든 정보는 고깃집을 고르는 데 참고자료이며, 서비스 이용에 따른 최종 책임은
+                이용자에게 있습니다.
               </li>
             </ul>
           </ContentStyle>

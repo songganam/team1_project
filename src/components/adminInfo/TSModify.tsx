@@ -1,5 +1,6 @@
 import { ChangeEvent, FormEvent, useState } from "react";
 import Button from "../button/Button";
+import useCustomHook from "../meat/hooks/useCustomHook";
 import TSAdminHeader from "./TSAdminHeader";
 import TSCheckBoxInput from "./TSCheckBoxInput";
 import TSRadioInput from "./TSRadioInput";
@@ -13,6 +14,10 @@ import {
   TSBoxInnerStyle,
   TSShopStyle,
 } from "./styles/TSModifyStyle";
+import DaumPostcodeEmbed from "react-daum-postcode";
+import { getCoord } from "../../api/meatApi";
+import EmptyModal from "../common/EmptyModal";
+import TSTextFieldAdress from "./TSTextFieldAdress";
 
 interface CheckBox {
   id: string;
@@ -21,7 +26,56 @@ interface CheckBox {
   value: string;
 }
 
+interface ShopInfo {
+  id: string;
+  upw: string;
+  checkUpw: string;
+  num: string;
+  name: string;
+  shopName: string;
+  x?: string;
+  y?: string;
+  location: string;
+  imeat: number;
+}
+
+// X, Y 좌표 결과 타입 정의
+interface CoordResult {
+  x: string;
+  y: string;
+}
+
+// 다음 포스트에서 반환되는 데이터 타입 정의
+interface DaumPostData {
+  addressType: string;
+  address: string;
+  adressType: string;
+  bname: string;
+  buildingName: string;
+}
+
+interface Address {
+  zonecode: string;
+  address: string;
+}
+
+const initState = {
+  id: "",
+  upw: "",
+  checkUpw: "",
+  num: "",
+  name: "",
+  shopName: "",
+  x: "",
+  y: "",
+  location: "",
+  imeat: 0,
+};
+
 const TSModify = () => {
+  // 커스텀 훅
+  const { isEmptyModal, openEmptyModal, closeEmptyModal } = useCustomHook();
+
   // 라디오 버튼 관련
   const [selectedRadioValue, setSelectedRadioValue] = useState<string>("돼지");
   const handleRadioChange = (e: ChangeEvent<HTMLInputElement>) => {
@@ -64,8 +118,57 @@ const TSModify = () => {
     setTextLength(length); // 입력된 텍스트의 길이를 업데이트
   };
 
+  // 다음포스트 관련
+  const [signUpData, setSignUpData] = useState<ShopInfo>(initState);
+
+  // @COMMENT daum-post (여기는 건들면 안돼용!!!)
+  const handleComplete = (adress: Address) => {
+    let fullAddress = adress.address;
+    let extraAddress = "";
+
+    // if (adress.addressType === "R") {
+    //   if (adress.bname !== "") {
+    //     extraAddress += data.bname;
+    //   }
+    //   if (adress.buildingName !== "") {
+    //     extraAddress +=
+    //       extraAddress !== "" ? `, ${adress.buildingName}` : adress.buildingName;
+    //   }
+    //   fullAddress += extraAddress !== "" ? ` (${extraAddress})` : "";
+    // }
+    // // fullAddress가 이제 대구 동구 머시기저시기 찍히는 변수입니다.
+    // console.log(fullAddress); // e.g. '서울 성동구 왕십리로2길 20 (성수동1가)'
+    setSignUpData({ ...signUpData, location: fullAddress });
+    // 이건 X,Y 값을 알아내기 위한 API이기때문에 필요없으시면 사용하실 필요 없습니다.
+    getCoord({ fullAddress, successCoordFn });
+    closeEmptyModal();
+  };
+  // @COMMENT X, Y Coord Value
+  const successCoordFn = (result: CoordResult) => {
+    console.log("result value ", result);
+    // const xValue = result.x;
+    // const yValue = result.y;
+    setSignUpData(prev => ({ ...prev, x: result.x, y: result.y }));
+  };
+  // @COMMENT 다음포스트 호출
+  const handleTest = () => {
+    console.log("modal on");
+    openEmptyModal(
+      // 얘가 다음 포스트 입니다. 저는 모달안에다가 띄우기 위해서 이렇게 했지만
+      // 다른 방식으로 사용하셔도 무방합니다.
+      <DaumPostcodeEmbed onComplete={handleComplete} />,
+      closeEmptyModal,
+    );
+  };
+
   return (
     <TSAdminInfoWrapStyle>
+      {isEmptyModal.isOpen && (
+        <EmptyModal
+          content={isEmptyModal.content}
+          callFn={isEmptyModal.callFn}
+        />
+      )}
       <TSAdminHeader title="매장 정보 관리" />
       <TSShopStyle>
         <TSBackgroundBoxStyle>
@@ -202,7 +305,7 @@ const TSModify = () => {
               <div className="location-input-box">
                 <div>
                   <form>
-                    <TextFieldAdress
+                    <TSTextFieldAdress
                       placeholder="주소 검색을 이용해주세요"
                       readonly={true}
                     />
@@ -210,11 +313,11 @@ const TSModify = () => {
                 </div>
                 <div>
                   <form>
-                    <TextFieldAdress placeholder="상세 주소를 입력해주세요" />
+                    <TSTextFieldAdress placeholder="상세 주소를 입력해주세요" />
                   </form>
                 </div>
               </div>
-              <div>
+              <div onClick={handleTest}>
                 <Button bttext="주소 검색" />
               </div>
             </div>

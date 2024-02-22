@@ -14,6 +14,7 @@ export const AboutPageTop = styled.div`
   /* align-items: flex-start; */
   width: 100%;
   height: 800px;
+  margin-top: 114px;
   margin-bottom: 100px;
 
   .TopImage {
