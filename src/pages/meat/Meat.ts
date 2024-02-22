@@ -73,3 +73,6 @@ export interface ReserTimeBtnProps {
   clicked: boolean;
   // onClick: () => void;
 }
+export interface StyledComponentProps {
+  selected: boolean;
+}

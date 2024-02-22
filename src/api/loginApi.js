@@ -3,6 +3,7 @@ import axios from "axios";
 // proxy를 가져온다.
 export const API_SERVER_HOST = "";
 const signHost = `${API_SERVER_HOST}/api/user`;
+const adminHost = `${API_SERVER_HOST}/api/owner`;
 
 export const loginPost = async ({ authParam }) => {
   try {
@@ -12,6 +13,24 @@ export const loginPost = async ({ authParam }) => {
       upw: authParam.upw,
     };
     const res = await axios.post(`${signHost}/signin`, data, header);
+    if (res && res.status < 400) {
+      console.log(res.data);
+      return res.data;
+    } else {
+      console.log("");
+    }
+  } catch (error) {
+    console.log(error);
+  }
+};
+export const loginAdminPost = async ({ authParam }) => {
+  try {
+    const header = { headers: { "Content-Type": "application/json" } };
+    const data = {
+      email: authParam.email,
+      upw: authParam.upw,
+    };
+    const res = await axios.post(`${adminHost}/signin`, data, header);
     if (res && res.status < 400) {
       console.log(res.data);
       return res.data;

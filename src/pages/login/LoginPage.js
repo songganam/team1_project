@@ -24,15 +24,18 @@ const initState = {
 };
 const LoginPage = () => {
   const [authParam, setAuthParam] = useState(initState);
-  const { doLogin, moveToPath, loginComplete } = useCustomLogin();
+  const { doLogin, doAdminLogin, moveToPath, loginComplete } = useCustomLogin();
   const { isModal, openModal, closeModal } = useCustomHook();
   const navigate = useNavigate();
   const handleChange = e => {
     authParam[e.target.name] = e.target.value;
     setAuthParam({ ...authParam });
   };
+
   const dispatch = useDispatch();
   const handleClick = async () => {
+    console.log("loginFlag", loginFlag);
+
     if (authParam.email === "" || authParam.upw === "") {
       console.log("id", authParam.email);
       console.log("pw", authParam.upw);
@@ -41,10 +44,15 @@ const LoginPage = () => {
         "이메일 또는 비밀번호를 입력하지 않으셨습니다.",
         closeModal,
       );
-      return; // 추가된 부분: 조건을 만족하면 함수 종료
+      return;
     }
+
     try {
-      await doLogin({ authParam });
+      if (loginFlag === 1) {
+        await doAdminLogin({ authParam });
+      } else {
+        await doLogin({ authParam });
+      }
       loginComplete();
     } catch (error) {
       console.log(error);
@@ -118,9 +126,9 @@ const LoginPage = () => {
     }
   }, []);
 
-  const [selectedCate, setSelectedCate] = useState(0);
+  const [loginFlag, setLoginFlag] = useState(0);
   const handleClickCate = index => {
-    setSelectedCate(index);
+    setLoginFlag(index);
   };
 
   return (
@@ -142,13 +150,13 @@ const LoginPage = () => {
           <LoginPageInfo>
             <CateSelectWrap>
               <SelectedCate
-                selected={selectedCate === 0}
+                selected={loginFlag === 0}
                 onClick={() => handleClickCate(0)}
               >
                 일반 이용자
               </SelectedCate>
               <SelectedCate
-                selected={selectedCate === 1}
+                selected={loginFlag === 1}
                 onClick={() => handleClickCate(1)}
               >
                 가게 사장님
