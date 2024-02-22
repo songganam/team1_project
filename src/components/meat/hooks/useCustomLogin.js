@@ -1,7 +1,7 @@
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useRecoilState, useResetRecoilState } from "recoil";
-import { loginPost } from "../../../api/loginApi";
+import { loginAdminPost, loginPost } from "../../../api/loginApi";
 import { atomSignState } from "../../../atom/atomSignState";
 import { removeCookie, setCookie } from "../../../util/CookiesUtil";
 
@@ -41,6 +41,12 @@ const useCustomLogin = () => {
     saveAsCookie(result);
     return result;
   };
+  const doAdminLogin = async ({ authParam }) => {
+    const result = await loginAdminPost({ authParam });
+    saveAsCookie(result);
+    return result;
+  };
+
   // @RECOIL
   const saveAsCookie = result => {
     setLoginState(result);
@@ -90,6 +96,7 @@ const useCustomLogin = () => {
     loginState,
     isLogin,
     doLogin,
+    doAdminLogin,
     doLogout,
     moveToPath,
     moveToLogin,
