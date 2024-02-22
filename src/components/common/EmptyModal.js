@@ -13,7 +13,7 @@ const EmptyModal = ({ content, callFn }) => {
     width: "100%",
     height: "100%",
     background: "rgba(0,0,0,0.7)",
-    zIndex: 999,
+    zIndex: 9999,
   };
   const handleClick = e => {
     if (e.target === e.currentTarget) {

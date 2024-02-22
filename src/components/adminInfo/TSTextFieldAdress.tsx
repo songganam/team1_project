@@ -1,4 +1,4 @@
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import {
   TSInputStyle,
   TSTextFieldAdressStyle,
@@ -8,6 +8,8 @@ import {
 interface TSTextFieldAdressProps {
   placeholder: string;
   readonly?: boolean;
+  value?: string;
+  onChange?: (e: ChangeEvent<HTMLInputElement>) => void;
 }
 
 // state 타입 정의
@@ -16,12 +18,13 @@ type StateType = "default" | "focus" | "error" | "filled";
 const TSTextFieldAdress: React.FC<TSTextFieldAdressProps> = ({
   placeholder,
   readonly = false,
+  value,
+  onChange,
 }) => {
-  const [value, setValue] = useState<string>("");
   const [state, setState] = useState<StateType>("default");
 
   const validateInput = (value: string) => {
-    if (value.length === 0 || value.length > 30) {
+    if (value === undefined || value.length === 0) {
       setState("error");
     } else {
       setState(value ? "filled" : "default");
@@ -29,12 +32,13 @@ const TSTextFieldAdress: React.FC<TSTextFieldAdressProps> = ({
   };
 
   const handleFocus = () => setState("focus");
-  const handleBlur = () => validateInput(value);
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const newValue = e.target.value;
-    setValue(newValue);
-    validateInput(newValue);
-  };
+  const handleBlur = () => validateInput(value ?? "");
+
+  useEffect(() => {
+    if (readonly) {
+      setState(value && value.length > 0 ? "filled" : "default");
+    }
+  }, [value, readonly]);
 
   return (
     <TSTextFieldAdressStyle state={state}>
@@ -42,8 +46,8 @@ const TSTextFieldAdress: React.FC<TSTextFieldAdressProps> = ({
         type="text"
         placeholder={placeholder}
         readOnly={readonly}
-        value={value}
-        onChange={handleChange}
+        value={value || ""} // value가 undefined일 경우 빈 문자열 사용
+        onChange={onChange} // 외부에서 전달받은 onChange 핸들러를 그대로 사용
         onFocus={handleFocus}
         onBlur={handleBlur}
       />
