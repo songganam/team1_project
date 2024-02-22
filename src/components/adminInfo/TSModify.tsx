@@ -1,23 +1,21 @@
 import { ChangeEvent, FormEvent, useState } from "react";
+import DaumPostcodeEmbed from "react-daum-postcode";
+import { getCoord } from "../../api/meatApi";
 import Button from "../button/Button";
+import EmptyModal from "../common/EmptyModal";
 import useCustomHook from "../meat/hooks/useCustomHook";
 import TSAdminHeader from "./TSAdminHeader";
 import TSCheckBoxInput from "./TSCheckBoxInput";
 import TSRadioInput from "./TSRadioInput";
 import TSTextField from "./TSTextField";
+import TSTextFieldAdress from "./TSTextFieldAdress";
 import TSTextareaField from "./TSTextareaField";
-import TextField from "./TextField";
-import TextFieldAdress from "./TextFieldAdress";
 import {
   TSAdminInfoWrapStyle,
   TSBackgroundBoxStyle,
   TSBoxInnerStyle,
   TSShopStyle,
 } from "./styles/TSModifyStyle";
-import DaumPostcodeEmbed from "react-daum-postcode";
-import { getCoord } from "../../api/meatApi";
-import EmptyModal from "../common/EmptyModal";
-import TSTextFieldAdress from "./TSTextFieldAdress";
 
 interface CheckBox {
   id: string;
@@ -46,19 +44,12 @@ interface CoordResult {
 }
 
 // 다음 포스트에서 반환되는 데이터 타입 정의
-interface DaumPostData {
-  addressType: string;
-  address: string;
-  adressType: string;
-  bname: string;
-  buildingName: string;
-}
-
 interface Address {
   zonecode: string;
   address: string;
 }
 
+// 초기값 세팅
 const initState = {
   id: "",
   upw: "",
@@ -101,6 +92,7 @@ const TSModify = () => {
     );
     console.log(e.target.value);
   };
+
   // 폼 제출 핸들러
   const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault(); // 폼의 기본 제출 동작을 방지합니다.
@@ -118,26 +110,18 @@ const TSModify = () => {
     setTextLength(length); // 입력된 텍스트의 길이를 업데이트
   };
 
+  // 상세주소 상태
+  const [extraAdress, setExtraAdress] = useState("");
+  const handleChnageExtraAdress = (e: ChangeEvent<HTMLInputElement>) => {
+    setExtraAdress(e.target.value);
+  };
+
   // 다음포스트 관련
   const [signUpData, setSignUpData] = useState<ShopInfo>(initState);
 
   // @COMMENT daum-post (여기는 건들면 안돼용!!!)
   const handleComplete = (adress: Address) => {
-    let fullAddress = adress.address;
-    let extraAddress = "";
-
-    // if (adress.addressType === "R") {
-    //   if (adress.bname !== "") {
-    //     extraAddress += data.bname;
-    //   }
-    //   if (adress.buildingName !== "") {
-    //     extraAddress +=
-    //       extraAddress !== "" ? `, ${adress.buildingName}` : adress.buildingName;
-    //   }
-    //   fullAddress += extraAddress !== "" ? ` (${extraAddress})` : "";
-    // }
-    // // fullAddress가 이제 대구 동구 머시기저시기 찍히는 변수입니다.
-    // console.log(fullAddress); // e.g. '서울 성동구 왕십리로2길 20 (성수동1가)'
+    const fullAddress = adress.address;
     setSignUpData({ ...signUpData, location: fullAddress });
     // 이건 X,Y 값을 알아내기 위한 API이기때문에 필요없으시면 사용하실 필요 없습니다.
     getCoord({ fullAddress, successCoordFn });
@@ -169,6 +153,7 @@ const TSModify = () => {
           callFn={isEmptyModal.callFn}
         />
       )}
+
       <TSAdminHeader title="매장 정보 관리" />
       <TSShopStyle>
         <TSBackgroundBoxStyle>
@@ -221,7 +206,7 @@ const TSModify = () => {
             </div>
             <div className="radio-wrap">
               <form>
-                {options.map((option, index) => (
+                {options.map(option => (
                   <TSRadioInput
                     key={option}
                     name={option}
@@ -243,7 +228,7 @@ const TSModify = () => {
             </div>
             <div>
               <form>
-                <TextField
+                <TSTextField
                   placeholder="상호명을 입력하세요"
                   onInputChange={handleInputChange}
                 />
@@ -307,13 +292,18 @@ const TSModify = () => {
                   <form>
                     <TSTextFieldAdress
                       placeholder="주소 검색을 이용해주세요"
+                      value={signUpData.location}
                       readonly={true}
                     />
                   </form>
                 </div>
                 <div>
                   <form>
-                    <TSTextFieldAdress placeholder="상세 주소를 입력해주세요" />
+                    <TSTextFieldAdress
+                      placeholder="상세 주소를 입력해주세요"
+                      value={extraAdress}
+                      onChange={handleChnageExtraAdress}
+                    />
                   </form>
                 </div>
               </div>
