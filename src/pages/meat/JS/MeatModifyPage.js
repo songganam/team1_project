@@ -1,6 +1,6 @@
 import moment from "moment";
-import React, { useState } from "react";
-import ReserCalendar from "../../components/meat/ReserCalendar";
+import React, { useEffect, useState } from "react";
+
 import {
   ReserContent,
   ReserCountBox,
@@ -18,19 +18,33 @@ import {
   ReserTitle,
   ReserWrap,
   ReserWrapper,
-} from "./styles/MeatReservationStyle";
-import ResultModal from "../../components/common/ResultModal";
+} from "../styles/MeatReservationStyle";
+import ResultModal from "../../../components/common/ResultModal";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
-import { postReser } from "../../api/meatApi";
-import dayjs from "dayjs";
-import Fetching from "../../components/common/Fetching";
+import { putMyBook } from "../../../api/MyApi";
+import ReserCalendar from "../../../components/meat/ModifyCalendar";
+import Fetching from "../../../components/common/Fetching";
 
-// 고깃집 리뷰 쓰기 페이지입니다.
-const MeatReservationPage = () => {
-  const { ishop } = useParams();
+// 예약 변경 페이지
+const MeatModifyPage = () => {
+  const { ireser } = useParams();
   const location = useLocation();
-  const storeName = location.state?.storeName;
+  const queryParams = new URLSearchParams(location.search);
+  const name = queryParams.get("name");
+  const headcount = queryParams.get("headcount");
+  const date = queryParams.get("date");
+  const request = queryParams.get("request");
   const [fetching, setFetching] = useState(false);
+
+  console.log("예약PK", ireser);
+  console.log("이름", name);
+  console.log("인원 수", headcount);
+  console.log("예약일시", date);
+  console.log("요청사항", request);
+
+  const time = date.split(" ")[1].substring(0, 5);
+  // console.log(ireser);
+  console.log(time);
   // ! Modal Control
   const navigate = useNavigate();
   const [isModal, setIsModal] = useState({
@@ -39,6 +53,7 @@ const MeatReservationPage = () => {
     content: "",
     callFn: null,
   });
+
   const openModal = (title, content, callFn) => {
     setIsModal({ isOpen: true, title, content, callFn });
   };
@@ -47,10 +62,15 @@ const MeatReservationPage = () => {
   };
   const submitModal = () => {
     setIsModal(prev => ({ ...prev, isOpen: false }));
-    navigate("/meat/list");
+    navigate(-1);
   };
+
   // ! 사람 카운팅
-  const [personCount, setPersonCount] = useState(1);
+  // ! 데이터 가져올 때 인원 수 count
+  //!  const [personCount, setPersonCount] useState(headcount)
+  const initHeadCount = parseInt(headcount);
+  const [personCount, setPersonCount] = useState(initHeadCount);
+
   const timeValue = [
     "17:00",
     "17:30",
@@ -70,7 +90,7 @@ const MeatReservationPage = () => {
   ? (위 조건) ? color : "red" : "blue" 
   */
 
-  const [clickedValue, setClickedValue] = useState("");
+  const [clickedValue, setClickedValue] = useState(time);
   // * 시간에 대한 로직(timeCount)
   const handleClickTCount = event => {
     const clickedValue = event.target.innerText;
@@ -94,20 +114,26 @@ const MeatReservationPage = () => {
       );
     }
   };
+
+  useEffect(() => {
+    console.log("변경 후의 값", personCount);
+    // 추가 작업 수행
+  }, [personCount]);
+
   const handleClickPCountReset = () => {
     setPersonCount(1);
   };
 
-  const [requiredMsg, setRequiredMsg] = useState("");
+  const [requiredMsg, setRequiredMsg] = useState(request);
   const handleRequireMsg = e => {
     setRequiredMsg(e.target.value);
   };
 
+  const dateOnly = date.split(" ")[0];
   // * Calendar(예약달력)
-  const nowDate = dayjs().format("YYYY-MM-DD");
-  // const createdate = new Date();
-  // const nowdata = moment(createdate).format("YYYY-MM-DD");
-  const [selectedDate, setSelectedDate] = useState(nowDate);
+  const createdate = new Date();
+  const nowdata = moment(createdate).format("YYYY-MM-DD");
+  const [selectedDate, setSelectedDate] = useState(dateOnly);
 
   const handleDateChange = formattedDate => {
     if (formattedDate) {
@@ -119,7 +145,6 @@ const MeatReservationPage = () => {
       console.log("formattedDate is undefined");
     }
   };
-
   // * submit 날짜 + 시간 Value 폼
   const timeCountvalue =
     timeCount.split(":")[0] + ":" + timeCount.split(":")[1] + ":00";
@@ -128,17 +153,34 @@ const MeatReservationPage = () => {
   console.log(timeline);
   console.log("timecount :", timeCount);
 
-  const reserData = {
-    ishop: ishop,
-    date: timeline,
-    headCount: personCount,
-    request: requiredMsg,
-  };
   // ! postData => ireser(PK), date, request, headcount
   // * Submit
   const handleReserSubmit = () => {
+    const timeCountvalue =
+      timeCount.split(":")[0] + ":" + timeCount.split(":")[1] + ":00";
+    // console.log(timeCountvalue);
+    const timeline = selectedDate + " " + timeCountvalue;
+    // console.log(timeline);
+    // console.log("timecount :", timeCount);
+
+    console.log("예약PK", ireser);
+    console.log("이름", name);
+    console.log("인원 수", personCount);
+    console.log("예약일시", timeline);
+    console.log("요청사항", requiredMsg);
+
+    console.log(ireser);
+    // 예약 변경 (PUT)
+    const reserChangeForm = {
+      ireser: ireser,
+      date: timeline,
+      headCount: personCount,
+      request: requiredMsg,
+    };
+    console.log("handleReserSubmit - reserChangeForm:", reserChangeForm); // 추가
+
     // ! No exist Value
-    if (timeCountvalue.includes(undefined)) {
+    if (timeCount == "") {
       openModal(
         "예약시간오류",
         "예약시간을 입력하지 않았습니다. 시간을 입력해주세요.",
@@ -146,15 +188,15 @@ const MeatReservationPage = () => {
       );
     }
     setFetching(true);
-    postReser({ reserData, successFn, failFn, errorFn });
+    putMyBook({ reserChangeForm, successFn, failFn, errorFn });
 
-    console.log("내용 :", reserData);
-    return reserData;
+    console.log("내용 :", reserChangeForm);
+    return reserChangeForm;
   };
   const successFn = result => {
     setFetching(false);
-    openModal("예약완료", "예약이 완료되었습니다.", submitModal);
     console.log(result);
+    openModal("예약변경완료", "예약변경이 완료되었습니다.", submitModal);
   };
   const failFn = result => {
     setFetching(false);
@@ -169,6 +211,7 @@ const MeatReservationPage = () => {
       openModal("예약 실패", "관리자에게 문의해주세요.", closeModal);
     }
   };
+
   return (
     <div>
       {fetching ? <Fetching /> : null}
@@ -182,7 +225,7 @@ const MeatReservationPage = () => {
       <ReserWrapper>
         {/* title */}
         <ReserTitle>
-          <span>예약하기</span>
+          <span>예약변경</span>
         </ReserTitle>
         {/* wrapper */}
         <ReserWrap>
@@ -196,7 +239,7 @@ const MeatReservationPage = () => {
                 <span>가게명</span>
               </ReserItem>
               <ReserContent>
-                <span>{storeName}</span>
+                <span>{name}</span>
               </ReserContent>
             </ReserFormWrap>
             {/* 
@@ -218,7 +261,7 @@ const MeatReservationPage = () => {
                 <span>예약가능시간</span>
               </ReserItem>
               {/* 에약 가능 시간대 버튼 */}
-              {nowDate && nowDate ? (
+              {createdate && createdate ? (
                 <ReserTimeItem>
                   {timeValue.map((item, index) => (
                     <ReserTimeBtn
@@ -259,7 +302,7 @@ const MeatReservationPage = () => {
             </ReserCountWrap>
 
             {/* 
-            // * 요청사항
+            // * 요청사항 (Request)
             */}
             <ReserFormWrap>
               <ReserItem>
@@ -279,16 +322,19 @@ const MeatReservationPage = () => {
           </ReserItemWrap>
           {/* Calendar */}
           <div>
-            <ReserCalendar onDateChange={handleDateChange} />
+            <ReserCalendar
+              onDateChange={handleDateChange}
+              dateOnly={dateOnly}
+            />
           </div>
         </ReserWrap>
         {/* button */}
         <ReserSubmitBtn onClick={handleReserSubmit}>
-          <span>예약하기</span>
+          <span>변경완료</span>
         </ReserSubmitBtn>
       </ReserWrapper>
     </div>
   );
 };
 
-export default MeatReservationPage;
+export default MeatModifyPage;

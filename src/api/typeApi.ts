@@ -1,6 +1,6 @@
-import axios, { AxiosError } from "axios";
+import axios from "axios";
+import { ListParam, ReserForm } from "../pages/meat/Meat";
 import authAxios from "../util/tokenUtil";
-import { ListParam, ReserForm, ReviewForm } from "../pages/meat/Meat";
 
 export const API_SERVER_HOST = "";
 const host = `${API_SERVER_HOST}/api`;

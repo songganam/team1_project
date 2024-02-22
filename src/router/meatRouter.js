@@ -6,8 +6,8 @@ import Loading from "../components/loading/Loading";
 const LazyGbookPage = lazy(() => import("../pages/meat/TSMeatReviewPage"));
 const LazyGlistPage = lazy(() => import("../pages/meat/TSMeatListPage"));
 const LazyGreadPage = lazy(() => import("../pages/meat/TSMeatDeatilPage"));
-const LazyGaddPage = lazy(() => import("../pages/meat/MeatReservationPage"));
-const LazyGmodifyPage = lazy(() => import("../pages/meat/MeatDetailPage"));
+const LazyGaddPage = lazy(() => import("../pages/meat/TSMeatReservationPage"));
+const LazyGmodifyPage = lazy(() => import("../pages/meat/JS/MeatDetailPage"));
 
 const meatRouter = () => {
   return [

@@ -1,12 +1,12 @@
 import moment from "moment";
 import { useRef, useState } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
-import { postReview } from "../../api/meatApi";
-import Fetching from "../../components/common/Fetching";
-import ResultModal from "../../components/common/ResultModal";
-import SelectedModal from "../../components/common/SelectedModal";
-import useCustomHook from "../../components/meat/hooks/useCustomHook";
-import useCustomMove from "../../hooks/useCustomMove";
+import { postReview } from "../../../api/meatApi";
+import Fetching from "../../../components/common/Fetching";
+import ResultModal from "../../../components/common/ResultModal";
+import SelectedModal from "../../../components/common/SelectedModal";
+import useCustomHook from "../../../components/meat/hooks/useCustomHook";
+import useCustomMove from "../../../hooks/useCustomMove";
 import {
   AddImageBtn,
   ImageBox,
@@ -28,7 +28,7 @@ import {
   ReviewTitle,
   ReviewWrap,
   ReviewWrapper,
-} from "./styles/MeatReviewStyle";
+} from "../styles/MeatReviewStyle";
 import { useMutation } from "@tanstack/react-query";
 const initState = {
   pics: [],

@@ -1,5 +1,11 @@
+import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
+import { getUserInfo } from "../../api/MyApi";
+import Fetching from "../common/Fetching";
+import ResultModal from "../common/ResultModal";
+import SelectedModal from "../common/SelectedModal";
+import useCustomHook from "../meat/hooks/useCustomHook";
 import useCustomLogin from "../meat/hooks/useCustomLogin";
 import {
   BarStyle,
@@ -9,12 +15,8 @@ import {
   LogoStyle,
   NavStyle,
 } from "./styles/HeaderStyle";
-import useCustomHook from "../meat/hooks/useCustomHook";
-import ResultModal from "../common/ResultModal";
-import SelectedModal from "../common/SelectedModal";
-import { useEffect, useState } from "react";
-import Fetching from "../common/Fetching";
-import { getUserInfo } from "../../api/MyApi";
+import { useRecoilValue } from "recoil";
+import { refreshSelector } from "../../atom/atomRefreshState";
 
 // 프로필 정보 초기값
 const initialProfile = {
@@ -48,7 +50,10 @@ const Header = () => {
 
   // const [refresh, setRefresh] = useState(false);
 
+  // @RTK
   const refresh = useSelector(state => state.refresh);
+  // @RECOIL
+  // const refresh = useRecoilValue(refreshSelector);
   console.log("refresh", refresh);
   const navigate = useNavigate();
 
