@@ -48,7 +48,7 @@ const TSRadioInput: React.FC<RadioInputProps> = ({
           </svg>
         )}
       </div>
-      {name}
+      {value}
       {/* {value} */}
     </TSRadioLableStyle>
   );

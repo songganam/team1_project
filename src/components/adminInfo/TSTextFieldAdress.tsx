@@ -9,6 +9,7 @@ interface TSTextFieldAdressProps {
   placeholder: string;
   readonly?: boolean;
   value?: string;
+  name?: string;
   onChange?: (e: ChangeEvent<HTMLInputElement>) => void;
 }
 
@@ -19,6 +20,7 @@ const TSTextFieldAdress: React.FC<TSTextFieldAdressProps> = ({
   placeholder,
   readonly = false,
   value,
+  name,
   onChange,
 }) => {
   const [state, setState] = useState<StateType>("default");
@@ -46,6 +48,7 @@ const TSTextFieldAdress: React.FC<TSTextFieldAdressProps> = ({
         type="text"
         placeholder={placeholder}
         readOnly={readonly}
+        name={name}
         value={value || ""} // value가 undefined일 경우 빈 문자열 사용
         onChange={onChange} // 외부에서 전달받은 onChange 핸들러를 그대로 사용
         onFocus={handleFocus}
