@@ -9,7 +9,7 @@ export const AdminBookCardWrapper = styled.div`
   box-shadow: 0px 2px 3px -1px rgba(0, 0, 0, 0.1),
     0px 2px 3px 0px rgba(0, 0, 0, 0.1);
   margin-top: 25px;
-  margin-left: 60px;
+  margin-bottom: 20px;
 `;
 
 export const AdminBookCardInfo = styled.div`
