@@ -4,6 +4,7 @@ import { useRecoilState, useResetRecoilState } from "recoil";
 import { loginAdminPost, loginPost } from "../../../api/loginApi";
 import { atomSignState } from "../../../atom/atomSignState";
 import { removeCookie, setCookie } from "../../../util/CookiesUtil";
+import { loginPostTS } from "../../../api/SignApi";
 
 const useCustomLogin = () => {
   // @RECOIL
@@ -30,7 +31,7 @@ const useCustomLogin = () => {
     // 로그인 상태 업데이트
     // Recoil
     // @RECOIL
-    const result = await loginPost({ authParam });
+    const result = await loginPostTS({ authParam });
     // @RTK
     // const action = await dispatch(
     //   loginPostAsync({ authParam, successFn, failFn, errorFn }),
