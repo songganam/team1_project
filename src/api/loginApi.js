@@ -21,6 +21,7 @@ export const loginPost = async ({ authParam }) => {
     }
   } catch (error) {
     console.log(error);
+    throw error;
   }
 };
 export const loginAdminPost = async ({ authParam }) => {

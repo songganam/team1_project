@@ -13,3 +13,24 @@ export interface AdminJoinData {
     imeat: number | null;
   };
 }
+export interface UserJoinData {
+  pic: string;
+  email: string;
+  upw: string;
+  checkUpw: string;
+  name: string;
+  nickname: string;
+  birth: string;
+  gender: string;
+  address: string;
+  tel: string;
+}
+export interface NicknameForm {
+  nickname: string;
+}
+
+export interface SigninForm {
+  email?: string;
+  id?: string;
+  upw: string;
+}

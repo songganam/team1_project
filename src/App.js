@@ -10,6 +10,7 @@ import "./index.css";
 import "./styles/common/font.css";
 
 const queryClient = new QueryClient();
+
 const App = () => {
   return (
     <RecoilRoot>

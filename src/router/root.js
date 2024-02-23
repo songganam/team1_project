@@ -10,12 +10,14 @@ import myRouter from "./myRouter";
 import adminRouter from "./adminRouter";
 import supervisorRouter from "./supervisorRouter";
 import { CheckoutPage } from "../pages/payment/Checkout";
+import { SuccessPage } from "../pages/payment/Success";
+import { FailPage } from "../pages/payment/Fail";
 
 // 어바웃 페이지
 const LazyAboutPage = lazy(() => import("../pages/about/AboutPage"));
 
 // 회원가입, 로그인 페이지
-const LazyLoginPage = lazy(() => import("../pages/login/LoginPage"));
+const LazyLoginPage = lazy(() => import("../pages/login/TSLoginPage"));
 const LazyJoinPage = lazy(() => import("../pages/join/JoinPage"));
 
 // 고깃집 페이지
@@ -173,11 +175,29 @@ const router = createBrowserRouter([
     ),
   },
   {
-    path: "/payment",
+    path: "/payment/",
     element: (
       <Suspense fallback={<Loading />}>
         {/* <LazyPaymentPage /> */}
         <CheckoutPage />
+      </Suspense>
+    ),
+  },
+  {
+    path: "/success",
+    element: (
+      <Suspense fallback={<Loading />}>
+        {/* <LazyPaymentPage /> */}
+        <SuccessPage />
+      </Suspense>
+    ),
+  },
+  {
+    path: "/fail",
+    element: (
+      <Suspense fallback={<Loading />}>
+        {/* <LazyPaymentPage /> */}
+        <FailPage />
       </Suspense>
     ),
   },
