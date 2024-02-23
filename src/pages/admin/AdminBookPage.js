@@ -1,19 +1,32 @@
 import React from "react";
 import AdminBookCard from "../../components/admin/AdminBookCard";
 import AdminNoShowCard from "../../components/admin/AdminNoShowCard";
-import { AdminBookPageContent } from "./styles/AdminBookpageStyle";
+import {
+  AdminBookInner,
+  AdminBookPageContent,
+  AdminBookPageWrapper,
+  AdminNoShowInner,
+} from "./styles/AdminBookpageStyle";
+import AdminHeader from "../../components/adminInfo/AdminHeader";
+import Button from "../../components/button/Button";
 
 const AdminBookPage = () => {
   return (
-    <div>
-      <h1>매장 예약 관리 페이지</h1>
+    <AdminBookPageWrapper>
+      <AdminHeader title="예약 관리"></AdminHeader>
       <AdminBookPageContent>
-        <p>신규 예약 목록</p>
-        <AdminBookCard></AdminBookCard>
-        <p>노쇼 목록</p>
-        <AdminNoShowCard></AdminNoShowCard>
+        <AdminBookInner>
+          <p>신규 예약 목록</p>
+          <AdminBookCard></AdminBookCard>
+          <Button bttext="더보기"></Button>
+        </AdminBookInner>
+        <AdminNoShowInner>
+          <p>노쇼 목록</p>
+          <AdminNoShowCard></AdminNoShowCard>
+          <Button bttext="더보기"></Button>
+        </AdminNoShowInner>
       </AdminBookPageContent>
-    </div>
+    </AdminBookPageWrapper>
   );
 };
 

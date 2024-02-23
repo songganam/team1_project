@@ -19,7 +19,8 @@ export const NavStyle = styled.div`
   align-items: center;
   background: #fff;
   /* Shadow */
-  box-shadow: 0px 1px 2px -1px rgba(0, 0, 0, 0.1), 0px 1px 3px 0px rgba(0, 0, 0, 0.1);
+  box-shadow: 0px 1px 2px -1px rgba(0, 0, 0, 0.1),
+    0px 1px 3px 0px rgba(0, 0, 0, 0.1);
 
   .page-title {
     display: flex;
@@ -45,7 +46,7 @@ export const ShopStyle = styled.div`
   margin-top: 85px;
   margin-bottom: 50px;
   margin-left: 210px;
-  z-index: -999;
+  /* z-index: -999; */
 `;
 export const BackgroundBoxStyle = styled.div`
   position: relative;
@@ -59,7 +60,8 @@ export const BackgroundBoxStyle = styled.div`
   background: #fff;
 
   /* shadow */
-  box-shadow: 0px 1px 2px -1px rgba(0, 0, 0, 0.1), 0px 1px 3px 0px rgba(0, 0, 0, 0.1);
+  box-shadow: 0px 1px 2px -1px rgba(0, 0, 0, 0.1),
+    0px 1px 3px 0px rgba(0, 0, 0, 0.1);
 `;
 export const BoxInnerStyle = styled.div`
   display: flex;
