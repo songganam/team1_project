@@ -3,8 +3,11 @@ import { TSInputStyle, TSTextFieldStyle } from "./styles/TSTextFieldStyle";
 
 // props 타입 정의
 interface TSTextFieldProps {
-  placeholder: string;
+  placeholder?: string;
+  value?: string;
+  name?: string;
   onInputChange?: (length: number) => void;
+  onChange?: (e: ChangeEvent<HTMLInputElement>) => void;
 }
 
 // state 타입 정의

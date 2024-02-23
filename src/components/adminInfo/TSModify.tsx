@@ -17,24 +17,16 @@ import {
   TSShopStyle,
 } from "./styles/TSModifyStyle";
 
-interface CheckBox {
-  id: string;
-  label: string;
-  checked: boolean;
-  value: string;
-}
-
 interface ShopInfo {
-  id: string;
-  upw: string;
-  checkUpw: string;
-  num: string;
+  pics?: string[];
+  imeat?: number;
   name: string;
-  shopName: string;
+  location?: string;
+  open?: string;
+  tel?: string;
   x?: string;
   y?: string;
-  location: string;
-  imeat: number;
+  deposit?: number;
 }
 
 // X, Y 좌표 결과 타입 정의
@@ -49,31 +41,32 @@ interface Address {
   address: string;
 }
 
+interface CheckBox {
+  id: string;
+  label: string;
+  checked: boolean;
+  value: string;
+}
+
 // 초기값 세팅
 const initState = {
-  id: "",
-  upw: "",
-  checkUpw: "",
-  num: "",
+  pics: [],
+  imeat: 0,
   name: "",
-  shopName: "",
+  location: "",
+  open: "",
+  tel: "",
   x: "",
   y: "",
-  location: "",
-  imeat: 0,
+  deposit: 0,
 };
 
 const TSModify = () => {
   // 커스텀 훅
   const { isEmptyModal, openEmptyModal, closeEmptyModal } = useCustomHook();
 
-  // 라디오 버튼 관련
-  const [selectedRadioValue, setSelectedRadioValue] = useState<string>("돼지");
-  const handleRadioChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setSelectedRadioValue(e.target.value);
-    console.log(e.target.value);
-  };
-  const options: string[] = ["돼지", "소", "닭", "오리", "양", "정육점"];
+  // 매장정보 데이터
+  const [signUpData, setSignUpData] = useState<ShopInfo>(initState);
 
   // 체크박스 관련
   const [checkboxes, setCheckboxes] = useState<CheckBox[]>([
@@ -82,6 +75,7 @@ const TSModify = () => {
     { id: "checkbox3", label: "단체", checked: false, value: "group" },
     { id: "checkbox4", label: "Wi-fi", checked: false, value: "wifi" },
   ]);
+
   // 체크박스 변경 사항 처리
   const handleCheckboxChange = (e: ChangeEvent<HTMLInputElement>) => {
     const { name, checked } = e.target;
@@ -94,7 +88,7 @@ const TSModify = () => {
   };
 
   // 폼 제출 핸들러
-  const handleSubmit = (e: FormEvent<HTMLFormElement>) => {
+  const handleSubmitCheckbox = (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault(); // 폼의 기본 제출 동작을 방지합니다.
     // 선택된 체크박스들의 value를 모아서 처리합니다. 예: 서버로 전송
     const selectedValues = checkboxes
@@ -104,21 +98,38 @@ const TSModify = () => {
     // 여기에서 selectedValues를 API 호출 등을 통해 서버로 전송할 수 있습니다.
   };
 
+  // 라디오 버튼 관련
+  const [selectedRadioValue, setSelectedRadioValue] = useState<string>("돼지");
+  const handleRadioChange = (e: ChangeEvent<HTMLInputElement>) => {
+    setSelectedRadioValue(([e.target.name] = e.target.value));
+    console.log(e.target.value);
+  };
+  const options: string[] = ["돼지", "소", "닭", "오리", "양", "정육점"];
+
   // 텍스트 길이 관련
   const [textLength, setTextLength] = useState<number>(0);
   const handleInputChange = (length: number) => {
     setTextLength(length); // 입력된 텍스트의 길이를 업데이트
   };
 
-  // 상세주소 상태
+  // 텍스트 입력 상태
+  // 상세주소 입력
   const [extraAdress, setExtraAdress] = useState("");
   const handleChnageExtraAdress = (e: ChangeEvent<HTMLInputElement>) => {
-    setExtraAdress(e.target.value);
+    setExtraAdress(([e.target.name] = e.target.value));
+  };
+  // input 입력
+  const [textInput, setTextInput] = useState("");
+  const handleChangeText = (e: ChangeEvent<HTMLInputElement>) => {
+    setTextInput(([e.target.name] = e.target.value));
+  };
+  // textarea 입력
+  const [textarea, setTextarea] = useState("");
+  const handleChangeTextarea = (e: ChangeEvent<HTMLTextAreaElement>) => {
+    setTextarea(([e.target.name] = e.target.value));
   };
 
   // 다음포스트 관련
-  const [signUpData, setSignUpData] = useState<ShopInfo>(initState);
-
   // @COMMENT daum-post (여기는 건들면 안돼용!!!)
   const handleComplete = (adress: Address) => {
     const fullAddress = adress.address;
@@ -182,7 +193,7 @@ const TSModify = () => {
               <div className="essential">*</div>
             </div>
             <div className="check-box-wrap">
-              <form onSubmit={handleSubmit}>
+              <form onSubmit={handleSubmitCheckbox}>
                 {checkboxes.map(({ id, label, checked, value }) => (
                   <TSCheckBoxInput
                     key={id}
@@ -209,7 +220,7 @@ const TSModify = () => {
                 {options.map(option => (
                   <TSRadioInput
                     key={option}
-                    name={option}
+                    name="imeat"
                     value={option}
                     checked={selectedRadioValue === option}
                     onChange={handleRadioChange}
@@ -231,6 +242,9 @@ const TSModify = () => {
                 <TSTextField
                   placeholder="상호명을 입력하세요"
                   onInputChange={handleInputChange}
+                  onChange={handleChangeText}
+                  name="name"
+                  value={textInput}
                 />
               </form>
             </div>
@@ -251,7 +265,12 @@ const TSModify = () => {
               </div>
               <div>
                 <form>
-                  <TSTextField placeholder="전화번호를 입력하세요" />
+                  <TSTextField
+                    placeholder="전화번호를 입력하세요"
+                    onChange={handleChangeText}
+                    name="tel"
+                    value={textInput}
+                  />
                 </form>
               </div>
             </div>
@@ -268,6 +287,9 @@ const TSModify = () => {
                     [주 말] 10:00 ~ 19:00
                     [휴무일] 매월 둘째주 화요일"
                     onInputChange={handleInputChange}
+                    onChange={handleChangeTextarea}
+                    name="open"
+                    value={textarea}
                   />
                 </form>
               </div>
@@ -293,6 +315,7 @@ const TSModify = () => {
                     <TSTextFieldAdress
                       placeholder="주소 검색을 이용해주세요"
                       value={signUpData.location}
+                      name="adress"
                       readonly={true}
                     />
                   </form>
@@ -302,6 +325,7 @@ const TSModify = () => {
                     <TSTextFieldAdress
                       placeholder="상세 주소를 입력해주세요"
                       value={extraAdress}
+                      name="extraAdress"
                       onChange={handleChnageExtraAdress}
                     />
                   </form>
@@ -321,7 +345,12 @@ const TSModify = () => {
             </div>
             <div>
               <form>
-                <TSTextField placeholder="예약금을 입력해주세요" />
+                <TSTextField
+                  placeholder="예약금을 입력해주세요"
+                  onChange={handleChangeText}
+                  name="deposit"
+                  value={textInput}
+                />
               </form>
             </div>
             <div className="text-guide">숫자만 사용가능, 단위: 원</div>

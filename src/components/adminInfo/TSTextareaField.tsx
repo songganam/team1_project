@@ -3,8 +3,11 @@ import { TSTextareaFieldStyle } from "./styles/TSTextareaFieldStyle";
 
 // props 타입 정의
 interface TSTextareaFieldProps {
-  placeholder: string;
+  placeholder?: string;
+  value?: string;
+  name?: string;
   onInputChange?: (length: number) => void;
+  onChange?: (e: ChangeEvent<HTMLTextAreaElement>) => void;
 }
 
 // state 타입 정의

@@ -11,7 +11,8 @@ module.exports = {
   ],
   parserOptions: {
     ecmaVersion: "latest", // 최신 ECMAScript 기능 사용
-    sourceType: "module", // ES 모듈 사용
+    sourceType: "module",
+    // project: "**/tsconfig.json", // ES 모듈 사용
     ecmaFeatures: {
       jsx: true, // JSX 파싱 허용
     },
@@ -34,8 +35,9 @@ module.exports = {
         "plugin:@typescript-eslint/recommended", // TypeScript 권장 규칙
       ],
       rules: {
-        // TypeScript 파일에 적용할 추가 규칙
-        // "@typescript-eslint/no-unused-vars": ["error"], // 사용하지 않는 변수 금지
+        "no-unused-vars": "off",
+        "@typescript-eslint/no-unused-vars": "off", // 변수가 할당되었지만 사용되지 않았다는 TypeScript 경고를 비활성화
+        "@typescript-eslint/no-explicit-any": ["off"],
       },
     },
     {
