@@ -93,7 +93,7 @@ const AdminJoinPage = () => {
     postBusiNum({ dataForm, successFn, errorFn });
   };
 
-  // 5048525999, 1231231231 ,0012402024
+  // 5048525999, 1231231231 ,0012402024 , 1348711626
   const successFn = (result: AxiosResponse) => {
     const resultData = result.data[0].b_stt;
     console.log("result", resultData);
@@ -113,21 +113,27 @@ const AdminJoinPage = () => {
 
   const handleClickPost = () => {
     // @COMMENT except pic
-    const data = {
-      pic: selectedImage,
-      id: signUpData.dto.id,
-      upw: signUpData.dto.upw,
-      checkUpw: signUpData.dto.checkUpw,
-      num: signUpData.dto.num,
-      name: signUpData.dto.name,
-      shopName: signUpData.dto.shopName,
-      imeat: signUpData.dto.imeat,
-      // hiddenValue
-      x: signUpData.dto.x,
-      y: signUpData.dto.y,
-      location: signUpData.dto.location,
-    };
-    console.log("결과값 : ", data);
+    const formData = new FormData();
+    const dto = new Blob(
+      [
+        JSON.stringify({
+          pic: selectedImage,
+          id: signUpData.dto.id,
+          upw: signUpData.dto.upw,
+          checkUpw: signUpData.dto.checkUpw,
+          num: signUpData.dto.num,
+          name: signUpData.dto.name,
+          shopName: signUpData.dto.shopName,
+          imeat: signUpData.dto.imeat,
+          x: signUpData.dto.x,
+          y: signUpData.dto.y,
+          location: signUpData.dto.location,
+        }),
+      ],
+      { type: "application/json" },
+    );
+
+    // console.log("결과값 : ", data);
     if (ckeckFlag === false) {
       alert("님 사업자체크하셈 안댐 이건");
     } else {
@@ -212,7 +218,7 @@ const AdminJoinPage = () => {
   const RadioBtnNone =
     process.env.PUBLIC_URL + `/assets/images/radioBtn_none.png`;
 
-  const [selectedCate, setSelectedCate] = useState(0);
+  const [selectedCate, setSelectedCate] = useState<number>(0);
   //   const storeCategory = ["돼지", "소", "닭", "오리", "양"];
   const handleClickCate = (index: number) => {
     setSelectedCate(index);
