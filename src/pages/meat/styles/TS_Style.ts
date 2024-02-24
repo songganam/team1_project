@@ -62,3 +62,44 @@ export const SelectedCate = styled.div<StyledComponentProps>`
         : "var(--gray-scale-100, #f5f5f5)"};
   }
 `;
+
+export const SelectedFilter = styled.div<StyledComponentProps>`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: none;
+  background: transparent;
+  font-size: 19px;
+  font-family: DAEAM_LEE_TAE_JOON;
+  cursor: pointer;
+  /* &:hover {
+    color: ${ColorStyle.g700};
+  } */
+  span {
+    color: ${({ selected }) => (selected ? ColorStyle.g1000 : ColorStyle.g500)};
+  }
+`;
+
+export const FilterWrapper = styled.div`
+  display: inline-flex;
+  align-items: flex-start;
+  gap: 16px;
+  button {
+    display: flex;
+    width: 70px;
+    height: 30px;
+    flex-direction: column;
+    justify-content: center;
+    span {
+      color: #000;
+      text-align: center;
+      font-feature-settings: "clig" off, "liga" off;
+      font-family: DAEAM_LEE_TAE_JOON;
+      font-size: 19px;
+      font-style: normal;
+      font-weight: 400;
+      line-height: 16px; /* 84.211% */
+      text-transform: uppercase;
+    }
+  }
+`;

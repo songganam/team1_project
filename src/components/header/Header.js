@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { getUserInfo } from "../../api/MyApi";
@@ -15,8 +15,6 @@ import {
   LogoStyle,
   NavStyle,
 } from "./styles/HeaderStyle";
-import { useRecoilValue } from "recoil";
-import { refreshSelector } from "../../atom/atomRefreshState";
 
 // 프로필 정보 초기값
 const initialProfile = {
@@ -52,9 +50,14 @@ const Header = () => {
 
   // @RTK
   const refresh = useSelector(state => state.refresh);
+  const memoRefresh = useMemo(() => refresh, [refresh]);
   // @RECOIL
   // const refresh = useRecoilValue(refreshSelector);
-  console.log("refresh", refresh);
+  if (refresh) {
+    console.log("refresh", memoRefresh);
+    console.log("", authState);
+    console.log("", authState.nickname);
+  }
   const navigate = useNavigate();
 
   // 유저 정보 불러오기 (GET)
@@ -92,8 +95,6 @@ const Header = () => {
     );
   };
 
-  console.log(authState);
-  console.log(authState.nickname);
   return (
     <HeaderStyle>
       {fetching ? <Fetching /> : null}
