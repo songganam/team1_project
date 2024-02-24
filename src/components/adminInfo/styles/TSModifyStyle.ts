@@ -1,6 +1,6 @@
 import styled from "@emotion/styled";
 
-export const TSAdminInfoWrapStyle = styled.div`
+export const TSAdminInfoWrapStyle = styled.form`
   position: relative;
   display: flex;
   flex-direction: column;
@@ -181,6 +181,16 @@ export const TSBoxInnerStyle = styled.div`
     align-content: flex-start;
     gap: 10px;
     flex-wrap: wrap;
+  }
+  .check-box-wrap {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
+  }
+  .radio-wrap {
+    display: flex;
+    align-items: flex-start;
+    gap: 16px;
   }
 `;
 export const TSMenuAddPicInnerStyle = styled(TSBoxInnerStyle)`

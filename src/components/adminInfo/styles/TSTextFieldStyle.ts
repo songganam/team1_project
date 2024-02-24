@@ -3,7 +3,7 @@ import styled from "@emotion/styled";
 // state prop 타입 정의
 type TextFieldState = "default" | "focus" | "error" | "filled";
 
-export const TSTextFieldStyle = styled.div<{ state?: TextFieldState }>`
+export const TSTextFieldStyle = styled.div<{ state: TextFieldState }>`
   display: flex;
   width: 500px;
   height: 46px;
