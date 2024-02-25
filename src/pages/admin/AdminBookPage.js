@@ -2,9 +2,11 @@ import React from "react";
 import AdminBookCard from "../../components/admin/AdminBookCard";
 import AdminNoShowCard from "../../components/admin/AdminNoShowCard";
 import {
+  AdminBookCardBt,
   AdminBookInner,
   AdminBookPageContent,
   AdminBookPageWrapper,
+  AdminNoShowCardBt,
   AdminNoShowInner,
 } from "./styles/AdminBookpageStyle";
 import AdminHeader from "../../components/adminInfo/AdminHeader";
@@ -17,13 +19,17 @@ const AdminBookPage = () => {
       <AdminBookPageContent>
         <AdminBookInner>
           <p>신규 예약 목록</p>
-          <AdminBookCard></AdminBookCard>
-          <Button bttext="더보기"></Button>
+          <AdminBookCardBt>
+            <AdminBookCard></AdminBookCard>
+            <Button bttext="더보기"></Button>
+          </AdminBookCardBt>
         </AdminBookInner>
         <AdminNoShowInner>
           <p>노쇼 목록</p>
-          <AdminNoShowCard></AdminNoShowCard>
-          <Button bttext="더보기"></Button>
+          <AdminNoShowCardBt>
+            <AdminNoShowCard></AdminNoShowCard>
+            <Button bttext="더보기"></Button>
+          </AdminNoShowCardBt>
         </AdminNoShowInner>
       </AdminBookPageContent>
     </AdminBookPageWrapper>

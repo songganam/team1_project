@@ -10,13 +10,16 @@ export const AdminPageData = styled.div`
   position: relative;
   display: flex;
   align-items: flex-start;
-  /* background-color: blue; */
 `;
 
 export const AdiminPageMenuBar = styled.div`
   position: fixed;
+  display: flex;
+  align-items: flex-start;
   width: 210px;
   height: 1530px;
+  padding: 16px 40px;
+  gap: 10px;
   background-color: #202734;
   z-index: 999;
 `;
