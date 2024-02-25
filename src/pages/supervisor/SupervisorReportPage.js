@@ -7,9 +7,17 @@ import {
   SvisorReportWrap,
   SvisorTable,
 } from "./styles/SupervisorReportStyle";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 
 const SupervisorReportPage = () => {
+  // useEffect(() => {
+  //   getReport({})
+  // })
+  // const superApi =
+
+  // const black = '${}'
+
+
   // 옵션 셀렉트
   // 선택된 값을 관리할 상태
   const [selectedValue, setSelectedValue] = useState("");
