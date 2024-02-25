@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import React, { ChangeEvent, useEffect, useState } from "react";
 import { TSCheckBoxLabelStyle } from "./styles/TSCheckBoxLabelStyle";
 import { TSBoxInnerStyle } from "./styles/TSModifyStyle";
 
@@ -56,7 +56,7 @@ const TSCheckBoxInput: React.FC<CheckboxProps> = ({ onChange }) => {
     <TSBoxInnerStyle>
       <div className="title">
         <div>편의시설</div>
-        <div className="essential">*</div>
+        {/* <div className="essential">*</div> */}
       </div>
       <div className="check-box-wrap">
         {checkboxes.map(option => (
@@ -77,7 +77,7 @@ const TSCheckBoxInput: React.FC<CheckboxProps> = ({ onChange }) => {
                   viewBox="0 0 16 16"
                   fill="none"
                 >
-                  <rect width="16" height="16" fill="#3B82F6" />
+                  <rect width="16" height="16" fill="#099e76" />
                   <path
                     d="M3.5 7.35L7.1499 11L12.9999 5"
                     stroke="white"
