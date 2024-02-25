@@ -10,13 +10,16 @@ export const SupervisorPageData = styled.div`
   position: relative;
   display: flex;
   align-items: flex-start;
-  background-color: blue;
 `;
 
 export const SupervisorPageMenuBar = styled.div`
   position: fixed;
+  display: flex;
+  align-items: flex-start;
   width: 210px;
   height: 1530px;
+  padding: 16px 40px;
+  gap: 10px;
   background-color: #202734;
   z-index: 999;
 `;
@@ -45,5 +48,4 @@ export const SupervisorPageContent = styled.div`
   position: relative;
   width: 730px;
   width: calc(100% - 210px);
-  background-color: pink;
 `;
