@@ -23,7 +23,6 @@ const AdminDocPage = () => {
   return (
     <SvisorReportWrap>
       <AdminHeader title="매장 분석" />
-
       <AdminDocMain>
         <DocMainTop>
           <div className="title">
