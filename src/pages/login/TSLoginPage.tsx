@@ -1,14 +1,17 @@
-import { ChangeEvent, useEffect, useState } from "react";
 import { useMutation } from "@tanstack/react-query";
+import { AxiosError } from "axios";
+import { ChangeEvent, useCallback, useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import ResultModal from "../../components/common/ResultModal";
 import useCustomHook from "../../components/meat/hooks/useCustomHook";
 import useCustomLogin from "../../components/meat/hooks/useCustomLogin";
+import useCustomLoginTS from "../../components/meat/hooks/useCustomLoginTS";
 import TitleHeader from "../../components/titleheader/TitleHeader";
 import Layout from "../../layouts/Layout";
 import { SigninForm } from "../join/TSJoin";
 import { CateSelectWrap } from "../join/styles/AdminSignUpStyles";
 import "../login/LoginPage.css";
+import { SelectedCate } from "../meat/styles/TS_Style";
 import {
   LoginCheckBox,
   LoginPageBts,
@@ -18,10 +21,6 @@ import {
   LoginPagePW,
   LoginPageWrap,
 } from "./styles/LoginPageStyle";
-import { SelectedCate } from "../meat/styles/TS_Style";
-import { AxiosError } from "axios";
-import useCustomLoginTS from "../../components/meat/hooks/useCustomLoginTS";
-import { QueryClient } from "@tanstack/react-query";
 
 const initState: SigninForm = {
   email: "",
@@ -29,13 +28,26 @@ const initState: SigninForm = {
 };
 const LoginPage = () => {
   const [authParam, setAuthParam] = useState(initState);
-  const { doLogin, doAdminLogin, moveToPath, loginComplete } = useCustomLogin();
+  const { doLogin, doAdminLogin, moveToPath } = useCustomLogin();
   const { doLoginTS } = useCustomLoginTS();
   const { isModal, openModal, closeModal } = useCustomHook();
   const navigate = useNavigate();
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setAuthParam({ ...authParam, [e.target.name]: e.target.value });
-  };
+  const [loginFlag, setLoginFlag] = useState(0);
+
+  const handleChange = useCallback((e: ChangeEvent<HTMLInputElement>) => {
+    setAuthParam(prevValue => ({
+      ...prevValue,
+      [e.target.name]: e.target.value,
+    }));
+    console.log("reredering");
+  }, []);
+
+  const handleClickCate = useCallback(
+    (index: number) => {
+      setLoginFlag(index);
+    },
+    [setLoginFlag],
+  );
 
   const UserMutation = useMutation({
     mutationFn: (authParam: SigninForm) => doLoginTS({ authParam }),
@@ -43,10 +55,27 @@ const LoginPage = () => {
       console.log("성공", result);
       moveToPath("/");
     },
-    onError: () => {},
+    onError: (error: AxiosError) => {
+      console.log("error log", error.response);
+      if (error.response) {
+        if (error.response.status === 404) {
+          openModal(
+            "로그인 실패",
+            "이메일 또는 비밀번호를 확인해주세요.",
+            closeModal,
+          );
+        } else if (error.response.status === 400) {
+          openModal(
+            "로그인 실패",
+            "이메일 또는 비밀번호를 확인해주세요",
+            closeModal,
+          );
+        }
+      }
+    },
   });
   const AdminMutation = useMutation({
-    mutationFn: () => doAdminLogin({ authParam }),
+    mutationFn: (authParam: SigninForm) => doAdminLogin({ authParam }),
     onSuccess: result => {
       console.log("성공", result);
       moveToPath("/");
@@ -55,7 +84,7 @@ const LoginPage = () => {
   });
   // QueryClient;
 
-  const handleClick = async () => {
+  const handleClick = useCallback(async () => {
     if (authParam.email === "" || authParam.upw === "") {
       console.log("id", authParam.email);
       console.log("pw", authParam.upw);
@@ -68,30 +97,59 @@ const LoginPage = () => {
     }
     try {
       if (loginFlag === 1) {
-        // await doAdminLogin({ authParam });
-        alert("관리자로그인");
+        AdminMutation.mutate(authParam);
       } else {
-        // alert("유저로그인");
         UserMutation.mutate(authParam);
       }
-      loginComplete();
+      // loginComplete();
     } catch (error) {
       console.log(error);
     }
-  };
+  }, [
+    authParam.email,
+    authParam.upw,
+    loginFlag,
+    AdminMutation,
+    UserMutation,
+    openModal,
+  ]);
+  // @COMMENT BAKCUP
+  // const handleClick = async () => {
+  //   if (authParam.email === "" || authParam.upw === "") {
+  //     console.log("id", authParam.email);
+  //     console.log("pw", authParam.upw);
+  //     openModal(
+  //       "로그인 실패",
+  //       "이메일 또는 비밀번호를 입력하지 않으셨습니다.",
+  //       closeModal,
+  //     );
+  //     return;
+  //   }
+  //   try {
+  //     if (loginFlag === 1) {
+  //       AdminMutation.mutate(authParam);
+  //     } else {
+  //       UserMutation.mutate(authParam);
+  //     }
+  //     // loginComplete();
+  //   } catch (error) {
+  //     console.log(error);
+  //   }
+  // };
 
   // 회원가입 페이지 이동
   const handleJaddClick = () => {
-    navigate("/join/add"); // '/JaddPage'로 이동
+    if (loginFlag === 0) {
+      navigate("/join/add"); // '/JaddPage'로 이동
+    } else {
+      // Admin Page
+      navigate("/admin/signup");
+    }
   };
 
   // 이메일 자동 입력 기능
   const [email, setEmail] = useState("");
   const [rememberEmail, setRememberEmail] = useState(false);
-
-  //   const handleEmailChange = (e: ChangeEvent<HTMLInputElement>) => {
-  //     setEmail(e.target.value);
-  //   };
 
   const handleCheckboxChange = () => {
     setRememberEmail(!rememberEmail);
@@ -118,11 +176,6 @@ const LoginPage = () => {
       setRememberEmail(true);
     }
   }, []);
-
-  const [loginFlag, setLoginFlag] = useState(0);
-  const handleClickCate = (index: number) => {
-    setLoginFlag(index);
-  };
 
   return (
     <Layout>

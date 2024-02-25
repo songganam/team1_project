@@ -1,17 +1,17 @@
 import { Suspense, lazy } from "react";
 import { createBrowserRouter } from "react-router-dom";
 import Loading from "../components/loading/Loading";
+import { CheckoutPage } from "../pages/payment/Checkout";
+import { FailPage } from "../pages/payment/Fail";
+import { SuccessPage } from "../pages/payment/Success";
+import adminRouter from "./adminRouter";
+import butcherRouter from "./butcherRouter";
+import communityRouter from "./communityRouter";
 import joinRouter from "./joinRouter";
 import meatRouter from "./meatRouter";
-import butcherRouter from "./butcherRouter";
-import saleRouter from "./saleRouter";
-import communityRouter from "./communityRouter";
 import myRouter from "./myRouter";
-import adminRouter from "./adminRouter";
+import saleRouter from "./saleRouter";
 import supervisorRouter from "./supervisorRouter";
-import { CheckoutPage } from "../pages/payment/Checkout";
-import { SuccessPage } from "../pages/payment/Success";
-import { FailPage } from "../pages/payment/Fail";
 
 // 어바웃 페이지
 const LazyAboutPage = lazy(() => import("../pages/about/AboutPage"));
@@ -47,7 +47,7 @@ const LazyAdminPage = lazy(() => import("../pages/admin/AdminPage"));
 const LazySupervisorPage = lazy(() =>
   import("../pages/supervisor/SupervisorPage"),
 );
-const LazyAdSignupPage = lazy(() => import("../pages/join/AdminSignUpPage"));
+const LazyAdSignupPage = lazy(() => import("../pages/join/JS/AdminSignUpPage"));
 
 // 테스트용 페이지
 const LazyGaraPage = lazy(() => import("../redux/GaraLogin"));

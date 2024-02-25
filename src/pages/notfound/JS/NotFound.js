@@ -1,11 +1,11 @@
 import React from "react";
-import Layout from "../../layouts/Layout";
+import Layout from "../../../layouts/Layout";
 import {
   NotFoundText,
   NotFoundTextWrap,
   NotFoundWrap,
-} from "./styles/NotFoundStyle";
-import Button from "../../components/button/Button";
+} from "../styles/NotFoundStyle";
+import Button from "../../../components/button/Button";
 import { useNavigate } from "react-router-dom";
 const NotFound = () => {
   const navigate = useNavigate();
