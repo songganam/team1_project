@@ -9,8 +9,8 @@ export const ButtonStyleTS = styled.button`
   align-items: center;
   padding: 10px 20px;
   gap: 10px;
-  background: #fff;
-  border: 2px solid #066e52;
+  background: ${ColorStyle.grayScale};
+  border: 2px solid ${ColorStyle.secondary};
   border-radius: 10px;
   cursor: pointer;
 
@@ -20,4 +20,13 @@ export const ButtonStyleTS = styled.button`
   font-style: normal;
   font-weight: 400;
   color: ${ColorStyle.primary};
+
+  :hover {
+    background: ${ColorStyle.g200};
+    color: ${ColorStyle.primary};
+  }
+  :active {
+    background: ${ColorStyle.secondary};
+    color: ${ColorStyle.grayScale};
+  }
 `;

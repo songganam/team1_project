@@ -70,7 +70,7 @@ const TSRadioInput: React.FC<RadioProps> = ({ onChange }) => {
                   viewBox="0 0 20 20"
                   fill="none"
                 >
-                  <circle cx="10" cy="10" r="10" fill="#3B82F6" />
+                  <circle cx="10" cy="10" r="10" fill="#099e76" />
                   <circle cx="10" cy="10" r="4" fill="white" />
                 </svg>
               ) : (

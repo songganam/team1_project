@@ -1,17 +1,17 @@
-import React, { ChangeEvent, useState } from "react";
+import { ChangeEvent, useState } from "react";
 import { TSInputStyle, TSTextFieldStyle } from "./styles/TSTextFieldStyle";
 
 // 텍스트필드 props 타입 정의
 interface TextFieldProps {
   placeholder: string;
-  value: string; // 부모 컴포넌트에서 관리
+  value: number; // 부모 컴포넌트에서 관리
   name?: string;
   onChange: (e: ChangeEvent<HTMLInputElement>) => void;
 }
 // 텍스트필드 스타일 props 타입 정의
 type TextFieldStateProps = "default" | "focus" | "error" | "filled";
 
-const TSTextField: React.FC<TextFieldProps> = ({
+const TSDepositField: React.FC<TextFieldProps> = ({
   placeholder,
   value,
   name,
@@ -21,7 +21,7 @@ const TSTextField: React.FC<TextFieldProps> = ({
   const [state, setState] = useState<TextFieldStateProps>("default");
   const handleFocus = () => setState("focus");
   const handleBlur = () => {
-    if (value.length === 0 || value.length > 30) {
+    if (value <= 0 || value == 0) {
       setState("error");
     } else {
       setState(value ? "filled" : "default");
@@ -43,4 +43,4 @@ const TSTextField: React.FC<TextFieldProps> = ({
   );
 };
 
-export default TSTextField;
+export default TSDepositField;
