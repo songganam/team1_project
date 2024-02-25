@@ -1,9 +1,7 @@
-import TSMenuList from "../../components/adminInfo/TSMenuList";
-
 const AdminMenuPage = () => {
   return (
     <div>
-      <TSMenuList />
+      <h1>메뉴관리</h1>
     </div>
   );
 };

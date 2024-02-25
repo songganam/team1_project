@@ -1,55 +1,45 @@
-import { ChangeEvent, useState } from "react";
+import React, { ChangeEvent, useEffect, useState } from "react";
 import { TSInputStyle, TSTextFieldStyle } from "./styles/TSTextFieldStyle";
 
-// props 타입 정의
-interface TSTextFieldProps {
-  placeholder?: string;
-  value?: string;
+// 텍스트필드 props 타입 정의
+interface TextFieldProps {
+  placeholder: string;
+  value: string; // 부모 컴포넌트에서 관리
   name?: string;
-  onInputChange?: (length: number) => void;
-  onChange?: (e: ChangeEvent<HTMLInputElement>) => void;
+  onChange: (e: ChangeEvent<HTMLInputElement>) => void;
 }
 
-// state 타입 정의
-type StateType = "default" | "focus" | "error" | "filled";
+// 텍스트필드 스타일 props 타입 정의
+type TextFieldStateProps = "default" | "focus" | "error" | "filled";
 
-const TSTextField: React.FC<TSTextFieldProps> = ({
+const TSTextField: React.FC<TextFieldProps> = ({
   placeholder,
-  onInputChange,
+  value,
+  name,
+  onChange,
 }) => {
-  const [value, setValue] = useState<string>("");
-  const [state, setState] = useState<StateType>("default");
+  const [state, setState] = useState<TextFieldStateProps>("default");
 
-  const validateInput = (value: string) => {
-    if (value.length === 0 || value.length > 30) {
+  // 텍스트필드 유효성 상태 업데이트
+  useEffect(() => {
+    if (value.length > 30) {
       setState("error");
     } else {
       setState(value ? "filled" : "default");
     }
-  };
-
-  const handleFocus = () => setState("focus");
-  const handleBlur = () => validateInput(value);
-
-  const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    const newValue = e.target.value;
-    setValue(newValue);
-    validateInput(newValue);
-    if (onInputChange) {
-      // 상위 컴포넌트로 현재 입력값의 길이 전달
-      onInputChange(newValue.length);
-    }
-  };
+  }, [value]);
 
   return (
     <TSTextFieldStyle state={state}>
       <TSInputStyle
         type="text"
         placeholder={placeholder}
+        name={name}
         value={value}
-        onChange={handleChange}
-        onFocus={handleFocus}
-        onBlur={handleBlur}
+        onChange={onChange}
+        onFocus={() => setState("focus")}
+        onError={() => setState(value.length === 0 ? "error" : "default")}
+        onBlur={() => setState(value.length > 0 ? "filled" : "default")}
       />
     </TSTextFieldStyle>
   );
