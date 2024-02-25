@@ -17,7 +17,6 @@ const SupervisorReportPage = () => {
 
   // const black = '${}'
 
-
   // 옵션 셀렉트
   // 선택된 값을 관리할 상태
   const [selectedValue, setSelectedValue] = useState("");
@@ -174,12 +173,18 @@ const SupervisorReportPage = () => {
                   <td>{row.count}</td>
                   {/* 삭제 버튼을 클릭할 때 handleDeleteClick 함수 호출 */}
                   <td>
-                    <button onClick={() => handleDeleteClick(row)}  className="delete-bt">
+                    <button
+                      onClick={() => handleDeleteClick(row)}
+                      className="delete-bt"
+                    >
                       {row.delete}
                     </button>
                   </td>
                   <td>
-                    <button onClick={() => handleDeleteClick(row)} className="cancel-bt">
+                    <button
+                      onClick={() => handleDeleteClick(row)}
+                      className="cancel-bt"
+                    >
                       {row.cancel}
                     </button>
                   </td>
