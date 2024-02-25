@@ -77,6 +77,15 @@ export const changeBookmark = async storeNum => {
   }
 };
 
+export const getReview = async () => {
+  try {
+    const res = await axios.get("/json/reviews.json");
+    return res.data;
+  } catch (error) {
+    console.log("loading error");
+  }
+};
+
 export const postReview = async ({ reviewData }) => {
   console.log("axios", reviewData);
 
