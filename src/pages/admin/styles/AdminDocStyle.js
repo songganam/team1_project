@@ -1,16 +1,23 @@
 import styled from "@emotion/styled";
 
 export const AdminDocMain = styled.div`
+  position: relative;
+  display: block;
   /* width: 100%; */
   padding: 90px 163px;
 
   .title {
-    font-size: 44px;
+    position: relative;
+    font-size: 33px;
     padding-bottom: 90px;
-
   }
 `;
-export const DocMainTop = styled.div``;
+
+export const DocMainTop = styled.div`
+  position: relative;
+
+  padding-top: 80px;
+`;
 export const AdminDocBoard = styled.div`
   width: 700px;
   display: grid;
@@ -46,5 +53,23 @@ export const BoxContent = styled.div`
   top: 50%;
   font-size: 59px;
   transform: translate(-50%, -50%);
-  
+`;
+
+export const BoxChart = styled.div`
+  position: relative;
+  display: flex;
+  /* display: flex; */
+  width: 695px;
+  height: 290px;
+  margin-top: 10px;
+  padding: 20px 30px;
+  /* flex-direction: column;
+  align-items: flex-start; */
+
+  border-radius: 8px;
+  background: #fff;
+  font-size: 14px;
+  /* shadow */
+  box-shadow: 0px 1px 2px -1px rgba(0, 0, 0, 0.1),
+    0px 1px 3px 0px rgba(0, 0, 0, 0.1);
 `;

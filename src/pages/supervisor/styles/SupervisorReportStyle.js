@@ -12,19 +12,20 @@ import styled from "@emotion/styled";
 export const SvisorReportWrap = styled.div`
   position: relative;
   background-color: #ffffff;
-  width: 1710px;
+  margin-left: 210px;
 `;
 
 export const SupervisorReportHeader = styled.div`
-  position: relative;
+  position: fixed;
   display: flex;
-  width: 100%;
+  width: calc(100% - 210px);
   padding: 11px 36px;
   justify-content: space-between;
   align-items: center;
   background: #fff;
   /* Shadow */
-  box-shadow: 0px 1px 2px -1px rgba(0, 0, 0, 0.1), 0px 1px 3px 0px rgba(0, 0, 0, 0.1);
+  box-shadow: 0px 1px 2px -1px rgba(0, 0, 0, 0.1),
+    0px 1px 3px 0px rgba(0, 0, 0, 0.1);
 
   .page-title {
     display: flex;
@@ -43,20 +44,28 @@ export const SupervisorReportHeader = styled.div`
 export const SvisorReportMain = styled.div`
   position: relative;
   display: flex;
-  margin-right: 370px;
+  width: calc(100% 0px);
+  /* width: 100%; */
+  /* margin-right: 370px; */
   flex-direction: column;
-  align-items: flex-end;
+  /* align-items: flex-end; */
   font-size: 14px;
+  padding-left: 210px;
+  padding-bottom: 100px;
+  justify-content: center;
+  align-content: space-around;
+  align-items: flex-end;
 `;
 
 export const SvisorReportOption = styled.div`
   position: relative;
   padding-top: 180px;
   padding-bottom: 108px;
-  justify-content: flex-end;
+  /* justify-content: flex-end; */
   margin-right: 50px;
 
   .selectoption {
+    /* align-items: flex-end; */
     padding-left: 10px;
     width: 367px;
     height: 30px;
@@ -66,7 +75,7 @@ export const SvisorReportOption = styled.div`
   }
 `;
 export const SvisorTable = styled.div`
-  width: 1180px;
+  width: 100%;
   color: #5c5c5c;
 
   /* align-items: center; */
