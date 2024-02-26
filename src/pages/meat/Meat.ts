@@ -76,3 +76,13 @@ export interface ReserTimeBtnProps {
 export interface StyledComponentProps {
   selected: boolean;
 }
+
+export interface ReviewDataForm {
+  iuser: number;
+  writerPic: string;
+  ireview: number;
+  nickname: string;
+  star: number;
+  review: string;
+  pic: string[];
+}
