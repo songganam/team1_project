@@ -1,6 +1,14 @@
-import { ChangeEvent, useEffect, useState } from "react";
+import { ChangeEvent, useState } from "react";
+import DaumPostcodeEmbed from "react-daum-postcode";
+import { getCoord } from "../../api/meatApi";
+import TSAdressField from "../../components/adminInfo/TSAdressField";
 import TSCheckBoxInput from "../../components/adminInfo/TSCheckBoxInput";
+import TSDepositField from "../../components/adminInfo/TSDepositField";
+import TSExtraAdressField from "../../components/adminInfo/TSExtraAdressField";
 import TSPicsInput from "../../components/adminInfo/TSPicsInput";
+import TSRadioInput from "../../components/adminInfo/TSRadioInput";
+import TSTextField from "../../components/adminInfo/TSTextField";
+import TSTextarea from "../../components/adminInfo/TSTextarea";
 import { ButtonStyleTS } from "../../components/adminInfo/styles/ButtonStyleTS";
 import {
   TSAdminInfoWrapStyle,
@@ -11,15 +19,8 @@ import {
   TSShopStyle,
   TSWrapInnerStyle,
 } from "../../components/adminInfo/styles/TSModifyStyle";
-import TSRadioInput from "../../components/adminInfo/TSRadioInput";
-import TSTextField from "../../components/adminInfo/TSTextField";
-import TSTextarea from "../../components/adminInfo/TSTextarea";
-import useCustomHook from "../../components/meat/hooks/useCustomHook";
-import DaumPostcodeEmbed from "react-daum-postcode";
-import { getCoord } from "../../api/meatApi";
-import TSAdressField from "../../components/adminInfo/TSAdressField";
 import EmptyModal from "../../components/common/EmptyModal";
-import TSDepositField from "../../components/adminInfo/TSDepositField";
+import useCustomHook from "../../components/meat/hooks/useCustomHook";
 
 // 매장정보 초기값
 const initState: ShopInfo = {
@@ -27,6 +28,8 @@ const initState: ShopInfo = {
   imeat: 0,
   name: "",
   location: "",
+  adress: "",
+  extraAdress: "",
   open: "",
   tel: "",
   x: "",
@@ -40,6 +43,8 @@ interface ShopInfo {
   imeat: number;
   name: string;
   location: string;
+  adress: string;
+  extraAdress: string;
   open: string;
   tel: string;
   x: string;
@@ -74,19 +79,25 @@ const TSAdminInfoPage = () => {
   };
 
   // 체크박스 관련
-  const [selectedCheckboxes, setSelectedCheckboxes] = useState<string[]>([]);
+  const [selectedCheckboxes, setSelectedCheckboxes] = useState<
+    Array<{ id: string; label: string }>
+  >([]);
   // 체크박스 컴포넌트로 부터 전달받은 배열 처리
-  const handleChangeCheckbox = (selectedIds: string[]) => {
-    setSelectedCheckboxes(selectedIds);
+  const handleChangeCheckbox = (
+    selectedOptions: Array<{ id: string; label: string }>,
+  ) => {
+    setSelectedCheckboxes(selectedOptions);
     // setShopInfo(prev => ({ ...prev, pics: selectedIds }));
   };
 
   // 라디오 버튼 관련
   const [selectedRadios, setSelectedRadios] = useState<number>();
+  const [selectedLabel, setSelectedLabel] = useState("");
   // 라디오 컴포넌트로 부터 전달받은 ID 처리
-  const handleChangeRadio = (selectedIds: number) => {
-    setSelectedRadios(selectedIds);
-    setShopInfo(prev => ({ ...prev, imeat: selectedIds }));
+  const handleChangeRadio = (selectedId: number, selectedLabel: string) => {
+    setSelectedRadios(selectedId);
+    setSelectedLabel(selectedLabel);
+    setShopInfo(prev => ({ ...prev, imeat: selectedId }));
   };
 
   // 텍스트필드 관련
@@ -107,10 +118,13 @@ const TSAdminInfoPage = () => {
   // 다음포스트 관련
   // @COMMENT daum-post (여기는 건들면 안돼용!!!)
   const handleComplete = (adress: Address) => {
-    const fullAddress = adress.address;
-    setShopInfo({ ...shopInfo, location: fullAddress });
+    const newAddress = adress.address;
+    // 주소와 상세주소 조합
+    // const fullLocation = `${newAddress} ${extraAdress}`.trim();
+
+    setShopInfo(prev => ({ ...prev, adress: newAddress }));
     // 이건 X,Y 값을 알아내기 위한 API이기때문에 필요없으시면 사용하실 필요 없습니다.
-    getCoord({ fullAddress, successCoordFn });
+    getCoord({ fullAddress: newAddress, successCoordFn });
     closeEmptyModal();
   };
   // @COMMENT X, Y Coord Value
@@ -131,7 +145,20 @@ const TSAdminInfoPage = () => {
     );
   };
 
+  // 상세주소 입력 + location 업데이트
+  const [extraAdress, setExtraAdress] = useState("");
+  const handleChangeDetailLocation = (e: ChangeEvent<HTMLInputElement>) => {
+    const newExtraAdress = e.target.value;
+    setExtraAdress(newExtraAdress);
+    setShopInfo(prev => ({
+      ...prev,
+      location: `${prev.adress} ${newExtraAdress}`.trim(),
+      extraAdress: newExtraAdress,
+    }));
+  };
+
   //! 여기는 콘솔 확인용================================
+  console.log("선택된 고기종류", selectedRadios);
   console.log("선택된 편의시설", selectedCheckboxes);
   console.log(shopInfo);
   //!==================================================
@@ -152,7 +179,11 @@ const TSAdminInfoPage = () => {
             <TSCheckBoxInput onChange={handleChangeCheckbox} />
           </TSBackgroundBoxStyle>
           <TSBackgroundBoxStyle>
-            <TSRadioInput onChange={handleChangeRadio} />
+            <TSRadioInput
+              onChange={(selectedId, selectedLabel) =>
+                handleChangeRadio(selectedId, selectedLabel)
+              }
+            />
           </TSBackgroundBoxStyle>
           <TSBackgroundBoxStyle>
             <TSBoxInnerStyle>
@@ -218,17 +249,18 @@ const TSAdminInfoPage = () => {
               <div className="location-box">
                 <div className="location-input-box">
                   <TSAdressField
-                    placeholder="주소 검색을 이용해주세요"
+                    placeholder="주소검색을 이용해주세요"
                     readonly={true}
                     name="location"
-                    value={shopInfo.location}
+                    value={shopInfo.adress}
                   />
-                  {/* <TSAdressField
-                  placeholder="상세 주소를 입력해주세요"
-                  name="location"
-                  value={shopInfo.location}
-                  onChange={handleChangeText}
-                /> */}
+                  <TSExtraAdressField
+                    placeholder="상세주소를 입력하세요"
+                    readonly={false}
+                    name="extraAdress"
+                    value={shopInfo.extraAdress}
+                    onChange={handleChangeDetailLocation}
+                  />
                 </div>
                 <div>
                   <ButtonStyleTS
@@ -292,13 +324,15 @@ const TSAdminInfoPage = () => {
                         <div className="shop-info-text-wrap">
                           <div className="shop-info-cate">고기종류</div>
                           <div className="shop-info-detail">
-                            {shopInfo.imeat}
+                            {selectedLabel}
                           </div>
                         </div>
                         <div className="shop-info-text-wrap">
                           <div className="shop-info-cate">편의시설</div>
                           <div className="shop-info-detail">
-                            {`${selectedCheckboxes}`}
+                            {selectedCheckboxes
+                              .map(option => option.label)
+                              .join(", ")}
                           </div>
                         </div>
                       </div>

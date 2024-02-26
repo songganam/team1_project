@@ -12,7 +12,7 @@ interface RadioOption {
 
 // 라디오 props 타입 정의
 interface RadioProps {
-  onChange: (selected: number) => void;
+  onChange: (selectedId: number, selectedLabel: string) => void;
 }
 
 const TSRadioInput: React.FC<RadioProps> = ({ onChange }) => {
@@ -26,10 +26,10 @@ const TSRadioInput: React.FC<RadioProps> = ({ onChange }) => {
   ]);
 
   useEffect(() => {
-    // 초기에 선택된 라디오의 ID 배열을 부모 컴포넌트로 전달
-    const initCheckedId = radios.find(radio => radio.checked)?.id;
-    if (initCheckedId !== undefined) {
-      onChange(initCheckedId);
+    // 초기에 선택된 라디오의 label을 부모 컴포넌트로 전달
+    const initCheckedLabel = radios.find(radio => radio.checked);
+    if (initCheckedLabel) {
+      onChange(initCheckedLabel.id, initCheckedLabel.label);
     }
   }, []);
 
@@ -41,8 +41,11 @@ const TSRadioInput: React.FC<RadioProps> = ({ onChange }) => {
     }));
     setRadios(updateRadios);
 
-    // 선택된 라디오 버튼을 부모 컴포넌트로 전달
-    onChange(optionId);
+    // 선택된 라디오 버튼의 label을 부모 컴포넌트로 전달
+    const selectedRadio = updateRadios.find(radio => radio.id === optionId);
+    if (selectedRadio) {
+      onChange(selectedRadio.id, selectedRadio.label);
+    }
   };
 
   return (
