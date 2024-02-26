@@ -56,8 +56,8 @@ import {
 import { useQuery } from "@tanstack/react-query";
 import { getGInfoTS } from "../../api/typeApi";
 import { Glist } from "./Meat";
-// import TSMeatReviewCard from "./TSMeatReviewCard";
 import store from "../../store/store";
+import TSMeatReviewCard from "./TSMeatReviewCard";
 
 const initState: Glist = {
   ishop: 0,
@@ -358,74 +358,11 @@ const MeatDetailPage = () => {
               storeInfo?.reviews
                 .slice(0, visualReview)
                 .map((review: Glist["reviews"][0], index: number) => (
-                  <ReviewItemWrap key={index}>
-                    {/* Image */}
-                    <ImgStyle>
-                      <LargeImgStyle>
-                        {review.pic && review.pic.length == 0 ? (
-                          <img
-                            src={
-                              process.env.PUBLIC_URL +
-                              `/assets/images/favicon.png`
-                            }
-                            alt=""
-                          />
-                        ) : (
-                          <img
-                            src={`${baseApi}/pic/shop/${storeInfo.ishop}/review/${review.ireview}/${review.pic[0]}`}
-                            alt="Large image"
-                          />
-                        )}
-                      </LargeImgStyle>
-                      <ThumbnailStyle>
-                        {review.pic.slice(1, 5).map(
-                          (pic, index) =>
-                            pic && (
-                              <div className="thumbnail" key={index}>
-                                <img
-                                  src={`${baseApi}/pic/shop/${
-                                    storeInfo.ishop
-                                  }/review/${review.ireview}/${
-                                    review.pic[`${index}`]
-                                  }`}
-                                  alt={`img_${index + 1}`}
-                                />
-                              </div>
-                            ),
-                        )}
-                      </ThumbnailStyle>
-                    </ImgStyle>
-                    <ReviewContentmWrap>
-                      <ReviewProfileWrap>
-                        <ReviewProfileImage>
-                          {review.writerPic ? (
-                            <img
-                              src={`${baseApi}/pic/user/${review.iuser}/${review.writerPic}`}
-                              alt="프로필사진"
-                            />
-                          ) : (
-                            <img
-                              src={`${process.env.PUBLIC_URL}/assets/images/user_profile.png`}
-                              alt="기본사진"
-                            />
-                          )}
-                        </ReviewProfileImage>
-                        <ReviewUserProfile>
-                          <div>
-                            <span>{review.nickname}</span>
-                          </div>
-                          <CountingStar star={review.star} />
-                        </ReviewUserProfile>
-                      </ReviewProfileWrap>
-                      <ReviewContent>
-                        <p>{review.review}</p>
-                      </ReviewContent>
-                    </ReviewContentmWrap>
-                  </ReviewItemWrap>
+                  <div key={index}>
+                    <TSMeatReviewCard reviewData={storeInfo?.reviews[0]} />
+                  </div>
                 ))}
           </ReviewContentWrap>
-
-          <div>{/* <TSMeatReviewCard reviewData={storeInfo.review} /> */}</div>
 
           {storeInfo?.reviews?.length === 0 ? (
             <div></div>
