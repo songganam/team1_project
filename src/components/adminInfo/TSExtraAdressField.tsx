@@ -1,4 +1,4 @@
-import { useEffect, useState } from "react";
+import { ChangeEvent, useEffect, useState } from "react";
 import {
   TSInputStyle,
   TSTextFieldAdressStyle,
@@ -10,15 +10,17 @@ interface AdressFieldProps {
   value: string; // 부모 컴포넌트에서 관리
   name?: string;
   readonly?: boolean;
+  onChange: (e: ChangeEvent<HTMLInputElement>) => void;
 }
 // 텍스트필드 스타일 props 타입 정의
 type AdressFieldStateProps = "default" | "focus" | "error" | "filled";
 
-const TSAdressField: React.FC<AdressFieldProps> = ({
+const TSExtraAdressField: React.FC<AdressFieldProps> = ({
   placeholder,
   value,
   name,
   readonly,
+  onChange,
 }) => {
   // 스타일컴포넌트 props 상태 관리
   const [state, setState] = useState<AdressFieldStateProps>("default");
@@ -45,6 +47,7 @@ const TSAdressField: React.FC<AdressFieldProps> = ({
         name={name}
         value={value || ""}
         readOnly={readonly}
+        onChange={onChange}
         onFocus={handleFocus}
         onBlur={handleBlur}
       />
@@ -52,4 +55,4 @@ const TSAdressField: React.FC<AdressFieldProps> = ({
   );
 };
 
-export default TSAdressField;
+export default TSExtraAdressField;

@@ -12,7 +12,7 @@ interface CheckboxOption {
 
 // 체크박스 props 타입 정의
 interface CheckboxProps {
-  onChange: (selected: string[]) => void; // 선택된 체크박스의 ID배열을 외부로 전달
+  onChange: (selected: Array<{ id: string; label: string }>) => void; // 선택된 체크박스의 ID배열을 외부로 전달
 }
 
 const TSCheckBoxInput: React.FC<CheckboxProps> = ({ onChange }) => {
@@ -28,7 +28,7 @@ const TSCheckBoxInput: React.FC<CheckboxProps> = ({ onChange }) => {
       // 선택된 체크박스만 필터링
       .filter(checkbox => checkbox.checked)
       // 그 ID를 배열로 만듦
-      .map(checkbox => checkbox.id);
+      .map(checkbox => ({ id: checkbox.id, label: checkbox.label }));
     // 초기에 선택된 체크박스의 ID 배열을 부모 컴포넌트로 전달
     onChange(initChecked);
   }, []);
@@ -47,7 +47,7 @@ const TSCheckBoxInput: React.FC<CheckboxProps> = ({ onChange }) => {
     // 선택된 체크박스의 ID배열을 계산
     const selectedOptionIds = updateCheckboxes
       .filter(checkbox => checkbox.checked)
-      .map(checkbox => checkbox.id);
+      .map(checkbox => ({ id: checkbox.id, label: checkbox.label }));
     // 선택된 체크박스의 ID배열을 부모 컴포넌트로 전달
     onChange(selectedOptionIds);
   };
