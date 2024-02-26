@@ -78,6 +78,7 @@ const AboutPage = () => {
     navigate(`/community/read/${iboard}`);
   };
 
+  console.log("test", aboutData);
   return (
     <Layout>
       {isModal.isOpen && (
@@ -114,12 +115,11 @@ const AboutPage = () => {
                   ></img>
                   <div className="AboutCardTitle">{aboutData.gogi[0].name}</div>
                   <div className="AboutCardPrice">
-
                     {aboutData.gogi[0].menu}{" "}
                     {new Intl.NumberFormat("ko-KR").format(
                       aboutData.gogi[0].price,
-                    )}원
-
+                    )}
+                    원
                   </div>
                   <AboutCardButton>
                     <DefaultBt
@@ -152,7 +152,8 @@ const AboutPage = () => {
                     {aboutData.gogi[1].menu}{" "}
                     {new Intl.NumberFormat("ko-KR").format(
                       aboutData.gogi[1].price,
-                    )}원
+                    )}
+                    원
                   </div>
                   <AboutCardButton>
                     <DefaultBt
@@ -193,7 +194,8 @@ const AboutPage = () => {
                     {aboutData.gogi[2].menu}{" "}
                     {new Intl.NumberFormat("ko-KR").format(
                       aboutData.gogi[2].price,
-                    )}원
+                    )}
+                    원
                   </div>
                   <AboutCardButton>
                     <DefaultBt
@@ -226,7 +228,8 @@ const AboutPage = () => {
                     {aboutData.gogi[3].menu}{" "}
                     {new Intl.NumberFormat("ko-KR").format(
                       aboutData.gogi[3].price,
-                    )}원
+                    )}
+                    원
                   </div>
                   <AboutCardButton>
                     <DefaultBt
@@ -324,7 +327,7 @@ const AboutPage = () => {
                     src={`${comuhost}${aboutData.commu[1].iboard}/${aboutData.commu[1].pic}`}
                   />
                 </div>
-                <div
+                {/* <div
                   className="smalltwo"
                   onClick={e => handleCommuClick(aboutData.commu[2].iboard)}
                 >
@@ -347,7 +350,7 @@ const AboutPage = () => {
                   <img
                     src={`${comuhost}${aboutData.commu[4].iboard}/${aboutData.commu[4].pic}`}
                   />
-                </div>
+                </div> */}
               </CommunityImages>
             </AboutPageCommunity>
           </AboutPageMain>
