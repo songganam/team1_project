@@ -8,6 +8,7 @@ import {
   AdminPageMenu,
   AdminPageWrapper,
 } from "./styles/AdminPageStyle";
+import { ColorStyle } from "../../styles/common/CommonStyle";
 
 const AdminPage = () => {
   // 패스 이동
@@ -50,11 +51,61 @@ const AdminPage = () => {
         <AdminPageData>
           <AdiminPageMenuBar>
             <AdminPageMenu>
-              <button onClick={handleClickAdInfo}>매장 정보 관리</button>
-              <button onClick={handleClickAdMenu}>메뉴 관리</button>
-              <button onClick={handleClickAdBook}>예약 관리</button>
-              <button onClick={handleClickAdReview}>리뷰 관리</button>
-              <button onClick={handleClickAdDoc}>매장 분석</button>
+              <button
+                onClick={handleClickAdInfo}
+                style={{
+                  color:
+                    activeButton === "/admin/info"
+                      ? `${ColorStyle.grayScale}`
+                      : `${ColorStyle.g600}`,
+                }}
+              >
+                매장 정보 관리
+              </button>
+              <button
+                onClick={handleClickAdMenu}
+                style={{
+                  color:
+                    activeButton === "/admin/menu"
+                      ? `${ColorStyle.grayScale}`
+                      : `${ColorStyle.g600}`,
+                }}
+              >
+                메뉴 관리
+              </button>
+              <button
+                onClick={handleClickAdBook}
+                style={{
+                  color:
+                    activeButton === "/admin/book"
+                      ? `${ColorStyle.grayScale}`
+                      : `${ColorStyle.g600}`,
+                }}
+              >
+                예약 관리
+              </button>
+              <button
+                onClick={handleClickAdReview}
+                style={{
+                  color:
+                    activeButton === "/admin/review"
+                      ? `${ColorStyle.grayScale}`
+                      : `${ColorStyle.g600}`,
+                }}
+              >
+                리뷰 관리
+              </button>
+              <button
+                onClick={handleClickAdDoc}
+                style={{
+                  color:
+                    activeButton === "/admin/doc"
+                      ? `${ColorStyle.grayScale}`
+                      : `${ColorStyle.g600}`,
+                }}
+              >
+                매장 분석
+              </button>
             </AdminPageMenu>
           </AdiminPageMenuBar>
           <AdminPageContent>
