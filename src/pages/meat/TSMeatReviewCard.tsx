@@ -50,7 +50,7 @@ const TSMeatReviewCard = ({ reviewData }: { reviewData: ReviewDataForm }) => {
 
   return (
     <div>
-      {/* <ReviewCardWrap>
+      <ReviewCardWrap>
         <div style={{ width: "100%", display: "flex" }}>
           <div>
             <ContentWrap>
@@ -116,7 +116,7 @@ const TSMeatReviewCard = ({ reviewData }: { reviewData: ReviewDataForm }) => {
             </ContentWrap>
           </div>
         </div>
-      </ReviewCardWrap> */}
+      </ReviewCardWrap>
     </div>
   );
 };
