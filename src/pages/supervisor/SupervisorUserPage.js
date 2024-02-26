@@ -8,8 +8,30 @@ import {
   SvisorTable,
 } from "./styles/SupervisorReportStyle";
 import { useState } from "react";
+import { API_SERVER_HOST, getUser } from "../../api/userApi";
+import { useQuery } from "react-query";
 
-const SupervisorReportPage = () => {
+const userHost = API_SERVER_HOST;
+
+const initState = [
+  {
+    iuser: 0,
+    name: "string",
+    id: "string",
+    number: "string",
+    state: 0,
+  },
+];
+
+const SupervisorReportPage = ({ row }) => {
+  const { data:any, isFetching } = useQuery({
+    queryKey: ["products", row],
+    queryFn: () => getUser({ row }),
+    staleTime: 1000 * 60,
+  });
+
+  const product = data || initState;
+
   // 옵션 셀렉트
   // 선택된 값을 관리할 상태
   const [selectedValue, setSelectedValue] = useState("");

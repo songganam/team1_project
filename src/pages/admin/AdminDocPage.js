@@ -9,6 +9,7 @@ import {
   AdminDocBox,
   AdminDocContainer,
   AdminDocMain,
+  BoxChart,
   BoxContent,
   BoxTop,
   DocMainTop,
@@ -22,7 +23,12 @@ import AdminHeader from "../../components/adminInfo/AdminHeader";
 const AdminDocPage = () => {
   return (
     <SvisorReportWrap>
-      <AdminHeader title="매장 분석" />
+      <SupervisorReportHeader>
+        <div className="page-title">매장 분석</div>
+        <div>
+          <Button bttext="저장" />
+        </div>
+      </SupervisorReportHeader>
       <AdminDocMain>
         <DocMainTop>
           <div className="title">
@@ -62,8 +68,10 @@ const AdminDocPage = () => {
               <span>34</span>
             </BoxContent>
           </AdminDocBox>
-          
         </AdminDocBoard>
+          <BoxChart>
+            <span>차트</span>
+          </BoxChart>
       </AdminDocMain>
     </SvisorReportWrap>
   );
