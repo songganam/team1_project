@@ -134,5 +134,5 @@ export const SelectBtnItem = styled.div`
   gap: 10px;
 `;
 export const ReviewCardWrap = styled.div`
-  padding: 0px 10px;
+  padding: 80px 10px;
 `;

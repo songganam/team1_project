@@ -109,7 +109,7 @@ const MeatDetailPage = () => {
   });
 
   const storeInfo = data || initState;
-  // console.log("R-Query Response : ", storeInfo);
+  console.log("R-Query Response : ", storeInfo);
   // console.log("R-Query Params ", ishop);
 
   const isBookInfo = storeInfo.isBook;
@@ -359,7 +359,7 @@ const MeatDetailPage = () => {
                 .slice(0, visualReview)
                 .map((review: Glist["reviews"][0], index: number) => (
                   <div key={index}>
-                    <TSMeatReviewCard reviewData={storeInfo?.reviews[0]} />
+                    <TSMeatReviewCard reviewData={storeInfo?.reviews[index]} />
                   </div>
                 ))}
           </ReviewContentWrap>

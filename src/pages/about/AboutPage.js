@@ -111,20 +111,22 @@ const AboutPage = () => {
                 <AboutCardWrap>
                   <img
                     className="AboutCardImg"
-                    src={`${host}${aboutData.gogi[0].ishop}/shop_pic/${aboutData.gogi[0].pic}`}
+                    src={`${host}${aboutData.gogi[0]?.ishop}/shop_pic/${aboutData.gogi[0]?.pic}`}
                   ></img>
-                  <div className="AboutCardTitle">{aboutData.gogi[0].name}</div>
+                  <div className="AboutCardTitle">
+                    {aboutData.gogi[0]?.name}
+                  </div>
                   <div className="AboutCardPrice">
-                    {aboutData.gogi[0].menu}{" "}
+                    {aboutData.gogi[0]?.menu}{" "}
                     {new Intl.NumberFormat("ko-KR").format(
-                      aboutData.gogi[0].price,
+                      aboutData.gogi[0]?.price,
                     )}
                     원
                   </div>
                   <AboutCardButton>
                     <DefaultBt
                       className="InfoButton"
-                      onClick={e => handleInfoClick(aboutData.gogi[0].ishop)}
+                      onClick={e => handleInfoClick(aboutData.gogi[0]?.ishop)}
                     >
                       상세보기
                     </DefaultBt>
@@ -132,8 +134,8 @@ const AboutPage = () => {
                       className="BookButton"
                       onClick={e =>
                         handleReserClick(
-                          aboutData.gogi[0].ishop,
-                          aboutData.gogi[0].name,
+                          aboutData.gogi[0]?.ishop,
+                          aboutData.gogi[0]?.name,
                         )
                       }
                     >
@@ -145,20 +147,22 @@ const AboutPage = () => {
                 <AboutCardWrap>
                   <img
                     className="AboutCardImg"
-                    src={`${host}${aboutData.gogi[1].ishop}/shop_pic/${aboutData.gogi[1].pic}`}
+                    src={`${host}${aboutData.gogi[1]?.ishop}/shop_pic/${aboutData.gogi[1]?.pic}`}
                   />
-                  <div className="AboutCardTitle">{aboutData.gogi[1].name}</div>
+                  <div className="AboutCardTitle">
+                    {aboutData.gogi[1]?.name}
+                  </div>
                   <div className="AboutCardPrice">
-                    {aboutData.gogi[1].menu}{" "}
+                    {aboutData.gogi[1]?.menu}{" "}
                     {new Intl.NumberFormat("ko-KR").format(
-                      aboutData.gogi[1].price,
+                      aboutData.gogi[1]?.price,
                     )}
                     원
                   </div>
                   <AboutCardButton>
                     <DefaultBt
                       className="InfoButton"
-                      onClick={e => handleInfoClick(aboutData.gogi[1].ishop)}
+                      onClick={e => handleInfoClick(aboutData.gogi[1]?.ishop)}
                     >
                       상세보기
                     </DefaultBt>
@@ -167,8 +171,8 @@ const AboutPage = () => {
                       className="BookButton"
                       onClick={e =>
                         handleReserClick(
-                          aboutData.gogi[1].ishop,
-                          aboutData.gogi[1].name,
+                          aboutData.gogi[1]?.ishop,
+                          aboutData.gogi[1]?.name,
                         )
                       }
                     >
@@ -313,44 +317,44 @@ const AboutPage = () => {
               <CommunityImages>
                 <div
                   className="BigImage"
-                  onClick={e => handleCommuClick(aboutData.commu[0].iboard)}
+                  onClick={e => handleCommuClick(aboutData.commu[0]?.iboard)}
                 >
                   <img
-                    src={`${comuhost}${aboutData.commu[0].iboard}/${aboutData.commu[0].pic}`}
+                    src={`${comuhost}${aboutData.commu[0]?.iboard}/${aboutData.commu[0]?.pic}`}
                   />
                 </div>
                 <div
                   className="smallone"
-                  onClick={e => handleCommuClick(aboutData.commu[1].iboard)}
+                  onClick={e => handleCommuClick(aboutData.commu[1]?.iboard)}
                 >
                   <img
-                    src={`${comuhost}${aboutData.commu[1].iboard}/${aboutData.commu[1].pic}`}
+                    src={`${comuhost}${aboutData.commu[1]?.iboard}/${aboutData.commu[1]?.pic}`}
                   />
                 </div>
-                {/* <div
+                <div
                   className="smalltwo"
-                  onClick={e => handleCommuClick(aboutData.commu[2].iboard)}
+                  onClick={e => handleCommuClick(aboutData.commu[2]?.iboard)}
                 >
                   <img
-                    src={`${comuhost}${aboutData.commu[2].iboard}/${aboutData.commu[2].pic}`}
+                    src={`${comuhost}${aboutData.commu[2]?.iboard}/${aboutData.commu[2]?.pic}`}
                   />
                 </div>
                 <div
                   className="smallthree"
-                  onClick={e => handleCommuClick(aboutData.commu[3].iboard)}
+                  onClick={e => handleCommuClick(aboutData.commu[3]?.iboard)}
                 >
                   <img
-                    src={`${comuhost}${aboutData.commu[3].iboard}/${aboutData.commu[3].pic}`}
+                    src={`${comuhost}${aboutData.commu[3]?.iboard}/${aboutData.commu[3]?.pic}`}
                   />
                 </div>
                 <div
                   className="smallfour"
-                  onClick={e => handleCommuClick(aboutData.commu[4].iboard)}
+                  onClick={e => handleCommuClick(aboutData.commu[4]?.iboard)}
                 >
                   <img
-                    src={`${comuhost}${aboutData.commu[4].iboard}/${aboutData.commu[4].pic}`}
+                    src={`${comuhost}${aboutData.commu[4]?.iboard}/${aboutData.commu[4]?.pic}`}
                   />
-                </div> */}
+                </div>
               </CommunityImages>
             </AboutPageCommunity>
           </AboutPageMain>

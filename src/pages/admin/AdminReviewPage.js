@@ -9,6 +9,7 @@ import { getReview } from "../../api/meatApi";
 import ReviewCard from "./ReviewCard";
 import "./styles.css";
 import { ReviewWrap } from "./styles/AdminReviewStyle";
+import { TSNavStyle } from "../../components/adminInfo/styles/TSModifyStyle";
 
 const initState = [
   {
@@ -33,6 +34,12 @@ const AdminReviewPage = () => {
 
   return (
     <ReviewWrap>
+      <TSNavStyle>
+        <div className="page-title">매장 리뷰 관리</div>
+        {/* 나중에 type="submit"으로 변경해야함 */}
+        {/* <ButtonStyleTS type="button">저장</ButtonStyleTS> */}
+      </TSNavStyle>
+
       <div style={{ width: "100%", display: "flex" }}>
         {reviewData?.slice(0, 3).map((item, index) => (
           <div key={item.iuser}>
