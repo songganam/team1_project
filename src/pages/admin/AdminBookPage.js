@@ -8,14 +8,19 @@ import {
   AdminBookPageWrapper,
   AdminNoShowCardBt,
   AdminNoShowInner,
+  NavStyle,
 } from "./styles/AdminBookpageStyle";
-import AdminHeader from "../../components/adminInfo/AdminHeader";
 import Button from "../../components/button/Button";
 
 const AdminBookPage = () => {
   return (
     <AdminBookPageWrapper>
-      <AdminHeader title="예약 관리" />
+      <NavStyle>
+        <div className="page-title">예약 관리</div>
+        <div>
+          <Button bttext="저장" />
+        </div>
+      </NavStyle>
       <AdminBookPageContent>
         <AdminBookInner>
           <p>신규 예약 목록</p>
