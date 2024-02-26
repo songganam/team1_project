@@ -56,6 +56,8 @@ import {
 import { useQuery } from "@tanstack/react-query";
 import { getGInfoTS } from "../../api/typeApi";
 import { Glist } from "./Meat";
+// import TSMeatReviewCard from "./TSMeatReviewCard";
+import store from "../../store/store";
 
 const initState: Glist = {
   ishop: 0,
@@ -105,6 +107,7 @@ const MeatDetailPage = () => {
     queryFn: () => getGInfoTS({ ishop, isLogin }),
     staleTime: 1000 * 60,
   });
+
   const storeInfo = data || initState;
   // console.log("R-Query Response : ", storeInfo);
   // console.log("R-Query Params ", ishop);
@@ -421,6 +424,8 @@ const MeatDetailPage = () => {
                   </ReviewItemWrap>
                 ))}
           </ReviewContentWrap>
+
+          <div>{/* <TSMeatReviewCard reviewData={storeInfo.review} /> */}</div>
 
           {storeInfo?.reviews?.length === 0 ? (
             <div></div>
