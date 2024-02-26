@@ -17,9 +17,11 @@ export const AdminNoshowCardWrapper = styled.div`
 export const AdminNoshowContent = styled.div`
   position: relative;
   display: flex;
-  p {
+  justify-content: center !important;
+  align-items: center !important;
+  b {
     font-family: Pretendard;
-    font-size: 14px;
+    font-size: 14px !important;
     font-style: normal;
     font-weight: 600;
     margin-right: 30px;

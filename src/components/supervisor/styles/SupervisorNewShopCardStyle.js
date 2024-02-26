@@ -1,8 +1,9 @@
 import styled from "@emotion/styled";
 
 export const SupervisorNewShopWrapper = styled.div`
-  display: inline-flex;
-  align-items: flex-start;
+  position: relative;
+  display: flex;
+  align-items: center;
   gap: 56px;
   width: 690px;
   height: 400px;
@@ -28,8 +29,8 @@ export const SupervisorNewShopInner = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  justify-content: center;
-  height: 400px;
+  justify-content: space-between;
+  height: 330px;
   gap: 100px;
 `;
 
@@ -41,21 +42,27 @@ export const SupervisorNewShopInfo = styled.div`
 
 export const NewShopTitle = styled.div`
   font-family: Pretendard;
-  font-size: 14px;
+  font-size: 16px;
   font-style: normal;
   font-weight: 600;
+  li {
+    margin-bottom: 24px;
+  }
 `;
 
 export const NewShopContent = styled.div`
   font-family: Pretendard;
-  font-size: 14px;
+  font-size: 16px;
   font-style: normal;
   font-weight: 400;
+  li {
+    margin-bottom: 24px;
+  }
 `;
 
 export const SupervisorNewShopButton = styled.div`
   display: flex;
-  width: 214px;
   align-items: flex-start;
   gap: 30px;
+  margin-left: 45px;
 `;

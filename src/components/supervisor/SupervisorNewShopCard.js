@@ -32,8 +32,8 @@ const SupervisorNewShopCard = () => {
           </NewShopContent>
         </SupervisorNewShopInfo>
         <SupervisorNewShopButton>
-          <Button bttext="입점 승인"></Button>
-          <Button bttext="입점 거부"></Button>
+          <Button bttext="승인"></Button>
+          <Button bttext="거부"></Button>
         </SupervisorNewShopButton>
       </SupervisorNewShopInner>
     </SupervisorNewShopWrapper>

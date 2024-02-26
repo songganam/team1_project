@@ -1,7 +1,7 @@
 import React from "react";
 import SupervisorNewShopCard from "../../components/supervisor/SupervisorNewShopCard";
-import AdminHeader from "../../components/adminInfo/AdminHeader";
 import {
+  NavStyle,
   SupervisorNewShopBt,
   SupervisorNewShopInner,
   SupervisorShopBt,
@@ -16,7 +16,12 @@ import SupervisorShopCard from "../../components/supervisor/SupervisorShopCard";
 const SupervisorShopPage = () => {
   return (
     <SupervisorShopPageWrapper>
-      <AdminHeader title="매장 관리"></AdminHeader>
+      <NavStyle>
+        <div className="page-title">매장 관리</div>
+        <div>
+          <Button bttext="저장" />
+        </div>
+      </NavStyle>
       <SupervisorShopPageContent>
         <SupervisorNewShopInner>
           <p>신규 입점 매장 목록</p>
