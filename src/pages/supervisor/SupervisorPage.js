@@ -8,6 +8,7 @@ import {
   SupervisorPageMenuBar,
   SupervisorPageWrapper,
 } from "./styles/SupervisorPageStyle";
+import { ColorStyle } from "../../styles/common/CommonStyle";
 
 const SupervisorPage = () => {
   // 패스 이동
@@ -44,10 +45,50 @@ const SupervisorPage = () => {
         <SupervisorPageData>
           <SupervisorPageMenuBar>
             <SupervisorPageMenu>
-              <button onClick={handleClickSvShop}>매장 관리</button>
-              <button onClick={handleClickSvUser}>유저 관리</button>
-              <button onClick={handleClickSvReport}>신고 관리</button>
-              <button onClick={handleClickSvNotice}>공지사항 등록</button>
+              <button
+                onClick={handleClickSvShop}
+                style={{
+                  color:
+                    activeButton === "/svisor/shop"
+                      ? `${ColorStyle.grayScale}`
+                      : `${ColorStyle.g600}`,
+                }}
+              >
+                매장 관리
+              </button>
+              <button
+                onClick={handleClickSvUser}
+                style={{
+                  color:
+                    activeButton === "/svisor/user"
+                      ? `${ColorStyle.grayScale}`
+                      : `${ColorStyle.g600}`,
+                }}
+              >
+                유저 관리
+              </button>
+              <button
+                onClick={handleClickSvReport}
+                style={{
+                  color:
+                    activeButton === "/svisor/report"
+                      ? `${ColorStyle.grayScale}`
+                      : `${ColorStyle.g600}`,
+                }}
+              >
+                신고 관리
+              </button>
+              <button
+                onClick={handleClickSvNotice}
+                style={{
+                  color:
+                    activeButton === "/svisor/notice"
+                      ? `${ColorStyle.grayScale}`
+                      : `${ColorStyle.g600}`,
+                }}
+              >
+                공지사항 등록
+              </button>
             </SupervisorPageMenu>
           </SupervisorPageMenuBar>
           <SupervisorPageContent>

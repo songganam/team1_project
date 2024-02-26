@@ -15,7 +15,7 @@ import Button from "../../components/button/Button";
 const AdminBookPage = () => {
   return (
     <AdminBookPageWrapper>
-      <AdminHeader title="예약 관리"></AdminHeader>
+      <AdminHeader title="예약 관리" />
       <AdminBookPageContent>
         <AdminBookInner>
           <p>신규 예약 목록</p>

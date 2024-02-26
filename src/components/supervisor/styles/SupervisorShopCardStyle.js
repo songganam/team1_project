@@ -1,6 +1,6 @@
 import styled from "@emotion/styled";
 
-export const SupervisorNewShopWrapper = styled.div`
+export const SupervisorShopWrapper = styled.div`
   display: inline-flex;
   align-items: flex-start;
   gap: 56px;
@@ -13,7 +13,7 @@ export const SupervisorNewShopWrapper = styled.div`
     0px 2px 3px 0px rgba(0, 0, 0, 0.1);
 `;
 
-export const SupervisorNewShopVisual = styled.div`
+export const SupervisorShopVisual = styled.div`
   position: relative;
   display: block;
   margin: auto 0;
@@ -23,37 +23,37 @@ export const SupervisorNewShopVisual = styled.div`
   border-radius: 5px;
 `;
 
-export const SupervisorNewShopInner = styled.div`
+export const SupervisorShopInner = styled.div`
   position: relative;
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   justify-content: center;
-  height: 400px;
+  height: 330px;
   gap: 100px;
 `;
 
-export const SupervisorNewShopInfo = styled.div`
+export const SupervisorShopInfo = styled.div`
   display: flex;
   align-items: flex-start;
   gap: 30px;
 `;
 
-export const NewShopTitle = styled.div`
+export const ShopTitle = styled.div`
   font-family: Pretendard;
   font-size: 14px;
   font-style: normal;
   font-weight: 600;
 `;
 
-export const NewShopContent = styled.div`
+export const ShopContent = styled.div`
   font-family: Pretendard;
   font-size: 14px;
   font-style: normal;
   font-weight: 400;
 `;
 
-export const SupervisorNewShopButton = styled.div`
+export const SupervisorShopButton = styled.div`
   display: flex;
   width: 214px;
   align-items: flex-start;
