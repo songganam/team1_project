@@ -10,31 +10,25 @@ import {
   SwiperWrap,
 } from "../admin/styles/AdminPageStyle";
 
+import { useParams } from "react-router";
 import "swiper/css";
 import "swiper/css/free-mode";
 import "swiper/css/navigation";
 import "swiper/css/thumbs";
 import { FreeMode, Navigation, Thumbs } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
-import {
-  MiniBtn,
-  ReviewCardWrap,
-  ReviewContent,
-  ReviewDate,
-  ReviewInput,
-  ReviewReplyBtnWrap,
-  ReviewShowTop,
-  ReviewShowWrap,
-  ReviewWrtier,
-  SelectBtnItem,
-  SelectBtnWrap,
-} from "../admin/styles/AdminReviewStyle";
+import { API_SERVER_HOST } from "../../api/config";
+import { ReviewCardWrap } from "../admin/styles/AdminReviewStyle";
 import { ReviewDataForm } from "./Meat";
 
 const TSMeatReviewCard = ({ reviewData }: { reviewData: ReviewDataForm }) => {
-  console.log("value", reviewData);
+  const { ishop } = useParams();
+  console.log("ishop", ishop);
+  console.log("value임", reviewData);
   const [thumbsSwiper, setThumbsSwiper] = useState(null);
 
+  const baseApi = API_SERVER_HOST;
+  // const host = `${baseApi}/pic/shop/${ishop}/shop_pic/`;
   const handleClickReply = () => {
     console.log("작성이 완료되었습니다.");
   };
@@ -66,7 +60,9 @@ const TSMeatReviewCard = ({ reviewData }: { reviewData: ReviewDataForm }) => {
                 >
                   {reviewData?.pic.map((pic, index) => (
                     <SwiperSlide key={index}>
-                      <img src={pic} />
+                      <img
+                        src={`${baseApi}/pic/shop/${ishop}/review/${reviewData.ireview}/${reviewData.pic[index]}`}
+                      />
                     </SwiperSlide>
                   ))}
                 </Swiper>
@@ -82,7 +78,9 @@ const TSMeatReviewCard = ({ reviewData }: { reviewData: ReviewDataForm }) => {
                 >
                   {reviewData?.pic.map((pic, index) => (
                     <SwiperSlide key={index}>
-                      <img src={pic} />
+                      <img
+                        src={`${baseApi}/pic/shop/${ishop}/review/${reviewData.ireview}/${reviewData.pic[index]}`}
+                      />
                     </SwiperSlide>
                   ))}
                 </Swiper>

@@ -44,3 +44,20 @@ export const loginAdminPostTS = async ({
     console.log(error);
   }
 };
+
+export const postSignUpTS = async ({
+  signUpData,
+}: {
+  signUpData: FormData;
+}) => {
+  try {
+    const response = await axios.post(
+      `${API_SERVER_HOST}/owner/signup`,
+      signUpData,
+    );
+    return response.data;
+  } catch (error) {
+    console.log("");
+    throw error;
+  }
+};

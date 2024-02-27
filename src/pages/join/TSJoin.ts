@@ -34,3 +34,14 @@ export interface SigninForm {
   id?: string;
   upw: string;
 }
+
+export interface BNumForm {
+  b_no: string[];
+}
+
+export interface BusiResponse {
+  compCode: string;
+  compStt: string;
+  matchCnt: number;
+  statusCode: string;
+}

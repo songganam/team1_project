@@ -47,7 +47,7 @@ const LazyAdminPage = lazy(() => import("../pages/admin/AdminPage"));
 const LazySupervisorPage = lazy(() =>
   import("../pages/supervisor/SupervisorPage"),
 );
-const LazyAdSignupPage = lazy(() => import("../pages/join/JS/AdminSignUpPage"));
+const LazyAdSignupPage = lazy(() => import("../pages/join/TSAdminSignUpPage"));
 
 // 테스트용 페이지
 const LazyGaraPage = lazy(() => import("../redux/GaraLogin"));

@@ -1,21 +1,23 @@
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useRecoilState, useResetRecoilState } from "recoil";
-import { loginPostTS } from "../../../api/SignApi";
+import { loginAdminPostTS, loginPostTS } from "../../../api/SignApi";
 import { loginAdminPost } from "../../../api/loginApi";
 import { atomSignState } from "../../../atom/atomSignState";
 import { SigninForm } from "../../../pages/join/TSJoin";
 import { removeCookie, setCookie } from "../../../util/CookiesUtil";
+import { atomAdminState } from "../../../atom/atomAdminState";
 
 const useCustomLoginTS = () => {
   const [loginState, setLoginState] = useRecoilState(atomSignState);
+  const [manageState, setManageState] = useRecoilState(atomAdminState);
   const resetSignState = useResetRecoilState(atomSignState);
 
   const navigate = useNavigate();
   const API_SERVER_HOST = "";
   const host = `${API_SERVER_HOST}/api/user`;
 
-  const isLogin = loginState.result == 1 ? true : false;
+  const isLogin = loginState.result || manageState.reuslt == 1 ? true : false;
 
   const doLoginTS = async ({ authParam }: { authParam: SigninForm }) => {
     const result = await loginPostTS({ authParam });
@@ -23,14 +25,15 @@ const useCustomLoginTS = () => {
     return result;
   };
 
-  const doAdminLogin = async ({ authParam }: { authParam: SigninForm }) => {
-    const result = await loginAdminPost({ authParam });
+  const doAdminLoginTS = async ({ authParam }: { authParam: SigninForm }) => {
+    const result = await loginAdminPostTS({ authParam });
     saveAsCookie(result);
     return result;
   };
 
   const saveAsCookie = (result: any) => {
     setLoginState(result);
+    setManageState(result);
     setCookie("member", JSON.stringify(result), 1);
   };
 
@@ -67,7 +70,7 @@ const useCustomLoginTS = () => {
     loginState,
     isLogin,
     doLoginTS,
-    doAdminLogin,
+    doAdminLoginTS,
     doLogout,
     moveToPath,
     moveToLogin,

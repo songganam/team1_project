@@ -29,7 +29,7 @@ const initState: SigninForm = {
 const LoginPage = () => {
   const [authParam, setAuthParam] = useState(initState);
   const { doLogin, doAdminLogin, moveToPath } = useCustomLogin();
-  const { doLoginTS } = useCustomLoginTS();
+  const { doLoginTS, doAdminLoginTS } = useCustomLoginTS();
   const { isModal, openModal, closeModal } = useCustomHook();
   const navigate = useNavigate();
   const [loginFlag, setLoginFlag] = useState(0);
@@ -75,12 +75,29 @@ const LoginPage = () => {
     },
   });
   const AdminMutation = useMutation({
-    mutationFn: (authParam: SigninForm) => doAdminLogin({ authParam }),
+    mutationFn: (authParam: SigninForm) => doAdminLoginTS({ authParam }),
     onSuccess: result => {
       console.log("성공", result);
       moveToPath("/");
     },
-    onError: () => {},
+    onError: (error: AxiosError) => {
+      console.log("error log", error.response);
+      if (error.response) {
+        if (error.response.status === 404) {
+          openModal(
+            "로그인 실패",
+            "이메일 또는 비밀번호를 확인해주세요.",
+            closeModal,
+          );
+        } else if (error.response.status === 400) {
+          openModal(
+            "로그인 실패",
+            "이메일 또는 비밀번호를 확인해주세요",
+            closeModal,
+          );
+        }
+      }
+    },
   });
   // QueryClient;
 

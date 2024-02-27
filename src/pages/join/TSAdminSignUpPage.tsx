@@ -1,4 +1,4 @@
-import { ChangeEvent, RefObject, useRef, useState } from "react";
+import { ChangeEvent, MouseEvent, RefObject, useRef, useState } from "react";
 import DaumPostcodeEmbed from "react-daum-postcode";
 import { getCoord, postBusiNum } from "../../api/meatApi";
 import RadioInput from "../../components/adminInfo/RadioInput";
@@ -20,9 +20,12 @@ import {
   JaddPageWrap,
   JaddPwWrap,
 } from "./styles/JaddPageStyle";
-import { AdminJoinData } from "./TSJoin";
+import { AdminJoinData, BNumForm, BusiResponse } from "./TSJoin";
 import { AxiosError, AxiosResponse } from "axios";
 import { SelectedCate } from "../meat/styles/TS_Style";
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { postBusiNumTS } from "../../api/typeApi";
+import { postSignUpTS } from "../../api/SignApi";
 
 const initState: AdminJoinData = {
   pic: [""],
@@ -58,7 +61,10 @@ const AdminJoinPage = () => {
   } = useCustomHook();
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setSignUpData({ ...signUpData, [e.target.name]: e.target.value });
+    setSignUpData({
+      ...signUpData,
+      dto: { ...signUpData.dto, [e.target.name]: e.target.value },
+    });
   };
 
   // @COMMENT Uploading Image
@@ -86,32 +92,63 @@ const AdminJoinPage = () => {
 
   // @COMMENT 사업자 등록이 완료되었다는 Flag
   // b_no:["사업자등록번호"]
+  const bNumMutation = useMutation({
+    mutationFn: (dataForm: BNumForm) => postBusiNumTS({ dataForm }),
+    // 5048525999, 1231231231, 0012402024, 1348711626;
+    onSuccess: (result: BusiResponse) => {
+      const busiStatus = result.compStt;
+      console.log("value ", result);
+      console.log("value ", result.compStt);
+
+      if (busiStatus === "계속사업자") {
+        setCheckFlag(true);
+        console.log("체크 플래그 ", ckeckFlag);
+        console.log("사업자등록번호 인증이 완료되었습니다.");
+      } else {
+        setCheckFlag(false);
+        console.log("체크 플래그 ", ckeckFlag);
+        console.log("폐업을 했거나 존재하지 않는 사업자등록번호입니다.");
+      }
+    },
+    onError: (result: AxiosError) => {
+      console.log("result", result);
+    },
+  });
+  const signUpMutation = useMutation({
+    mutationFn: (signUpData: FormData) => postSignUpTS({ signUpData }),
+    // 5048525999, 1231231231, 0012402024, 1348711626;
+    onSuccess: (result: AxiosResponse) => {
+      // const resultData = result.data[0].b_stt;
+      // console.log("result", resultData);
+      // if (resultData === "계속사업자") {
+      //   setCheckFlag(true);
+      //   console.log("체크 플래그 ", ckeckFlag);
+      //   console.log("사업자등록번호 인증이 완료되었습니다.");
+      // } else {
+      //   setCheckFlag(false);
+      //   console.log("체크 플래그 ", ckeckFlag);
+      //   console.log("폐업을 했거나 존재하지 않는 사업자등록번호입니다.");
+      // }
+    },
+    onError: (result: AxiosError) => {
+      console.log("result", result);
+    },
+  });
+
   const handleClickBusiCheck = () => {
     const dataForm = {
       b_no: [`${signUpData.dto.num}`],
     };
-    postBusiNum({ dataForm, successFn, errorFn });
+    bNumMutation.mutate(dataForm);
   };
 
-  // 5048525999, 1231231231 ,0012402024 , 1348711626
-  const successFn = (result: AxiosResponse) => {
-    const resultData = result.data[0].b_stt;
-    console.log("result", resultData);
-    if (resultData === "계속사업자") {
-      setCheckFlag(true);
-      console.log("체크 플래그 ", ckeckFlag);
-      console.log("사업자등록번호 인증이 완료되었습니다.");
-    } else {
-      setCheckFlag(false);
-      console.log("체크 플래그 ", ckeckFlag);
-      console.log("폐업을 했거나 존재하지 않는 사업자등록번호입니다.");
-    }
-  };
-  const errorFn = (result: AxiosError) => {
-    console.log("result", result);
-  };
+  // const successFn = () => {};
+  // const errorFn = () => {};
 
-  const handleClickPost = () => {
+  const handleClickPost = async (
+    signUpData: AdminJoinData,
+    e: MouseEvent<HTMLDivElement>,
+  ) => {
     // @COMMENT except pic
     const formData = new FormData();
     const dto = new Blob(
@@ -121,7 +158,7 @@ const AdminJoinPage = () => {
           id: signUpData.dto.id,
           upw: signUpData.dto.upw,
           checkUpw: signUpData.dto.checkUpw,
-          num: signUpData.dto.num,
+          number: signUpData.dto.num,
           name: signUpData.dto.name,
           shopName: signUpData.dto.shopName,
           imeat: signUpData.dto.imeat,
@@ -133,11 +170,18 @@ const AdminJoinPage = () => {
       { type: "application/json" },
     );
 
+    formData.append("dto", dto);
+    if (selectedImage !== null) {
+      formData.append("pic", selectedImage);
+    }
+
+    // signUpMutation.mutate(formData);
+
     // console.log("결과값 : ", data);
     if (ckeckFlag === false) {
       alert("님 사업자체크하셈 안댐 이건");
     } else {
-      alert("님통과");
+      signUpMutation.mutate(formData);
     }
   };
 
@@ -472,7 +516,7 @@ const AdminJoinPage = () => {
             <DefaultBt
               type="button"
               className="join-button"
-              onClick={handleClickPost}
+              onClick={e => handleClickPost}
             >
               회원가입
             </DefaultBt>
