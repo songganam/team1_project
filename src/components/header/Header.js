@@ -6,7 +6,7 @@ import Fetching from "../common/Fetching";
 import ResultModal from "../common/ResultModal";
 import SelectedModal from "../common/SelectedModal";
 import useCustomHook from "../meat/hooks/useCustomHook";
-import useCustomLogin from "../meat/hooks/useCustomLogin";
+import useCustomLoginTS from "../meat/hooks/useCustomLoginTS";
 import {
   BarStyle,
   HeaderStyle,
@@ -43,8 +43,10 @@ const Header = () => {
   const authState = useSelector(state => state.authSlice);
   const [myProfileData, setMyProfileData] = useState(initialProfile);
   const dispatch = useDispatch();
-  const { isLogin, moveToPath, doLogout } = useCustomLogin();
+  const { isLogin, moveToPath, doLogout, isSupervisorLogin, isAdminLogin } =
+    useCustomLoginTS();
   const [fetching, setFetching] = useState(false);
+  const [refreshHeader, setRefreshHeader] = useState(false);
 
   // const [refresh, setRefresh] = useState(false);
 
@@ -64,7 +66,7 @@ const Header = () => {
   useEffect(() => {
     const param = {};
     getUserInfo({ param, successFn, failFn, errorFn });
-  }, [refresh]);
+  }, [refresh, refreshHeader]);
 
   const successFn = result => {
     setMyProfileData(result);
@@ -91,6 +93,7 @@ const Header = () => {
           }),
         );
       },
+      // setRefreshHeader(prev => !prev),
       cancelSelectModal,
     );
   };
@@ -119,7 +122,7 @@ const Header = () => {
         </Link>
       </LogoStyle>
       <BarStyle>
-        {isLogin ? (
+        {isLogin || isAdminLogin || isSupervisorLogin ? (
           <JoinStyle>
             <LoginProfile>
               <span>
@@ -142,6 +145,8 @@ const Header = () => {
           {/* <Link to="/sale">마감세일</Link> */}
           <Link to="/community">고기잡담</Link>
           {isLogin ? <Link to="/my">마이페이지</Link> : null}
+          {isAdminLogin ? <Link to="/admin">가게관리</Link> : null}
+          {isSupervisorLogin ? <Link to="/svisor">고기로관리</Link> : null}
         </NavStyle>
       </BarStyle>
     </HeaderStyle>

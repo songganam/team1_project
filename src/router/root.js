@@ -17,8 +17,11 @@ import supervisorRouter from "./supervisorRouter";
 const LazyAboutPage = lazy(() => import("../pages/about/AboutPage"));
 
 // 회원가입, 로그인 페이지
-const LazyLoginPage = lazy(() => import("../pages/login/TSLoginPage"));
-const LazyJoinPage = lazy(() => import("../pages/join/JoinPage"));
+const LazyLoginPage = lazy(() => import("../pages/sign/in/TSAdminSigninPage"));
+const LazyJoinPage = lazy(() => import("../pages/sign/up/UserSignUpPage"));
+const LazySupuervisorSigninPage = lazy(() =>
+  import("../pages/sign/in/TSSupervisorSigninPage"),
+);
 
 // 고깃집 페이지
 const LazyGogiPage = lazy(() => import("../pages/meat/GogiPage"));
@@ -47,11 +50,16 @@ const LazyAdminPage = lazy(() => import("../pages/admin/AdminPage"));
 const LazySupervisorPage = lazy(() =>
   import("../pages/supervisor/SupervisorPage"),
 );
-const LazyAdSignupPage = lazy(() => import("../pages/join/TSAdminSignUpPage"));
+const LazyAdSignupPage = lazy(() =>
+  import("../pages/sign/up/TSAdminSignUpPage"),
+);
 
 // 테스트용 페이지
 const LazyGaraPage = lazy(() => import("../redux/GaraLogin"));
 const LazyPaymentPage = lazy(() => import("../pages/payment/Checkout"));
+// const LazySupervisorSigninPage = lazy(() =>
+//   import("../pages/payment/Checkout"),
+// );
 
 const router = createBrowserRouter([
   {
@@ -198,6 +206,14 @@ const router = createBrowserRouter([
       <Suspense fallback={<Loading />}>
         {/* <LazyPaymentPage /> */}
         <FailPage />
+      </Suspense>
+    ),
+  },
+  {
+    path: "/svisor/signin",
+    element: (
+      <Suspense fallback={<Loading />}>
+        <LazySupuervisorSigninPage />
       </Suspense>
     ),
   },

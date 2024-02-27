@@ -1,13 +1,15 @@
-import React, { useRef, useState } from "react";
+import { useRef, useState } from "react";
 import { Outlet, useNavigate } from "react-router-dom";
-import { nickNameCheck, postJadd } from "../../api/joinApi";
-import Fetching from "../../components/common/Fetching";
-import ResultModal from "../../components/common/ResultModal";
-import SelectedModal from "../../components/common/SelectedModal";
-import useCustomHook from "../../components/meat/hooks/useCustomHook";
-import TitleHeader from "../../components/titleheader/TitleHeader";
-import useCustomMove from "../../hooks/useCustomMove";
-import "../join/JaddPage.css";
+
+import "../up/styles/UserSignUpStyles.css";
+
+import { nickNameCheck, postJadd } from "../../../api/joinApi";
+import Fetching from "../../../components/common/Fetching";
+import ResultModal from "../../../components/common/ResultModal";
+import SelectedModal from "../../../components/common/SelectedModal";
+import useCustomHook from "../../../components/meat/hooks/useCustomHook";
+import TitleHeader from "../../../components/titleheader/TitleHeader";
+import useCustomMove from "../../../hooks/useCustomMove";
 import {
   DefaultBt,
   GenderBtWrap,
@@ -27,7 +29,7 @@ import {
   JaddPageWrap,
   JaddPwWrap,
   NicknameCheck,
-} from "./styles/JaddPageStyle";
+} from "./styles/UserSignUpStyles";
 
 const initState = {
   pic: "",
@@ -42,7 +44,7 @@ const initState = {
   tel: "",
 };
 // 회원가입 작성 페이지입니다.
-const JaddPage = () => {
+const UserSignUpPage = () => {
   // const [todo, setTodo] = useState({});
 
   const [product, setProduct] = useState(initState);
@@ -628,4 +630,4 @@ const JaddPage = () => {
     </JaddPageWrap>
   );
 };
-export default JaddPage;
+export default UserSignUpPage;
