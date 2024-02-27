@@ -1,5 +1,5 @@
 import React from "react";
-import AdminBookCard from "../../components/admin/AdminBookCard";
+import AdminMeatBookCard from "../../components/admin/AdminMeatBookCard";
 import AdminNoShowCard from "../../components/admin/AdminNoShowCard";
 import {
   AdminBookCardBt,
@@ -25,7 +25,7 @@ const AdminBookPage = () => {
         <AdminBookInner>
           <p>신규 예약 목록</p>
           <AdminBookCardBt>
-            <AdminBookCard></AdminBookCard>
+            <AdminMeatBookCard></AdminMeatBookCard>
             <Button bttext="더보기"></Button>
           </AdminBookCardBt>
         </AdminBookInner>
