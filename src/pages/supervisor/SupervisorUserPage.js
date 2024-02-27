@@ -9,9 +9,8 @@ import {
 } from "./styles/SupervisorReportStyle";
 import { useState } from "react";
 import { API_SERVER_HOST, getUser } from "../../api/userApi";
-import { useQuery } from "react-query";
+import { useQuery } from "@tanstack/react-query";
 
-const userHost = API_SERVER_HOST;
 
 const initState = [
   {
@@ -23,14 +22,16 @@ const initState = [
   },
 ];
 
-const SupervisorReportPage = ({ row }) => {
-  const { data:any, isFetching } = useQuery({
-    queryKey: ["products", row],
-    queryFn: () => getUser({ row }),
-    staleTime: 1000 * 60,
+const SupervisorReportPage = () => {
+  const { data } = useQuery({
+    queryKey: ["products"],
+    queryFn: () => getUser(),
   });
+  // console.log(product);
 
-  const product = data || initState;
+  const manageData = data || initState;
+
+  console.log("관리데이터 :", manageData);
 
   // 옵션 셀렉트
   // 선택된 값을 관리할 상태
@@ -50,7 +51,7 @@ const SupervisorReportPage = ({ row }) => {
   };
 
   // 테이블
-  const data = [
+  const Tabledata = [
     {
       name: "송가람",
       id: "ganam",
@@ -88,7 +89,7 @@ const SupervisorReportPage = ({ row }) => {
   ];
   // react-table hook 사용
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
-    useTable({ columns, data });
+    useTable({ columns, data: manageData });
 
   // 삭제 버튼 클릭 시 실행되는 함수
   const handleLockClick = rowData => {
@@ -124,7 +125,7 @@ const SupervisorReportPage = ({ row }) => {
               카테고리
             </option>
             {/* 옵션 목록 매핑 */}
-            {options.map(option => (
+            {options?.map(option => (
               <option key={option.value} value={option.value}>
                 {option.label}
               </option>
@@ -167,7 +168,7 @@ const SupervisorReportPage = ({ row }) => {
             </thead>
             <tbody>
               {/* 테이블 바디 부분 */}
-              {data.map((row, index) => (
+              {Tabledata?.map((row, index) => (
                 <tr
                   key={index}
                   style={{
@@ -180,10 +181,10 @@ const SupervisorReportPage = ({ row }) => {
                   }}
                   className="tableBody"
                 >
-                  <td>{row.name}</td>
-                  <td>{row.id}</td>
-                  <td>{row.number}</td>
-                  <td>{row.state}</td>
+                  <td>{row?.name}</td>
+                  <td>{row?.id}</td>
+                  <td>{row?.number}</td>
+                  <td>{row?.state}</td>
 
                   {/* 삭제 버튼을 클릭할 때 handleDeleteClick 함수 호출 */}
                   <td>
@@ -191,7 +192,7 @@ const SupervisorReportPage = ({ row }) => {
                       onClick={() => handleLockClick(row)}
                       className="delete-bt"
                     >
-                      {row.lock}
+                      {row?.lock}
                     </button>
                   </td>
                   <td>
@@ -199,7 +200,7 @@ const SupervisorReportPage = ({ row }) => {
                       onClick={() => handleUnlockClick(row)}
                       className="cancel-bt"
                     >
-                      {row.unlock}
+                      {row?.unlock}
                     </button>
                   </td>
                 </tr>

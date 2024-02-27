@@ -1,4 +1,7 @@
+import { useQuery } from "@tanstack/react-query";
+import { useEffect, useState } from "react";
 import { useTable } from "react-table";
+import { getReport } from "../../api/reportApi";
 import Button from "../../components/button/Button";
 import {
   SupervisorReportHeader,
@@ -7,31 +10,73 @@ import {
   SvisorReportWrap,
   SvisorTable,
 } from "./styles/SupervisorReportStyle";
-import { useEffect, useState } from "react";
+
+const initState = [
+  {
+    pk: 0,
+    contents: "string",
+    writerNm: "string",
+    count: 0,
+    state: 0,
+  },
+];
 
 const SupervisorReportPage = () => {
+  const { data } = useQuery({
+    queryKey: ["products"],
+    queryFn: () => getReport(),
+  });
 
+  const [manageData, setManageData] = useState(initState);
 
-  // 옵션 셀렉트
-  // 선택된 값을 관리할 상태
+  useEffect(() => {
+    if (data && !data.isLoading && !data.isError) {
+      // 데이터가 변경된 경우에만 업데이트
+      if (JSON.stringify(data.data) !== JSON.stringify(manageData)) {
+        setManageData(data.data || initState);
+      }
+    }
+  }, [data, manageData]);
+
   const [selectedValue, setSelectedValue] = useState("");
 
-  // 선택지 목록 데이터
+  function performAsyncTask() {
+    return new Promise(resolve => {
+      // 비동기 작업 수행
+      setTimeout(() => {
+        // 작업 완료 후의 로직
+        console.log("Async task completed");
+        resolve();
+      }, 500);
+    });
+  }
+
+  // 비동기 작업을 수행하고 모든 작업이 완료될 때까지 대기
+  async function executeAsyncTasks() {
+    const tasks = [];
+
+    for (let i = 0; i < 1000; i++) {
+      tasks.push(performAsyncTask());
+    }
+
+    await Promise.all(tasks);
+  }
+
+  // 실행
+  executeAsyncTasks();
+
   const options = [
     { value: "option1", label: "고기잡담 글" },
     { value: "option2", label: "고기잡담 댓글" },
     { value: "option3", label: "고기집 후기" },
     { value: "option4", label: "정육점 후기" },
-    // 추가적인 옵션들
   ];
 
-  // select 요소의 변경 이벤트 핸들러
   const handleSelectChange = e => {
     setSelectedValue(e.target.value);
   };
 
-  // 테이블
-  const data = [
+  const Tabledata = [
     {
       check: "고기집 후기",
       writerNm: "John",
@@ -61,7 +106,6 @@ const SupervisorReportPage = () => {
     },
   ];
 
-  // 컬럼 정의
   const columns = [
     { Header: "카테고리", accessor: "check" },
     { Header: "작성자", accessor: "writerNm" },
@@ -71,18 +115,19 @@ const SupervisorReportPage = () => {
     { Header: "삭제", accessor: "delete" },
     { Header: "취소", accessor: "cancel" },
   ];
-  // react-table hook 사용
-  const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
-    useTable({ columns, data });
 
-  // 삭제 버튼 클릭 시 실행되는 함수
+  const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
+    useTable({ columns, data: manageData });
+
   const handleDeleteClick = rowData => {
-    // 여기에 삭제 버튼을 눌렀을 때의 동작을 추가
     console.log("Delete button clicked for row:", rowData);
   };
 
+  const handleCancelClick = rowData => {
+    console.log("Cancel button clicked for row:", rowData);
+  };
+
   return (
-    // <SupervisorReportWrapper>
     <SvisorReportWrap>
       <SupervisorReportHeader>
         <div className="page-title">신고 관리</div>
@@ -91,32 +136,25 @@ const SupervisorReportPage = () => {
         </div>
       </SupervisorReportHeader>
       <SvisorReportMain>
-        {/* 옵션 셀렉트 */}
         <SvisorReportOption>
-          {/* select 요소 */}
           <select
             className="selectoption"
             value={selectedValue}
             onChange={handleSelectChange}
           >
-            {/* 기본 옵션 (선택 안된 상태) */}
             <option value="" disabled>
               카테고리
             </option>
-            {/* 옵션 목록 매핑 */}
-            {options.map(option => (
+            {options?.map(option => (
               <option key={option.value} value={option.value}>
                 {option.label}
               </option>
             ))}
           </select>
-          {/* 선택된 값 출력 */}
           <p>{selectedValue}</p>
         </SvisorReportOption>
 
         <SvisorTable>
-          {/* <span>테이블 테스트 </span> */}
-
           <table
             {...getTableProps()}
             style={{
@@ -125,14 +163,13 @@ const SupervisorReportPage = () => {
             }}
           >
             <thead>
-              {/* 테이블 헤더 부분 */}
               <tr
                 style={{
                   border: "1px solid #DBDBDB",
                   padding: "8px",
-                  borderBottom: "1px solid #DBDBDB", // 행 셀의 아래 테두리 설정
-                  borderLeft: "0px solid #DBDBDB", // 행 셀의 왼쪽 테두리 설정
-                  borderRight: "0px solid #DBDBDB", // 헤더 셀의 아래 테두리 설정
+                  borderBottom: "1px solid #DBDBDB",
+                  borderLeft: "0px solid #DBDBDB",
+                  borderRight: "0px solid #DBDBDB",
                   textAlign: "center",
                 }}
                 className="tableHeader"
@@ -147,50 +184,39 @@ const SupervisorReportPage = () => {
               </tr>
             </thead>
             <tbody>
-              {/* 테이블 바디 부분 */}
-              {data.map((row, index) => (
-                <tr
-                  key={index}
-                  style={{
-                    border: "1px solid #DBDBDB",
-                    padding: "8px",
-                    borderBottom: "1px solid #DBDBDB", // 행 셀의 아래 테두리 설정
-                    borderLeft: "0px solid #DBDBDB", // 행 셀의 왼쪽 테두리 설정
-                    borderRight: "0px solid #DBDBDB", // 행 셀의 오른쪽 테두리 설정
-                    textAlign: "center",
-                  }}
-                  className="tableBody"
-                >
-                  <td>{row.check}</td>
-                  <td>{row.writerNm}</td>
-                  <td>{row.contents}</td>
-                  <td>{row.state}</td>
-                  <td>{row.count}</td>
-                  {/* 삭제 버튼을 클릭할 때 handleDeleteClick 함수 호출 */}
-                  <td>
-                    <button
-                      onClick={() => handleDeleteClick(row)}
-                      className="delete-bt"
-                    >
-                      {row.delete}
-                    </button>
-                  </td>
-                  <td>
-                    <button
-                      onClick={() => handleDeleteClick(row)}
-                      className="cancel-bt"
-                    >
-                      {row.cancel}
-                    </button>
-                  </td>
-                </tr>
-              ))}
+              {rows.map(row => {
+                prepareRow(row);
+                return (
+                  <tr key={row.id} {...row.getRowProps()} className="tableBody">
+                    {row.cells.map(cell => (
+                      <td key={cell.id} {...cell.getCellProps()}>
+                        {cell.render("Cell")}
+                      </td>
+                    ))}
+                    <td>
+                      <button
+                        onClick={() => handleDeleteClick(row.original)}
+                        className="delete-bt"
+                      >
+                        {row.original.delete}
+                      </button>
+                    </td>
+                    <td>
+                      <button
+                        onClick={() => handleCancelClick(row.original)}
+                        className="cancel-bt"
+                      >
+                        {row.original.cancel}
+                      </button>
+                    </td>
+                  </tr>
+                );
+              })}
             </tbody>
           </table>
         </SvisorTable>
       </SvisorReportMain>
     </SvisorReportWrap>
-    // </SupervisorReportWrapper>
   );
 };
 

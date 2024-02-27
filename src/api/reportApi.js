@@ -1,25 +1,22 @@
 // 계정 관리 API
 // 계정 관리 API
 import axios from "axios";
-import { getGInfo } from "./meatApi";
+import authAxios from "../util/tokenUtil";
 
-// 서버에 들어가는 주소로 들어가면 
 export const API_SERVER_HOST = "";
-
-// ${API_SERVER_HOST} = localhost:3000
 const host = `${API_SERVER_HOST}/api/admin`;
 
-export const getReport = async ({ successFn, failFn, errorFn }) => {
-try {
-  const res = await svisorAxios.get(`${}`)
-  return res.data
-} catch (error) {
-  console.log(error)
-}
-}
+// 서버에 들어가는 주소로 들어가면
 
+// ${API_SERVER_HOST} = localhost:3000
 
-const{data} = useQuery({
-  queryKey: ["storeInfo"],
-  queryFn: () => getGInfoTS()
-})
+export const getReport = async () => {
+  try {
+    const header = { headers: { "Content-Type": "application/json" } };
+    const res = await authAxios.get(`${host}`, header);
+    console.log("데이터 가져옴");
+    return res.data;
+  } catch (error) {
+    console.log("에러남", error);
+  }
+};
