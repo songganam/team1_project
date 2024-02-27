@@ -1,7 +1,7 @@
 import axios from "axios";
 import { ListParam, ReserForm } from "../pages/meat/Meat";
 import authAxios from "../util/tokenUtil";
-import { BNumForm } from "../pages/join/TSJoin";
+import { BNumForm } from "../pages/sign/TSJoin";
 
 export const API_SERVER_HOST = "";
 const host = `${API_SERVER_HOST}/api`;

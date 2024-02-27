@@ -1,5 +1,5 @@
 import styled from "@emotion/styled";
-import { ColorStyle } from "../../../styles/common/CommonStyle";
+import { ColorStyle } from "../../../../styles/common/CommonStyle";
 
 export const JaddPageWrap = styled.div`
   position: relative;

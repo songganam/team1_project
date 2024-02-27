@@ -3,7 +3,9 @@ import { Navigate } from "react-router";
 import Loading from "../components/loading/Loading";
 
 // 회원가입 페이지
-const LazyJoinAddPage = lazy(() => import("../pages/join/JaddPage"));
+const LazyUserSignUpPage = lazy(() =>
+  import("../pages/sign/up/UserSignUpPage"),
+);
 
 const joinRouter = () => {
   return [
@@ -12,7 +14,7 @@ const joinRouter = () => {
       path: "add",
       element: (
         <Suspense fallback={<Loading />}>
-          <LazyJoinAddPage />
+          <LazyUserSignUpPage />
         </Suspense>
       ),
     },

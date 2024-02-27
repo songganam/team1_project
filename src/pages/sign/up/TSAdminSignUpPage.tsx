@@ -1,11 +1,5 @@
 import { ChangeEvent, MouseEvent, RefObject, useRef, useState } from "react";
 import DaumPostcodeEmbed from "react-daum-postcode";
-import { getCoord, postBusiNum } from "../../api/meatApi";
-import RadioInput from "../../components/adminInfo/RadioInput";
-import { BoxInnerStyle } from "../../components/adminInfo/styles/ModifyStyle";
-import EmptyModal from "../../components/common/EmptyModal";
-import useCustomHook from "../../components/meat/hooks/useCustomHook";
-import TitleHeader from "../../components/titleheader/TitleHeader";
 import { CateSelectWrap, SelectMeatWrap } from "./styles/AdminSignUpStyles";
 import {
   DefaultBt,
@@ -19,13 +13,20 @@ import {
   JaddPageMain,
   JaddPageWrap,
   JaddPwWrap,
-} from "./styles/JaddPageStyle";
-import { AdminJoinData, BNumForm, BusiResponse } from "./TSJoin";
+} from "./styles/UserSignUpStyles";
+import { AdminJoinData, BNumForm, BusiResponse } from "../TSJoin";
 import { AxiosError, AxiosResponse } from "axios";
-import { SelectedCate } from "../meat/styles/TS_Style";
+
 import { useMutation, useQuery } from "@tanstack/react-query";
-import { postBusiNumTS } from "../../api/typeApi";
-import { postSignUpTS } from "../../api/SignApi";
+import useCustomHook from "../../../components/meat/hooks/useCustomHook";
+import { postBusiNumTS } from "../../../api/typeApi";
+import { postSignUpTS } from "../../../api/SignApi";
+import { getCoord } from "../../../api/meatApi";
+import EmptyModal from "../../../components/common/EmptyModal";
+import TitleHeader from "../../../components/titleheader/TitleHeader";
+import { SelectedCate } from "../../meat/styles/TS_Style";
+import { BoxInnerStyle } from "../../../components/adminInfo/styles/ModifyStyle";
+import RadioInput from "../../../components/adminInfo/RadioInput";
 
 const initState: AdminJoinData = {
   pic: [""],

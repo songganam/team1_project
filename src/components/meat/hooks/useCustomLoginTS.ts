@@ -1,44 +1,78 @@
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import { useRecoilState, useResetRecoilState } from "recoil";
-import { loginAdminPostTS, loginPostTS } from "../../../api/SignApi";
-import { loginAdminPost } from "../../../api/loginApi";
+import {
+  loginAdminPostTS,
+  loginPostTS,
+  postSvisorSignUpTs,
+} from "../../../api/SignApi";
 import { atomSignState } from "../../../atom/atomSignState";
-import { SigninForm } from "../../../pages/join/TSJoin";
-import { removeCookie, setCookie } from "../../../util/CookiesUtil";
+
 import { atomAdminState } from "../../../atom/atomAdminState";
+import { SigninForm } from "../../../pages/sign/TSJoin";
+import { removeCookie, setCookie } from "../../../util/CookiesUtil";
+import { atomSupervisorState } from "../../../atom/atomSupervisorState";
 
 const useCustomLoginTS = () => {
   const [loginState, setLoginState] = useRecoilState(atomSignState);
-  const [manageState, setManageState] = useRecoilState(atomAdminState);
+  const [adminState, setAdminState] = useRecoilState(atomAdminState);
+  const [supervisorState, setSupervisorState] =
+    useRecoilState(atomSupervisorState);
   const resetSignState = useResetRecoilState(atomSignState);
+  const resetAdminState = useResetRecoilState(atomAdminState);
+  const resetSupervisorState = useResetRecoilState(atomSupervisorState);
 
   const navigate = useNavigate();
   const API_SERVER_HOST = "";
   const host = `${API_SERVER_HOST}/api/user`;
 
-  const isLogin = loginState.result || manageState.reuslt == 1 ? true : false;
+  const isLogin = loginState.result == 1 ? true : false;
+  const isAdminLogin = adminState?.shopName?.length > 0;
+  console.log("Test3", isAdminLogin);
+  console.log("Test4", adminState.shopName);
+  const isSupervisorLogin = supervisorState.result == 1 ? true : false;
 
   const doLoginTS = async ({ authParam }: { authParam: SigninForm }) => {
     const result = await loginPostTS({ authParam });
-    saveAsCookie(result);
+    saveAsUserCookie(result);
     return result;
   };
 
   const doAdminLoginTS = async ({ authParam }: { authParam: SigninForm }) => {
     const result = await loginAdminPostTS({ authParam });
-    saveAsCookie(result);
+    saveAsAdminCookie(result);
+    console.log("test22", result);
+    return result;
+  };
+  const doSupervisorLoginTS = async ({
+    authParam,
+  }: {
+    authParam: SigninForm;
+  }) => {
+    const result = await postSvisorSignUpTs({ authParam });
+    saveAsSupervisorCookie(result);
     return result;
   };
 
-  const saveAsCookie = (result: any) => {
+  const saveAsUserCookie = (result: any) => {
     setLoginState(result);
-    setManageState(result);
+
+    setCookie("member", JSON.stringify(result), 1);
+  };
+  const saveAsAdminCookie = (result: any) => {
+    setAdminState(result);
+    setCookie("member", JSON.stringify(result), 1);
+  };
+  const saveAsSupervisorCookie = (result: any) => {
+    setSupervisorState(result);
+
     setCookie("member", JSON.stringify(result), 1);
   };
 
   const doLogout = async () => {
     resetSignState();
+    resetAdminState();
+    resetSupervisorState();
     removeCookie("member");
     try {
       const header = { headers: { "Content-Type": "application/json" } };
@@ -71,10 +105,13 @@ const useCustomLoginTS = () => {
     isLogin,
     doLoginTS,
     doAdminLoginTS,
+    doSupervisorLoginTS,
     doLogout,
     moveToPath,
     moveToLogin,
     loginComplete,
+    isAdminLogin,
+    isSupervisorLogin,
   };
 };
 
