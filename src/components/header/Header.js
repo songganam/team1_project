@@ -123,7 +123,7 @@ const Header = () => {
           <JoinStyle>
             <LoginProfile>
               <span>
-                <p>{myProfileData.nickname}</p> 님, 고기로 방문을 환영합니다.
+                <p>{myProfileData?.nickname}</p> 님, 고기로 방문을 환영합니다.
               </span>
             </LoginProfile>
             <div onClick={handleClick} style={{ cursor: "pointer" }}>

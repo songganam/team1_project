@@ -359,7 +359,10 @@ const MeatDetailPage = () => {
                 .slice(0, visualReview)
                 .map((review: Glist["reviews"][0], index: number) => (
                   <div key={index}>
-                    <TSMeatReviewCard reviewData={storeInfo?.reviews[index]} />
+                    <TSMeatReviewCard
+                      reviewData={storeInfo?.reviews[index]}
+                      // ishop={storeInfo.ishop[index]}
+                    />
                   </div>
                 ))}
           </ReviewContentWrap>

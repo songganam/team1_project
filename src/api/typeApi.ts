@@ -1,6 +1,7 @@
 import axios from "axios";
 import { ListParam, ReserForm } from "../pages/meat/Meat";
 import authAxios from "../util/tokenUtil";
+import { BNumForm } from "../pages/join/TSJoin";
 
 export const API_SERVER_HOST = "";
 const host = `${API_SERVER_HOST}/api`;
@@ -81,5 +82,25 @@ export const postReserTS = async ({ reserData }: { reserData: ReserForm }) => {
     console.log(error);
     throw error;
     //
+  }
+};
+
+// @AREA Post BusinessNum
+
+export const postBusiNumTS = async ({ dataForm }: { dataForm: BNumForm }) => {
+  console.log("데이터폼", dataForm);
+  const header = {
+    headers: {
+      "Content-Type": "application/json",
+      // Accept: "application/json"
+    },
+  };
+  try {
+    const response = await axios.post(`${host}/status`, dataForm);
+    return response.data;
+    // return ;
+  } catch (error) {
+    console.log("");
+    throw error;
   }
 };

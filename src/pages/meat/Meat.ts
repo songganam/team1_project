@@ -86,3 +86,6 @@ export interface ReviewDataForm {
   review: string;
   pic: string[];
 }
+export interface ishopForm {
+  ishop: number;
+}
