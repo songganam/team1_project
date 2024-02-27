@@ -35,6 +35,7 @@ const initState: ShopInfo = {
   x: "",
   y: "",
   deposit: 0,
+  facility: [],
 };
 
 // 매장정보 타입 정의
@@ -50,6 +51,7 @@ interface ShopInfo {
   x: string;
   y: string;
   deposit: number;
+  facility: string[];
 }
 
 // 다음포스트 관련 타입 정의
@@ -63,6 +65,8 @@ interface Address {
   zonecode: string;
   address: string;
 }
+
+//todo meatApi에서 매장정보 불러와서 수정해야함
 
 const TSAdminInfoPage = () => {
   // 커스텀 훅
@@ -87,7 +91,8 @@ const TSAdminInfoPage = () => {
     selectedOptions: Array<{ id: string; label: string }>,
   ) => {
     setSelectedCheckboxes(selectedOptions);
-    // setShopInfo(prev => ({ ...prev, pics: selectedIds }));
+    const facityLabels = selectedOptions.map(option => option.label);
+    setShopInfo(prev => ({ ...prev, facility: facityLabels }));
   };
 
   // 라디오 버튼 관련
@@ -175,9 +180,11 @@ const TSAdminInfoPage = () => {
           <TSBackgroundBoxStyle>
             <TSPicsInput onChange={handleChangeImage} />
           </TSBackgroundBoxStyle>
-          <TSBackgroundBoxStyle>
-            <TSCheckBoxInput onChange={handleChangeCheckbox} />
-          </TSBackgroundBoxStyle>
+          {shopInfo.imeat !== 0 ? (
+            <TSBackgroundBoxStyle>
+              <TSCheckBoxInput onChange={handleChangeCheckbox} />
+            </TSBackgroundBoxStyle>
+          ) : null}
           <TSBackgroundBoxStyle>
             <TSRadioInput
               onChange={(selectedId, selectedLabel) =>

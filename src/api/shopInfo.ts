@@ -9,11 +9,13 @@ interface ShopInfo {
     imeat: number;
     name: string;
     location: string;
+    ishopPics: string[];
     open: string;
     tel: string;
     x: string;
     y: string;
     deposit: number;
+    facility: string[];
   };
 }
 
@@ -23,6 +25,13 @@ interface MenuInfo {
   ishop: number;
   price: number;
   menu: string;
+  pic: string;
+}
+
+interface MenuModify {
+  checkShop: number;
+  imenu: number;
+  ishop: number;
   pic: string;
 }
 
@@ -42,11 +51,11 @@ export const putShopInfo = async (
 
 // 메뉴 리스트
 export const getMenus = async (
-  menuInfo: MenuInfo[],
+  param: MenuInfo[],
 ): Promise<MenuInfo[] | undefined> => {
   try {
     const header = { headers: { "Content-Type": "application/json" } };
-    const response = await axios.get(`${host}/menu`);
+    const response = await axios.get(`${host}/menu`, { params: param });
     return response.data;
   } catch (error) {
     console.log("메뉴정보 호출 오류");
