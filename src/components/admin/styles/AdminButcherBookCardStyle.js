@@ -1,6 +1,6 @@
 import styled from "@emotion/styled";
 
-export const AdminBookCardWrapper = styled.div`
+export const AdminButBookCardWrapper = styled.div`
   position: relative;
   width: 535px;
   height: 262px;
@@ -12,14 +12,14 @@ export const AdminBookCardWrapper = styled.div`
   margin-bottom: 20px;
 `;
 
-export const AdminBookCardInfo = styled.div`
+export const AdminButBookCardInfo = styled.div`
   position: relative;
   display: flex;
   gap: 30px;
   margin-left: 30px;
 `;
 
-export const AdminBookCardTitle = styled.div`
+export const AdminButBookCardTitle = styled.div`
   position: relative;
   font-family: Pretendard;
   font-size: 14px;
@@ -32,7 +32,7 @@ export const AdminBookCardTitle = styled.div`
   }
 `;
 
-export const AdiminBookCardContent = styled.div`
+export const AdiminButBookCardContent = styled.div`
   position: relative;
   font-family: Pretendard;
   font-size: 14px;
@@ -45,7 +45,7 @@ export const AdiminBookCardContent = styled.div`
   }
 `;
 
-export const AdminBookCardBookButton = styled.div`
+export const AdminButBookCardBookButton = styled.div`
   position: relative;
   display: flex;
   justify-content: flex-end;

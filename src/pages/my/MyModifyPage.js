@@ -1,12 +1,7 @@
 import React, { useEffect, useRef, useState } from "react";
 
 import { useSelector, useDispatch } from "react-redux";
-import {
-  API_SERVER_HOST,
-  getUserInfo,
-  nickNameCheck,
-  putUserInfo,
-} from "../../api/MyApi";
+import { API_SERVER_HOST, getUserInfo, putUserInfo } from "../../api/MyApi";
 
 import Button from "../../components/button/Button";
 import ResultModal from "../../components/common/ResultModal";
