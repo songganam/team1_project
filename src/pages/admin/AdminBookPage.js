@@ -26,7 +26,6 @@ const AdminBookPage = () => {
           <p>신규 예약 목록</p>
           <AdminBookCardBt>
             <AdminMeatBookCard></AdminMeatBookCard>
-            <Button bttext="더보기"></Button>
           </AdminBookCardBt>
         </AdminBookInner>
         <AdminNoShowInner>
