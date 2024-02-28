@@ -7,10 +7,9 @@ import {
   SvisorReportWrap,
   SvisorTable,
 } from "./styles/SupervisorReportStyle";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { API_SERVER_HOST, getUser } from "../../api/userApi";
 import { useQuery } from "@tanstack/react-query";
-
 
 const initState = [
   {
@@ -23,20 +22,17 @@ const initState = [
 ];
 
 const SupervisorReportPage = () => {
-  const { data } = useQuery({
-    queryKey: ["products"],
-    queryFn: () => getUser(),
-  });
-  // console.log(product);
-
-  // const manageData = data || initState;
-
-  // console.log("관리데이터 :", manageData);
-
-  // 옵션 셀렉트
-  // 선택된 값을 관리할 상태
+  const [userData, setUserData] = useState([]);
   const [selectedValue, setSelectedValue] = useState("");
 
+  // useEffect를 사용하여 컴포넌트가 마운트될 때 한 번만 실행되도록 설정
+  useEffect(() => {
+    getUser({ userData, successFn }); // 데이터를 가져오는 함수 호출
+  }, []); // 빈 배열을 전달하여 컴포넌트가 마운트될 때만 실행
+
+  const successFn = result => {
+    setUserData(result);
+  };
   // 선택지 목록 데이터
   const options = [
     { value: "option1", label: "정지" },
@@ -112,6 +108,14 @@ const SupervisorReportPage = () => {
         </div>
       </SupervisorReportHeader>
       <SvisorReportMain>
+        {/* 데이터 매핑 및 표시 */}
+        {userData.map((user, index) => (
+          <div key={index}>
+            <p>Name: {user.name}</p>
+            <p>ID: {user.id}</p>
+            {/* 나머지 사용자 정보 표시 */}
+          </div>
+        ))}
         {/* 옵션 셀렉트 */}
         <SvisorReportOption>
           {/* select 요소 */}
@@ -125,7 +129,7 @@ const SupervisorReportPage = () => {
               카테고리
             </option>
             {/* 옵션 목록 매핑 */}
-            {options?.map(option => (
+            {options.map(option => (
               <option key={option.value} value={option.value}>
                 {option.label}
               </option>
