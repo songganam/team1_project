@@ -93,18 +93,43 @@ const useCustomMy = () => {
     });
   };
 
+  // 가게 주인 예약 관리 페이지 내 신규 예약 페이지 이동
+  const moveToAdminBookChange = (ireser, name, date, headCount, request) => {
+    console.log(name);
+    navigate({
+      pathname: `../../admin/book/${ireser}`,
+      search: `name=${name}&headcount=${headCount}&date=${date}&request=${request}&${defaultQueryString}`,
+    });
+  };
+
+  const MoveToBookPage = PageParam => {
+    let queryStr = "";
+    if (PageParam) {
+      const PageNum = getNum(PageParam.page, page);
+      queryStr = createSearchParams({
+        page: PageNum,
+      }).toString();
+    } else {
+      queryStr = defaultQueryString;
+    }
+    // ! Page
+    navigate({ pathname: "../admin/book", search: queryStr });
+  };
+
   return {
     page,
     isModal,
     openModal,
     closeModal,
     moveToLogin,
-    moveToBookPage,
+    // moveToBookPage,
+    MoveToBookPage,
     moveToListPage,
     moveToReviewPage,
     moveToDetail,
     moveToReserChange,
     moveToPickupChange,
+    moveToAdminBookChange,
   };
 };
 export default useCustomMy;

@@ -191,7 +191,6 @@ const MyModifyPage = () => {
       content: "성공적으로 수정되었습니다.",
     });
     dispatch(setRefresh());
-    console.log("리프래시가즈아");
   };
 
   const failPutOther = errorMessage => {
