@@ -11,6 +11,7 @@ import styled from "@emotion/styled";
 
 export const SvisorReportWrap = styled.div`
   position: relative;
+  /* display: block; */
   background-color: #ffffff;
   margin-left: 210px;
 `;
@@ -44,8 +45,9 @@ export const SupervisorReportHeader = styled.div`
 export const SvisorReportMain = styled.div`
   position: relative;
   display: flex;
-  width: calc(100% 0px);
-  /* width: 100%; */
+  /* width: calc(100% 0px); */
+  width: 100%;
+
   /* margin-right: 370px; */
   flex-direction: column;
   /* align-items: flex-end; */
@@ -75,15 +77,23 @@ export const SvisorReportOption = styled.div`
   }
 `;
 export const SvisorTable = styled.div`
+  display: flex;
   width: 100%;
   color: #5c5c5c;
+  justify-content: space-around;
+  align-items: end;
 
   /* align-items: center; */
 
   .tableHeader {
+    width: 100%;
+    /* justify-content: space-around;
+    align-items: end; */
     height: 55px;
   }
   .tableBody {
+    width: 170px;
+    /* justify-content: center; */
     height: 60px;
   }
   .delete-bt {

@@ -29,9 +29,9 @@ const SupervisorReportPage = () => {
   });
   // console.log(product);
 
-  const manageData = data || initState;
+  // const manageData = data || initState;
 
-  console.log("관리데이터 :", manageData);
+  // console.log("관리데이터 :", manageData);
 
   // 옵션 셀렉트
   // 선택된 값을 관리할 상태
@@ -89,7 +89,7 @@ const SupervisorReportPage = () => {
   ];
   // react-table hook 사용
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
-    useTable({ columns, data: manageData });
+    useTable({ columns, data: Tabledata });
 
   // 삭제 버튼 클릭 시 실행되는 함수
   const handleLockClick = rowData => {

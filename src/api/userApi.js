@@ -1,16 +1,11 @@
-import axios from "axios";
 import authAxios from "../util/tokenUtil";
+import { API_SERVER_HOST } from "./config";
 
-export const API_SERVER_HOST = "";
-const userHost = `${API_SERVER_HOST}/api/admin`;
-
-export const getUser = async ({ row }) => {
+export const getUser = async () => {
   try {
-    const header = { headers: { "Content-Type": "application/json" } };
-    const res = await authAxios.get(`${userHost}/black`,header);
-    // const status = res.status.toString();
-    return res.data;
+    const response = await authAxios.get(`${API_SERVER_HOST}/api/admin/black`);
+    return response.data;
   } catch (error) {
-    console.log("error");
+    console.log(error);
   }
-};
+}

@@ -36,7 +36,7 @@ const supervisorRouter = () => {
       ),
     },
     {
-      path: "report",
+      path: "report/",
       element: (
         <Suspense fallback={<Loading />}>
           <LazySvReportPage />
