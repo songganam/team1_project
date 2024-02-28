@@ -1,5 +1,6 @@
-import { ChangeEvent, useState } from "react";
+import { ChangeEvent, MouseEvent, useState } from "react";
 import DaumPostcodeEmbed from "react-daum-postcode";
+import { useParams } from "react-router-dom";
 import { getCoord } from "../../api/meatApi";
 import TSAdressField from "../../components/adminInfo/TSAdressField";
 import TSCheckBoxInput from "../../components/adminInfo/TSCheckBoxInput";
@@ -21,10 +22,27 @@ import {
 } from "../../components/adminInfo/styles/TSModifyStyle";
 import EmptyModal from "../../components/common/EmptyModal";
 import useCustomHook from "../../components/meat/hooks/useCustomHook";
-import { useQuery } from "@tanstack/react-query";
 import useCustomLoginTS from "../../components/meat/hooks/useCustomLoginTS";
-import { useParams } from "react-router";
-import { getGInfoTS } from "../../api/typeApi";
+import { useMutation } from "@tanstack/react-query";
+import { putShopInfo } from "../../api/shopInfoApi";
+import { AxiosError, AxiosResponse } from "axios";
+
+// // 가게사장 정보 초기값
+// const initBossState: BossState = {
+//   checkShop: 0,
+//   ishop: 0,
+//   iuser: 0,
+//   result: 0,
+//   shopName: "",
+// };
+
+// interface BossState {
+//   checkShop: number;
+//   ishop: number;
+//   iuser: number;
+//   result: number;
+//   shopName: string;
+// }
 
 // 매장정보 초기값
 const initState: ShopInfo = {
@@ -33,6 +51,7 @@ const initState: ShopInfo = {
   ishop: 0,
   name: "",
   location: "",
+  ishopPics: [],
   adress: "",
   extraAdress: "",
   open: "",
@@ -50,6 +69,7 @@ interface ShopInfo {
   ishop: number;
   name: string;
   location: string;
+  ishopPics: string[];
   adress: string;
   extraAdress: string;
   open: string;
@@ -77,19 +97,14 @@ interface Address {
 const TSAdminInfoPage = () => {
   // 커스텀 훅
   const { isEmptyModal, openEmptyModal, closeEmptyModal } = useCustomHook();
-  // const { isAdminLogin } = useCustomLoginTS();
+  const { isAdminLogin, adminState } = useCustomLoginTS();
   const { ishop } = useParams();
 
-  const { data, isFetching } = useQuery({
-    queryKey: ["storeInfo", ishop],
-    queryFn: () => getGInfoTS({ ishop }),
-  });
-  const storeInfo = data || initState;
-  console.log("응답 데이터", storeInfo);
-  console.log("가게pk", ishop);
+  console.log("가게사장 정보", adminState);
+  console.log("로그인 된 가게 pk", adminState.ishop);
 
   // 매장정보 상태관리
-  const [shopInfo, setShopInfo] = useState<ShopInfo>(storeInfo);
+  const [shopInfo, setShopInfo] = useState<ShopInfo>(initState);
 
   // 이미지 업로드 관련
   // 자식 컴포넌트로부터 전달받은 이미지 파일 배열 처리
@@ -184,12 +199,62 @@ const TSAdminInfoPage = () => {
   console.log(shopInfo);
   //!==================================================
 
+  // 매장 사진 삭제 mutation
+
+  // 매장정보 수정 mutation
+  const shopInfoMutation = useMutation({
+    mutationFn: (shopInfoData: FormData) => putShopInfo({ shopInfoData }),
+    onSuccess: (result: AxiosResponse) => {
+      console.log("매장 정보 수정 성공", result);
+    },
+    onError: (result: AxiosError) => {
+      console.log("매장 정보 수정 서버 실패", result);
+    },
+  });
+
+  // 매장정보 수정 실행 함수
+  const handleClickModify = async (e: MouseEvent<HTMLButtonElement>) => {
+    e.preventDefault();
+
+    const formData = new FormData();
+    const shopPics = new Blob(
+      [
+        JSON.stringify({
+          pics: shopInfo.pics.forEach(pic => formData.append("pics", pic)),
+        }),
+      ],
+      { type: "application/json" },
+    );
+    const dto = new Blob(
+      [
+        JSON.stringify({
+          imeat: shopInfo.imeat,
+          name: shopInfo.name,
+          location: shopInfo.location,
+          open: shopInfo.open,
+          tel: shopInfo.tel,
+          x: shopInfo.x,
+          y: shopInfo.y,
+          deposit: shopInfo.deposit,
+          facility: shopInfo.facilities,
+        }),
+      ],
+      { type: "application/json" },
+    );
+    formData.append("dto", dto);
+    formData.append("pics", shopPics);
+    shopInfoMutation.mutate(formData);
+    console.log("제출됐냐?");
+  };
+
   return (
     <TSAdminInfoWrapStyle>
       <TSNavStyle>
         <div className="page-title">매장 정보 관리</div>
         {/* 나중에 type="submit"으로 변경해야함 */}
-        <ButtonStyleTS type="button">저장</ButtonStyleTS>
+        <ButtonStyleTS type="button" onClick={handleClickModify}>
+          저장
+        </ButtonStyleTS>
       </TSNavStyle>
       <TSWrapInnerStyle>
         <TSShopStyle>
@@ -215,11 +280,12 @@ const TSAdminInfoPage = () => {
                 <div className="essential">*</div>
               </div>
               <TSTextField
-                placeholder="상호명을 입력하세요"
+                placeholder={adminState.shopName || "상호명을 입력하세요"}
                 name="name"
                 value={shopInfo.name}
                 onChange={handleChangeText}
               />
+
               <div className="name-guide">
                 <div className="text-guide">
                   숫자, 한글, 영문, 특수문자 사용가능

@@ -1,7 +1,9 @@
 import axios from "axios";
 import { API_SERVER_HOST } from "./config";
+import useCustomLoginTS from "../components/meat/hooks/useCustomLoginTS";
+import authAxios from "../util/tokenUtil";
 
-const host = `${API_SERVER_HOST}/api/owner`;
+const host = `${API_SERVER_HOST}/api`;
 
 interface ShopInfo {
   pics: string[];
@@ -15,7 +17,7 @@ interface ShopInfo {
     x: string;
     y: string;
     deposit: number;
-    facility: string[];
+    facilities: string[];
   };
 }
 
@@ -29,19 +31,28 @@ interface MenuInfo {
 }
 
 interface MenuModify {
-  checkShop: number;
+  pic?: string;
   imenu: number;
-  ishop: number;
-  pic: string;
+  menu?: string;
+  price?: number;
 }
 
+const { isAdminLogin } = useCustomLoginTS();
+const axiosInstance = isAdminLogin ? authAxios : axios;
+
 // 매장정보 수정하기
-export const putShopInfo = async (
-  shopInfo: ShopInfo,
-): Promise<ShopInfo | undefined> => {
+export const putShopInfo = async ({
+  shopInfoData,
+}: {
+  shopInfoData: FormData;
+}) => {
   try {
     const header = { headers: { "Content-Type": "multipart/form-data" } };
-    const response = await axios.put(`${host}/modify`, shopInfo, header);
+    const response = await axiosInstance.put(
+      `${host}/api/owner/modify`,
+      shopInfoData,
+      header,
+    );
     return response.data;
   } catch (error) {
     console.error(error);
@@ -52,15 +63,16 @@ export const putShopInfo = async (
 // 메뉴 리스트
 export const getMenus = async (
   param: MenuInfo[],
+  isAdminLogin: boolean,
 ): Promise<MenuInfo[] | undefined> => {
   try {
     // params와 headers를 같은 객체 내에 정의합니다.
-    const config = {
+    const header = {
       headers: { "Content-Type": "application/json" },
       params: param, // 쿼리 파라미터로 전달할 객체
     };
-
-    const response = await axios.get(`${host}/menu`, config);
+    const axiosInstance = isAdminLogin ? authAxios : axios;
+    const response = await axiosInstance.get(`${host}/api/owner/menu`, header);
     return response.data;
   } catch (error) {
     console.log("메뉴정보 호출 오류");
@@ -69,13 +81,60 @@ export const getMenus = async (
 };
 
 // 메뉴 등록
-export const postMenu = async ({ menuInfo }: { menuInfo: FormData }) => {
+export const postMenu = async (
+  { menuInfo }: { menuInfo: FormData },
+  isAdminLogin: boolean,
+) => {
   try {
     const header = { headers: { "Content-Type": "multipart/form-data" } };
-    const response = await axios.post(`${host}/menu`, menuInfo, header);
+    const axiosInstance = isAdminLogin ? authAxios : axios;
+    const response = await axiosInstance.post(
+      `${host}/api/owner/menu`,
+      menuInfo,
+      header,
+    );
     return response.data;
   } catch (error) {
     console.error(error);
     throw error;
+  }
+};
+
+// 메뉴 수정
+export const putMenu = async (
+  menuInfo: MenuModify,
+  isAdminLogin: boolean,
+): Promise<MenuInfo | undefined> => {
+  try {
+    const header = { headers: { "Content-Type": "multipart/form-data" } };
+    const axiosInstance = isAdminLogin ? authAxios : axios;
+    const response = await axiosInstance.put(
+      `${host}/api/owner/menu`,
+      menuInfo,
+      header,
+    );
+    return response.data;
+  } catch (error) {
+    console.error(error);
+    return undefined;
+  }
+};
+
+// 메뉴 삭제
+export const deleteMenu = async (
+  imenu: MenuModify,
+  isAdminLogin: boolean,
+): Promise<MenuInfo | undefined> => {
+  try {
+    const header = { headers: { "Content-Type": "application/json" } };
+    const axiosInstance = isAdminLogin ? authAxios : axios;
+    const response = await axiosInstance.delete(
+      `${host}/api/owner/menu/${imenu}`,
+      header,
+    );
+    return response.data;
+  } catch (error) {
+    console.error(error);
+    return undefined;
   }
 };
