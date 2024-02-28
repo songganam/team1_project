@@ -14,56 +14,52 @@ import {
 const initState = [
   {
     pk: 0,
-    contents: "string",
     writerNm: "string",
-    count: 0,
+    contents: "string",
     state: 0,
+    count: 0,
   },
 ];
 
 const SupervisorReportPage = () => {
-  const { data } = useQuery({
-    queryKey: ["products"],
-    queryFn: () => getReport(),
-  });
+  // const [data, setData] = useState([]);
+  // const [manageData, setManageData] = useState(initState);
 
-  const [manageData, setManageData] = useState(initState);
-
-  useEffect(() => {
-    if (data && !data.isLoading && !data.isError) {
-      // 데이터가 변경된 경우에만 업데이트
-      if (JSON.stringify(data.data) !== JSON.stringify(manageData)) {
-        setManageData(data.data || initState);
-      }
-    }
-  }, [data, manageData]);
+  // useEffect(() => {
+  //   if (data && !data.isLoading && !data.isError) {
+  //     // 데이터가 변경된 경우에만 업데이트
+  //     if (JSON.stringify(data.data) !== JSON.stringify(manageData)) {
+  //       setManageData(data || initState);
+  //     }
+  //   }
+  // }, [data]);
 
   const [selectedValue, setSelectedValue] = useState("");
 
-  function performAsyncTask() {
-    return new Promise(resolve => {
-      // 비동기 작업 수행
-      setTimeout(() => {
-        // 작업 완료 후의 로직
-        console.log("Async task completed");
-        resolve();
-      }, 500);
-    });
-  }
+  // function performAsyncTask() {
+  //   return new Promise(resolve => {
+  //     // 비동기 작업 수행
+  //     setTimeout(() => {
+  //       // 작업 완료 후의 로직
+  //       console.log("Async task completed");
+  //       resolve();
+  //     }, 500);
+  //   });
+  // }
 
   // 비동기 작업을 수행하고 모든 작업이 완료될 때까지 대기
-  async function executeAsyncTasks() {
-    const tasks = [];
+  // async function executeAsyncTasks() {
+  //   const tasks = [];
 
-    for (let i = 0; i < 1000; i++) {
-      tasks.push(performAsyncTask());
-    }
+  //   for (let i = 0; i < 1000; i++) {
+  //     tasks.push(performAsyncTask());
+  //   }
 
-    await Promise.all(tasks);
-  }
+  //   await Promise.all(tasks);
+  // }
 
   // 실행
-  executeAsyncTasks();
+  // executeAsyncTasks();
 
   const options = [
     { value: "option1", label: "고기잡담 글" },
@@ -83,8 +79,6 @@ const SupervisorReportPage = () => {
       contents: "줘도 안 먹을 맛임",
       state: "삭제",
       count: 3,
-      delete: "삭제",
-      cancel: "취소",
     },
     {
       check: "고기잠담 댓글",
@@ -92,8 +86,6 @@ const SupervisorReportPage = () => {
       contents: "바보똥개야",
       state: "삭제",
       count: 3,
-      delete: "삭제",
-      cancel: "취소",
     },
     {
       check: "고기잡담 댓글",
@@ -101,8 +93,6 @@ const SupervisorReportPage = () => {
       contents: "ㅇㅇ",
       state: "보류",
       count: 1,
-      delete: "삭제",
-      cancel: "취소",
     },
   ];
 
@@ -117,7 +107,7 @@ const SupervisorReportPage = () => {
   ];
 
   const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
-    useTable({ columns, data: manageData });
+    useTable({ columns, data: Tabledata });
 
   const handleDeleteClick = rowData => {
     console.log("Delete button clicked for row:", rowData);
@@ -126,6 +116,22 @@ const SupervisorReportPage = () => {
   const handleCancelClick = rowData => {
     console.log("Cancel button clicked for row:", rowData);
   };
+
+  // ! API
+  // const initState = [
+  //   {
+  //     pk: 0,
+  //     contents: "string",
+  //     writerNm: "string",
+  //     count: 0,
+  //     state: 0,
+  //   },
+  // ];
+  // const { data } = useQuery({
+  //   queryKey: ["reportData"],
+  //   queryFn: () => getReport({}),
+  // });
+  // const reportData = data || initState;
 
   return (
     <SvisorReportWrap>
@@ -171,6 +177,7 @@ const SupervisorReportPage = () => {
                   borderLeft: "0px solid #DBDBDB",
                   borderRight: "0px solid #DBDBDB",
                   textAlign: "center",
+                  
                 }}
                 className="tableHeader"
               >
@@ -196,10 +203,11 @@ const SupervisorReportPage = () => {
                     <td>
                       <button
                         onClick={() => handleDeleteClick(row.original)}
+                        
                         className="delete-bt"
                       >
                         {row.original.delete}
-                      </button>
+                      삭제</button>
                     </td>
                     <td>
                       <button
@@ -207,7 +215,7 @@ const SupervisorReportPage = () => {
                         className="cancel-bt"
                       >
                         {row.original.cancel}
-                      </button>
+                      취소</button>
                     </td>
                   </tr>
                 );
