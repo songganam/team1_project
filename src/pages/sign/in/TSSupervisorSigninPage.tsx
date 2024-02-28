@@ -7,7 +7,7 @@ import "../in/styles/UserSigninStyle.css";
 
 import ResultModal from "../../../components/common/ResultModal";
 import useCustomHook from "../../../components/meat/hooks/useCustomHook";
-import useCustomLogin from "../../../components/meat/hooks/useCustomLogin";
+// import useCustomLogin from "../../../components/meat/hooks/JS/useCustomLogin";
 import useCustomLoginTS from "../../../components/meat/hooks/useCustomLoginTS";
 import TitleHeader from "../../../components/titleheader/TitleHeader";
 import Layout from "../../../layouts/Layout";
@@ -28,8 +28,8 @@ const initState: SigninForm = {
 };
 const TSSupervisorSigninPage = () => {
   const [authParam, setAuthParam] = useState(initState);
-  const { moveToPath } = useCustomLogin();
-  const { doSupervisorLoginTS } = useCustomLoginTS();
+  // const { moveToPath } = useCustomLogin();
+  const { doSupervisorLoginTS, moveToPath } = useCustomLoginTS();
   const { isModal, openModal, closeModal } = useCustomHook();
   const navigate = useNavigate();
 

@@ -17,7 +17,6 @@ import {
 import { SigninForm } from "../TSJoin";
 import useCustomLoginTS from "../../../components/meat/hooks/useCustomLoginTS";
 import useCustomHook from "../../../components/meat/hooks/useCustomHook";
-import useCustomLogin from "../../../components/meat/hooks/useCustomLogin";
 import Layout from "../../../layouts/Layout";
 import ResultModal from "../../../components/common/ResultModal";
 import TitleHeader from "../../../components/titleheader/TitleHeader";
@@ -30,8 +29,7 @@ const initState: SigninForm = {
 };
 const LoginPage = () => {
   const [authParam, setAuthParam] = useState(initState);
-  const { doLogin, doAdminLogin, moveToPath } = useCustomLogin();
-  const { doLoginTS, doAdminLoginTS } = useCustomLoginTS();
+  const { doLoginTS, doAdminLoginTS, moveToPath } = useCustomLoginTS();
   const { isModal, openModal, closeModal } = useCustomHook();
   const navigate = useNavigate();
   const [loginFlag, setLoginFlag] = useState(0);
@@ -132,29 +130,6 @@ const LoginPage = () => {
     UserMutation,
     openModal,
   ]);
-  // @COMMENT BAKCUP
-  // const handleClick = async () => {
-  //   if (authParam.email === "" || authParam.upw === "") {
-  //     console.log("id", authParam.email);
-  //     console.log("pw", authParam.upw);
-  //     openModal(
-  //       "로그인 실패",
-  //       "이메일 또는 비밀번호를 입력하지 않으셨습니다.",
-  //       closeModal,
-  //     );
-  //     return;
-  //   }
-  //   try {
-  //     if (loginFlag === 1) {
-  //       AdminMutation.mutate(authParam);
-  //     } else {
-  //       UserMutation.mutate(authParam);
-  //     }
-  //     // loginComplete();
-  //   } catch (error) {
-  //     console.log(error);
-  //   }
-  // };
 
   // 회원가입 페이지 이동
   const handleJaddClick = () => {

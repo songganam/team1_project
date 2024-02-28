@@ -7,13 +7,13 @@ import {
 import { getNum } from "../../../util/utils";
 import useModal from "./useModal";
 import useSelectModal from "./useSelectModal";
-import useCustomLogin from "./useCustomLogin";
+import useCustomLoginTS from "./useCustomLoginTS";
 import useEmptyModal from "./useEmptyModal";
 const useCustomHook = () => {
   const navigate = useNavigate();
   const [urlSearchParams, setUrlSearchPrams] = useSearchParams();
   const { isModal, openModal, closeModal, moveToLogin } = useModal();
-  const { isLogin } = useCustomLogin();
+  const { isLogin } = useCustomLoginTS();
   const {
     isSelectModal,
     openSelectModal,

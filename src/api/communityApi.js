@@ -153,13 +153,16 @@ export const getOne = async ({ iboard, successFn, failFn, errorFn }) => {
   }
 };
 // 해당 글 좋아요!
-
-export const postFav = async ({ iboard, iuser }) => {
+export const postFav = async ({ iboard }) => {
+  console.log("board num ", iboard);
+  const boardNum = parseInt(iboard);
+  const postNum = {
+    iboard: boardNum,
+  };
+  console.log("Test num", postNum);
   try {
-    const response = await authAxios.get(`${host}/fav`, {
-      headers: { "Content-Type": "application/json" },
-      params: { iuser, iboard },
-    });
+    const header = { headers: { "Content-Type": "application/json" } };
+    const response = await authAxios.post(`${host}/fav`, postNum, header);
     console.log("axios 실행");
     return response.data;
   } catch (error) {

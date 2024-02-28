@@ -11,7 +11,7 @@ import CountingStar from "../../components/common/CountingStar";
 import Fetching from "../../components/common/Fetching";
 import ResultModal from "../../components/common/ResultModal";
 import useCustomHook from "../../components/meat/hooks/useCustomHook";
-import useCustomLogin from "../../components/meat/hooks/useCustomLogin";
+import useCustomLoginTS from "../../components/meat/hooks/useCustomLoginTS";
 import {
   ImgStyle,
   InfoContent,
@@ -95,7 +95,7 @@ const MeatDetailPage = () => {
   const navigate = useNavigate();
   const { ishop } = useParams();
   const { isModal, openModal, closeModal, moveToLogin } = useCustomHook();
-  const { isLogin } = useCustomLogin();
+  const { isLogin } = useCustomLoginTS();
   const baseApi = API_SERVER_HOST;
   // const host = `${baseApi}/pic`;
   const host = `${baseApi}/pic/shop/${ishop}/shop_pic/`;

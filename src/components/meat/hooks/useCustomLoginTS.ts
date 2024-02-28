@@ -6,7 +6,7 @@ import {
   loginPostTS,
   postSvisorSignUpTs,
 } from "../../../api/SignApi";
-import { atomSignState } from "../../../atom/atomSignState";
+import { atomUserState } from "../../../atom/atomUserState";
 
 import { atomAdminState } from "../../../atom/atomAdminState";
 import { SigninForm } from "../../../pages/sign/TSJoin";
@@ -14,11 +14,11 @@ import { removeCookie, setCookie } from "../../../util/CookiesUtil";
 import { atomSupervisorState } from "../../../atom/atomSupervisorState";
 
 const useCustomLoginTS = () => {
-  const [loginState, setLoginState] = useRecoilState(atomSignState);
+  const [userState, setUserState] = useRecoilState(atomUserState);
   const [adminState, setAdminState] = useRecoilState(atomAdminState);
   const [supervisorState, setSupervisorState] =
     useRecoilState(atomSupervisorState);
-  const resetSignState = useResetRecoilState(atomSignState);
+  const resetSignState = useResetRecoilState(atomUserState);
   const resetAdminState = useResetRecoilState(atomAdminState);
   const resetSupervisorState = useResetRecoilState(atomSupervisorState);
 
@@ -26,7 +26,7 @@ const useCustomLoginTS = () => {
   const API_SERVER_HOST = "";
   const host = `${API_SERVER_HOST}/api/user`;
 
-  const isLogin = loginState.result == 1 ? true : false;
+  const isLogin = userState.result == 1 ? true : false;
   const isAdminLogin = adminState?.shopName?.length > 0;
   console.log("Test3", isAdminLogin);
   console.log("Test4", adminState.shopName);
@@ -55,17 +55,18 @@ const useCustomLoginTS = () => {
   };
 
   const saveAsUserCookie = (result: any) => {
-    setLoginState(result);
+    setUserState(result);
 
     setCookie("member", JSON.stringify(result), 1);
   };
+
   const saveAsAdminCookie = (result: any) => {
     setAdminState(result);
     setCookie("member", JSON.stringify(result), 1);
   };
+
   const saveAsSupervisorCookie = (result: any) => {
     setSupervisorState(result);
-
     setCookie("member", JSON.stringify(result), 1);
   };
 
@@ -101,8 +102,7 @@ const useCustomLoginTS = () => {
   };
 
   return {
-    loginState,
-    isLogin,
+    userState,
     doLoginTS,
     doAdminLoginTS,
     doSupervisorLoginTS,
@@ -110,6 +110,7 @@ const useCustomLoginTS = () => {
     moveToPath,
     moveToLogin,
     loginComplete,
+    isLogin,
     isAdminLogin,
     isSupervisorLogin,
   };

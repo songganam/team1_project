@@ -89,3 +89,10 @@ export interface ReviewDataForm {
 export interface ishopForm {
   ishop: number;
 }
+
+export interface ReportForm {
+  ireview: number;
+  ireport: number;
+  ishop: number;
+  checkShop: number;
+}

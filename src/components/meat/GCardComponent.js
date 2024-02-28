@@ -2,7 +2,7 @@ import React from "react";
 import { useNavigate, useParams } from "react-router";
 import ResultModal from "../common/ResultModal";
 import useCustomHook from "./hooks/useCustomHook";
-import useCustomLogin from "./hooks/useCustomLogin";
+import useCustomLogin from "./hooks/JS/useCustomLogin";
 import {
   CardWrapper,
   InfoTagWrap,

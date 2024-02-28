@@ -43,7 +43,7 @@ const Header = () => {
   const authState = useSelector(state => state.authSlice);
   const [myProfileData, setMyProfileData] = useState(initialProfile);
   const dispatch = useDispatch();
-  const { isLogin, moveToPath, doLogout, isSupervisorLogin, isAdminLogin } =
+  const { isLogin, doLogout, isSupervisorLogin, isAdminLogin } =
     useCustomLoginTS();
   const [fetching, setFetching] = useState(false);
   const [refreshHeader, setRefreshHeader] = useState(false);
@@ -93,7 +93,6 @@ const Header = () => {
           }),
         );
       },
-      // setRefreshHeader(prev => !prev),
       cancelSelectModal,
     );
   };

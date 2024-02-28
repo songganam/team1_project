@@ -12,7 +12,7 @@ import {
   ReserveBtn,
 } from "./styles/BCardStyle";
 import useCustomHook from "../meat/hooks/useCustomHook";
-import useCustomLogin from "../meat/hooks/useCustomLogin";
+import useCustomLoginTS from "../meat/hooks/useCustomLoginTS";
 import { API_SERVER_HOST } from "../../api/meatApi";
 
 const GCardComponent = ({ data }) => {
@@ -29,7 +29,7 @@ const GCardComponent = ({ data }) => {
     moveToLogin,
     moveToBReser,
   } = useCustomHook();
-  const { isLogin } = useCustomLogin();
+  const { isLogin } = useCustomLoginTS();
   const handleReserClick = (e, ibutcher, name) => {
     e.stopPropagation();
     if (isLogin) {

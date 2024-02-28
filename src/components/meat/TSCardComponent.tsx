@@ -2,7 +2,7 @@ import React, { MouseEvent } from "react";
 import { useNavigate, useParams } from "react-router";
 import ResultModal from "../common/ResultModal";
 import useCustomHook from "./hooks/useCustomHook";
-import useCustomLogin from "./hooks/useCustomLogin";
+import useCustomLoginTS from "./hooks/useCustomLoginTS";
 import {
   CardWrapper,
   InfoTagWrap,
@@ -23,7 +23,7 @@ const ListCard: React.FC<PropsList> = ({ serverData }) => {
   const { moveToRead, moveToReser, isModal, openModal, moveToLogin } =
     useCustomHook();
 
-  const { isLogin } = useCustomLogin();
+  const { isLogin } = useCustomLoginTS();
   const baseApi = API_SERVER_HOST;
   const host = `${baseApi}/pic/shop/`;
   const handleReserClick = (
