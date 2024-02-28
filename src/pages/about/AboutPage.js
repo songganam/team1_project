@@ -1,8 +1,12 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useNavigate, useParams } from "react-router";
 import { getAbout } from "../../api/aboutApi";
+import { API_SERVER_HOST } from "../../api/config";
 import { DefaultBt } from "../../components/button/styles/ButtonStyle";
 import Fetching from "../../components/common/Fetching";
+import ResultModal from "../../components/common/ResultModal";
+import useCustomHook from "../../components/meat/hooks/useCustomHook";
+import useCustomLoginTS from "../../components/meat/hooks/useCustomLoginTS";
 import Layout from "../../layouts/Layout";
 import {
   AboutCardButton,
@@ -19,10 +23,6 @@ import {
   MainButcher,
   MainGogiShop,
 } from "./styles/AboutPageStyle";
-import { API_SERVER_HOST } from "../../api/config";
-import useCustomHook from "../../components/meat/hooks/useCustomHook";
-import useCustomLogin from "../../components/meat/hooks/useCustomLogin";
-import ResultModal from "../../components/common/ResultModal";
 
 const AboutPage = () => {
   const [aboutData, setAboutData] = useState([]);
@@ -39,7 +39,7 @@ const AboutPage = () => {
 
   const { isModal, openModal, closeModal, moveToRead, moveToLogin } =
     useCustomHook();
-  const { isLogin } = useCustomLogin();
+  const { isLogin } = useCustomLoginTS();
   const navigate = useNavigate();
 
   const successFn = result => {

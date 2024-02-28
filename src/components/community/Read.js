@@ -1,5 +1,4 @@
-import React, { useEffect, useState } from "react";
-import { useSelector } from "react-redux";
+import { useEffect, useState } from "react";
 import { useParams } from "react-router-dom";
 import {
   deleteComment,
@@ -14,14 +13,12 @@ import Button from "../button/Button";
 import Fetching from "../common/Fetching";
 import ResultModal from "../common/ResultModal";
 import SelectedModal from "../common/SelectedModal";
-import Tag from "../tag/Tag";
 import {
   ContentInfoStyle,
   ContentStyle,
   ImgStyle,
   LargeImgStyle,
   NameStyle,
-  TagBoxStyle,
   ThumbnailStyle,
   UserStyle,
   WrapStyle,
@@ -38,6 +35,7 @@ import {
 } from "./styles/ReadStyle";
 // @COMMENT import React-Query
 import { useMutation } from "@tanstack/react-query";
+import useCustomLoginTS from "../meat/hooks/useCustomLoginTS";
 
 const host = API_SERVER_HOST;
 // 서버데이터 초기값
@@ -74,11 +72,13 @@ const initComment = {
 };
 
 const Read = () => {
-  // 로그인 정보 불러오기
-  const authState = useSelector(state => state.authSlice);
-
+  // @RTK 로그인 정보 불러오기
+  // const authState = useSelector(state => state.authSlice);
+  // @RECOIL 로그인 정보 불러오기
+  const { userState } = useCustomLoginTS();
   // console.log(authState.nickname);
-  const isNickname = authState.nickname;
+  const isNickname = userState.nickname;
+  // const isNickname = authState.nickname;
 
   // 커스텀 훅
   const { moveToRead, moveToList, moveToModify, page } = useCustomMove();
@@ -359,14 +359,18 @@ const Read = () => {
     iboard: 0,
   };
   // use Mutation
-  const iuser = authState.iuser;
+  const iuser = userState.iuser;
   // const dataForm = {
   //   iuser: parseInt(iuser),
   //   iboard: parseInt(iboard),
   // };
   // console.log("데이터 폼 테스트 :", dataForm);
   const addMutation = useMutation({
-    mutationFn: fav => postFav({ iboard, iuser }),
+    mutationFn: fav => postFav({ iboard }),
+    onSuccess: result => {
+      console.log("성공한 게시물 : ", iboard);
+    },
+    onError: () => {},
   });
   const handleClickFav = () => {
     console.log("데이터다 :", iboard, iuser);

@@ -1,4 +1,4 @@
-import { CSSProperties, useState } from "react";
+import { CSSProperties, ChangeEvent, useState } from "react";
 import CountingStar from "../../components/common/CountingStar";
 import {
   ContentWrap,
@@ -19,7 +19,9 @@ import { FreeMode, Navigation, Thumbs } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { API_SERVER_HOST } from "../../api/config";
 import { ReviewCardWrap } from "../admin/styles/AdminReviewStyle";
-import { ReviewDataForm } from "./Meat";
+import { ReportForm, ReviewDataForm } from "./Meat";
+import { useMutation } from "@tanstack/react-query";
+import { postReportTS } from "../../api/typeApi";
 
 const TSMeatReviewCard = ({ reviewData }: { reviewData: ReviewDataForm }) => {
   const { ishop } = useParams();
@@ -41,6 +43,31 @@ const TSMeatReviewCard = ({ reviewData }: { reviewData: ReviewDataForm }) => {
     "--swiper-navigation-color": "transparent",
     "--swiper-pagination-color": "transparent",
   };
+
+  const initState: ReportForm = {
+    ireview: 0,
+    ireport: 0,
+    ishop: 0,
+    checkShop: 0,
+  };
+
+  // const [reportData, setReportData] = useState(initState);
+  // const ReportMutation = useMutation({
+  //   mutationFn: reportData => {
+  //     postReportTS({ reportData });
+  //   },
+  //   onSuccess: () => {},
+  //   onError: () => {},
+  // });
+  // const handleClickReport = (report: ReportForm) => {
+  //   ReportMutation.mutate(report);
+  // };
+  // const handleChangeReport = (e: ChangeEvent<HTMLInputElement>) => {
+  //   setReportData(prevValue => ({
+  //     ...prevValue,
+  //     [e.target.name]: e.target.value,
+  //   }));
+  // };
 
   return (
     <div>
@@ -113,6 +140,16 @@ const TSMeatReviewCard = ({ reviewData }: { reviewData: ReviewDataForm }) => {
               </ReviewInfoWrap>
             </ContentWrap>
           </div>
+          {/* <div>
+            <span>신고하고싶다 이말이야</span>
+            <input
+              type="text"
+              name=""
+              value={}
+              onChange={e => handleChangeReport}
+            />
+            <button onClick={handleClickReport}>신고슛</button>
+          </div> */}
         </div>
       </ReviewCardWrap>
     </div>

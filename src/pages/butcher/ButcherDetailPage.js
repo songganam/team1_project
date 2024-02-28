@@ -11,7 +11,7 @@ import CountingStar from "../../components/common/CountingStar";
 import Fetching from "../../components/common/Fetching";
 import ResultModal from "../../components/common/ResultModal";
 import useCustomHook from "../../components/meat/hooks/useCustomHook";
-import useCustomLogin from "../../components/meat/hooks/useCustomLogin";
+import useCustomLogin from "../../components/meat/hooks/JS/useCustomLogin";
 import {
   ImgStyle,
   LargeImgStyle,

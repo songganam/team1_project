@@ -1,5 +1,5 @@
 import axios from "axios";
-import { ListParam, ReserForm } from "../pages/meat/Meat";
+import { ListParam, ReportForm, ReserForm } from "../pages/meat/Meat";
 import authAxios from "../util/tokenUtil";
 import { BNumForm } from "../pages/sign/TSJoin";
 
@@ -102,5 +102,29 @@ export const postBusiNumTS = async ({ dataForm }: { dataForm: BNumForm }) => {
   } catch (error) {
     console.log("");
     throw error;
+  }
+};
+
+// @AREA Report
+
+export const postReportTS = async ({
+  reportData,
+}: {
+  reportData: ReportForm;
+}) => {
+  try {
+    //
+    const header = { headers: { "Content-Type": "application/json" } };
+    const res = await authAxios.post(
+      `${host}/user/review/report`,
+      reportData,
+      header,
+    );
+    // const status = res.status.toString();
+    return res.data;
+  } catch (error) {
+    console.log(error);
+    throw error;
+    //
   }
 };

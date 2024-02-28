@@ -9,7 +9,7 @@ const loadMemberCookie = () => {
   const memberInfo = getCookie("member");
   return memberInfo;
 };
-export const atomSignState = atom({
-  key: "atomSignState",
+export const atomUserState = atom({
+  key: "atomUserState",
   default: loadMemberCookie() || initState,
 });

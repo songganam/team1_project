@@ -4,11 +4,11 @@ import {
   useSearchParams,
 } from "react-router-dom";
 import { getNum, getSearch } from "../util/utils";
-import useCustomLogin from "../components/meat/hooks/useCustomLogin";
+import useCustomLoginTS from "../components/meat/hooks/useCustomLoginTS";
 
 const useCustomMove = () => {
   // 로그인 훅
-  const { isLogin, moveToLogin } = useCustomLogin();
+  const { isLogin, moveToLogin } = useCustomLoginTS();
   // path hook
   const navigate = useNavigate();
   // query 알아내기, 읽기
