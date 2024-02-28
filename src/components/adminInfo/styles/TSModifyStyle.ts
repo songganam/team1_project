@@ -18,7 +18,7 @@ export const TSNavStyle = styled.div`
   justify-content: space-between;
   align-items: center;
   background: #fff;
-  z-index: 999;
+  z-index: 998;
   /* Shadow */
   box-shadow: 0px 1px 2px -1px rgba(0, 0, 0, 0.1),
     0px 1px 3px 0px rgba(0, 0, 0, 0.1);
