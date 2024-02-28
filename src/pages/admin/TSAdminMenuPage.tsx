@@ -1,16 +1,18 @@
 import { ChangeEvent, useState } from "react";
+import TSDepositField from "../../components/adminInfo/TSDepositField";
 import TSMenuPicInput from "../../components/adminInfo/TSMenuPicInput";
+import TSTextField from "../../components/adminInfo/TSTextField";
 import { ButtonStyleTS } from "../../components/adminInfo/styles/ButtonStyleTS";
+import { TSMenuStyle } from "../../components/adminInfo/styles/TSMenuStyle";
 import {
   TSAdminInfoWrapStyle,
   TSBackgroundBoxStyle,
   TSBoxInnerStyle,
   TSNavStyle,
+  TSPreviewWrapStyle,
   TSShopStyle,
   TSWrapInnerStyle,
 } from "../../components/adminInfo/styles/TSModifyStyle";
-import TSTextField from "../../components/adminInfo/TSTextField";
-import TSDepositField from "../../components/adminInfo/TSDepositField";
 
 // 메뉴정보 초기값
 const initState: MenuInfo = {
@@ -65,7 +67,25 @@ const TSAdminMenuPage = () => {
       </TSNavStyle>
       <TSWrapInnerStyle>
         <TSShopStyle>
-          <TSBackgroundBoxStyle></TSBackgroundBoxStyle>
+          <TSBackgroundBoxStyle>
+            <TSBoxInnerStyle>
+              <div className="title">
+                <div>메뉴목록</div>
+                {/* <div className="essential">*</div> */}
+              </div>
+              <TSMenuStyle>
+                <div className="menu-img">
+                  <img
+                    src={`${process.env.PUBLIC_URL}/assets/images/menuImg.png`}
+                  />
+                </div>
+                <div className="menu-info">
+                  <div>갈비살 [500g]</div>
+                  <div>38,000원</div>
+                </div>
+              </TSMenuStyle>
+            </TSBoxInnerStyle>
+          </TSBackgroundBoxStyle>
           <TSBackgroundBoxStyle>
             <TSBoxInnerStyle>
               <TSMenuPicInput onChange={handleChangeImage} />
@@ -99,6 +119,19 @@ const TSAdminMenuPage = () => {
             </TSBoxInnerStyle>
           </TSBackgroundBoxStyle>
         </TSShopStyle>
+        <TSPreviewWrapStyle>
+          <TSBackgroundBoxStyle>
+            <TSBoxInnerStyle>
+              <div className="title">
+                <div>미리보기</div>
+                {/* <div className="essential">*</div> */}
+              </div>
+              <div className="text-guide">
+                고깃집 상세보기 보여지는 예시입니다.
+              </div>
+            </TSBoxInnerStyle>
+          </TSBackgroundBoxStyle>
+        </TSPreviewWrapStyle>
       </TSWrapInnerStyle>
     </TSAdminInfoWrapStyle>
   );

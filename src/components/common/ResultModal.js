@@ -1,4 +1,3 @@
-import React from "react";
 import Button from "../button/Button";
 
 // 타이틀, 내용, 확인버튼 클릭 시 콜백 함수

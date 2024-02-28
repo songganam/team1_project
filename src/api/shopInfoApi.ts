@@ -54,8 +54,13 @@ export const getMenus = async (
   param: MenuInfo[],
 ): Promise<MenuInfo[] | undefined> => {
   try {
-    const header = { headers: { "Content-Type": "application/json" } };
-    const response = await axios.get(`${host}/menu`, { params: param });
+    // params와 headers를 같은 객체 내에 정의합니다.
+    const config = {
+      headers: { "Content-Type": "application/json" },
+      params: param, // 쿼리 파라미터로 전달할 객체
+    };
+
+    const response = await axios.get(`${host}/menu`, config);
     return response.data;
   } catch (error) {
     console.log("메뉴정보 호출 오류");
@@ -67,7 +72,7 @@ export const getMenus = async (
 export const postMenu = async ({ menuInfo }: { menuInfo: FormData }) => {
   try {
     const header = { headers: { "Content-Type": "multipart/form-data" } };
-    const response = await axios.post(`${host}`, menuInfo, header);
+    const response = await axios.post(`${host}/menu`, menuInfo, header);
     return response.data;
   } catch (error) {
     console.error(error);

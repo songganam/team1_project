@@ -21,11 +21,16 @@ import {
 } from "../../components/adminInfo/styles/TSModifyStyle";
 import EmptyModal from "../../components/common/EmptyModal";
 import useCustomHook from "../../components/meat/hooks/useCustomHook";
+import { useQuery } from "@tanstack/react-query";
+import useCustomLoginTS from "../../components/meat/hooks/useCustomLoginTS";
+import { useParams } from "react-router";
+import { getGInfoTS } from "../../api/typeApi";
 
 // 매장정보 초기값
 const initState: ShopInfo = {
   pics: [],
   imeat: 0,
+  ishop: 0,
   name: "",
   location: "",
   adress: "",
@@ -35,13 +40,14 @@ const initState: ShopInfo = {
   x: "",
   y: "",
   deposit: 0,
-  facility: [],
+  facilities: [],
 };
 
 // 매장정보 타입 정의
 interface ShopInfo {
   pics: File[];
   imeat: number;
+  ishop: number;
   name: string;
   location: string;
   adress: string;
@@ -51,7 +57,7 @@ interface ShopInfo {
   x: string;
   y: string;
   deposit: number;
-  facility: string[];
+  facilities: string[];
 }
 
 // 다음포스트 관련 타입 정의
@@ -66,14 +72,24 @@ interface Address {
   address: string;
 }
 
-//todo meatApi에서 매장정보 불러와서 수정해야함
+//todo SignApi에서 회원가입 정보로 매장정보 불러와서 수정해야함
 
 const TSAdminInfoPage = () => {
   // 커스텀 훅
   const { isEmptyModal, openEmptyModal, closeEmptyModal } = useCustomHook();
+  // const { isAdminLogin } = useCustomLoginTS();
+  const { ishop } = useParams();
+
+  const { data, isFetching } = useQuery({
+    queryKey: ["storeInfo", ishop],
+    queryFn: () => getGInfoTS({ ishop }),
+  });
+  const storeInfo = data || initState;
+  console.log("응답 데이터", storeInfo);
+  console.log("가게pk", ishop);
 
   // 매장정보 상태관리
-  const [shopInfo, setShopInfo] = useState<ShopInfo>(initState);
+  const [shopInfo, setShopInfo] = useState<ShopInfo>(storeInfo);
 
   // 이미지 업로드 관련
   // 자식 컴포넌트로부터 전달받은 이미지 파일 배열 처리
@@ -92,7 +108,7 @@ const TSAdminInfoPage = () => {
   ) => {
     setSelectedCheckboxes(selectedOptions);
     const facityLabels = selectedOptions.map(option => option.label);
-    setShopInfo(prev => ({ ...prev, facility: facityLabels }));
+    setShopInfo(prev => ({ ...prev, facilities: facityLabels }));
   };
 
   // 라디오 버튼 관련
