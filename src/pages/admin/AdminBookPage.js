@@ -11,6 +11,7 @@ import {
   NavStyle,
 } from "./styles/AdminBookpageStyle";
 import Button from "../../components/button/Button";
+import AdminButcherBookCard from "../../components/admin/AdminButcherBookCard";
 
 const AdminBookPage = () => {
   return (
@@ -26,6 +27,7 @@ const AdminBookPage = () => {
           <p>신규 예약 목록</p>
           <AdminBookCardBt>
             <AdminMeatBookCard></AdminMeatBookCard>
+            <AdminButcherBookCard></AdminButcherBookCard>
           </AdminBookCardBt>
         </AdminBookInner>
         <AdminNoShowInner>
