@@ -1,5 +1,16 @@
+import { useMutation } from "@tanstack/react-query";
 import { CSSProperties, ChangeEvent, MouseEvent, useState } from "react";
+import { useParams } from "react-router";
+import "swiper/css";
+import "swiper/css/free-mode";
+import "swiper/css/navigation";
+import "swiper/css/thumbs";
+import { FreeMode, Navigation, Thumbs } from "swiper/modules";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { API_SERVER_HOST } from "../../api/config";
+import { postReportTS } from "../../api/typeApi";
 import CountingStar from "../../components/common/CountingStar";
+import "../admin/styles.css";
 import {
   ContentWrap,
   ReviewContentWrap,
@@ -9,19 +20,8 @@ import {
   ReviewUserInfoWrap,
   SwiperWrap,
 } from "../admin/styles/AdminPageStyle";
-import "../admin/styles.css";
-import { useParams } from "react-router";
-import "swiper/css";
-import "swiper/css/free-mode";
-import "swiper/css/navigation";
-import "swiper/css/thumbs";
-import { FreeMode, Navigation, Thumbs } from "swiper/modules";
-import { Swiper, SwiperSlide } from "swiper/react";
-import { API_SERVER_HOST } from "../../api/config";
 import { ReviewCardWrap } from "../admin/styles/AdminReviewStyle";
 import { ReportForm, ReviewDataForm } from "./Meat";
-import { useMutation } from "@tanstack/react-query";
-import { postReportTS } from "../../api/typeApi";
 
 const TSMeatReviewCard = ({ reviewData }: { reviewData: ReviewDataForm }) => {
   const { ishop } = useParams();
@@ -60,6 +60,14 @@ const TSMeatReviewCard = ({ reviewData }: { reviewData: ReviewDataForm }) => {
 
   const reviewNum = reviewData.ireview;
 
+  const handleChangeReport = (e: ChangeEvent<HTMLSelectElement>) => {
+    const selectedValue = parseInt(e.target.value, 10);
+    setReportData(prevValue => ({
+      ...prevValue,
+      ireport: selectedValue,
+    }));
+  };
+
   console.log("ishop", typeof ishop);
   console.log("ireview", reviewData.ireview);
   console.log("ireview :", reportData.ireview);
@@ -74,12 +82,6 @@ const TSMeatReviewCard = ({ reviewData }: { reviewData: ReviewDataForm }) => {
     };
     console.log("최종 입력 폼 ", report);
     ReportMutation.mutate(report);
-  };
-  const handleChangeReport = (e: ChangeEvent<HTMLInputElement>) => {
-    setReportData(prevValue => ({
-      ...prevValue,
-      [e.target.name]: e.target.value,
-    }));
   };
 
   return (
@@ -155,12 +157,21 @@ const TSMeatReviewCard = ({ reviewData }: { reviewData: ReviewDataForm }) => {
           </div>
           <div>
             <span>신고하고싶다 이말이야</span>
-            <input
+            {/* <input
               type="text"
               name="ireport"
               value={reportData.ireport}
               onChange={e => handleChangeReport(e)}
-            />
+            /> */}
+
+            <select onChange={e => handleChangeReport(e)}>
+              <option value={1}>욕설/인신공격</option>
+              <option value={2}>음란물</option>
+              <option value={3}>영리목적/홍보성</option>
+              <option value={4}>개인정보</option>
+              <option value={5}>게시글 도배</option>
+              <option value={6}>기타</option>
+            </select>
             <button onClick={handleClickReport}>신고슛</button>
           </div>
         </div>

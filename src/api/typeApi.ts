@@ -2,6 +2,7 @@ import axios from "axios";
 import { ListParam, ReportForm, ReserForm } from "../pages/meat/Meat";
 import authAxios from "../util/tokenUtil";
 import { BNumForm } from "../pages/sign/TSJoin";
+import { report } from "process";
 
 export const API_SERVER_HOST = "";
 const host = `${API_SERVER_HOST}/api`;
@@ -112,6 +113,7 @@ export const postReportTS = async ({
 }: {
   reportData: ReportForm;
 }) => {
+  console.log("axios", reportData);
   try {
     //
     const header = { headers: { "Content-Type": "application/json" } };
@@ -121,6 +123,7 @@ export const postReportTS = async ({
       header,
     );
     // const status = res.status.toString();
+    console.log("result data  ", res.data);
     return res.data;
   } catch (error) {
     console.log(error);

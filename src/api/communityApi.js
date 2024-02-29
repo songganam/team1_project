@@ -169,3 +169,5 @@ export const postFav = async ({ iboard }) => {
     console.log(error);
   }
 };
+
+export const postCommuReport = async () => {};
