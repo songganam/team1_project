@@ -2,8 +2,10 @@ import { useMutation, useQuery } from "@tanstack/react-query";
 import { AxiosError, AxiosResponse } from "axios";
 import { ChangeEvent, MouseEvent, useState } from "react";
 import DaumPostcodeEmbed from "react-daum-postcode";
+import { useParams } from "react-router-dom";
+import { API_SERVER_HOST } from "../../api/config";
 import { getCoord } from "../../api/meatApi";
-import { putShopInfo } from "../../api/shopInfoApi";
+import { getShopInfo, putShopInfo } from "../../api/shopInfoApi";
 import TSAdressField from "../../components/adminInfo/TSAdressField";
 import TSCheckBoxInput from "../../components/adminInfo/TSCheckBoxInput";
 import TSDepositField from "../../components/adminInfo/TSDepositField";
@@ -23,25 +25,9 @@ import {
   TSWrapInnerStyle,
 } from "../../components/adminInfo/styles/TSModifyStyle";
 import EmptyModal from "../../components/common/EmptyModal";
+import Fetching from "../../components/common/Fetching";
 import useCustomHook from "../../components/meat/hooks/useCustomHook";
 import useCustomLoginTS from "../../components/meat/hooks/useCustomLoginTS";
-
-// // 가게사장 정보 초기값
-// const initBossState: BossState = {
-//   checkShop: 0,
-//   ishop: 0,
-//   iuser: 0,
-//   result: 0,
-//   shopName: "",
-// };
-
-// interface BossState {
-//   checkShop: number;
-//   ishop: number;
-//   iuser: number;
-//   result: number;
-//   shopName: string;
-// }
 
 // 매장정보 초기값
 const initState: ShopInfo = {
@@ -97,19 +83,37 @@ const TSAdminInfoPage = () => {
   // 커스텀 훅
   const { isEmptyModal, openEmptyModal, closeEmptyModal } = useCustomHook();
   const { isAdminLogin, adminState } = useCustomLoginTS();
-  // const { ishop } = useParams();
+  const { ishop } = useParams();
 
-  console.log("가게사장 정보", adminState);
-  console.log("로그인 된 가게 pk", adminState.ishop);
+  // console.log("가게사장 정보", adminState);
+  // console.log("로그인 된 가게 pk", adminState.ishop);
 
+  // 매장정보 가져오기
+  const { data, isFetching } = useQuery({
+    queryKey: ["storeInfo", ishop],
+    queryFn: () => getShopInfo({ ishop }),
+    initialData: initState,
+  });
   // 매장정보 상태관리
-  const [shopInfo, setShopInfo] = useState<ShopInfo>(initState);
+  const initShopInfo = data || initState;
+  console.log("리액트 쿼리 GET 가게사진pk", initShopInfo.pics);
+  console.log("리액트 쿼리 GET 편의시설", initShopInfo.faciliies);
+  console.log("리액트 쿼리 GET 고기종류", initShopInfo.imeat);
+  console.log("리액트 쿼리 GET 상호명", initShopInfo.name);
+  console.log("리액트 쿼리 GET 전화번호", initShopInfo.tel);
+  console.log("리액트 쿼리 GET 운영시간", initShopInfo.open);
+  console.log("리액트 쿼리 GET 위치", initShopInfo.location);
+  console.log("리액트 쿼리 GET 예약금", initShopInfo.deposit);
+
+  const [shopInfo, setShopInfo] = useState(initShopInfo);
 
   // 이미지 업로드 관련
+  const imageApi = API_SERVER_HOST;
+  const host = `${imageApi}/pic/shop/${ishop}/shop_pic/`;
   // 자식 컴포넌트로부터 전달받은 이미지 파일 배열 처리
   const handleChangeImage = (files: File[]) => {
     // shopInfo의 pics 상태 업데이트
-    setShopInfo(prev => ({ ...prev, pics: files }));
+    setShopInfo((prev: any) => ({ ...prev, pics: [...prev.pics, ...files] }));
   };
 
   // 체크박스 관련
@@ -122,7 +126,7 @@ const TSAdminInfoPage = () => {
   ) => {
     setSelectedCheckboxes(selectedOptions);
     const facityLabels = selectedOptions.map(option => option.id);
-    setShopInfo(prev => ({ ...prev, facility: facityLabels }));
+    setShopInfo((prev: any) => ({ ...prev, facility: facityLabels }));
   };
 
   // 라디오 버튼 관련
@@ -132,7 +136,7 @@ const TSAdminInfoPage = () => {
   const handleChangeRadio = (selectedId: number, selectedLabel: string) => {
     setSelectedRadios(selectedId);
     setSelectedLabel(selectedLabel);
-    setShopInfo(prev => ({ ...prev, imeat: selectedId }));
+    setShopInfo((prev: any) => ({ ...prev, imeat: selectedId }));
   };
 
   // 텍스트필드 관련
@@ -157,7 +161,7 @@ const TSAdminInfoPage = () => {
     // 주소와 상세주소 조합
     // const fullLocation = `${newAddress} ${extraAdress}`.trim();
 
-    setShopInfo(prev => ({ ...prev, adress: newAddress }));
+    setShopInfo((prev: any) => ({ ...prev, adress: newAddress }));
     // 이건 X,Y 값을 알아내기 위한 API이기때문에 필요없으시면 사용하실 필요 없습니다.
     getCoord({ fullAddress: newAddress, successCoordFn });
     closeEmptyModal();
@@ -167,7 +171,7 @@ const TSAdminInfoPage = () => {
     console.log("result value ", result);
     // const xValue = result.x;
     // const yValue = result.y;
-    setShopInfo(prev => ({ ...prev, x: result.x, y: result.y }));
+    setShopInfo((prev: any) => ({ ...prev, x: result.x, y: result.y }));
   };
   // @COMMENT 다음포스트 호출
   const handleOpenDaumPostSearch = () => {
@@ -185,7 +189,7 @@ const TSAdminInfoPage = () => {
   const handleChangeDetailLocation = (e: ChangeEvent<HTMLInputElement>) => {
     const newExtraAdress = e.target.value;
     setExtraAdress(newExtraAdress);
-    setShopInfo(prev => ({
+    setShopInfo((prev: { adress: any }) => ({
       ...prev,
       location: `${prev.adress} ${newExtraAdress}`.trim(),
       extraAdress: newExtraAdress,
@@ -198,8 +202,14 @@ const TSAdminInfoPage = () => {
   console.log(shopInfo);
   //!==================================================
 
-  // 매장정보 가져오기
-  // const { data, isFetching } = useQuery({});
+  // 이미지 삭제 핸들러
+  // 이미지 삭제 핸들러
+  const handleDeleteImage = (imageIndex: number) => {
+    const newPics = shopInfo.pics.filter(
+      (index: number) => index !== imageIndex,
+    );
+    setShopInfo((prev: number) => ({ prev, pics: newPics }));
+  };
 
   // 매장정보 수정 mutation
   const shopInfoMutation = useMutation({
@@ -214,13 +224,18 @@ const TSAdminInfoPage = () => {
 
   // 매장정보 수정 실행 함수
   const handleClickModify = async (e: MouseEvent<HTMLButtonElement>) => {
-    // e.preventDefault();
-
+    e.preventDefault();
     const formData = new FormData();
-    shopInfo.pics.forEach(pic => formData.append("pics", pic));
+    // if (!shopInfo || !shopInfo.pics) {
+    //   console.log("데이터 아직 안옴?");
+    //   return;
+    // }
+    shopInfo.pics.forEach((file: string | Blob) =>
+      formData.append("pics", file),
+    );
 
-    const depositAsNumber = Number(shopInfo.deposit);
-    const validDeposit = !isNaN(depositAsNumber) ? depositAsNumber : 0;
+    // const depositAsNumber = Number(shopInfo.deposit);
+    // const validDeposit = !isNaN(depositAsNumber) ? depositAsNumber : 0;
 
     const dto = new Blob(
       [
@@ -233,7 +248,7 @@ const TSAdminInfoPage = () => {
           tel: shopInfo.tel,
           x: shopInfo.x,
           y: shopInfo.y,
-          deposit: validDeposit,
+          deposit: shopInfo.deposit,
           facility: shopInfo.facility,
         }),
       ],
@@ -242,13 +257,14 @@ const TSAdminInfoPage = () => {
     formData.append("dto", dto);
 
     shopInfoMutation.mutate(formData);
-    console.log("속성 타입", typeof validDeposit);
-    console.log("속성 타입", typeof shopInfo.imeat);
-    console.log("제출됐냐?", shopInfo);
+    // console.log("속성 타입", typeof shopInfo?.deposit);
+    // console.log("속성 타입", typeof shopInfo.imeat);
+    // console.log("제출됐냐?", shopInfo);
   };
 
   return (
     <TSAdminInfoWrapStyle>
+      {isFetching && <Fetching />}
       <TSNavStyle>
         <div className="page-title">매장 정보 관리</div>
         <ButtonStyleTS type="button" onClick={handleClickModify}>
@@ -258,9 +274,16 @@ const TSAdminInfoPage = () => {
       <TSWrapInnerStyle>
         <TSShopStyle>
           <TSBackgroundBoxStyle>
-            <TSPicsInput onChange={handleChangeImage} />
+            <TSPicsInput
+              onChange={handleChangeImage}
+              initPics={shopInfo?.pics?.map((pic: string) => ({
+                url: `${host}/${pic}`,
+                file: new File([], pic),
+              }))}
+              onDelete={handleDeleteImage}
+            />
           </TSBackgroundBoxStyle>
-          {shopInfo.imeat !== 0 ? (
+          {shopInfo?.imeat !== 0 ? (
             <TSBackgroundBoxStyle>
               <TSCheckBoxInput onChange={handleChangeCheckbox} />
             </TSBackgroundBoxStyle>
@@ -279,9 +302,9 @@ const TSAdminInfoPage = () => {
                 <div className="essential">*</div>
               </div>
               <TSTextField
-                placeholder={adminState.shopName || "상호명을 입력하세요"}
+                placeholder={"상호명을 입력하세요"}
                 name="name"
-                value={shopInfo.name}
+                value={shopInfo?.name}
                 onChange={handleChangeText}
               />
 
@@ -340,13 +363,13 @@ const TSAdminInfoPage = () => {
                     placeholder="주소검색을 이용해주세요"
                     readonly={true}
                     name="location"
-                    value={shopInfo.adress}
+                    value={shopInfo?.adress}
                   />
                   <TSExtraAdressField
                     placeholder="상세주소를 입력하세요"
                     readonly={false}
                     name="extraAdress"
-                    value={shopInfo.extraAdress}
+                    value={shopInfo?.extraAdress}
                     onChange={handleChangeDetailLocation}
                   />
                 </div>
@@ -361,7 +384,7 @@ const TSAdminInfoPage = () => {
               </div>
             </TSBoxInnerStyle>
           </TSBackgroundBoxStyle>
-          {shopInfo.imeat !== 0 ? (
+          {shopInfo?.imeat !== 0 ? (
             <TSBackgroundBoxStyle>
               <TSBoxInnerStyle>
                 <div className="title">
@@ -389,25 +412,24 @@ const TSAdminInfoPage = () => {
               <div className="text-guide">
                 고깃집 상세보기 보여지는 예시입니다.
               </div>
-              {shopInfo.pics[0] ? (
+              {shopInfo?.pics[0] ? (
                 <div className="preview-inner">
-                  <img
-                    className="preview-img"
-                    src={URL.createObjectURL(shopInfo.pics[0])}
-                  />
+                  <img className="preview-img" src={shopInfo?.pics[0]} />
                   <div className="shop-info-box">
                     <div className="shop-info">
-                      <div className="shop-name">{shopInfo.name}</div>
+                      <div className="shop-name">{shopInfo?.name}</div>
                       <div className="shop-info-detail-box">
                         <div className="shop-info-text-wrap">
                           <div className="shop-info-cate">주소</div>
                           <div className="shop-info-detail">
-                            {shopInfo.location}
+                            {shopInfo?.location}
                           </div>
                         </div>
                         <div className="shop-info-text-wrap">
                           <div className="shop-info-cate">전화번호</div>
-                          <div className="shop-info-detail">{shopInfo.tel}</div>
+                          <div className="shop-info-detail">
+                            {shopInfo?.tel}
+                          </div>
                         </div>
                         <div className="shop-info-text-wrap">
                           <div className="shop-info-cate">고기종류</div>
