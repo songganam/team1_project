@@ -26,13 +26,6 @@ import EmptyModal from "../../components/common/EmptyModal";
 import useCustomHook from "../../components/meat/hooks/useCustomHook";
 import useCustomLoginTS from "../../components/meat/hooks/useCustomLoginTS";
 
-import { useMutation, useQuery } from "@tanstack/react-query";
-import { putShopInfo } from "../../api/shopInfoApi";
-import { AxiosError, AxiosResponse } from "axios";
-import { Glist } from "../meat/Meat";
-import { getGInfoTS } from "../../api/typeApi";
-
-
 // // 가게사장 정보 초기값
 // const initBossState: BossState = {
 //   checkShop: 0,
