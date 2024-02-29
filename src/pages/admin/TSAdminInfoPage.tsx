@@ -1,7 +1,9 @@
+import { useMutation, useQuery } from "@tanstack/react-query";
+import { AxiosError, AxiosResponse } from "axios";
 import { ChangeEvent, MouseEvent, useState } from "react";
 import DaumPostcodeEmbed from "react-daum-postcode";
-import { useParams } from "react-router-dom";
 import { getCoord } from "../../api/meatApi";
+import { putShopInfo } from "../../api/shopInfoApi";
 import TSAdressField from "../../components/adminInfo/TSAdressField";
 import TSCheckBoxInput from "../../components/adminInfo/TSCheckBoxInput";
 import TSDepositField from "../../components/adminInfo/TSDepositField";
@@ -23,9 +25,6 @@ import {
 import EmptyModal from "../../components/common/EmptyModal";
 import useCustomHook from "../../components/meat/hooks/useCustomHook";
 import useCustomLoginTS from "../../components/meat/hooks/useCustomLoginTS";
-import { useMutation } from "@tanstack/react-query";
-import { putShopInfo } from "../../api/shopInfoApi";
-import { AxiosError, AxiosResponse } from "axios";
 
 // // 가게사장 정보 초기값
 // const initBossState: BossState = {
@@ -59,7 +58,7 @@ const initState: ShopInfo = {
   x: "",
   y: "",
   deposit: 0,
-  facilities: [],
+  facility: [],
 };
 
 // 매장정보 타입 정의
@@ -77,7 +76,7 @@ interface ShopInfo {
   x: string;
   y: string;
   deposit: number;
-  facilities: string[];
+  facility: number[];
 }
 
 // 다음포스트 관련 타입 정의
@@ -98,7 +97,7 @@ const TSAdminInfoPage = () => {
   // 커스텀 훅
   const { isEmptyModal, openEmptyModal, closeEmptyModal } = useCustomHook();
   const { isAdminLogin, adminState } = useCustomLoginTS();
-  const { ishop } = useParams();
+  // const { ishop } = useParams();
 
   console.log("가게사장 정보", adminState);
   console.log("로그인 된 가게 pk", adminState.ishop);
@@ -115,15 +114,15 @@ const TSAdminInfoPage = () => {
 
   // 체크박스 관련
   const [selectedCheckboxes, setSelectedCheckboxes] = useState<
-    Array<{ id: string; label: string }>
+    Array<{ id: number; label: string }>
   >([]);
   // 체크박스 컴포넌트로 부터 전달받은 배열 처리
   const handleChangeCheckbox = (
-    selectedOptions: Array<{ id: string; label: string }>,
+    selectedOptions: Array<{ id: number; label: string }>,
   ) => {
     setSelectedCheckboxes(selectedOptions);
-    const facityLabels = selectedOptions.map(option => option.label);
-    setShopInfo(prev => ({ ...prev, facilities: facityLabels }));
+    const facityLabels = selectedOptions.map(option => option.id);
+    setShopInfo(prev => ({ ...prev, facility: facityLabels }));
   };
 
   // 라디오 버튼 관련
@@ -199,7 +198,8 @@ const TSAdminInfoPage = () => {
   console.log(shopInfo);
   //!==================================================
 
-  // 매장 사진 삭제 mutation
+  // 매장정보 가져오기
+  // const { data, isFetching } = useQuery({});
 
   // 매장정보 수정 mutation
   const shopInfoMutation = useMutation({
@@ -214,44 +214,43 @@ const TSAdminInfoPage = () => {
 
   // 매장정보 수정 실행 함수
   const handleClickModify = async (e: MouseEvent<HTMLButtonElement>) => {
-    e.preventDefault();
+    // e.preventDefault();
 
     const formData = new FormData();
-    const shopPics = new Blob(
-      [
-        JSON.stringify({
-          pics: shopInfo.pics.forEach(pic => formData.append("pics", pic)),
-        }),
-      ],
-      { type: "application/json" },
-    );
+    shopInfo.pics.forEach(pic => formData.append("pics", pic));
+
+    const depositAsNumber = Number(shopInfo.deposit);
+    const validDeposit = !isNaN(depositAsNumber) ? depositAsNumber : 0;
+
     const dto = new Blob(
       [
         JSON.stringify({
           imeat: shopInfo.imeat,
           name: shopInfo.name,
           location: shopInfo.location,
+          ishopPics: shopInfo.ishopPics,
           open: shopInfo.open,
           tel: shopInfo.tel,
           x: shopInfo.x,
           y: shopInfo.y,
-          deposit: shopInfo.deposit,
-          facility: shopInfo.facilities,
+          deposit: validDeposit,
+          facility: shopInfo.facility,
         }),
       ],
       { type: "application/json" },
     );
     formData.append("dto", dto);
-    formData.append("pics", shopPics);
+
     shopInfoMutation.mutate(formData);
-    console.log("제출됐냐?");
+    console.log("속성 타입", typeof validDeposit);
+    console.log("속성 타입", typeof shopInfo.imeat);
+    console.log("제출됐냐?", shopInfo);
   };
 
   return (
     <TSAdminInfoWrapStyle>
       <TSNavStyle>
         <div className="page-title">매장 정보 관리</div>
-        {/* 나중에 type="submit"으로 변경해야함 */}
         <ButtonStyleTS type="button" onClick={handleClickModify}>
           저장
         </ButtonStyleTS>
