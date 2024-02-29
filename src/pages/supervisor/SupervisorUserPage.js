@@ -8,8 +8,12 @@ import {
   SvisorTable,
 } from "./styles/SupervisorReportStyle";
 import { useEffect, useState } from "react";
-import { API_SERVER_HOST, getUser } from "../../api/userApi";
+import { getUser } from "../../api/userApi";
 import { useQuery } from "@tanstack/react-query";
+import { API_SERVER_HOST } from "../../api/config";
+import useCustomHook from "../../components/meat/hooks/useCustomHook";
+
+const svisorhost = API_SERVER_HOST;
 
 const initState = [
   {
@@ -24,20 +28,30 @@ const initState = [
 const SupervisorReportPage = () => {
   const [userData, setUserData] = useState([]);
   const [selectedValue, setSelectedValue] = useState("");
+  const { page } = useCustomHook;
+  const params = { page };
 
   // useEffect를 사용하여 컴포넌트가 마운트될 때 한 번만 실행되도록 설정
   useEffect(() => {
-    getUser({ userData, successFn }); // 데이터를 가져오는 함수 호출
-  }, []); // 빈 배열을 전달하여 컴포넌트가 마운트될 때만 실행
+    const result = getUser({ userData, successFn, failFn, errorFn }); // 데이터를 가져오는 함수 호출
+    // setUserData(result);
+    console.log("useEffect 사용");
+  }, [page]); // 빈 배열을 전달하여 컴포넌트가 마운트될 때만 실행
 
   const successFn = result => {
     setUserData(result);
   };
+  const failFn = result => {
+    setUserData(result);
+  };
+  const errorFn = result => {
+    console.log(result);
+  };
+
   // 선택지 목록 데이터
   const options = [
     { value: "option1", label: "정지" },
     { value: "option2", label: "해제" },
-
     // 추가적인 옵션들
   ];
 
@@ -111,8 +125,12 @@ const SupervisorReportPage = () => {
         {/* 데이터 매핑 및 표시 */}
         {userData.map((user, index) => (
           <div key={index}>
+            <p>iuser: {user.iuser}</p>
             <p>Name: {user.name}</p>
-            <p>ID: {user.id}</p>
+            <p>id: {user.id}</p>
+            <p>number: {user.number}</p>
+            <p>state: {user.state}</p>
+
             {/* 나머지 사용자 정보 표시 */}
           </div>
         ))}
@@ -141,7 +159,6 @@ const SupervisorReportPage = () => {
 
         <SvisorTable>
           {/* <span>테이블 테스트 </span> */}
-
           <table
             {...getTableProps()}
             style={{
@@ -194,6 +211,7 @@ const SupervisorReportPage = () => {
                   <td>
                     <button
                       onClick={() => handleLockClick(row)}
+                      // onClick={handleLockClick}
                       className="delete-bt"
                     >
                       {row?.lock}
@@ -202,6 +220,7 @@ const SupervisorReportPage = () => {
                   <td>
                     <button
                       onClick={() => handleUnlockClick(row)}
+                      // onClick={handleUnlockClick}
                       className="cancel-bt"
                     >
                       {row?.unlock}
