@@ -199,6 +199,8 @@ export const TSBoxInnerStyle = styled.div`
   }
   .check-box-wrap {
     display: flex;
+    width: 500px;
+    flex-wrap: wrap;
     align-items: flex-start;
     gap: 16px;
   }

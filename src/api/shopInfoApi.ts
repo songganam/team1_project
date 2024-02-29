@@ -1,7 +1,6 @@
 import axios from "axios";
-import { API_SERVER_HOST } from "./config";
-import useCustomLoginTS from "../components/meat/hooks/useCustomLoginTS";
 import authAxios from "../util/tokenUtil";
+import { API_SERVER_HOST } from "./config";
 
 const host = `${API_SERVER_HOST}/api`;
 
@@ -37,28 +36,44 @@ interface MenuModify {
   price?: number;
 }
 
-// const { isAdminLogin } = useCustomLoginTS();
-// const axiosInstance = isAdminLogin ? authAxios : axios;
+// 매장정보 가져오기
+export const getShopInfo = async () => {
+  try {
+    const header = { headers: { "Content-type": "application/json" } };
+    const response = await authAxios.get(`${host}/owner/management`, header);
+    return response.data;
+  } catch (error) {
+    console.log(error);
+    return undefined;
+  }
+};
 
 // 매장정보 수정하기
 export const putShopInfo = async ({
   shopInfoData,
 }: {
   shopInfoData: FormData;
-}) => {
-  try {
-    const header = { headers: { "Content-Type": "multipart/form-data" } };
-    const response = await authAxios.put(
-      `${host}/api/owner/modify`,
-      shopInfoData,
-      header,
-    );
-    return response.data;
-  } catch (error) {
-    console.error(error);
-    return undefined;
-  }
-};
+}) =>
+  // isAdminLogin: boolean,
+  {
+    try {
+      const header = {
+        headers: {
+          "Content-Type": "multipart/form-data",
+        },
+      };
+      // const axiosInstance = isAdminLogin ? authAxios : axios;
+      const response = await authAxios.put(
+        `${host}/owner/modify`,
+        shopInfoData,
+        header,
+      );
+      return response.data;
+    } catch (error) {
+      console.error(error);
+      return undefined;
+    }
+  };
 
 // 메뉴 리스트
 export const getMenus = async (
@@ -72,7 +87,7 @@ export const getMenus = async (
       params: param, // 쿼리 파라미터로 전달할 객체
     };
     const axiosInstance = isAdminLogin ? authAxios : axios;
-    const response = await axiosInstance.get(`${host}/api/owner/menu`, header);
+    const response = await axiosInstance.get(`${host}/owner/menu`, header);
     return response.data;
   } catch (error) {
     console.log("메뉴정보 호출 오류");
@@ -129,7 +144,7 @@ export const deleteMenu = async (
     const header = { headers: { "Content-Type": "application/json" } };
     const axiosInstance = isAdminLogin ? authAxios : axios;
     const response = await axiosInstance.delete(
-      `${host}/api/owner/menu/${imenu}`,
+      `${host}/owner/menu/${imenu}`,
       header,
     );
     return response.data;

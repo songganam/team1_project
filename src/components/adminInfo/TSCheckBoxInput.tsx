@@ -4,7 +4,7 @@ import { TSBoxInnerStyle } from "./styles/TSModifyStyle";
 
 // 체크박스 옵션 타입 정의
 interface CheckboxOption {
-  id: string;
+  id: number;
   label: string;
   checked: boolean;
   value: string;
@@ -12,15 +12,23 @@ interface CheckboxOption {
 
 // 체크박스 props 타입 정의
 interface CheckboxProps {
-  onChange: (selected: Array<{ id: string; label: string }>) => void; // 선택된 체크박스의 ID배열을 외부로 전달
+  onChange: (selected: Array<{ id: number; label: string }>) => void; // 선택된 체크박스의 ID배열을 외부로 전달
 }
 
 const TSCheckBoxInput: React.FC<CheckboxProps> = ({ onChange }) => {
   const [checkboxes, setCheckboxes] = useState<CheckboxOption[]>([
-    { id: "checkbox1", label: "주차장", checked: true, value: "parking" },
-    { id: "checkbox2", label: "화장실구분", checked: false, value: "restroom" },
-    { id: "checkbox3", label: "단체", checked: false, value: "group" },
-    { id: "checkbox4", label: "Wi-fi", checked: false, value: "wifi" },
+    { id: 1, label: "주차장", checked: true, value: "parking" },
+    { id: 2, label: "단체가능", checked: false, value: "restroom" },
+    { id: 3, label: "포장가능", checked: false, value: "group" },
+    { id: 4, label: "배달가능", checked: false, value: "wifi" },
+    { id: 5, label: "Wi-fi", checked: false, value: "wifi" },
+    { id: 6, label: "예약가능", checked: false, value: "wifi" },
+    { id: 7, label: "화장실구분", checked: false, value: "wifi" },
+    { id: 8, label: "대기공간", checked: false, value: "wifi" },
+    { id: 9, label: "장애인시설", checked: false, value: "wifi" },
+    { id: 10, label: "반려동물", checked: false, value: "wifi" },
+    { id: 11, label: "유아의자", checked: false, value: "wifi" },
+    { id: 12, label: "간편결제", checked: false, value: "wifi" },
   ]);
 
   useEffect(() => {
@@ -34,7 +42,7 @@ const TSCheckBoxInput: React.FC<CheckboxProps> = ({ onChange }) => {
   }, []);
 
   // 체크박스 변경 사항 처리
-  const handleChange = (optionId: string) => {
+  const handleChange = (optionId: number) => {
     // 체크박스 배열에서 클릭된 체크박스의 ID와 일치하는 체크박스의 상태를 토글
     const updateCheckboxes = checkboxes.map(
       checkbox =>
