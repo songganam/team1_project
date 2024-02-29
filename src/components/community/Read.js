@@ -378,33 +378,42 @@ const Read = () => {
     // console.log("test2", dataForm);
     favMutation.mutate();
   };
-  // const reportInitState = {
-  //   iboard: 0,
-  //   ireport: 0,
-  // };
-  // const [reportData, setReportData] = useState(initState);
-  // const reportMutation = useMutation({
-  //   mutationFn: report => postCommuReport({ reportData }),
-  //   onSuccess: () => {
-  //     console.log("신고 성공");
-  //   },
-  //   onError: () => {},
-  // });
+  const reportInitState = {
+    iboard: iboard,
+    ireport: 0,
+  };
+  const [reportData, setReportData] = useState(reportInitState);
+  const reportMutation = useMutation({
+    mutationFn: reportData => postCommuReport({ reportData }),
+    onSuccess: () => {
+      console.log("신고 성공");
+    },
+    onError: error => {
+      console.log(error);
+    },
+  });
 
-  // const handleChangeReport = e => {
-  //   const selectedValue = parseInt(e.target.value, 10);
-  //   setReportData(prevValue => ({
-  //     ...prevValue,
-  //     ireport: selectedValue,
-  //   }));
-  // };
-  // const handleClickReport = e => {
-  //   const report = {
-  //     iboard: iboard,
-  //     ireport: reportData.ireprt,
-  //   };
-  //   reportMutation.mutate(report);
-  // };
+  console.log("iboard : ", iboard);
+  console.log("iboard t :", typeof iboard);
+  // console.log("iboard", iboard);
+
+  const handleChangeReport = e => {
+    const selectedValue = parseInt(e.target.value, 10);
+    setReportData(prevValue => ({
+      ...prevValue,
+      ireport: selectedValue,
+    }));
+  };
+  const handleClickReport = () => {
+    // const numIboard = parseInt(iboard, 10);
+    const report = {
+      iboard: iboard !== undefined ? Number(iboard) : 0,
+      ireport: reportData.ireport,
+    };
+    console.log("report form test ", report);
+    console.log("reportData ", reportData);
+    reportMutation.mutate(report);
+  };
 
   return (
     <WrapStyle>
@@ -433,7 +442,7 @@ const Read = () => {
               onChange={e => handleChangeReport(e)}
             /> */}
 
-                {/* <select onChange={e => handleClickReport(e)}>
+                <select onChange={e => handleChangeReport(e)}>
                   <option value={1}>욕설/인신공격</option>
                   <option value={2}>음란물</option>
                   <option value={3}>영리목적/홍보성</option>
@@ -441,7 +450,7 @@ const Read = () => {
                   <option value={5}>게시글 도배</option>
                   <option value={6}>기타</option>
                 </select>
-                <button onClick={handleClickReport}>신고슛</button> */}
+                <button onClick={handleClickReport}>신고슛</button>
               </div>
             </div>
           </div>
@@ -604,6 +613,9 @@ const Read = () => {
                           삭제
                         </div>
                       ) : null}
+                      <div>
+                        <button>신고합니다.</button>
+                      </div>
                     </div>
                   </>
                 ))}

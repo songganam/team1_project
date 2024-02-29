@@ -170,4 +170,18 @@ export const postFav = async ({ iboard }) => {
   }
 };
 
-export const postCommuReport = async () => {};
+export const postCommuReport = async ({ reportData }) => {
+  // console.log("1!", reportData);
+  // console.log("2!", reportData.ireport);
+  // console.log("3!", reportData.iboard);
+  try {
+    const header = { headers: { "Content-Type": "application/json" } };
+    const response = await authAxios.post(`${host}/report`, null, {
+      header: header.headers,
+      params: { iboard: reportData.iboard, ireport: reportData.ireport },
+    });
+    return response.data;
+  } catch (error) {
+    console.log(error);
+  }
+};

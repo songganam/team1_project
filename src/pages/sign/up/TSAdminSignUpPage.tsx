@@ -147,8 +147,8 @@ const AdminJoinPage = () => {
   // const errorFn = () => {};
 
   const handleClickPost = async (
-    signUpData: AdminJoinData,
-    e: MouseEvent<HTMLDivElement>,
+    // signUpData: AdminJoinData,
+    e: MouseEvent<HTMLButtonElement>,
   ) => {
     // @COMMENT except pic
     const formData = new FormData();
@@ -176,14 +176,15 @@ const AdminJoinPage = () => {
       formData.append("pic", selectedImage);
     }
 
-    // signUpMutation.mutate(formData);
+    signUpMutation.mutate(formData);
+    console.log("가입완료");
 
     // console.log("결과값 : ", data);
-    if (ckeckFlag === false) {
-      alert("님 사업자체크하셈 안댐 이건");
-    } else {
-      signUpMutation.mutate(formData);
-    }
+    // if (ckeckFlag === true) {
+    //   alert("님 사업자체크하셈 안댐 이건");
+    // } else {
+    // }
+    // signUpMutation.mutate(formData);
   };
 
   // @COMMENT Password
@@ -235,14 +236,16 @@ const AdminJoinPage = () => {
     // 다른 필요한 속성들...
   };
   // successCoordFn 함수의 타입을 변경합니다.
-  const successCoordFn = (result: AxiosResponse<ApiResult>) => {
+  const successCoordFn = (result: { x: string; y: string }) => {
     console.log("result value ", result);
+    console.log("result value ", result.x);
+    console.log("result value ", result.y);
     setSignUpData(prev => ({
       ...prev,
       dto: {
         ...prev.dto,
-        x: result.data.x,
-        y: result.data.y,
+        x: result.x,
+        y: result.y,
       },
     }));
   };
@@ -517,7 +520,7 @@ const AdminJoinPage = () => {
             <DefaultBt
               type="button"
               className="join-button"
-              onClick={e => handleClickPost}
+              onClick={handleClickPost}
             >
               회원가입
             </DefaultBt>
