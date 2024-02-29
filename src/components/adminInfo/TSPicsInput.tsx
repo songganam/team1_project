@@ -8,6 +8,8 @@ import ResultModal from "../common/ResultModal";
 interface PicsInputProps {
   multiple?: boolean;
   onChange: (files: File[]) => void;
+  onDelete?: (index: number) => void;
+  initPics?: ImagePreview[];
 }
 
 // 미리보기 이미지 타입 정의
@@ -19,6 +21,8 @@ interface ImagePreview {
 const TSPicsInput: React.FC<PicsInputProps> = ({
   multiple = true,
   onChange,
+  onDelete,
+  initPics = [],
 }) => {
   // 커스텀 훅
   const { isModal, openModal, closeModal } = useModal();
@@ -30,7 +34,7 @@ const TSPicsInput: React.FC<PicsInputProps> = ({
   };
 
   // 업로드 할 이미지 미리보기 상태 업데이트
-  const [images, setImages] = useState<ImagePreview[]>([]);
+  const [images, setImages] = useState<ImagePreview[]>(initPics);
 
   const handleFileChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
@@ -38,7 +42,6 @@ const TSPicsInput: React.FC<PicsInputProps> = ({
       const newFilesArray = selectedFiles.map(file => ({
         url: URL.createObjectURL(file),
         file,
-        isNew: true,
       }));
 
       // 기존 이미지 배열에 새로운 이미지 파일들 추가
@@ -65,13 +68,19 @@ const TSPicsInput: React.FC<PicsInputProps> = ({
 
   // 이미지 미리보기 삭제 함수
   const deleteImage = (indexToDelete: number) => {
-    // 삭제하려는 이미지를 제외한 새로운 이미지 배열 계산
-    const updateImages = images.filter((_, index) => index !== indexToDelete);
-    // 계산된 새로운 이미지 배열로 상태 업데이트
-    setImages(updateImages);
-    // 삭제 후 남은 파일 배열을 부모 컴포넌트로 전달
-    // 필터링 된 상태로써 onChange에 전달할 수 있음
-    onChange(updateImages.map(image => image.file));
+    const imageToDelete = images[indexToDelete];
+    if (imageToDelete) {
+      // 이미지 배열에서 해당 인덱스를 제거
+      const updatedImages = images.filter(
+        (_, index) => index !== indexToDelete,
+      );
+      setImages(updatedImages);
+      // 변경된 이미지 배열로 상태 업데이트
+      onChange(updatedImages.map(image => image.file));
+
+      // onDelete 함수에 파일 객체 전달
+      if (onDelete) onDelete(indexToDelete);
+    }
   };
 
   return (

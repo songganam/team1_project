@@ -1,6 +1,7 @@
 import axios from "axios";
 import authAxios from "../util/tokenUtil";
 import { API_SERVER_HOST } from "./config";
+import { string } from "prop-types";
 
 const host = `${API_SERVER_HOST}/api`;
 
@@ -37,7 +38,7 @@ interface MenuModify {
 }
 
 // 매장정보 가져오기
-export const getShopInfo = async () => {
+export const getShopInfo = async ({ ishop }: { ishop: number | any }) => {
   try {
     const header = { headers: { "Content-type": "application/json" } };
     const response = await authAxios.get(`${host}/owner/management`, header);
@@ -70,10 +71,32 @@ export const putShopInfo = async ({
       );
       return response.data;
     } catch (error) {
-      console.error(error);
+      console.log(error);
       return undefined;
     }
   };
+
+// // 가게이미지 삭제하기
+// export const deleteShopImage = async (ishopPics: number[], picsPk: number) => {
+//   try {
+//     const header = {
+//       headers: {
+//         "Content-Type": "application/json",
+//       },
+//     };
+//     // 삭제하고자 하는 이미지의 picsPk를 제외한 나머지를 서버에 전송
+//     const updatedIshopPics = ishopPics.filter(pk => pk !== picsPk);
+//     const response = await authAxios.put(
+//       `${host}/owner/modify`,
+//       { ishopPics: updatedIshopPics },
+//       header,
+//     );
+//     return response.data;
+//   } catch (error) {
+//     console.log(error);
+//     return undefined;
+//   }
+// };
 
 // 메뉴 리스트
 export const getMenus = async (
