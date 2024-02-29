@@ -1,7 +1,7 @@
 import { ChangeEvent, MouseEvent, useState } from "react";
 import DaumPostcodeEmbed from "react-daum-postcode";
 import { useParams } from "react-router-dom";
-import { getCoord } from "../../api/meatApi";
+import { getCoord, getGInfo } from "../../api/meatApi";
 import TSAdressField from "../../components/adminInfo/TSAdressField";
 import TSCheckBoxInput from "../../components/adminInfo/TSCheckBoxInput";
 import TSDepositField from "../../components/adminInfo/TSDepositField";
@@ -23,9 +23,11 @@ import {
 import EmptyModal from "../../components/common/EmptyModal";
 import useCustomHook from "../../components/meat/hooks/useCustomHook";
 import useCustomLoginTS from "../../components/meat/hooks/useCustomLoginTS";
-import { useMutation } from "@tanstack/react-query";
+import { useMutation, useQuery } from "@tanstack/react-query";
 import { putShopInfo } from "../../api/shopInfoApi";
 import { AxiosError, AxiosResponse } from "axios";
+import { Glist } from "../meat/Meat";
+import { getGInfoTS } from "../../api/typeApi";
 
 // // 가게사장 정보 초기값
 // const initBossState: BossState = {
@@ -98,7 +100,7 @@ const TSAdminInfoPage = () => {
   // 커스텀 훅
   const { isEmptyModal, openEmptyModal, closeEmptyModal } = useCustomHook();
   const { isAdminLogin, adminState } = useCustomLoginTS();
-  const { ishop } = useParams();
+  // const { ishop } = useParams();
 
   console.log("가게사장 정보", adminState);
   console.log("로그인 된 가게 pk", adminState.ishop);

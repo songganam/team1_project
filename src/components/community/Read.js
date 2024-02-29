@@ -5,6 +5,7 @@ import {
   deleteOne,
   getOne,
   postComment,
+  postCommuReport,
   postFav,
 } from "../../api/communityApi";
 import { API_SERVER_HOST } from "../../api/config";
@@ -365,7 +366,7 @@ const Read = () => {
   //   iboard: parseInt(iboard),
   // };
   // console.log("데이터 폼 테스트 :", dataForm);
-  const addMutation = useMutation({
+  const favMutation = useMutation({
     mutationFn: fav => postFav({ iboard }),
     onSuccess: result => {
       console.log("성공한 게시물 : ", iboard);
@@ -375,8 +376,35 @@ const Read = () => {
   const handleClickFav = () => {
     console.log("데이터다 :", iboard, iuser);
     // console.log("test2", dataForm);
-    addMutation.mutate();
+    favMutation.mutate();
   };
+  // const reportInitState = {
+  //   iboard: 0,
+  //   ireport: 0,
+  // };
+  // const [reportData, setReportData] = useState(initState);
+  // const reportMutation = useMutation({
+  //   mutationFn: report => postCommuReport({ reportData }),
+  //   onSuccess: () => {
+  //     console.log("신고 성공");
+  //   },
+  //   onError: () => {},
+  // });
+
+  // const handleChangeReport = e => {
+  //   const selectedValue = parseInt(e.target.value, 10);
+  //   setReportData(prevValue => ({
+  //     ...prevValue,
+  //     ireport: selectedValue,
+  //   }));
+  // };
+  // const handleClickReport = e => {
+  //   const report = {
+  //     iboard: iboard,
+  //     ireport: reportData.ireprt,
+  //   };
+  //   reportMutation.mutate(report);
+  // };
 
   return (
     <WrapStyle>
@@ -394,6 +422,27 @@ const Read = () => {
             <div className="viewCount">
               {/* @COMMENT TEST LIKE BUTTON */}
               <button onClick={handleClickFav}>좋아요버튼</button>
+              {/* <button onClick={handleClickReport}>신고버튼</button>
+               */}
+              <div>
+                <span>신고하고싶다 이말이야</span>
+                {/* <input
+              type="text"
+              name="ireport"
+              value={reportData.ireport}
+              onChange={e => handleChangeReport(e)}
+            /> */}
+
+                {/* <select onChange={e => handleClickReport(e)}>
+                  <option value={1}>욕설/인신공격</option>
+                  <option value={2}>음란물</option>
+                  <option value={3}>영리목적/홍보성</option>
+                  <option value={4}>개인정보</option>
+                  <option value={5}>게시글 도배</option>
+                  <option value={6}>기타</option>
+                </select>
+                <button onClick={handleClickReport}>신고슛</button> */}
+              </div>
             </div>
           </div>
         </WriterBoxStyle>
