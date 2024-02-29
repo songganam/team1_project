@@ -37,8 +37,8 @@ interface MenuModify {
   price?: number;
 }
 
-const { isAdminLogin } = useCustomLoginTS();
-const axiosInstance = isAdminLogin ? authAxios : axios;
+// const { isAdminLogin } = useCustomLoginTS();
+// const axiosInstance = isAdminLogin ? authAxios : axios;
 
 // 매장정보 수정하기
 export const putShopInfo = async ({
@@ -48,7 +48,7 @@ export const putShopInfo = async ({
 }) => {
   try {
     const header = { headers: { "Content-Type": "multipart/form-data" } };
-    const response = await axiosInstance.put(
+    const response = await authAxios.put(
       `${host}/api/owner/modify`,
       shopInfoData,
       header,
