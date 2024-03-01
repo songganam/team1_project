@@ -167,6 +167,7 @@ export const postFav = async ({ iboard }) => {
     return response.data;
   } catch (error) {
     console.log(error);
+    throw error;
   }
 };
 
@@ -183,5 +184,26 @@ export const postCommuReport = async ({ reportData }) => {
     return response.data;
   } catch (error) {
     console.log(error);
+    throw error;
+  }
+};
+
+export const postCommuCommentReport = async ({ reportCommentData }) => {
+  console.log("1!", reportCommentData);
+  console.log("2!", reportCommentData.ireport);
+  console.log("3!", reportCommentData.icomment);
+  try {
+    const header = { headers: { "Content-Type": "application/json" } };
+    const response = await authAxios.post(`${host}/comment/report`, null, {
+      header: header.headers,
+      params: {
+        icomment: reportCommentData.icomment,
+        ireport: reportCommentData.ireport,
+      },
+    });
+    return response.data;
+  } catch (error) {
+    console.log(error);
+    throw error;
   }
 };

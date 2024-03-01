@@ -17,12 +17,15 @@ function useModal() {
   const closeModal = () => {
     setIsModal(prev => ({ ...prev, isOpen: false }));
   };
+  const shutModal = () => {
+    setIsModal(prev => ({ ...prev, isOpen: false }));
+  };
   const moveToLogin = () => {
     setIsModal(prev => ({ ...prev, isOpen: false }));
     navgate("/login");
   };
 
-  return { isModal, openModal, closeModal, moveToLogin };
+  return { isModal, openModal, closeModal, moveToLogin, shutModal };
 }
 
 export default useModal;
