@@ -1,6 +1,8 @@
 import React, { ChangeEvent, useEffect, useState } from "react";
 import { TSCheckBoxLabelStyle } from "./styles/TSCheckBoxLabelStyle";
 import { TSBoxInnerStyle } from "./styles/TSModifyStyle";
+import { useRecoilState } from "recoil";
+import { atomStoreInfoState } from "../../atom/atomStoreInfoState";
 
 // 체크박스 옵션 타입 정의
 interface CheckboxOption {
@@ -10,54 +12,110 @@ interface CheckboxOption {
   value: string;
 }
 
-// 체크박스 props 타입 정의
-interface CheckboxProps {
-  onChange: (selected: Array<{ id: number; label: string }>) => void; // 선택된 체크박스의 ID배열을 외부로 전달
-}
+const TSCheckBoxInput = () => {
+  const [storeInfo, setStoreInfo] = useRecoilState(atomStoreInfoState);
 
-const TSCheckBoxInput: React.FC<CheckboxProps> = ({ onChange }) => {
-  const [checkboxes, setCheckboxes] = useState<CheckboxOption[]>([
-    { id: 1, label: "주차장", checked: true, value: "parking" },
-    { id: 2, label: "단체가능", checked: false, value: "restroom" },
-    { id: 3, label: "포장가능", checked: false, value: "group" },
-    { id: 4, label: "배달가능", checked: false, value: "wifi" },
-    { id: 5, label: "Wi-fi", checked: false, value: "wifi" },
-    { id: 6, label: "예약가능", checked: false, value: "wifi" },
-    { id: 7, label: "화장실구분", checked: false, value: "wifi" },
-    { id: 8, label: "대기공간", checked: false, value: "wifi" },
-    { id: 9, label: "장애인시설", checked: false, value: "wifi" },
-    { id: 10, label: "반려동물", checked: false, value: "wifi" },
-    { id: 11, label: "유아의자", checked: false, value: "wifi" },
-    { id: 12, label: "간편결제", checked: false, value: "wifi" },
-  ]);
+  const [checkboxes, setCheckboxes] = useState<CheckboxOption[]>([]);
+  // 체크박스 옵션 초기화
+  const initialCheckboxes: CheckboxOption[] = [
+    {
+      id: 1,
+      label: "주차장",
+      checked: storeInfo.facilities.includes(1),
+      value: "parking",
+    },
+    {
+      id: 2,
+      label: "단체가능",
+      checked: storeInfo.facilities.includes(2),
+      value: "group",
+    },
+    {
+      id: 3,
+      label: "포장가능",
+      checked: storeInfo.facilities.includes(3),
+      value: "togo",
+    },
+    {
+      id: 4,
+      label: "배달가능",
+      checked: storeInfo.facilities.includes(4),
+      value: "delivery",
+    },
+    {
+      id: 5,
+      label: "Wi-fi",
+      checked: storeInfo.facilities.includes(5),
+      value: "wifi",
+    },
+    {
+      id: 6,
+      label: "예약가능",
+      checked: storeInfo.facilities.includes(6),
+      value: "reservation",
+    },
+    {
+      id: 7,
+      label: "화장실구분",
+      checked: storeInfo.facilities.includes(7),
+      value: "restroom",
+    },
+    {
+      id: 8,
+      label: "대기공간",
+      checked: storeInfo.facilities.includes(8),
+      value: "waiting",
+    },
+    {
+      id: 9,
+      label: "장애인시설",
+      checked: storeInfo.facilities.includes(9),
+      value: "handicap",
+    },
+    {
+      id: 10,
+      label: "반려동물",
+      checked: storeInfo.facilities.includes(10),
+      value: "animal",
+    },
+    {
+      id: 11,
+      label: "유아의자",
+      checked: storeInfo.facilities.includes(11),
+      value: "baby",
+    },
+    {
+      id: 12,
+      label: "간편결제",
+      checked: storeInfo.facilities.includes(12),
+      value: "payment",
+    },
+  ];
 
   useEffect(() => {
-    const initChecked = checkboxes
-      // 선택된 체크박스만 필터링
-      .filter(checkbox => checkbox.checked)
-      // 그 ID를 배열로 만듦
-      .map(checkbox => ({ id: checkbox.id, label: checkbox.label }));
-    // 초기에 선택된 체크박스의 ID 배열을 부모 컴포넌트로 전달
-    onChange(initChecked);
-  }, []);
+    // Recoil 상태에 기반한 체크박스 상태 초기화
+    const updatedCheckboxes = initialCheckboxes.map(option => ({
+      ...option,
+      checked: storeInfo.facilities.includes(option.id),
+    }));
+    setCheckboxes(updatedCheckboxes);
+  }, [storeInfo.facilities]);
 
   // 체크박스 변경 사항 처리
   const handleChange = (optionId: number) => {
-    // 체크박스 배열에서 클릭된 체크박스의 ID와 일치하는 체크박스의 상태를 토글
-    const updateCheckboxes = checkboxes.map(
-      checkbox =>
-        checkbox.id === optionId
-          ? { ...checkbox, checked: !checkbox.checked } // 일치하는 ID의 체크박스는 checked 상태를 반전
-          : checkbox, // 일치하지 않는경우 유지
-    );
-    setCheckboxes(updateCheckboxes);
-
-    // 선택된 체크박스의 ID배열을 계산
-    const selectedOptionIds = updateCheckboxes
-      .filter(checkbox => checkbox.checked)
-      .map(checkbox => ({ id: checkbox.id, label: checkbox.label }));
-    // 선택된 체크박스의 ID배열을 부모 컴포넌트로 전달
-    onChange(selectedOptionIds);
+    const newFacilities = [...storeInfo.facilities];
+    if (newFacilities.includes(optionId)) {
+      // 이미 포함된 경우 제거
+      const index = newFacilities.indexOf(optionId);
+      newFacilities.splice(index, 1);
+    } else {
+      // 포함되지 않은 경우 추가
+      newFacilities.push(optionId);
+    }
+    setStoreInfo({
+      ...storeInfo,
+      facilities: newFacilities,
+    });
   };
 
   return (
@@ -67,11 +125,11 @@ const TSCheckBoxInput: React.FC<CheckboxProps> = ({ onChange }) => {
         {/* <div className="essential">*</div> */}
       </div>
       <div className="check-box-wrap">
-        {checkboxes.map(option => (
+        {initialCheckboxes.map(option => (
           <TSCheckBoxLabelStyle key={option.id}>
             <input
               type="checkbox"
-              value={option.id}
+              id={`facility-${option.id}`}
               checked={option.checked}
               onChange={() => handleChange(option.id)}
             />
