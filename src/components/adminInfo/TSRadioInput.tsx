@@ -1,6 +1,8 @@
 import { useEffect, useState } from "react";
 import { TSBoxInnerStyle } from "./styles/TSModifyStyle";
 import { TSRadioLableStyle } from "./styles/TSRadioLabelStyle";
+import { useRecoilState } from "recoil";
+import { atomStoreInfoState } from "../../atom/atomStoreInfoState";
 
 // 라디오 옵션 타입 정의
 interface RadioOption {
@@ -10,43 +12,26 @@ interface RadioOption {
   value: string;
 }
 
-// 라디오 props 타입 정의
-interface RadioProps {
-  onChange: (selectedId: number, selectedLabel: string) => void;
-}
+const TSRadioInput = () => {
+  const [storeInfo, setStoreInfo] = useRecoilState(atomStoreInfoState);
 
-const TSRadioInput: React.FC<RadioProps> = ({ onChange }) => {
-  const [radios, setRadios] = useState<RadioOption[]>([
-    { id: 1, label: "돼지", checked: true, value: "pork" },
-    { id: 2, label: "소", checked: false, value: "beef" },
-    { id: 3, label: "닭", checked: false, value: "chicken" },
-    { id: 4, label: "오리", checked: false, value: "duck" },
-    { id: 5, label: "양", checked: false, value: "lamb" },
-    { id: 0, label: "정육점", checked: false, value: "butcher" },
-  ]);
-
-  useEffect(() => {
-    // 초기에 선택된 라디오의 label을 부모 컴포넌트로 전달
-    const initCheckedLabel = radios.find(radio => radio.checked);
-    if (initCheckedLabel) {
-      onChange(initCheckedLabel.id, initCheckedLabel.label);
-    }
-  }, []);
-
-  // 라디오 변경 사항 처리
-  const handleChange = (optionId: number) => {
-    const updateRadios = radios.map(radio => ({
-      ...radio,
-      checked: radio.id === optionId,
-    }));
-    setRadios(updateRadios);
-
-    // 선택된 라디오 버튼의 label을 부모 컴포넌트로 전달
-    const selectedRadio = updateRadios.find(radio => radio.id === optionId);
-    if (selectedRadio) {
-      onChange(selectedRadio.id, selectedRadio.label);
-    }
+  // 라디오 버튼 변경 이벤트 핸들러
+  const handleChange = (selectedId: number) => {
+    // imeat 속성 업데이트
+    setStoreInfo({
+      ...storeInfo,
+      imeat: selectedId,
+    });
   };
+
+  const radios = [
+    { id: 1, label: "돼지", value: "pork" },
+    { id: 2, label: "소", value: "beef" },
+    { id: 3, label: "닭", value: "chicken" },
+    { id: 4, label: "오리", value: "duck" },
+    { id: 5, label: "양", value: "lamb" },
+    { id: 0, label: "정육점", value: "butcher" },
+  ];
 
   return (
     <TSBoxInnerStyle>
@@ -60,11 +45,11 @@ const TSRadioInput: React.FC<RadioProps> = ({ onChange }) => {
             <input
               type="radio"
               value={option.id}
-              checked={option.checked}
+              checked={storeInfo.imeat === option.id}
               onChange={() => handleChange(option.id)}
             />
             <div className="radio-custom">
-              {option.checked ? (
+              {storeInfo.imeat === option.id ? (
                 // 체크된 상태일 때의 SVG 아이콘
                 <svg
                   xmlns="http://www.w3.org/2000/svg"

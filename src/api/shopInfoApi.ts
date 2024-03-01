@@ -1,7 +1,6 @@
 import axios from "axios";
 import authAxios from "../util/tokenUtil";
 import { API_SERVER_HOST } from "./config";
-import { string } from "prop-types";
 
 const host = `${API_SERVER_HOST}/api`;
 
@@ -63,7 +62,6 @@ export const putShopInfo = async ({
           "Content-Type": "multipart/form-data",
         },
       };
-      // const axiosInstance = isAdminLogin ? authAxios : axios;
       const response = await authAxios.put(
         `${host}/owner/modify`,
         shopInfoData,

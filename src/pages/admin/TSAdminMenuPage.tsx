@@ -93,12 +93,7 @@ const TSAdminMenuPage = () => {
                 <div>메뉴이름</div>
                 <div className="essential">*</div>
               </div>
-              <TSTextField
-                placeholder="메뉴 이름을 입력하세요"
-                name="menu"
-                value={menuInfo.menu}
-                onChange={handleChangeText}
-              />
+              {/* <TSTextField placeholder="메뉴 이름을 입력하세요" /> */}
               <div className="name-guide">
                 <div className="text-guide">
                   숫자, 한글, 영문, 특수문자 사용가능
@@ -109,12 +104,7 @@ const TSAdminMenuPage = () => {
                 <div>메뉴가격</div>
                 <div className="essential">*</div>
               </div>
-              <TSDepositField
-                placeholder="메뉴 가격을 입력하세요"
-                name="price"
-                value={menuInfo.price}
-                onChange={handleChangeText}
-              />
+              <TSDepositField placeholder="메뉴 가격을 입력하세요" />
               <div className="text-guide">숫자만 사용가능, 단위: 원</div>
             </TSBoxInnerStyle>
           </TSBackgroundBoxStyle>
