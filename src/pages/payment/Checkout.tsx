@@ -4,17 +4,28 @@ import {
   loadPaymentWidget,
 } from "@tosspayments/payment-widget-sdk";
 import { nanoid } from "nanoid";
+import { useLocation } from "react-router-dom";
 
 const selector = "#payment-widget";
 const clientKey = "test_gck_docs_Ovk5rk1EwkEbP0W43n07xlzm";
 const customerKey = "YbX2HuSlsC9uVJW6NMRMj";
 
 export function CheckoutPage() {
+  const location = useLocation();
+  const queryParams = new URLSearchParams(location.search);
+  // Load
+  const amount = Number(queryParams.get("amount"));
+  const pk = queryParams.get("pk");
+
+  console.log("amount", amount);
+  console.log("pk", pk);
+  // console.log(pk)
+
   const paymentWidgetRef = useRef<PaymentWidgetInstance | null>(null);
   const paymentMethodsWidgetRef = useRef<ReturnType<
     PaymentWidgetInstance["renderPaymentMethods"]
   > | null>(null);
-  const [price, setPrice] = useState(50_000);
+  const [price, setPrice] = useState(amount);
 
   useEffect(() => {
     (async () => {
@@ -45,7 +56,8 @@ export function CheckoutPage() {
     <div>
       <h1>주문서</h1>
       <span>{`${price.toLocaleString()}원`}</span>
-      <div>
+      {/* 할인 필요없음 */}
+      {/* <div>
         <label>
           <input
             type="checkbox"
@@ -55,7 +67,7 @@ export function CheckoutPage() {
           />
           5,000원 할인 쿠폰 적용
         </label>
-      </div>
+      </div> */}
       <div id="payment-widget" />
       <button
         onClick={async () => {

@@ -1,5 +1,5 @@
 import { useMutation } from "@tanstack/react-query";
-import { AxiosError } from "axios";
+import { AxiosError, AxiosResponse } from "axios";
 import dayjs from "dayjs";
 import { ChangeEvent, MouseEvent, useEffect, useState } from "react";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
@@ -46,7 +46,7 @@ const MeatReservationPage = () => {
   const navigate = useNavigate();
   // ! Modal Control
 
-  const { isModal, openModal, closeModal } = useCustomHook();
+  const { isModal, openModal, closeModal, moveToPayment } = useCustomHook();
   // ! 사람 카운팅
   //   const [personCount, setPersonCount] = useState(1);
   const timeValue = [
@@ -136,14 +136,25 @@ const MeatReservationPage = () => {
   };
 
   // @AREA React-Query
+  interface ReserResponseForm {
+    amount: number;
+    pk: number;
+  }
   const addMutation = useMutation({
     mutationFn: (reserData: ReserForm) => postReserTS({ reserData }),
-    onSuccess: result => {
+    onSuccess: (result: ReserResponseForm) => {
+      console.log("response-body", result);
+      console.log("response-bod-amount", result?.amount);
+      console.log("response-body-pk", result?.pk);
+      const amount = result?.amount;
+      const pk = result?.pk;
       setFetching(false);
-      openModal("예약완료", "예약이 완료되었습니다.", () => {
-        closeModal();
-        navigate("/my/book");
-      });
+      // openModal("예약완료", "예약이 완료되었습니다.", () => {
+      //   closeModal();
+      //   navigate("/my/book");
+      // });
+      moveToPayment(pk, amount);
+      // navigate("/payment", { state: { amount } });
     },
     onError: (error: AxiosError) => {
       setFetching(false);

@@ -5,6 +5,7 @@ import {
   deleteOne,
   getOne,
   postComment,
+  postCommuCommentReport,
   postCommuReport,
   postFav,
 } from "../../api/communityApi";
@@ -37,6 +38,7 @@ import {
 // @COMMENT import React-Query
 import { useMutation } from "@tanstack/react-query";
 import useCustomLoginTS from "../meat/hooks/useCustomLoginTS";
+import useCustomHook from "../meat/hooks/useCustomHook";
 
 const host = API_SERVER_HOST;
 // 서버데이터 초기값
@@ -67,6 +69,7 @@ const initState = {
     },
   ],
 };
+
 // 댓글 등록을 위한 초기값
 const initComment = {
   contents: "",
@@ -369,7 +372,13 @@ const Read = () => {
   const favMutation = useMutation({
     mutationFn: fav => postFav({ iboard }),
     onSuccess: result => {
-      console.log("성공한 게시물 : ", iboard);
+      // console.log("성공한 게시물 : ", iboard);
+      if (result.result === 0) {
+        openModal("좋아요 해제", "좋아요가 해제 되었습니다.", shutModal);
+      }
+      if (result.result === 1) {
+        openModal("좋아요 등록", "좋아요가 등록 되었습니다.", shutModal);
+      }
     },
     onError: () => {},
   });
@@ -380,44 +389,173 @@ const Read = () => {
   };
   const reportInitState = {
     iboard: iboard,
-    ireport: 0,
+    ireport: 1,
   };
   const [reportData, setReportData] = useState(reportInitState);
   const reportMutation = useMutation({
     mutationFn: reportData => postCommuReport({ reportData }),
     onSuccess: () => {
       console.log("신고 성공");
+      // console.log("신고 -완-");
+      openModal("글신고완료", "신고가 완료 되었습니다.", shutModal);
     },
     onError: error => {
-      console.log(error);
+      if (error.response && error.response.status === 404) {
+        // openModal("예약 실패", "시간을 기입해주세요.", closeModal);
+        openModal("신고 오류", "이미 신고한 글입니다.", shutModal);
+      }
     },
   });
 
-  console.log("iboard : ", iboard);
-  console.log("iboard t :", typeof iboard);
-  // console.log("iboard", iboard);
+  const handleClickRBoardBtn = comment => {
+    console.log("딸깍", comment);
+    // console.log("딸깍", comment);
+    openSelectModal(
+      "글 신고하기",
+      <div style={{ padding: "10px" }}>
+        <div style={{ marginBottom: "20px" }}>
+          <span>신고항목을 선택해주세요.</span>
+        </div>
+        <div>
+          <select onChange={e => handleChangeBoardReport(e)}>
+            <option value={1}>욕설/인신공격</option>
+            <option value={2}>음란물</option>
+            <option value={3}>영리목적/홍보성</option>
+            <option value={4}>개인정보</option>
+            <option value={5}>게시글 도배</option>
+            <option value={6}>기타</option>
+          </select>
+        </div>
+      </div>,
+      () => {
+        handleClickBoardReport(), cancelSelectModal();
+      },
+      () => cancelSelectModal(),
+    );
+  };
 
-  const handleChangeReport = e => {
+  const handleChangeBoardReport = e => {
     const selectedValue = parseInt(e.target.value, 10);
     setReportData(prevValue => ({
       ...prevValue,
       ireport: selectedValue,
     }));
   };
-  const handleClickReport = () => {
+  const handleClickBoardReport = () => {
     // const numIboard = parseInt(iboard, 10);
     const report = {
       iboard: iboard !== undefined ? Number(iboard) : 0,
       ireport: reportData.ireport,
     };
     console.log("report form test ", report);
-    console.log("reportData ", reportData);
+    // console.log("reportData ", reportData);
     reportMutation.mutate(report);
   };
+
+  // ! 커뮤니티 댓글 신고
+
+  const reportCommentInitState = {
+    icomment: 0,
+    ireport: 1,
+  };
+  const [reportCommentData, setReportCommentData] = useState(
+    reportCommentInitState,
+  );
+  const reportCommentMutation = useMutation({
+    mutationFn: reportCommentData =>
+      postCommuCommentReport({ reportCommentData }),
+    onSuccess: result => {
+      // console.log("값", result);
+      // console.log("신고 -완-");
+      openModal("댓글신고완료", "신고가 완료 되었습니다.", shutModal);
+    },
+    onError: error => {
+      if (error.response && error.response.status === 404) {
+        // openModal("예약 실패", "시간을 기입해주세요.", closeModal);
+        openModal("신고 오류", "이미 신고한 글입니다.", shutModal);
+      }
+    },
+  });
+  // Call customhook
+  const {
+    isModal,
+    openModal,
+    // closeModal,
+    openSelectModal,
+    shutModal,
+    isSelectModal,
+    cancelSelectModal,
+  } = useCustomHook();
+
+  const handleClickRCommentBtn = comment => {
+    console.log("딸깍", comment);
+    // console.log("딸깍", comment);
+    openSelectModal(
+      "댓글 신고하기",
+      <div style={{ padding: "10px" }}>
+        <div style={{ marginBottom: "20px" }}>
+          <span>신고항목을 선택해주세요.</span>
+        </div>
+        <div>
+          <select onChange={e => handleChangeCommentReport(e)}>
+            <option value={1}>욕설/인신공격</option>
+            <option value={2}>음란물</option>
+            <option value={3}>영리목적/홍보성</option>
+            <option value={4}>개인정보</option>
+            <option value={5}>게시글 도배</option>
+            <option value={6}>기타</option>
+          </select>
+        </div>
+      </div>,
+      () => {
+        handleClickCommentReport(comment), cancelSelectModal();
+      },
+      () => cancelSelectModal(),
+    );
+  };
+  const handleChangeCommentReport = e => {
+    const selectedValue = parseInt(e.target.value, 10);
+    console.log("handlechange", selectedValue);
+    setReportCommentData(prevValue => ({
+      ...prevValue,
+      ireport: selectedValue,
+    }));
+  };
+
+  const handleClickCommentReport = comment => {
+    console.log("comment num ", comment);
+    // const numIboard = parseInt(iboard, 10);
+    const reportComment = {
+      icomment: comment !== undefined ? Number(comment) : 0,
+      ireport: reportCommentData.ireport,
+    };
+    console.log("report form test ", reportComment);
+    // console.log("reportCommentData ", reportCommentData);
+    reportCommentMutation.mutate(reportComment);
+  };
+
+  // const handleClickRPostBtn = () => {};
+  // Report Comment Button Click
 
   return (
     <WrapStyle>
       {fetching ? <Fetching /> : null}
+
+      {isSelectModal.isOpen && (
+        <SelectedModal
+          title={isSelectModal.title}
+          content={isSelectModal.content}
+          confirmFn={isSelectModal.confirmFn}
+          cancelFn={isSelectModal.cancelFn}
+        />
+      )}
+      {isModal.isOpen && (
+        <ResultModal
+          title={isModal.title}
+          content={isModal.content}
+          callFn={isModal.callFn}
+        />
+      )}
       <TitleBoxStyle>
         <MoreTitleStyle>{content.title}</MoreTitleStyle>
         <WriterBoxStyle>
@@ -434,23 +572,16 @@ const Read = () => {
               {/* <button onClick={handleClickReport}>신고버튼</button>
                */}
               <div>
-                <span>신고하고싶다 이말이야</span>
-                {/* <input
-              type="text"
-              name="ireport"
-              value={reportData.ireport}
-              onChange={e => handleChangeReport(e)}
-            /> */}
-
-                <select onChange={e => handleChangeReport(e)}>
+                <span>글신고하고싶다 이말이야</span>
+                {/* <select onChange={e => handleChangeReport(e)}>
                   <option value={1}>욕설/인신공격</option>
                   <option value={2}>음란물</option>
                   <option value={3}>영리목적/홍보성</option>
                   <option value={4}>개인정보</option>
                   <option value={5}>게시글 도배</option>
                   <option value={6}>기타</option>
-                </select>
-                <button onClick={handleClickReport}>신고슛</button>
+                </select> */}
+                <button onClick={handleClickRBoardBtn}>신고슛</button>
               </div>
             </div>
           </div>
@@ -614,7 +745,25 @@ const Read = () => {
                         </div>
                       ) : null}
                       <div>
-                        <button>신고합니다.</button>
+                        <div>
+                          {/* <span>댓글신고하고싶다 이말이야</span>
+
+                          <select onChange={e => handleChangeCommentReport(e)}>
+                            <option value={1}>욕설/인신공격</option>
+                            <option value={2}>음란물</option>
+                            <option value={3}>영리목적/홍보성</option>
+                            <option value={4}>개인정보</option>
+                            <option value={5}>게시글 도배</option>
+                            <option value={6}>기타</option>
+                          </select> */}
+                          <button
+                            onClick={() =>
+                              handleClickRCommentBtn(comment.icomment)
+                            }
+                          >
+                            신고
+                          </button>
+                        </div>
                       </div>
                     </div>
                   </>

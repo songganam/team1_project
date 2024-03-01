@@ -12,7 +12,7 @@ import useEmptyModal from "./useEmptyModal";
 const useCustomHook = () => {
   const navigate = useNavigate();
   const [urlSearchParams, setUrlSearchPrams] = useSearchParams();
-  const { isModal, openModal, closeModal, moveToLogin } = useModal();
+  const { isModal, openModal, closeModal, moveToLogin, shutModal } = useModal();
   const { isLogin } = useCustomLoginTS();
   const {
     isSelectModal,
@@ -35,6 +35,10 @@ const useCustomHook = () => {
 
   const filter = urlSearchParams.get("filter")
     ? parseInt(urlSearchParams.get("filter"))
+    : 0;
+
+  const check = urlSearchParams.get("check")
+    ? parseInt(urlSearchParams.get("check"))
     : 0;
 
   const defaultQueryString = createSearchParams({
@@ -120,6 +124,14 @@ const useCustomHook = () => {
       search: `name=${name}&checkShop=${checkShop}&ishop=${ishop}&${defaultQueryString}`,
     });
   };
+  // @COMMENT Payment
+  const moveToPayment = (pk, amount) => {
+    console.log("payment, pk :", pk, "amount :", amount);
+    navigate({
+      pathname: `/payment`,
+      search: `pk=${pk}&amount=${amount}`,
+    });
+  };
 
   const [refresh, setRefresh] = useState(false);
 
@@ -163,6 +175,8 @@ const useCustomHook = () => {
     openEmptyModal,
     isEmptyModal,
     closeEmptyModal,
+    moveToPayment,
+    shutModal,
   };
 };
 export default useCustomHook;
