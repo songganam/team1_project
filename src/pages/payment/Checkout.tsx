@@ -5,6 +5,8 @@ import {
 } from "@tosspayments/payment-widget-sdk";
 import { nanoid } from "nanoid";
 import { useLocation } from "react-router-dom";
+import { HyperTextOne, PaymentWrap, PriceWrap } from "./paymentStyle";
+import { DefaultBt } from "../sign/up/styles/UserSignUpStyles";
 
 const selector = "#payment-widget";
 const clientKey = "test_gck_docs_Ovk5rk1EwkEbP0W43n07xlzm";
@@ -15,7 +17,7 @@ export function CheckoutPage() {
   const queryParams = new URLSearchParams(location.search);
   // Load
   const amount = Number(queryParams.get("amount"));
-  const pk = queryParams.get("pk");
+  const pk = Number(queryParams.get("pk"));
 
   console.log("amount", amount);
   console.log("pk", pk);
@@ -53,9 +55,15 @@ export function CheckoutPage() {
   }, [price]);
 
   return (
-    <div>
-      <h1>주문서</h1>
-      <span>{`${price.toLocaleString()}원`}</span>
+    <PaymentWrap>
+      <div style={{ padding: "20px" }}>
+        <HyperTextOne>
+          <h1>예약금 결제</h1>
+        </HyperTextOne>
+        <PriceWrap>
+          <span>{`${price.toLocaleString()}원`}</span>
+        </PriceWrap>
+      </div>
       {/* 할인 필요없음 */}
       {/* <div>
         <label>
@@ -69,7 +77,7 @@ export function CheckoutPage() {
         </label>
       </div> */}
       <div id="payment-widget" />
-      <button
+      <DefaultBt
         onClick={async () => {
           const paymentWidget = paymentWidgetRef.current;
 
@@ -79,10 +87,10 @@ export function CheckoutPage() {
             // 코드샌드박스 환경에선 요청 결과 페이지(`successUrl`, `failUrl`)로 이동할 수가 없으니 유의하세요.
             await paymentWidget?.requestPayment({
               orderId: nanoid(),
-              orderName: "토스 티셔츠 외 2건",
-              customerName: "김토스",
-              customerEmail: "customer123@gmail.com",
-              successUrl: `${window.location.origin}/success`,
+              orderName: "고기로 예약",
+              customerName: "고기로 이용자님",
+              // customerEmail: "customer123@gmail.com",
+              successUrl: `${window.location.origin}/success?pk=${pk}`,
               failUrl: `${window.location.origin}/fail`,
             });
           } catch (error) {
@@ -90,8 +98,8 @@ export function CheckoutPage() {
           }
         }}
       >
-        결제하기
-      </button>
-    </div>
+        <span>결제하기</span>
+      </DefaultBt>
+    </PaymentWrap>
   );
 }
