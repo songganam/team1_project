@@ -1,4 +1,6 @@
+import { useEffect, useState } from "react";
 import { useRecoilState } from "recoil";
+import { getShopInfo, putShopInfo } from "../../api/shopInfoApi";
 import { atomStoreInfoState } from "../../atom/atomStoreInfoState";
 import TSAddressField from "../../components/adminInfo/TSAddressField";
 import TSCheckBoxInput from "../../components/adminInfo/TSCheckBoxInput";
@@ -7,6 +9,7 @@ import TSPicsInput from "../../components/adminInfo/TSPicsInput";
 import TSRadioInput from "../../components/adminInfo/TSRadioInput";
 import TSTextField from "../../components/adminInfo/TSTextField";
 import TSTextarea from "../../components/adminInfo/TSTextarea";
+import { FacilitiesTypes, MeatTypes } from "../../components/adminInfo/class";
 import { ButtonStyleTS } from "../../components/adminInfo/styles/ButtonStyleTS";
 import {
   TSAdminInfoWrapStyle,
@@ -17,32 +20,53 @@ import {
   TSShopStyle,
   TSWrapInnerStyle,
 } from "../../components/adminInfo/styles/TSModifyStyle";
-import { useEffect } from "react";
-import { getShopInfo, putShopInfo } from "../../api/shopInfoApi";
-import { FacilitiesTypes, MeatTypes } from "../../components/adminInfo/class";
+import Fetching from "../../components/common/Fetching";
+import ResultModal from "../../components/common/ResultModal";
+import useModal from "../../components/meat/hooks/useModal";
 
 const meatTypes = new MeatTypes();
 const facilitiesTypes = new FacilitiesTypes();
 
 const TSAdminInfoPage = () => {
+  const { isModal, openModal, closeModal } = useModal();
   const [storeInfo, setStoreInfo] = useRecoilState(atomStoreInfoState);
+  const [fetching, setFetching] = useState(false);
 
   // 매장정보를 DB에서 가져와 상태에 저장
   useEffect(() => {
     const fetchShopInfo = async () => {
-      const data = await getShopInfo({ ishop: storeInfo.ishop });
-      if (data) {
-        setStoreInfo(prev => ({ ...prev, ...data }));
+      setFetching(true);
+      try {
+        const data = await getShopInfo({ ishop: storeInfo.ishop });
+        if (data) {
+          setStoreInfo(prev => ({ ...prev, ...data }));
+        } else {
+          openModal("매장 정보", "가져오는데 실패하였습니다", closeModal);
+          return;
+        }
+      } catch (error) {
+        openModal("서버 오류", "관리자에게 문의하세요", closeModal);
+        return;
+      } finally {
+        setFetching(false);
       }
+
+      console.log("등록된 매장 정보", storeInfo);
     };
     fetchShopInfo();
   }, [setStoreInfo]);
 
   // 정보 변경 후 서버에 업데이트 실행
   const handleSave = async () => {
+    setFetching(true);
+
     const formData = new FormData();
-    storeInfo.pics.forEach(file => {
-      formData.append("pics", file);
+
+    // 실제 파일 객체를 formData에 추가합니다.
+    storeInfo.pics.forEach(image => {
+      if (image.file) {
+        formData.append("pics", image.file); // 실제 파일 객체를 formData에 추가
+      }
     });
 
     const dto = new Blob(
@@ -68,17 +92,36 @@ const TSAdminInfoPage = () => {
     formData.append("dto", dto);
 
     try {
-      await putShopInfo({ shopInfoData: formData });
-      console.log("매장 정보 수정 성공");
-      console.log("매장정보", storeInfo);
+      const result = await putShopInfo({ shopInfoData: formData });
+      if (result) {
+        console.log("매장 정보 수정 성공");
+        openModal("매장 정보", "매장정보가 저장되었습니다", closeModal);
+        return;
+      } else {
+        console.log("매장정보", storeInfo);
+        openModal("매장 정보", "저장에 실패하였습니다", closeModal);
+        return;
+      }
     } catch (error) {
       console.log("매장 정보 수정 안됨");
+      openModal("서버 오류", "관리자에게 문의하세요", closeModal);
+      return;
+    } finally {
+      setFetching(false);
     }
   };
 
   return (
     <TSAdminInfoWrapStyle>
-      {/* {isFetching && <Fetching />} */}
+      {/* 모달창 */}
+      {isModal.isOpen && (
+        <ResultModal
+          title={isModal.title}
+          content={isModal.content}
+          callFn={isModal.callFn}
+        />
+      )}
+      {fetching ? <Fetching /> : null}
       <TSNavStyle>
         <div className="page-title">매장 정보 관리</div>
         <ButtonStyleTS type="button" onClick={handleSave}>
@@ -172,7 +215,7 @@ const TSAdminInfoPage = () => {
               </div>
               {storeInfo?.pics[0] ? (
                 <div className="preview-inner">
-                  <img className="preview-img" src={storeInfo?.pics[0]} />
+                  <img className="preview-img" src={storeInfo?.pics[0].pic} />
                   <div className="shop-info-box">
                     <div className="shop-info">
                       <div className="shop-name">{storeInfo?.name}</div>
