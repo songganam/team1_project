@@ -13,34 +13,49 @@ import {
 import { Navigation } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 import useCustomMy from "../my/hooks/useCustomMy";
-import { getSvisorNewShop } from "../../api/supervisorShopApi";
+import {
+  getSvisorNewShop,
+  patchShopConfirm,
+} from "../../api/supervisorShopApi";
+import useModal from "../../hooks/useModal";
 
 const initState = [
   {
     checkShop: 0,
     ishop: 0,
     name: "",
+    shopName: "",
+    location: "",
     x: "",
     y: "",
     tel: "",
     confirm: 0,
     pic: "",
-    shop: true,
   },
 ];
+
+const initConfim = {
+  checkShop: 0,
+  ishop: 0,
+  confirm: 0,
+};
 
 const SupervisorNewShopCard = () => {
   const { page } = useCustomMy();
   const [svisorNewShopData, setSvisorNewShopData] = useState(initState);
+  const [shopConfirm, setShopConfirm] = useState(initConfim);
 
-  // 예약 관리 정보 불러오기 (GET)
+  // 모달창
+  const { useResultModal, openModal, closeModal } = useModal();
+
+  // 신규 매장 정보 불러오기 (GET)
   useEffect(() => {
     const param = { page };
     getSvisorNewShop({ param, successFn, failFn, errorFn });
   }, [page]);
 
   const successFn = result => {
-    setSvisorNewShopData(result);
+    setSvisorNewShopData([...svisorNewShopData, ...result]);
     console.log(result);
   };
   const failFn = result => {
@@ -48,6 +63,49 @@ const SupervisorNewShopCard = () => {
   };
   const errorFn = result => {
     console.log(result);
+  };
+
+  // 가게 승인 여부 변경 (PATCH)
+  const handleConfirmShop = (checkShop, ishop, confirm) => {
+    const patchShopConfirm = {
+      checkShop: checkShop,
+      ishop: ishop,
+      confirm: confirm,
+    };
+    // 승인 전 확인 모달창
+    setShopConfirm(patchShopConfirm);
+    openModal();
+    console.log(patchShopConfirm);
+  };
+
+  const handleConfirmDone = confirmValue => {
+    if (shopConfirm) {
+      const { checkShop, ishop, confirm } = shopConfirm;
+      patchShopConfirm({
+        param: { checkShop, ishop, confirm },
+        successPatch,
+        failPatch,
+        errorPatch,
+      });
+      console.log(shopConfirm);
+      closeModal();
+    }
+  };
+
+  const successPatch = patchResult => {
+    console.log("승인 여부 변경 성공", patchResult);
+    const updatedMyShopList = svisorNewShopData.filter(
+      shop => shop.ishop !== shopConfirm.ishop,
+    );
+    setSvisorNewShopData(updatedMyShopList);
+  };
+
+  const failPatch = patchResult => {
+    console.log("승인 여부 변경 실패", patchResult);
+  };
+
+  const errorPatch = patchResult => {
+    console.log("서버 오류", patchResult);
   };
 
   return (
@@ -61,15 +119,11 @@ const SupervisorNewShopCard = () => {
                 modules={[Navigation]}
                 className="mySwiper"
               >
-                <SwiperSlide>Slide 1</SwiperSlide>
-                <SwiperSlide>Slide 2</SwiperSlide>
-                <SwiperSlide>Slide 3</SwiperSlide>
-                <SwiperSlide>Slide 4</SwiperSlide>
-                <SwiperSlide>Slide 5</SwiperSlide>
-                <SwiperSlide>Slide 6</SwiperSlide>
-                <SwiperSlide>Slide 7</SwiperSlide>
-                <SwiperSlide>Slide 8</SwiperSlide>
-                <SwiperSlide>Slide 9</SwiperSlide>
+                <SwiperSlide>{svisorNewShopData.pic}</SwiperSlide>
+                <SwiperSlide>{svisorNewShopData.pic}</SwiperSlide>
+                <SwiperSlide>{svisorNewShopData.pic}</SwiperSlide>
+                <SwiperSlide>{svisorNewShopData.pic}</SwiperSlide>
+                <SwiperSlide>{svisorNewShopData.pic}</SwiperSlide>
               </Swiper>
             </NewShopSwiperWrap>
           </SupervisorNewShopVisual>
@@ -82,15 +136,26 @@ const SupervisorNewShopCard = () => {
                 <li>연락처</li>
               </NewShopTitle>
               <NewShopContent>
-                <li>내용</li>
-                <li>{setSvisorNewShopData.name}</li>
-                <li>내용</li>
-                <li>{setSvisorNewShopData.tel}</li>
+                <li>{svisorNewShopData.name}</li>
+                <li>{svisorNewShopData.shopName}</li>
+                <li>{svisorNewShopData.location}</li>
+                <li>{svisorNewShopData.tel}</li>
               </NewShopContent>
             </SupervisorNewShopInfo>
             <SupervisorNewShopButton>
-              <Button bttext="승인"></Button>
-              <Button bttext="거부"></Button>
+              <div
+                onClick={() =>
+                  handleConfirmShop(
+                    svisorNewShopData.checkShop,
+                    svisorNewShopData.ishop,
+                  )
+                }
+              >
+                <Button bttext="승인" />
+              </div>
+              <div onClick={() => handleConfirmDone(2)}>
+                <Button bttext="거부" />
+              </div>
             </SupervisorNewShopButton>
           </SupervisorNewShopInner>
         </SupervisorNewShopWrapper>

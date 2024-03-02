@@ -70,29 +70,35 @@ const AdminMeatBookCard = () => {
 
   return (
     <>
-      {adminMeatBookData?.ownerReservationList.map(
-        (adminMeatBookData, index) => (
-          <AdminMeatBookCardWrapper key={index}>
-            <AdminMeatBookCardInfo>
-              <AdminMeatBookCardTitle>
-                <li>예약자명</li>
-                <li>예약일시</li>
-                <li>인원 수</li>
-                <li>요청사항</li>
-              </AdminMeatBookCardTitle>
-              <AdiminMeatBookCardContent>
-                <li>{adminMeatBookData.name}</li>
-                <li>{formatDate(adminMeatBookData.date)}</li>
-                <li>{adminMeatBookData.headCount}</li>
-                <li>{adminMeatBookData.request}</li>
-              </AdiminMeatBookCardContent>
-            </AdminMeatBookCardInfo>
-            <AdminMeatBookCardBookButton>
-              <Button bttext="예약거부"></Button>
-              <Button bttext="예약확정"></Button>
-            </AdminMeatBookCardBookButton>
-          </AdminMeatBookCardWrapper>
-        ),
+      {adminMeatBookData &&
+      adminMeatBookData?.ownerReservationList &&
+      adminMeatBookData?.ownerReservationList.length > 0 ? (
+        adminMeatBookData?.ownerReservationList.map(
+          (adminMeatBookData, index) => (
+            <AdminMeatBookCardWrapper key={index}>
+              <AdminMeatBookCardInfo>
+                <AdminMeatBookCardTitle>
+                  <li>예약자명</li>
+                  <li>예약일시</li>
+                  <li>인원 수</li>
+                  <li>요청사항</li>
+                </AdminMeatBookCardTitle>
+                <AdiminMeatBookCardContent>
+                  <li>{adminMeatBookData.name}</li>
+                  <li>{formatDate(adminMeatBookData.date)}</li>
+                  <li>{adminMeatBookData.headCount}</li>
+                  <li>{adminMeatBookData.request}</li>
+                </AdiminMeatBookCardContent>
+              </AdminMeatBookCardInfo>
+              <AdminMeatBookCardBookButton>
+                <Button bttext="예약거부"></Button>
+                <Button bttext="예약확정"></Button>
+              </AdminMeatBookCardBookButton>
+            </AdminMeatBookCardWrapper>
+          ),
+        )
+      ) : (
+        <p></p>
       )}
       <AdminMoreViewButton onClick={handleChangeAdminBook}>
         <span>더보기</span>
