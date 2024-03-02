@@ -4,7 +4,7 @@ import useModal from "../meat/hooks/useModal";
 import { ButtonStyleTS } from "./styles/ButtonStyleTS";
 import { TSBoxInnerStyle } from "./styles/TSModifyStyle";
 import { atomStoreInfoState } from "../../atom/atomStoreInfoState";
-import { ChangeEvent, useRef } from "react";
+import { ChangeEvent, useEffect, useRef } from "react";
 
 const TSPicsInput = () => {
   // 커스텀 훅
@@ -12,9 +12,17 @@ const TSPicsInput = () => {
 
   const [storeInfo, setStoreInfo] = useRecoilState(atomStoreInfoState);
 
+  useEffect(() => {
+    // 페이지 로드 시 ishopPics를 빈 배열로 초기화합니다.
+    setStoreInfo(prevStoreInfo => ({
+      ...prevStoreInfo,
+      ishopPics: [],
+    }));
+  }, [setStoreInfo]);
+
   const fileInputRef = useRef<HTMLInputElement>(null);
 
-  // 이미지 추가 로직
+  // 사진등록 버튼
   const handleClickAdd = () => {
     fileInputRef.current?.click();
   };
@@ -22,14 +30,7 @@ const TSPicsInput = () => {
   // 이미지 변경 이벤트 핸들러
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
-      // 사용자가 선택한 파일과 현재 pics 배열의 길이를 합산
       const totalImages = storeInfo.pics.length + e.target.files.length;
-
-      // 최대 5장까지만 허용
-      const allowedImagesCount = Math.min(
-        e.target.files.length,
-        5 - storeInfo.pics.length,
-      );
 
       if (totalImages > 5) {
         openModal(
@@ -37,26 +38,59 @@ const TSPicsInput = () => {
           "사진은 최대 5장까지 등록 가능합니다.",
           closeModal,
         );
+        return;
       }
 
-      // files 배열에서 allowedImagesCount만큼의 파일만 처리
-      const fileArray = Array.from(e.target.files)
-        .slice(0, allowedImagesCount)
-        .map(file => URL.createObjectURL(file));
+      const files = Array.from(e.target.files).slice(
+        0,
+        5 - storeInfo.pics.length,
+      );
 
-      // storeState pics 배열 업데이트
-      setStoreInfo({ ...storeInfo, pics: [...storeInfo.pics, ...fileArray] });
+      const newPics = files.map(file => ({
+        pic: URL.createObjectURL(file),
+        isNew: true,
+        file,
+      }));
+
+      // 새로운 이미지 객체들을 기존 pics 배열에 추가합니다.
+      setStoreInfo(prevStoreInfo => ({
+        ...prevStoreInfo,
+        pics: [...prevStoreInfo.pics, ...newPics],
+      }));
+      console.log("새로운 이미지가 추가된 후의 pics 상태:", [
+        ...storeInfo.pics,
+        ...newPics,
+      ]);
     }
   };
 
   // 이미지 삭제 로직
   const deleteImage = (index: number) => {
-    // pics 배열에서 선택된 이미지 삭제
+    // 삭제하려는 이미지의 picsPk를 추출합니다.
+    const deletedPicsPk = storeInfo.pics[index]?.picsPk;
+
+    // pics 배열에서 선택된 이미지를 제거합니다.
     const updatedPics = storeInfo.pics.filter((_, i) => i !== index);
-    setStoreInfo({
-      ...storeInfo,
+
+    // deletedPicsPk가 정의되어 있고, 아직 ishopPics 배열에 추가되지 않은 경우에만 추가합니다.
+    const updatedIshopPics = [...storeInfo.ishopPics];
+    if (
+      deletedPicsPk !== undefined &&
+      !storeInfo.ishopPics.includes(deletedPicsPk)
+    ) {
+      updatedIshopPics.push(deletedPicsPk);
+    }
+
+    // 상태를 업데이트합니다.
+    setStoreInfo(prevStoreInfo => ({
+      ...prevStoreInfo,
       pics: updatedPics,
-    });
+      ishopPics: updatedIshopPics,
+    }));
+
+    // 업데이트된 상태를 콘솔에 로깅합니다.
+    console.log("이미지 삭제 후 pics 배열:", updatedPics);
+    console.log("이미지 삭제 후 업데이트된 ishopPics 배열:", updatedIshopPics);
   };
 
   return (
@@ -82,7 +116,7 @@ const TSPicsInput = () => {
           {storeInfo.pics.map((image, index) => (
             <img
               key={index}
-              src={image}
+              src={image.pic}
               alt={`미리보기${index}`}
               style={{
                 maxWidth: "92px",

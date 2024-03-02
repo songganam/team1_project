@@ -1,7 +1,12 @@
 import { atom } from "recoil";
 
 interface StoreState {
-  pics: string[];
+  pics: {
+    picsPk?: number;
+    pic: string;
+    file?: File;
+    isNew?: boolean;
+  }[];
   imeat: number;
   name: string;
   location: string;
