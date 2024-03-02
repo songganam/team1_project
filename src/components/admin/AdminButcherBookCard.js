@@ -57,7 +57,9 @@ const AdminButcherBookCard = () => {
 
   return (
     <>
-      {adminButcherBookData?.ownerReservationList &&
+      {adminButcherBookData &&
+      adminButcherBookData?.ownerReservationList &&
+      adminButcherBookData?.ownerReservationList.length > 0 ? (
         adminButcherBookData?.ownerReservationList.map((reservation, index) => (
           <AdminButBookCardWrapper key={index}>
             <AdminButBookCardInfo>
@@ -83,7 +85,10 @@ const AdminButcherBookCard = () => {
               <Button bttext="예약확정"></Button>
             </AdminButBookCardBookButton>
           </AdminButBookCardWrapper>
-        ))}
+        ))
+      ) : (
+        <p></p>
+      )}
     </>
   );
 };

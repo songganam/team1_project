@@ -24,6 +24,14 @@ export const SupervisorShopVisual = styled.div`
   border-radius: 5px;
 `;
 
+export const ShopSwiperWrap = styled.div`
+  height: 100%;
+  body {
+    position: relative;
+    height: 100%;
+  }
+`;
+
 export const SupervisorShopInner = styled.div`
   position: relative;
   display: flex;
