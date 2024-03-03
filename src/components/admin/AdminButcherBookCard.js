@@ -57,7 +57,7 @@ const AdminButcherBookCard = () => {
 
   return (
     <>
-      {adminButcherBookData &&
+      {/* {adminButcherBookData &&
       adminButcherBookData?.ownerReservationList &&
       adminButcherBookData?.ownerReservationList.length > 0 ? (
         adminButcherBookData?.ownerReservationList.map((reservation, index) => (
@@ -88,7 +88,7 @@ const AdminButcherBookCard = () => {
         ))
       ) : (
         <p></p>
-      )}
+      )} */}
     </>
   );
 };

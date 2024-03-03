@@ -70,24 +70,22 @@ const SupervisorNewShopCard = () => {
     const patchShopConfirm = {
       checkShop: checkShop,
       ishop: ishop,
-      confirm: confirm,
+      confirm: confirm === 0 ? 1 : 2,
     };
-    // 승인 전 확인 모달창
     setShopConfirm(patchShopConfirm);
     openModal();
-    console.log(patchShopConfirm);
   };
 
   const handleConfirmDone = confirmValue => {
     if (shopConfirm) {
       const { checkShop, ishop, confirm } = shopConfirm;
+      const newConfirmValue = confirmValue === 2 ? 2 : 0;
       patchShopConfirm({
-        param: { checkShop, ishop, confirm },
+        patchShopForm: { checkShop, ishop, confirm: newConfirmValue },
         successPatch,
         failPatch,
         errorPatch,
       });
-      console.log(shopConfirm);
       closeModal();
     }
   };
