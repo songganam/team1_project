@@ -79,14 +79,14 @@ export const patchMyBook = async ({
     });
     const status = res.status.toString();
     if (status.charAt(0) === "2") {
-      console.log("예약 내역 완전 삭제 성공");
+      console.log("예약 내역 삭제 성공");
       successPatch(res.data);
       return res.data;
     } else {
       failPatch("예약 내역 삭제 오류");
     }
   } catch (error) {
-    console.log("서버 완전 오류");
+    console.log("서버 오류");
     errorPatch(error);
   }
 };

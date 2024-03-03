@@ -88,3 +88,61 @@ export const getNoShow = async ({ param, successFn, failFn, errorFn }) => {
 };
 
 // 관리자 예약 관리 페이지 : 예약 확정 (PATCH)
+export const patchBookConfirm = async ({
+  patchBookConfirmForm,
+  successConfirmPatch,
+  failConfrimPatch,
+  errorConfrimPatch,
+}) => {
+  const data = {
+    checkShop: patchBookConfirmForm.checkShop,
+    ireser: patchBookConfirmForm.ireser,
+  };
+  try {
+    const header = { headers: { "Content-Type": "application/json" } };
+    const res = await authAxios.patch(`${host}/reservation/confirm`, data, {
+      headers: header,
+    });
+    const status = res.status.toString();
+    if (status.charAt(0) === "2") {
+      console.log("예약 확정 성공");
+      successConfirmPatch(res.data);
+      return res.data;
+    } else {
+      failConfrimPatch("예약 확정 오류");
+    }
+  } catch (error) {
+    console.log("서버 오류");
+    errorConfrimPatch(error);
+  }
+};
+
+// 관리자 예약 관리 페이지 : 예약 거부 (PATCH)
+export const patchRejectBook = async ({
+  patchBookForm,
+  successPatch,
+  failPatch,
+  errorPatch,
+}) => {
+  const data = {
+    checkShop: patchBookForm.checkShop,
+    ireser: patchBookForm.ireser,
+  };
+  try {
+    const header = { headers: { "Content-Type": "application/json" } };
+    const res = await authAxios.patch(`${host}/reservation`, data, {
+      headers: header,
+    });
+    const status = res.status.toString();
+    if (status.charAt(0) === "2") {
+      console.log("예약 거부 성공");
+      successPatch(res.data);
+      return res.data;
+    } else {
+      failPatch("예약 거부 오류");
+    }
+  } catch (error) {
+    console.log("서버 오류");
+    errorPatch(error);
+  }
+};

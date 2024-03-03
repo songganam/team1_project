@@ -26,9 +26,27 @@ export const SupervisorShopVisual = styled.div`
 
 export const ShopSwiperWrap = styled.div`
   height: 100%;
-  body {
-    position: relative;
+  position: relative;
+  height: 100%;
+  background: #eee;
+  font-family: Helvetica Neue, Helvetica, Arial, sans-serif;
+  font-size: 14px;
+  color: #000;
+  margin: 0;
+  padding: 0;
+  width: 100%;
+  height: 100%;
+  text-align: center;
+  font-size: 18px;
+  background: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  img {
+    display: block;
+    width: 100%;
     height: 100%;
+    object-fit: cover;
   }
 `;
 
