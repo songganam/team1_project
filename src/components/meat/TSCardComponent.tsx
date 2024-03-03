@@ -83,6 +83,7 @@ const ListCard: React.FC<PropsList> = ({ serverData }) => {
               <img
                 src={`${host}${item.ishop}/shop_pic/${item.pics[0]}`}
                 alt="고기 더미 이미지"
+                loading="lazy"
               />
             </MeatSotreCardImg>
           </MeatStoreCard>

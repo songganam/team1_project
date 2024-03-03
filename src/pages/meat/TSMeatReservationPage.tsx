@@ -49,6 +49,14 @@ const MeatReservationPage = () => {
   const { isModal, openModal, closeModal, moveToPayment } = useCustomHook();
   // ! 사람 카운팅
   //   const [personCount, setPersonCount] = useState(1);
+
+  useEffect(() => {
+    openModal(
+      "예약 안내",
+      "고기로 예약 감사합니다. 예약금 확정, 방문 시 환불. 변경/취소 불가, 미입금 자동 취소. 정확한 도착 시간 중요. 예약금 환불 문의는 전화. 양해 부탁드리며 즐거운 시간 보내세요.",
+      closeModal,
+    );
+  }, []);
   const timeValue = [
     "17:00",
     "17:30",
@@ -140,6 +148,7 @@ const MeatReservationPage = () => {
     amount: number;
     pk: number;
   }
+
   const addMutation = useMutation({
     mutationFn: (reserData: ReserForm) => postReserTS({ reserData }),
     onSuccess: (result: ReserResponseForm) => {

@@ -7,13 +7,11 @@ import { Swiper, SwiperSlide } from "swiper/react";
 import { API_SERVER_HOST } from "../../api/config";
 import { changeBookmark } from "../../api/meatApi";
 import Button from "../../components/button/Button";
-import CountingStar from "../../components/common/CountingStar";
 import Fetching from "../../components/common/Fetching";
 import ResultModal from "../../components/common/ResultModal";
 import useCustomHook from "../../components/meat/hooks/useCustomHook";
 import useCustomLoginTS from "../../components/meat/hooks/useCustomLoginTS";
 import {
-  ImgStyle,
   InfoContent,
   InfoContentWrap,
   InfoDesc,
@@ -23,7 +21,6 @@ import {
   InfoImageWrap,
   InfoName,
   InfoWrap,
-  LargeImgStyle,
   MapApiWrapper,
   MenuCardContent,
   MenuCardContentItem,
@@ -40,23 +37,15 @@ import {
   OverlayWrap,
   ReadWrap,
   ReserBtn,
-  ReviewContent,
   ReviewContentWrap,
-  ReviewContentmWrap,
-  ReviewItemWrap,
-  ReviewProfileImage,
-  ReviewProfileWrap,
   ReviewTitle,
-  ReviewUserProfile,
   ReviewWrap,
-  ThumbnailStyle,
 } from "./styles/MeatDetailStyle";
 
 // @COMMENT use React-Query
 import { useQuery } from "@tanstack/react-query";
 import { getGInfoTS } from "../../api/typeApi";
 import { Glist } from "./Meat";
-import store from "../../store/store";
 import TSMeatReviewCard from "./TSMeatReviewCard";
 
 const initState: Glist = {
