@@ -21,7 +21,7 @@ export const AdiminPageMenuBar = styled.div`
   padding: 16px 40px;
   gap: 10px;
   background-color: #202734;
-  z-index: 999;
+  z-index: 996;
 `;
 
 export const AdminPageMenu = styled.div`

@@ -47,6 +47,21 @@ export const WriterBoxStyle = styled.div`
     align-items: center;
     gap: 5px;
   }
+  .like-box {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    cursor: pointer;
+  }
+  .like-button {
+    background: none;
+    border: none;
+    padding: none;
+    margin: 0;
+    color: ${ColorStyle.g700};
+    font: inherit;
+    cursor: pointer;
+  }
 `;
 
 export const PrnvContentStyle = styled.div`
@@ -95,6 +110,8 @@ export const ReviewBox = styled.div`
   align-items: flex-start;
   .readReviewBox {
     display: flex;
+    flex-wrap: wrap;
+    width: 100%;
     padding-bottom: 20px;
     justify-content: space-between;
     align-items: center;
@@ -102,6 +119,7 @@ export const ReviewBox = styled.div`
   }
   .readReview {
     display: flex;
+    /* width: 1105px; */
     flex-direction: column;
     align-items: flex-start;
     gap: 15px;
@@ -154,15 +172,25 @@ export const ReviewBox = styled.div`
     width: 100%;
     display: flex;
     justify-content: space-between;
+    align-items: center;
   }
   .reviewContent {
     display: flex;
     padding: 0px 10px;
     align-items: center;
+    flex-grow: 1;
+    flex-shrink: 1;
     gap: 10px;
-    align-self: stretch;
+    /* align-self: stretch; */
     color: ${ColorStyle.g900};
     font-size: ${FontSize.default};
+  }
+  .button-box {
+    display: flex;
+    /* width: 25px; */
+    align-items: center;
+    gap: 8px;
+    flex-shrink: 0;
   }
   .deleteBtn {
     display: flex;
@@ -171,6 +199,15 @@ export const ReviewBox = styled.div`
     gap: 8px;
     font-size: ${FontSize.default};
     color: ${ColorStyle.primary};
+    cursor: pointer;
+  }
+  .reportBtn {
+    display: flex;
+    /* width: 25px; */
+    align-items: center;
+    gap: 8px;
+    font-size: ${FontSize.default};
+    color: ${ColorStyle.g700};
     cursor: pointer;
   }
   .inputReviewBox {

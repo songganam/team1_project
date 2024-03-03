@@ -78,7 +78,7 @@ const SupervisorPage = () => {
               >
                 신고 관리
               </button>
-              <button
+              {/* <button
                 onClick={handleClickSvNotice}
                 style={{
                   color:
@@ -88,7 +88,7 @@ const SupervisorPage = () => {
                 }}
               >
                 공지사항 등록
-              </button>
+              </button> */}
             </SupervisorPageMenu>
           </SupervisorPageMenuBar>
           <SupervisorPageContent>

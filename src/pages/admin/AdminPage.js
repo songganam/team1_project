@@ -1,6 +1,7 @@
-import React, { useState } from "react";
-import Layout from "../../layouts/Layout";
+import { useState } from "react";
 import { Outlet, useNavigate } from "react-router";
+import AdminLayout from "../../layouts/AdminLayout";
+import { ColorStyle } from "../../styles/common/CommonStyle";
 import {
   AdiminPageMenuBar,
   AdminPageContent,
@@ -8,7 +9,6 @@ import {
   AdminPageMenu,
   AdminPageWrapper,
 } from "./styles/AdminPageStyle";
-import { ColorStyle } from "../../styles/common/CommonStyle";
 
 const AdminPage = () => {
   // 패스 이동
@@ -46,7 +46,7 @@ const AdminPage = () => {
   };
 
   return (
-    <Layout>
+    <AdminLayout>
       <AdminPageWrapper>
         <AdminPageData>
           <AdiminPageMenuBar>
@@ -113,7 +113,7 @@ const AdminPage = () => {
           </AdminPageContent>
         </AdminPageData>
       </AdminPageWrapper>
-    </Layout>
+    </AdminLayout>
   );
 };
 

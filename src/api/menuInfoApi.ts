@@ -1,7 +1,5 @@
-import axios from "axios";
 import authAxios from "../util/tokenUtil";
 import { API_SERVER_HOST } from "./config";
-import { number } from "prop-types";
 
 const host = `${API_SERVER_HOST}/api/owner/menu`;
 
@@ -45,7 +43,7 @@ export const postMenu = async ({ menuInfo }: { menuInfo: FormData }) => {
 export const deleteMenu = async ({ imenu }: { imenu: number }) => {
   try {
     const header = { headers: { "Content-Type": "application/json" } };
-    const response = await authAxios.delete(`${host}?menu=${imenu}`, header);
+    const response = await authAxios.delete(`${host}?imenu=${imenu}`, header);
     return response.data;
   } catch (error) {
     console.log(error);
