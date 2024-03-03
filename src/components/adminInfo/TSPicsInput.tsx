@@ -100,7 +100,7 @@ const TSPicsInput = () => {
         <div className="essential">*</div>
       </div>
       <div className="pics-container">
-        <div className="text-guide">5MB 이하 최대 5장까지 등록 가능합니다.</div>
+        <div className="text-guide">5MB 이하 최대 5장까지 등록 가능합니다</div>
         {/* 사진등록 버튼 로직 추가해야 함 */}
         <ButtonStyleTS type="button" onClick={handleClickAdd}>
           사진등록

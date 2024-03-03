@@ -1,23 +1,32 @@
 import { ChangeEvent, useRef, useState } from "react";
 import { useRecoilState } from "recoil";
-import { postMenu } from "../../api/menuInfoApi";
-import { atomMenuInfoState, defaultMenuState } from "../../atom/atomMenuInfo";
+import { deleteMenu, postMenu, putMenu } from "../../api/menuInfoApi";
+import {
+  atomMenuInfoState,
+  defaultMenuState,
+  menuRefreshState,
+} from "../../atom/atomMenuInfo";
 import Fetching from "../common/Fetching";
 import ResultModal from "../common/ResultModal";
 import useModal from "../meat/hooks/useModal";
 import { ButtonStyleTS } from "./styles/ButtonStyleTS";
-import { TSBackgroundBoxStyle, TSBoxInnerStyle } from "./styles/TSModifyStyle";
+import {
+  OnClickBoxStyle,
+  TSBackgroundBoxStyle,
+  TSBoxInnerStyle,
+} from "./styles/TSModifyStyle";
 import { TSInputStyle, TSTextFieldStyle } from "./styles/TSTextFieldStyle";
 
 // 텍스트필드 스타일 props 타입 정의
 type TextFieldStateProps = "default" | "focus" | "error" | "filled";
 
-const MenuPost = () => {
+const MenuModify = () => {
   // 커스텀 훅
   const { isModal, openModal, closeModal } = useModal();
   const [fetching, setFetching] = useState(false);
   // 메뉴정보 상태관리
   const [menuInfo, setMenuInfo] = useRecoilState(atomMenuInfoState);
+  const [refreshTrigger, setRefreshTrigger] = useRecoilState(menuRefreshState);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
 
   const fileInputRef = useRef<HTMLInputElement>(null);
@@ -111,6 +120,7 @@ const MenuPost = () => {
         console.log("메뉴 정보 수정 성공");
         console.log("메뉴 정보", menuInfo);
         openModal("메뉴 정보", "메뉴가 등록 되었습니다.", closeModal);
+        setRefreshTrigger(refreshTrigger * -1);
         setMenuInfo(defaultMenuState);
         return;
       } else {
@@ -127,6 +137,87 @@ const MenuPost = () => {
     }
   };
 
+  // 메뉴수정 실행
+  const handleMenuModify = async () => {
+    if (!menuInfo.imenu) {
+      openModal("메뉴 수정", "수정할 메뉴를 선택해주세요", closeModal);
+      return;
+    }
+    setFetching(true);
+
+    const formData = new FormData();
+
+    if (selectedFile) {
+      formData.append("pic", selectedFile);
+    }
+
+    const dto = new Blob(
+      [
+        JSON.stringify({
+          imenu: menuInfo.imenu,
+          menu: menuInfo.menu,
+          price: menuInfo.price,
+        }),
+      ],
+      { type: "application/json" },
+    );
+    formData.append("dto", dto);
+
+    try {
+      const result = await putMenu({ menuInfo: formData });
+      if (result) {
+        console.log("메뉴 정보 수정 성공");
+        console.log("메뉴 정보", menuInfo);
+        openModal("메뉴 정보", "메뉴가 등록 되었습니다.", closeModal);
+        setRefreshTrigger(refreshTrigger * -1);
+        setMenuInfo(defaultMenuState);
+        return;
+      } else {
+        console.log("메뉴정보", menuInfo);
+        openModal("메뉴 정보", "등록에 실패하였습니다", closeModal);
+        return;
+      }
+    } catch (error) {
+      console.log("메뉴 정보 등록 안됨");
+      openModal("서버 오류", "관리자에게 문의하세요", closeModal);
+      return;
+    } finally {
+      setFetching(false);
+    }
+  };
+
+  // 메뉴 삭제실행
+  const handleDelete = async () => {
+    if (!menuInfo.imenu) {
+      openModal("메뉴 삭제", "삭제할 메뉴를 선택해주세요", closeModal);
+      return;
+    }
+    setFetching(true);
+    try {
+      const result = await deleteMenu({ imenu: menuInfo.imenu });
+      if (result) {
+        openModal("메뉴 삭제", "메뉴가 삭제되었습니다", closeModal);
+        setRefreshTrigger(refreshTrigger * -1);
+        setMenuInfo(defaultMenuState);
+        return;
+      } else {
+        openModal("메뉴 삭제", "메뉴 삭제를 실패하였습니다", closeModal);
+        console.log("imenu", menuInfo.imenu);
+        return;
+      }
+    } catch (error) {
+      openModal("서버 오류", "관리자에게 문의하세요", closeModal);
+      return;
+    } finally {
+      setFetching(false);
+    }
+  };
+
+  // 초기화
+  const handleReset = () => {
+    setMenuInfo(defaultMenuState);
+  };
+
   return (
     <TSBackgroundBoxStyle>
       {/* 모달창 */}
@@ -139,13 +230,16 @@ const MenuPost = () => {
       )}
       {fetching ? <Fetching /> : null}
       <TSBoxInnerStyle>
-        <div className="big-title">메뉴 등록하기</div>
+        <div className="big-title">메뉴 등록 / 수정하기</div>
+        <div className="text-guide">
+          메뉴목록에서 메뉴를 클릭하시면 해당 메뉴를 수정할 수 있습니다
+        </div>
         <div className="title">
           <div>메뉴사진</div>
           <div className="essential">*</div>
         </div>
         <div className="pics-container">
-          <div className="text-guide">5MB 이하 1장만 등록 가능합니다.</div>
+          <div className="text-guide">5MB 이하 1장만 등록 가능합니다</div>
           <ButtonStyleTS type="button" onClick={handleClickAdd}>
             사진등록
           </ButtonStyleTS>
@@ -206,11 +300,22 @@ const MenuPost = () => {
         </TSTextFieldStyle>
         <div className="text-guide">숫자만 사용가능, 단위: 원</div>
       </TSBoxInnerStyle>
-      <ButtonStyleTS type="button" onClick={handleMenuPost}>
-        메뉴 등록하기
-      </ButtonStyleTS>
+      <OnClickBoxStyle>
+        <ButtonStyleTS type="button" onClick={handleMenuPost}>
+          등록하기
+        </ButtonStyleTS>
+        <ButtonStyleTS type="button" onClick={handleMenuModify}>
+          수정하기
+        </ButtonStyleTS>
+        <ButtonStyleTS type="button" onClick={handleDelete}>
+          삭제하기
+        </ButtonStyleTS>
+        <ButtonStyleTS type="button" onClick={handleReset}>
+          초기화
+        </ButtonStyleTS>
+      </OnClickBoxStyle>
     </TSBackgroundBoxStyle>
   );
 };
 
-export default MenuPost;
+export default MenuModify;

@@ -1,4 +1,5 @@
 import styled from "@emotion/styled";
+import { ColorStyle } from "../../../styles/common/CommonStyle";
 
 export const TSAdminInfoWrapStyle = styled.form`
   position: relative;
@@ -10,6 +11,7 @@ export const TSAdminInfoWrapStyle = styled.form`
 `;
 export const TSNavStyle = styled.div`
   position: fixed;
+  height: 68px;
   top: 114px;
   left: 210px;
   display: flex;
@@ -18,7 +20,7 @@ export const TSNavStyle = styled.div`
   justify-content: space-between;
   align-items: center;
   background: #fff;
-  z-index: 998;
+  z-index: 997;
   /* Shadow */
   box-shadow: 0px 1px 2px -1px rgba(0, 0, 0, 0.1),
     0px 1px 3px 0px rgba(0, 0, 0, 0.1);
@@ -54,6 +56,7 @@ export const TSPreviewWrapStyle = styled.div`
   flex-direction: column;
   align-items: flex-start;
   gap: 10px;
+  z-index: 998;
 `;
 
 export const TSShopStyle = styled.div`
@@ -78,6 +81,12 @@ export const TSBackgroundBoxStyle = styled.div`
     0px 1px 3px 0px rgba(0, 0, 0, 0.1);
 `;
 
+export const OnClickBoxStyle = styled.div`
+  display: flex;
+  align-items: center;
+  gap: 20px;
+`;
+
 export const TSBoxInnerStyle = styled.div`
   display: flex;
   flex-direction: column;
@@ -100,6 +109,19 @@ export const TSBoxInnerStyle = styled.div`
     line-height: 22px; /* 157.143% */
   }
 
+  .big-title {
+    display: flex;
+    align-items: flex-start;
+    gap: 2px;
+    color: var(--gray-900, #111827);
+    /* background-color: ${ColorStyle.g200}; */
+    /* 16/semibold */
+    font-family: Pretendard;
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 600;
+    line-height: 150%; /* 24px */
+  }
   .title {
     display: flex;
     align-items: flex-start;

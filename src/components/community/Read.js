@@ -369,19 +369,23 @@ const Read = () => {
   //   iboard: parseInt(iboard),
   // };
   // console.log("데이터 폼 테스트 :", dataForm);
+  const [favorite, setFavorite] = useState(false);
   const favMutation = useMutation({
     mutationFn: fav => postFav({ iboard }),
     onSuccess: result => {
       // console.log("성공한 게시물 : ", iboard);
       if (result.result === 0) {
         openModal("좋아요 해제", "좋아요가 해제 되었습니다.", shutModal);
+        setFavorite(false);
       }
       if (result.result === 1) {
         openModal("좋아요 등록", "좋아요가 등록 되었습니다.", shutModal);
+        setFavorite(true);
       }
     },
     onError: () => {},
   });
+
   const handleClickFav = () => {
     console.log("데이터다 :", iboard, iuser);
     // console.log("test2", dataForm);
@@ -392,12 +396,14 @@ const Read = () => {
     ireport: 1,
   };
   const [reportData, setReportData] = useState(reportInitState);
+  const [reported, setReported] = useState(false);
   const reportMutation = useMutation({
     mutationFn: reportData => postCommuReport({ reportData }),
     onSuccess: () => {
       console.log("신고 성공");
       // console.log("신고 -완-");
       openModal("글신고완료", "신고가 완료 되었습니다.", shutModal);
+      setReported(true);
     },
     onError: error => {
       if (error.response && error.response.status === 404) {
@@ -441,6 +447,7 @@ const Read = () => {
       ireport: selectedValue,
     }));
   };
+
   const handleClickBoardReport = () => {
     // const numIboard = parseInt(iboard, 10);
     const report = {
@@ -561,19 +568,26 @@ const Read = () => {
         <WriterBoxStyle>
           <div className="userName">{content.name}</div>
           <div className="date">{content.createdAt}</div>
-          <div className="viewBox">
-            <img
-              src={`${process.env.PUBLIC_URL}/assets/images/view_eye.svg`}
-              alt="img"
-            />
-            <div className="viewCount">
-              {/* @COMMENT TEST LIKE BUTTON */}
-              <button onClick={handleClickFav}>좋아요버튼</button>
-              {/* <button onClick={handleClickReport}>신고버튼</button>
-               */}
-              <div>
-                <span>글신고하고싶다 이말이야</span>
-                {/* <select onChange={e => handleChangeReport(e)}>
+          {/* @COMMENT TEST LIKE BUTTON */}
+          <div className="like-box" onClick={handleClickFav}>
+            {favorite ? (
+              <img
+                src={`${process.env.PUBLIC_URL}/assets/images/like_fill.svg`}
+                alt="like"
+              />
+            ) : (
+              <img
+                src={`${process.env.PUBLIC_URL}/assets/images/like.svg`}
+                alt="like"
+              />
+            )}
+            <button className="like-button">좋아요</button>
+          </div>
+          {/* <button onClick={handleClickReport}>신고버튼</button>
+           */}
+          <div className="like-box" onClick={handleClickRBoardBtn}>
+            {/* <span>글신고하고싶다 이말이야</span> */}
+            {/* <select onChange={e => handleChangeReport(e)}>
                   <option value={1}>욕설/인신공격</option>
                   <option value={2}>음란물</option>
                   <option value={3}>영리목적/홍보성</option>
@@ -581,10 +595,26 @@ const Read = () => {
                   <option value={5}>게시글 도배</option>
                   <option value={6}>기타</option>
                 </select> */}
-                <button onClick={handleClickRBoardBtn}>신고슛</button>
-              </div>
-            </div>
+            {reported ? (
+              <img
+                src={`${process.env.PUBLIC_URL}/assets/images/report_fill.svg`}
+                alt="like"
+              />
+            ) : (
+              <img
+                src={`${process.env.PUBLIC_URL}/assets/images/report.svg`}
+                alt="like"
+              />
+            )}
+            <button className="like-button">신고하기</button>
           </div>
+          {/* <div className="viewBox">
+            <img
+              src={`${process.env.PUBLIC_URL}/assets/images/view_eye.svg`}
+              alt="img"
+            />
+            <div className="viewCount"></div>            
+          </div> */}
         </WriterBoxStyle>
       </TitleBoxStyle>
       <MoreBoxStyle>
@@ -734,18 +764,23 @@ const Read = () => {
                     </div>
                     <div className="reviewContentBox">
                       <div className="reviewContent">{comment.comment}</div>
-                      {comment.writerName === isNickname ? (
+                      <div className="button-box">
+                        {comment.writerName === isNickname ? (
+                          <div
+                            className="deleteBtn"
+                            onClick={() => {
+                              handleDelComment(comment.icomment);
+                            }}
+                          >
+                            삭제
+                          </div>
+                        ) : null}
                         <div
-                          className="deleteBtn"
-                          onClick={() => {
-                            handleDelComment(comment.icomment);
-                          }}
+                          className="reportBtn"
+                          onClick={() =>
+                            handleClickRCommentBtn(comment.icomment)
+                          }
                         >
-                          삭제
-                        </div>
-                      ) : null}
-                      <div>
-                        <div>
                           {/* <span>댓글신고하고싶다 이말이야</span>
 
                           <select onChange={e => handleChangeCommentReport(e)}>
@@ -756,13 +791,7 @@ const Read = () => {
                             <option value={5}>게시글 도배</option>
                             <option value={6}>기타</option>
                           </select> */}
-                          <button
-                            onClick={() =>
-                              handleClickRCommentBtn(comment.icomment)
-                            }
-                          >
-                            신고
-                          </button>
+                          댓글신고
                         </div>
                       </div>
                     </div>

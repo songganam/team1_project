@@ -23,6 +23,7 @@ export const TSTextFieldStyle = styled.div<{ state: TextFieldState }>`
 export const TSTextFieldAdressStyle = styled(TSTextFieldStyle)`
   width: 380px;
 `;
+
 export const TSInputStyle = styled.input`
   flex-grow: 1;
   border: none;

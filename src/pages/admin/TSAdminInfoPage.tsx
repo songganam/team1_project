@@ -50,7 +50,6 @@ const TSAdminInfoPage = () => {
       } finally {
         setFetching(false);
       }
-
       console.log("등록된 매장 정보", storeInfo);
     };
     fetchShopInfo();

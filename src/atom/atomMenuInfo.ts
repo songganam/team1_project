@@ -10,9 +10,21 @@ interface MenuState {
 }
 
 // atom 기본값 배열
-const defaultMenuState: MenuState[] = [];
+export const defaultMenuState = {
+  checkShop: 0,
+  imenu: 0,
+  ishop: 0,
+  price: 0,
+  menu: "",
+  pic: "",
+};
 
-export const atomMenuInfoState = atom<MenuState[]>({
-  key: "",
+export const atomMenuInfoState = atom<MenuState>({
+  key: "atomMenuInfoState",
   default: defaultMenuState,
+});
+
+export const menuRefreshState = atom({
+  key: "menuRefreshState",
+  default: 1,
 });
