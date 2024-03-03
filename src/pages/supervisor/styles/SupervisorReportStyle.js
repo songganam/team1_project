@@ -11,6 +11,7 @@ import styled from "@emotion/styled";
 
 export const SvisorReportWrap = styled.div`
   position: relative;
+  height: 1000px;
   /* display: block; */
   background-color: #ffffff;
   margin-left: 210px;
