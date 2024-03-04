@@ -90,8 +90,8 @@ export function CheckoutPage() {
               orderName: "고기로 예약",
               customerName: "고기로 이용자님",
               // customerEmail: "customer123@gmail.com",
-              successUrl: `${window.location.origin}/success?pk=${pk}`,
-              failUrl: `${window.location.origin}/fail`,
+              successUrl: `${window.location.origin}/payment/success?pk=${pk}`,
+              failUrl: `${window.location.origin}/payment/fail`,
             });
           } catch (error) {
             // handle error

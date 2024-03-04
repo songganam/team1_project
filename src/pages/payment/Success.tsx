@@ -43,7 +43,7 @@ export function SuccessPage() {
   }, []);
 
   return (
-    <div className="result wrapper">
+    <div className="result wrapper" style={{ width: "100%", height: "1000px" }}>
       <div className="box_section">
         <h2>결제 성공</h2>
         {/* <p>{`주문번호: ${searchParams.get("orderId")}`}</p> */}

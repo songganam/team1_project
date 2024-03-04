@@ -128,7 +128,7 @@ const useCustomHook = () => {
   const moveToPayment = (pk, amount) => {
     console.log("payment, pk :", pk, "amount :", amount);
     navigate({
-      pathname: `/payment`,
+      pathname: `/payment/checkout`,
       search: `pk=${pk}&amount=${amount}`,
     });
   };

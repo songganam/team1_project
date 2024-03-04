@@ -15,6 +15,7 @@ import {
 } from "./styles/GCardStyle";
 import { API_SERVER_HOST } from "../../api/config";
 import { PropsList } from "../../pages/meat/Meat";
+import BlurredImage from "./BlurredImage";
 
 const ListCard: React.FC<PropsList> = ({ serverData }) => {
   const navigate = useNavigate();
@@ -85,6 +86,11 @@ const ListCard: React.FC<PropsList> = ({ serverData }) => {
                 alt="고기 더미 이미지"
                 loading="lazy"
               />
+              {/* <BlurredImage
+                alt="고기 더미 이미지"
+                host={host}
+                src={`${item.ishop}/shop_pic/${item.pics[0]}`}
+              /> */}
             </MeatSotreCardImg>
           </MeatStoreCard>
         ))}

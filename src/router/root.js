@@ -1,15 +1,13 @@
 import { Suspense, lazy } from "react";
 import { createBrowserRouter } from "react-router-dom";
 import Loading from "../components/loading/Loading";
-import { CheckoutPage } from "../pages/payment/Checkout";
-import { FailPage } from "../pages/payment/Fail";
-import { SuccessPage } from "../pages/payment/Success";
 import adminRouter from "./adminRouter";
 import butcherRouter from "./butcherRouter";
 import communityRouter from "./communityRouter";
 import joinRouter from "./joinRouter";
 import meatRouter from "./meatRouter";
 import myRouter from "./myRouter";
+import paymentRouter from "./paymentRouter";
 import saleRouter from "./saleRouter";
 import supervisorRouter from "./supervisorRouter";
 
@@ -36,6 +34,7 @@ const LazySalePage = lazy(() => import("../pages/sale/SalePage"));
 const LazyCommunityPage = lazy(() =>
   import("../pages/community/CommunityPage"),
 );
+const LazyPaymentPage = lazy(() => import("../pages/payment/PaymentPage"));
 
 // 마이페이지
 const LazyMyPage = lazy(() => import("../pages/my/MyPage"));
@@ -56,10 +55,6 @@ const LazyAdSignupPage = lazy(() =>
 
 // 테스트용 페이지
 const LazyGaraPage = lazy(() => import("../redux/GaraLogin"));
-const LazyPaymentPage = lazy(() => import("../pages/payment/Checkout"));
-// const LazySupervisorSigninPage = lazy(() =>
-//   import("../pages/payment/Checkout"),
-// );
 
 const router = createBrowserRouter([
   {
@@ -158,6 +153,17 @@ const router = createBrowserRouter([
     ),
     children: supervisorRouter(),
   },
+
+  {
+    path: "/payment/",
+    element: (
+      <Suspense fallback={<Loading />}>
+        <LazyPaymentPage />
+      </Suspense>
+    ),
+    children: paymentRouter(),
+  },
+
   {
     path: "*",
     element: (
@@ -182,33 +188,7 @@ const router = createBrowserRouter([
       </Suspense>
     ),
   },
-  {
-    path: "/payment/",
-    element: (
-      <Suspense fallback={<Loading />}>
-        {/* <LazyPaymentPage /> */}
-        <CheckoutPage />
-      </Suspense>
-    ),
-  },
-  {
-    path: "/success",
-    element: (
-      <Suspense fallback={<Loading />}>
-        {/* <LazyPaymentPage /> */}
-        <SuccessPage />
-      </Suspense>
-    ),
-  },
-  {
-    path: "/fail",
-    element: (
-      <Suspense fallback={<Loading />}>
-        {/* <LazyPaymentPage /> */}
-        <FailPage />
-      </Suspense>
-    ),
-  },
+
   {
     path: "/svisor/signin",
     element: (
