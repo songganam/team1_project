@@ -1,219 +1,164 @@
-import { useEffect, useState } from "react";
-import { useTable } from "react-table";
-import { API_SERVER_HOST } from "../../api/config";
-import { getReport } from "../../api/reportApi";
-import Button from "../../components/button/Button";
-import useCustomHook from "../../components/meat/hooks/useCustomHook";
+import React, { useEffect, useState } from "react";
 import {
+  SupervisorReportContents,
   SupervisorReportHeader,
-  SvisorReportMain,
-  SvisorReportOption,
-  SvisorReportWrap,
-  SvisorTable,
+  SupervisorReportWrapper,
+  SupervisorTable,
 } from "./styles/SupervisorReportStyle";
-
-const svisorhost = API_SERVER_HOST;
-
-const initState = [
-  {
-    pk: 0,
-    writerNm: "string",
-    contents: "string",
-    state: 0,
-    count: 0,
-  },
-];
+import useCustomHook from "../../components/meat/hooks/useCustomHook";
+import { getReport, patchReport, patchReportCancel } from "../../api/reportApi";
+import Button from "../../components/button/Button";
 
 const SupervisorReportPage = () => {
-  const [reportData, setReportData] = useState([initState]);
-  const [selectedValue, setSelectedValue] = useState("");
-  const { page } = useCustomHook;
-  const params = { page };
-
+  const [reportData, setReportData] = useState([]);
+  const { page, check, moveToCheck } = useCustomHook();
+  // 신고글 가져오기 (API)
   useEffect(() => {
-    const result = getReport({ reportData, successFn, failFn, errorFn }); // 데이터를 가져오는 함수 호출
-    // setUserData(result);
-    console.log("useEffect 사용");
-  }, [page]);
+    const params = { page, check };
+    getReport({ params, successFn, failFn, errorFn });
+  }, [page, check]);
 
-  const successFn = result => {
-    setReportData(result);
-  };
-  const failFn = result => {
-    setReportData(result);
-  };
-  const errorFn = result => {
-    setReportData(result);
+  const successFn = res => {
+    setReportData(res);
   };
 
-  const options = [
-    { value: "option1", label: "고기잡담 글" },
-    { value: "option2", label: "고기잡담 댓글" },
-    { value: "option3", label: "고기집 후기" },
-    { value: "option4", label: "정육점 후기" },
-  ];
-
-  const handleSelectChange = e => {
-    setSelectedValue(e.target.value);
+  const failFn = res => {
+    setReportData(res);
   };
 
-  const TableData = [
-    {
-      check: "고기집 후기",
-      writerNm: "John",
-      contents: "줘도 안 먹을 맛임",
-      state: "삭제",
-      count: 3,
-    },
-    {
-      check: "고기잠담 댓글",
-      writerNm: "최고기",
-      contents: "바보똥개야",
-      state: "삭제",
-      count: 3,
-    },
-    {
-      check: "고기잡담 댓글",
-      writerNm: "학재son",
-      contents: "ㅇㅇ",
-      state: "보류",
-      count: 1,
-    },
-  ];
-
-  const columns = [
-    { Header: "카테고리", accessor: "pk" },
-    { Header: "작성자", accessor: "writerNm" },
-    { Header: "내용", accessor: "contents" },
-    { Header: "상태", accessor: "state" },
-    { Header: "신고 수", accessor: "count" },
-    // { Header: "삭제", accessor: "delete" },
-    // { Header: "취소", accessor: "cancel" },
-  ];
-
-  const { getTableProps, getTableBodyProps, headerGroups, rows, prepareRow } =
-    useTable({ columns, data: TableData });
-
-  const handleDeleteClick = rowData => {
-    console.log("Delete button clicked for row:", rowData);
+  const errorFn = res => {
+    setReportData(res);
   };
 
-  const handleCancelClick = rowData => {
-    console.log("Cancel button clicked for row:", rowData);
+  // 신고글 숨김
+  const handleClickHide = result => {
+    console.log(result);
+    const hideForm = {
+      check: Number(selectedCategory),
+      pk: result,
+    };
+    console.log("hideform test : ", hideForm);
+    patchReport({ hideForm, successHideFn, failHideFn, errorHideFn });
+  };
+  const successHideFn = res => {
+    console.log(res);
+  };
+  const failHideFn = res => {
+    console.log(res);
+  };
+  const errorHideFn = res => {
+    console.log(res);
+  };
+
+  // 신고 취소하기
+  const handleClickReportCancel = result => {
+    console.log(result);
+    const cancelForm = {
+      check: Number(selectedCategory),
+      pk: result,
+    };
+    console.log("cancelForm test : ", cancelForm);
+    // patchReport({ hideForm, successHideFn, failHideFn, errorHideFn });
+    patchReportCancel({
+      cancelForm,
+      successCancelFn,
+      failCancelFn,
+      errorCancelFn,
+    });
+  };
+  const successCancelFn = res => {
+    console.log(res);
+  };
+  const failCancelFn = res => {
+    console.log(res);
+  };
+  const errorCancelFn = res => {
+    console.log(res);
+  };
+
+  const [selectedCategory, setSelectedCategory] = useState(0);
+
+  const handleCategoryChange = event => {
+    const selectedValue = event.target.value;
+    setSelectedCategory(selectedValue);
+    console.log("카테", selectedValue);
+    moveToCheck({ check: selectedValue });
   };
 
   return (
-    <SvisorReportWrap>
+    <SupervisorReportWrapper>
       <SupervisorReportHeader>
         <div className="page-title">신고 관리</div>
         <div>
           <Button bttext="저장" />
         </div>
       </SupervisorReportHeader>
-      <SvisorReportMain>
-        {/* 데이터 매핑 및 표시 */}
-        {reportData.map(user => (
-          <div key={user}>
-            <p>pk: {user.pk}</p>
-            <p>contents: {user.contents}</p>
-            <p>writerNm: {user.writerNm}</p>
-            <p>state: {user.state}</p>
-            <p>count: {user.count}</p>
-            {/* 나머지 사용자 정보 표시 */}
-          </div>
-        ))}
-        <SvisorReportOption>
+      <SupervisorReportContents>
+        <h1>테이블 예시입니다 맵포함</h1>
+        <div>
+          {/* <select  */}
+          <label htmlFor="category">카테고리 선택 : </label>
           <select
-            className="selectoption"
-            value={selectedValue}
-            onChange={handleSelectChange}
+            id="category"
+            name="category"
+            onChange={handleCategoryChange}
+            value={selectedCategory}
           >
-            <option value="" disabled>
-              카테고리
-            </option>
-            {options.map(option => (
-              <option key={option.value} value={option.value}>
-                {option.label}
-              </option>
-            ))}
+            <option value="0">고기잡담 글</option>
+            <option value="1">고기잡담 댓글</option>
+            <option value="2">고기집 후기</option>
+            <option value="3">정육점 후기</option>
           </select>
-          <p>{selectedValue}</p>
-        </SvisorReportOption>
-
-        <SvisorTable>
-          <table
-            {...getTableProps()}
-            style={{
-              borderCollapse: "collapse",
-              width: "100%",
-            }}
-          >
+        </div>
+        <SupervisorTable>
+          <table>
             <thead>
-              <tr
-                style={{
-                  border: "1px solid #DBDBDB",
-                  padding: "8px",
-                  borderBottom: "1px solid #DBDBDB",
-                  borderLeft: "0px solid #DBDBDB",
-                  borderRight: "0px solid #DBDBDB",
-                  textAlign: "center",
-                }}
-                className="tableHeader"
-              >
-                <th>카테고리</th>
-                <th>작성자</th>
-                <th>내용</th>
-                <th>상태</th>
-                <th>신고 수</th>
-                {/* <th>삭제</th>
-                <th>취소</th> */}
-              </tr>
+              <th>순번</th>
+              {/* <th>카테고리</th> */}
+              <th>내용</th>
+              <th>작성자</th>
+              <th>신고 수</th>
+              <th>상태</th>
+              <th>계정잠금</th>
             </thead>
             <tbody>
-              {TableData?.map(row => (
-                <tr
-                  key={row}
-                  style={{
-                    border: "1px solid #DBDBDB",
-                    padding: "8px",
-                    borderBottom: "1px solid #DBDBDB", // 행 셀의 아래 테두리 설정
-                    borderLeft: "0px solid #DBDBDB", // 행 셀의 왼쪽 테두리 설정
-                    borderRight: "0px solid #DBDBDB", // 행 셀의 오른쪽 테두리 설정
-                    textAlign: "center",
-                  }}
-                  className="tableBody"
-                >
-                  <td>{row?.pk}</td>
-                  <td>{row?.contents}</td>
-                  <td>{row?.writerNm}</td>
-                  <td>{row?.state}</td>
-                  <td>{row?.count}</td>
+              {/* 여기다가 맵을 돌리는거죠! */}
+              {/* 왜 data머시긴가요? useState 다시 설명읽기! */}
+              {/*
+                   데이터(data)를 반복할꺼야(map)
+                   data를 앞으로 item이라 부를꺼야
+                   순서를 index라 할꺼야
+                   */}
+              {reportData?.map((item, index) => (
+                // ? Key? 기준값!
+                // ? 기준값? 절대 중복될 수없는 유니크한 값! (a.k.a 주민등록번호)
+                // ? iuser 고유한 값이네?
+                <tr key={item?.pk}>
+                  {/* data 안에 있는 name, id , number, state */}
+                  <td>{index}</td>
+                  <td>{item?.contents}</td>
+                  <td>{item?.writerNm}</td>
+                  <td>{item?.count}</td>
+                  <td>{item?.state}</td>
+
                   <td>
-                    <button
-                      onClick={() => handleDeleteClick(row)}
-                      // onClick={handleLockClick}
-                      className="delete-bt"
-                    >
-                      {row?.delete}
-                      삭제
+                    <button onClick={() => handleClickReportCancel(item.pk)}>
+                      신고취소
                     </button>
                   </td>
+
                   <td>
-                    <button
-                      onClick={() => handleCancelClick(row)}
-                      className="cancel-bt"
-                    >
-                      {row?.cancel}
-                      취소
+                    <button onClick={() => handleClickHide(item.pk)}>
+                      글숨김
                     </button>
                   </td>
                 </tr>
               ))}
             </tbody>
           </table>
-        </SvisorTable>
-      </SvisorReportMain>
-    </SvisorReportWrap>
+        </SupervisorTable>
+      </SupervisorReportContents>
+    </SupervisorReportWrapper>
   );
 };
 

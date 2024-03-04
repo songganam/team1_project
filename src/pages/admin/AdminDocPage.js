@@ -1,28 +1,21 @@
-import React from "react";
+import Button from "../../components/button/Button";
 import {
   SupervisorReportHeader,
-  SvisorReportWrap,
+  SupervisorReportWrapper,
 } from "../supervisor/styles/SupervisorReportStyle";
-import Button from "../../components/button/Button";
 import {
   AdminDocBoard,
   AdminDocBox,
-  AdminDocContainer,
   AdminDocMain,
   BoxChart,
   BoxContent,
   BoxTop,
   DocMainTop,
 } from "./styles/AdminDocStyle";
-import {
-  BackgroundBoxStyle,
-  BoxInnerStyle,
-} from "../../components/adminInfo/styles/ModifyStyle";
-import AdminHeader from "../../components/adminInfo/AdminHeader";
 
 const AdminDocPage = () => {
   return (
-    <SvisorReportWrap>
+    <SupervisorReportWrapper>
       <SupervisorReportHeader>
         <div className="page-title">매장 분석</div>
         <div>
@@ -69,11 +62,11 @@ const AdminDocPage = () => {
             </BoxContent>
           </AdminDocBox>
         </AdminDocBoard>
-          <BoxChart>
-            <span>차트</span>
-          </BoxChart>
+        <BoxChart>
+          <span>차트</span>
+        </BoxChart>
       </AdminDocMain>
-    </SvisorReportWrap>
+    </SupervisorReportWrapper>
   );
 };
 

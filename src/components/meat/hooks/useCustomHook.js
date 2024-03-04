@@ -150,10 +150,26 @@ const useCustomHook = () => {
     navigate({ pathname: "../list", search: queryStr });
   };
 
+  const moveToCheck = CheckParam => {
+    let queryStr = "";
+    if (CheckParam) {
+      const checkNum = getNum(CheckParam.check, check);
+      queryStr = createSearchParams({
+        check: checkNum,
+      }).toString();
+      console.log("queryStr:", queryStr);
+      setRefresh(!refresh);
+    } else {
+      queryStr = defaultQueryString;
+    }
+    navigate({ pathname: "../report", search: queryStr });
+  };
+
   return {
     page,
     search,
     category,
+    check,
     filter,
     MoveToFilter,
     MoveToList,
@@ -177,6 +193,7 @@ const useCustomHook = () => {
     closeEmptyModal,
     moveToPayment,
     shutModal,
+    moveToCheck,
   };
 };
 export default useCustomHook;
