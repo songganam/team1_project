@@ -4,7 +4,15 @@ import useModal from "../meat/hooks/useModal";
 import { ButtonStyleTS } from "./styles/ButtonStyleTS";
 import { TSBoxInnerStyle } from "./styles/TSModifyStyle";
 import { atomStoreInfoState } from "../../atom/atomStoreInfoState";
-import { ChangeEvent, useEffect, useRef } from "react";
+import { ChangeEvent, useEffect, useRef, useState } from "react";
+import { API_SERVER_HOST } from "../../api/config";
+
+const host = API_SERVER_HOST;
+
+interface Image {
+  url: string;
+  picsPk: number | undefined;
+}
 
 const TSPicsInput = () => {
   // 커스텀 훅
@@ -12,13 +20,24 @@ const TSPicsInput = () => {
 
   const [storeInfo, setStoreInfo] = useRecoilState(atomStoreInfoState);
 
+  const [images, setImages] = useState<Image[]>([]);
+
   useEffect(() => {
     // 페이지 로드 시 ishopPics를 빈 배열로 초기화합니다.
-    setStoreInfo(prevStoreInfo => ({
-      ...prevStoreInfo,
-      ishopPics: [],
+    // setStoreInfo(prevStoreInfo => ({
+    //   ...prevStoreInfo,
+    //   ishopPics: [],
+    // }));
+
+    const initialImages = storeInfo.pics.map(pic => ({
+      url:
+        pic.isNew && pic.file
+          ? URL.createObjectURL(pic.file)
+          : `${host}/pic/shop/${storeInfo.ishop}/shop_pic/${pic.pic}`,
+      picsPk: pic.picsPk,
     }));
-  }, [setStoreInfo]);
+    setImages(initialImages);
+  }, [setStoreInfo, storeInfo.pics, storeInfo.ishop]);
 
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -31,7 +50,6 @@ const TSPicsInput = () => {
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
       const totalImages = storeInfo.pics.length + e.target.files.length;
-
       if (totalImages > 5) {
         openModal(
           "사진 등록",
@@ -46,13 +64,13 @@ const TSPicsInput = () => {
         5 - storeInfo.pics.length,
       );
 
+      // 새로운 이미지 객체들을 기존 pics 배열에 추가합니다.
       const newPics = files.map(file => ({
         pic: URL.createObjectURL(file),
         isNew: true,
         file,
       }));
 
-      // 새로운 이미지 객체들을 기존 pics 배열에 추가합니다.
       setStoreInfo(prevStoreInfo => ({
         ...prevStoreInfo,
         pics: [...prevStoreInfo.pics, ...newPics],
@@ -113,10 +131,10 @@ const TSPicsInput = () => {
           onChange={handleChange}
         />
         <div className="pics-thumb">
-          {storeInfo.pics.map((image, index) => (
+          {images.map((image, index) => (
             <img
               key={index}
-              src={image.pic}
+              src={image.url}
               alt={`미리보기${index}`}
               style={{
                 maxWidth: "92px",

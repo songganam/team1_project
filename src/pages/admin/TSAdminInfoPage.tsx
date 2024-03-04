@@ -23,6 +23,9 @@ import {
 import Fetching from "../../components/common/Fetching";
 import ResultModal from "../../components/common/ResultModal";
 import useModal from "../../components/meat/hooks/useModal";
+import { API_SERVER_HOST } from "../../api/config";
+
+const host = API_SERVER_HOST;
 
 const meatTypes = new MeatTypes();
 const facilitiesTypes = new FacilitiesTypes();
@@ -170,8 +173,8 @@ const TSAdminInfoPage = () => {
                 </div>
                 <TSTextarea
                   placeholder="
-                [평 일] 06:00 ~ 23:00 
-                [주 말] 10:00 ~ 19:00 
+                [평 일] 16:30 ~ 23:00 
+                [주 말] 16:30 ~ 01:00 
                 [휴무일] 매월 둘째주 화요일"
                   name="open"
                 />
@@ -214,7 +217,10 @@ const TSAdminInfoPage = () => {
               </div>
               {storeInfo?.pics[0] ? (
                 <div className="preview-inner">
-                  <img className="preview-img" src={storeInfo?.pics[0].pic} />
+                  <img
+                    className="preview-img"
+                    src={`${host}/pic/shop/${storeInfo.ishop}/shop_pic/${storeInfo.pics[0].pic}`}
+                  />
                   <div className="shop-info-box">
                     <div className="shop-info">
                       <div className="shop-name">{storeInfo?.name}</div>
