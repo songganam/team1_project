@@ -6,7 +6,7 @@ const initState = {
 };
 
 const loadMemberCookie = () => {
-  const memberInfo = getCookie("member");
+  const memberInfo = getCookie("owner");
   return memberInfo;
 };
 export const atomAdminState = atom({

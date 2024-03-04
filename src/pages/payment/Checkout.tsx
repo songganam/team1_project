@@ -77,29 +77,31 @@ export function CheckoutPage() {
         </label>
       </div> */}
       <div id="payment-widget" />
-      <DefaultBt
-        onClick={async () => {
-          const paymentWidget = paymentWidgetRef.current;
+      <div style={{ display: "flex", justifyContent: "center" }}>
+        <DefaultBt
+          onClick={async () => {
+            const paymentWidget = paymentWidgetRef.current;
 
-          try {
-            // ## Q. 결제 요청 후 계속 로딩 중인 화면이 보인다면?
-            // 아직 결제 요청 중이에요. 이어서 요청 결과를 확인한 뒤, 결제 승인 API 호출까지 해야 결제가 완료돼요.
-            // 코드샌드박스 환경에선 요청 결과 페이지(`successUrl`, `failUrl`)로 이동할 수가 없으니 유의하세요.
-            await paymentWidget?.requestPayment({
-              orderId: nanoid(),
-              orderName: "고기로 예약",
-              customerName: "고기로 이용자님",
-              // customerEmail: "customer123@gmail.com",
-              successUrl: `${window.location.origin}/payment/success?pk=${pk}`,
-              failUrl: `${window.location.origin}/payment/fail`,
-            });
-          } catch (error) {
-            // handle error
-          }
-        }}
-      >
-        <span>결제하기</span>
-      </DefaultBt>
+            try {
+              // ## Q. 결제 요청 후 계속 로딩 중인 화면이 보인다면?
+              // 아직 결제 요청 중이에요. 이어서 요청 결과를 확인한 뒤, 결제 승인 API 호출까지 해야 결제가 완료돼요.
+              // 코드샌드박스 환경에선 요청 결과 페이지(`successUrl`, `failUrl`)로 이동할 수가 없으니 유의하세요.
+              await paymentWidget?.requestPayment({
+                orderId: nanoid(),
+                orderName: "고기로 예약",
+                customerName: "고기로 이용자님",
+                // customerEmail: "customer123@gmail.com",
+                successUrl: `${window.location.origin}/payment/success?pk=${pk}`,
+                failUrl: `${window.location.origin}/payment/fail`,
+              });
+            } catch (error) {
+              // handle error
+            }
+          }}
+        >
+          <span>결제하기</span>
+        </DefaultBt>
+      </div>
     </PaymentWrap>
   );
 }

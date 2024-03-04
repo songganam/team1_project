@@ -37,8 +37,8 @@ import {
 } from "./styles/ReadStyle";
 // @COMMENT import React-Query
 import { useMutation } from "@tanstack/react-query";
-import useCustomLoginTS from "../meat/hooks/useCustomLoginTS";
 import useCustomHook from "../meat/hooks/useCustomHook";
+import useCustomLoginTS from "../meat/hooks/useCustomLoginTS";
 
 const host = API_SERVER_HOST;
 // 서버데이터 초기값
@@ -50,6 +50,8 @@ const initState = {
   title: "",
   contents: "",
   createdAt: "",
+  isFav: 0,
+  isReport: 0,
   pics: [],
   be: {
     iboard: 0,
@@ -66,6 +68,7 @@ const initState = {
       writerName: "",
       comment: "",
       createdAt: "",
+      isCommentReport: 0,
     },
   ],
 };
@@ -570,7 +573,7 @@ const Read = () => {
           <div className="date">{content.createdAt}</div>
           {/* @COMMENT TEST LIKE BUTTON */}
           <div className="like-box" onClick={handleClickFav}>
-            {favorite ? (
+            {content?.isFav === 1 ? (
               <img
                 src={`${process.env.PUBLIC_URL}/assets/images/like_fill.svg`}
                 alt="like"
@@ -595,7 +598,7 @@ const Read = () => {
                   <option value={5}>게시글 도배</option>
                   <option value={6}>기타</option>
                 </select> */}
-            {reported ? (
+            {content?.isReport === 1 ? (
               <img
                 src={`${process.env.PUBLIC_URL}/assets/images/report_fill.svg`}
                 alt="like"
@@ -775,24 +778,20 @@ const Read = () => {
                             삭제
                           </div>
                         ) : null}
-                        <div
-                          className="reportBtn"
-                          onClick={() =>
-                            handleClickRCommentBtn(comment.icomment)
-                          }
-                        >
-                          {/* <span>댓글신고하고싶다 이말이야</span>
-
-                          <select onChange={e => handleChangeCommentReport(e)}>
-                            <option value={1}>욕설/인신공격</option>
-                            <option value={2}>음란물</option>
-                            <option value={3}>영리목적/홍보성</option>
-                            <option value={4}>개인정보</option>
-                            <option value={5}>게시글 도배</option>
-                            <option value={6}>기타</option>
-                          </select> */}
-                          댓글신고
-                        </div>
+                        {content.isCommentReport === 1 ? (
+                          <div>
+                            <div
+                              className="reportBtn"
+                              onClick={() =>
+                                handleClickRCommentBtn(comment.icomment)
+                              }
+                            >
+                              댓글신고
+                            </div>
+                          </div>
+                        ) : (
+                          <div></div>
+                        )}
                       </div>
                     </div>
                   </>

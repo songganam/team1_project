@@ -1,7 +1,9 @@
 import styled from "@emotion/styled";
+import { ColorStyle } from "../../styles/common/CommonStyle";
 
 export const PaymentWrap = styled.div`
   padding: 30px;
+  margin-top: 100px;
 `;
 
 export const HyperTextOne = styled.div`
@@ -15,5 +17,38 @@ export const PriceWrap = styled.div`
   span {
     font-family: "Pretendard";
     font-size: 19px;
+  }
+`;
+
+export const SuccessWrap = styled.div`
+  width: 100%;
+  height: 1080px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  .box_section {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-direction: column;
+    width: 500px;
+    height: 500px;
+    border-radius: 10px;
+    border: 2px solid ${ColorStyle.primary};
+    /* background-color: ${ColorStyle.g100}; */
+    h2 {
+      font-family: "DAEAM_LEE_TAE_JOON";
+      font-size: 44px;
+      padding: 30px;
+    }
+    p {
+      font-family: "DAEAM_LEE_TAE_JOON";
+      font-size: 19px;
+      padding: 30px;
+    }
+    span {
+      font-family: "DAEAM_LEE_TAE_JOON";
+      font-size: 14px;
+    }
   }
 `;

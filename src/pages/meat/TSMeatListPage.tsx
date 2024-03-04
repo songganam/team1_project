@@ -90,12 +90,12 @@ const MeatListPage = () => {
   const handleSearchChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     setCateSearch(e.target.value);
   };
+
   const handleSearchSubmit = (e: MouseEvent<HTMLDivElement>) => {
-    // setGlistData([]);
-    // serverData([]);
     moveToSearch({ page: 1, search: cateSearch });
     e.preventDefault();
   };
+
   const handleMoreView = () => {
     MoveToPage({ page: page + 1 });
   };
@@ -154,7 +154,7 @@ const MeatListPage = () => {
       <FilterWrapper>
         <SelectedFilter
           onClick={() => handleClickFilter("0")}
-          selected={filterFlag === " 0"}
+          selected={filterFlag === "0"}
         >
           <span>최신순</span>
         </SelectedFilter>
@@ -177,6 +177,7 @@ const MeatListPage = () => {
             <SearchInput
               placeholder="고깃집을 검색해보세요"
               onChange={handleSearchChange}
+              // onKeyDown={handleKeyDown}
             />
           </SearchBar>
           <SearchIconWrap onClick={handleSearchSubmit}>

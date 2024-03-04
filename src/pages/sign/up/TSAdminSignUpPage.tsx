@@ -27,6 +27,7 @@ import TitleHeader from "../../../components/titleheader/TitleHeader";
 import { SelectedCate } from "../../meat/styles/TS_Style";
 import { BoxInnerStyle } from "../../../components/adminInfo/styles/ModifyStyle";
 import RadioInput from "../../../components/adminInfo/RadioInput";
+import Layout from "../../../layouts/Layout";
 
 const initState: AdminJoinData = {
   pic: [""],
@@ -312,231 +313,233 @@ const AdminJoinPage = () => {
   const options = ["돼지", "소", "닭", "오리", "양"];
 
   return (
-    <JaddPageWrap>
-      {isEmptyModal.isOpen && (
-        <EmptyModal
-          content={isEmptyModal.content}
-          callFn={isEmptyModal.callFn}
+    <Layout>
+      <JaddPageWrap>
+        {isEmptyModal.isOpen && (
+          <EmptyModal
+            content={isEmptyModal.content}
+            callFn={isEmptyModal.callFn}
+          />
+        )}
+        <TitleHeader
+          timg={`${process.env.PUBLIC_URL}/assets/images/join_header.png`}
+          tname="사장님 회원가입"
+          tcontent="세상에 나쁜 고기는 없다."
         />
-      )}
-      <TitleHeader
-        timg={`${process.env.PUBLIC_URL}/assets/images/join_header.png`}
-        tname="사장님 회원가입"
-        tcontent="세상에 나쁜 고기는 없다."
-      />
-      {/* 필요한 데이터 */}
-      <JaddPageMain>
-        <JaddPageInfo>
-          <JaddPageImage>
-            {/* 프로필 사진 미리 보기 */}
-            <div className="previewBox">
-              {image ? (
-                <img src={image} alt="프로필미리보기" />
-              ) : (
-                <img
-                  src={`${process.env.PUBLIC_URL}/assets/images/user_profile.png`}
-                  alt={`미리보기`}
-                  onClick={deleteImage}
-                />
-              )}
-            </div>
-
-            {/* 파일 업로드 버튼 */}
-            <div className="uploadBox" onClick={handleClickImg}>
-              <div>
-                <img
-                  src={`${process.env.PUBLIC_URL}/assets/images/profile_camera.svg`}
-                  alt="업로드 버튼"
-                />
-                <input
-                  type="file"
-                  ref={uploadRef}
-                  style={{ display: "none" }}
-                  onChange={handleFileChange}
-                />
+        {/* 필요한 데이터 */}
+        <JaddPageMain>
+          <JaddPageInfo>
+            <JaddPageImage>
+              {/* 프로필 사진 미리 보기 */}
+              <div className="previewBox">
+                {image ? (
+                  <img src={image} alt="프로필미리보기" />
+                ) : (
+                  <img
+                    src={`${process.env.PUBLIC_URL}/assets/images/user_profile.png`}
+                    alt={`미리보기`}
+                    onClick={deleteImage}
+                  />
+                )}
               </div>
-            </div>
 
-            {/* 커스텀 스타일이 적용된 버튼 */}
-            {/* <button
+              {/* 파일 업로드 버튼 */}
+              <div className="uploadBox" onClick={handleClickImg}>
+                <div>
+                  <img
+                    src={`${process.env.PUBLIC_URL}/assets/images/profile_camera.svg`}
+                    alt="업로드 버튼"
+                  />
+                  <input
+                    type="file"
+                    ref={uploadRef}
+                    style={{ display: "none" }}
+                    onChange={handleFileChange}
+                  />
+                </div>
+              </div>
+
+              {/* 커스텀 스타일이 적용된 버튼 */}
+              {/* <button
             className="JaddPage-img-button "
 
           ></button> */}
-          </JaddPageImage>
+            </JaddPageImage>
 
-          <JaddNameWrap>
-            <label htmlFor="id">아이디</label>
-            <input
-              type="text"
-              name="id"
-              value={signUpData.dto.id}
-              className="JaddName"
-              placeholder="아이디임"
-              onChange={e => handleChange(e)}
-              maxLength={20}
-            />
-          </JaddNameWrap>
-          <br />
-          <form action="" method="post">
-            <JaddPwWrap>
-              <label htmlFor="upw">비밀번호</label>
+            <JaddNameWrap>
+              <label htmlFor="id">아이디</label>
               <input
-                type="password"
-                name="upw"
-                value={signUpData.dto.upw}
-                className="JaddPw"
-                placeholder="비번임"
+                type="text"
+                name="id"
+                value={signUpData.dto.id}
+                className="JaddName"
+                placeholder="아이디임"
                 onChange={e => handleChange(e)}
+                maxLength={20}
               />
-            </JaddPwWrap>
+            </JaddNameWrap>
             <br />
-            <JaddMorePwWrap>
-              <label htmlFor="checkUpw">비밀번호 확인</label>
-              <input
-                type="password"
-                name="checkUpw"
-                value={signUpData.dto.checkUpw}
-                className="JaddMorePw"
-                placeholder="비번체크다"
-                onChange={e => handleChange(e)}
-                onBlur={handleValiation}
-              />
-              {message !== "" &&
-                signUpData.dto.upw !== "" &&
-                signUpData.dto.checkUpw !== "" && (
-                  <div
-                    style={{
-                      color: messageColor,
-                      fontSize: "14px",
-                      paddingTop: "5px",
-                    }}
-                  >
-                    {message}
-                  </div>
-                )}
-            </JaddMorePwWrap>
-          </form>
-          <br />
-          <JaddNickNameWrap>
-            <label htmlFor="num">사업자등록번호</label>
-            <JaddNickNameInner>
+            <form action="" method="post">
+              <JaddPwWrap>
+                <label htmlFor="upw">비밀번호</label>
+                <input
+                  type="password"
+                  name="upw"
+                  value={signUpData.dto.upw}
+                  className="JaddPw"
+                  placeholder="비번임"
+                  onChange={e => handleChange(e)}
+                />
+              </JaddPwWrap>
+              <br />
+              <JaddMorePwWrap>
+                <label htmlFor="checkUpw">비밀번호 확인</label>
+                <input
+                  type="password"
+                  name="checkUpw"
+                  value={signUpData.dto.checkUpw}
+                  className="JaddMorePw"
+                  placeholder="비번체크다"
+                  onChange={e => handleChange(e)}
+                  onBlur={handleValiation}
+                />
+                {message !== "" &&
+                  signUpData.dto.upw !== "" &&
+                  signUpData.dto.checkUpw !== "" && (
+                    <div
+                      style={{
+                        color: messageColor,
+                        fontSize: "14px",
+                        paddingTop: "5px",
+                      }}
+                    >
+                      {message}
+                    </div>
+                  )}
+              </JaddMorePwWrap>
+            </form>
+            <br />
+            <JaddNickNameWrap>
+              <label htmlFor="num">사업자등록번호</label>
+              <JaddNickNameInner>
+                <input
+                  type="text"
+                  name="num"
+                  value={signUpData.dto.num}
+                  className="JaddNickName"
+                  placeholder="사업자번호임 제대로 적어"
+                  maxLength={10}
+                  onChange={e => handleChange(e)}
+                />
+                <DefaultBt
+                  onClick={handleClickBusiCheck}
+                  className="JaddNickName-Bt"
+                >
+                  체크
+                </DefaultBt>
+              </JaddNickNameInner>
+            </JaddNickNameWrap>
+            <br />
+            <JaddNameWrap>
+              <label htmlFor="name">이름</label>
               <input
                 type="text"
-                name="num"
-                value={signUpData.dto.num}
-                className="JaddNickName"
-                placeholder="사업자번호임 제대로 적어"
-                maxLength={10}
+                name="name"
+                value={signUpData.dto.name}
+                className="JaddName"
+                placeholder="실명"
                 onChange={e => handleChange(e)}
               />
-              <DefaultBt
-                onClick={handleClickBusiCheck}
-                className="JaddNickName-Bt"
-              >
-                체크
-              </DefaultBt>
-            </JaddNickNameInner>
-          </JaddNickNameWrap>
-          <br />
-          <JaddNameWrap>
-            <label htmlFor="name">이름</label>
-            <input
-              type="text"
-              name="name"
-              value={signUpData.dto.name}
-              className="JaddName"
-              placeholder="실명"
-              onChange={e => handleChange(e)}
-            />
-          </JaddNameWrap>
-          <br />
-          <JaddNickNameWrap>
-            <label htmlFor="location">주소</label>
-            <JaddNickNameInner>
+            </JaddNameWrap>
+            <br />
+            <JaddNickNameWrap>
+              <label htmlFor="location">주소</label>
+              <JaddNickNameInner>
+                <input
+                  type="text"
+                  name="location"
+                  value={signUpData.dto.location}
+                  className="JaddNickName"
+                  placeholder="주소다 이말이야"
+                  readOnly
+                  onChange={e => handleChange(e)}
+                />
+                <DefaultBt onClick={handleTest} className="JaddNickName-Bt">
+                  주소찾기
+                </DefaultBt>
+              </JaddNickNameInner>
+            </JaddNickNameWrap>
+            <br />
+            <JaddNameWrap>
+              <label htmlFor="bId">가게이름</label>
               <input
                 type="text"
-                name="location"
-                value={signUpData.dto.location}
-                className="JaddNickName"
-                placeholder="주소다 이말이야"
-                readOnly
+                name="shopName"
+                value={signUpData.dto.shopName}
+                className="JaddName"
+                placeholder="가게이름임"
                 onChange={e => handleChange(e)}
               />
-              <DefaultBt onClick={handleTest} className="JaddNickName-Bt">
-                주소찾기
-              </DefaultBt>
-            </JaddNickNameInner>
-          </JaddNickNameWrap>
-          <br />
-          <JaddNameWrap>
-            <label htmlFor="bId">가게이름</label>
-            <input
-              type="text"
-              name="shopName"
-              value={signUpData.dto.shopName}
-              className="JaddName"
-              placeholder="가게이름임"
-              onChange={e => handleChange(e)}
-            />
-          </JaddNameWrap>
-          <br />
-          <JaddNameWrap>
-            <CateSelectWrap>
-              <SelectedCate
-                selected={selectedCate === 0}
-                onClick={() => handleClickCate(0)}
-              >
-                고깃집
-              </SelectedCate>
-              <SelectedCate
-                selected={selectedCate === 1}
-                onClick={() => handleClickCate(1)}
-              >
-                정육점
-              </SelectedCate>
-            </CateSelectWrap>
-            {selectedCate === 0 && (
-              <div>
-                <SelectMeatWrap>
-                  <BoxInnerStyle>
-                    <form>
-                      {options.map((option, index) => (
-                        <RadioInput
-                          key={option}
-                          name={options[index]}
-                          value={`${index + 1}`} // 1, 2, 3, 4, 5로 설정
-                          checked={selectedRadioValue === `${index + 1}`}
-                          onChange={handleRadioChange}
-                        />
-                      ))}
-                    </form>
-                  </BoxInnerStyle>
-                </SelectMeatWrap>
-              </div>
-            )}
-          </JaddNameWrap>
+            </JaddNameWrap>
+            <br />
+            <JaddNameWrap>
+              <CateSelectWrap>
+                <SelectedCate
+                  selected={selectedCate === 0}
+                  onClick={() => handleClickCate(0)}
+                >
+                  고깃집
+                </SelectedCate>
+                <SelectedCate
+                  selected={selectedCate === 1}
+                  onClick={() => handleClickCate(1)}
+                >
+                  정육점
+                </SelectedCate>
+              </CateSelectWrap>
+              {selectedCate === 0 && (
+                <div>
+                  <SelectMeatWrap>
+                    <BoxInnerStyle>
+                      <form>
+                        {options.map((option, index) => (
+                          <RadioInput
+                            key={option}
+                            name={options[index]}
+                            value={`${index + 1}`} // 1, 2, 3, 4, 5로 설정
+                            checked={selectedRadioValue === `${index + 1}`}
+                            onChange={handleRadioChange}
+                          />
+                        ))}
+                      </form>
+                    </BoxInnerStyle>
+                  </SelectMeatWrap>
+                </div>
+              )}
+            </JaddNameWrap>
 
-          <JaddAddressBts>
-            <DefaultBt
-              type="button"
-              className="join-button"
-              onClick={handleClickPost}
-            >
-              회원가입
-            </DefaultBt>
-            <button
-              type="button"
-              className="cancel-button"
-              // onClick={() => {
-              //   handleClickCancel();
-              // }}
-            >
-              취소하기
-            </button>
-          </JaddAddressBts>
-        </JaddPageInfo>
-      </JaddPageMain>
-    </JaddPageWrap>
+            <JaddAddressBts>
+              <DefaultBt
+                type="button"
+                className="join-button"
+                onClick={handleClickPost}
+              >
+                회원가입
+              </DefaultBt>
+              <button
+                type="button"
+                className="cancel-button"
+                // onClick={() => {
+                //   handleClickCancel();
+                // }}
+              >
+                취소하기
+              </button>
+            </JaddAddressBts>
+          </JaddPageInfo>
+        </JaddPageMain>
+      </JaddPageWrap>
+    </Layout>
   );
 };
 export default AdminJoinPage;

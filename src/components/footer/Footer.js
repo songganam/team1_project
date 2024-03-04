@@ -2,11 +2,14 @@ import React from "react";
 import { ColorStyle } from "../../styles/common/CommonStyle";
 import { ContentStyle, FooterStyle, LineStyle } from "./styles/FooterStyle";
 import { useNavigate } from "react-router-dom";
+import useCustomLoginTS from "../../components/meat/hooks/useCustomLoginTS";
 const Footer = () => {
   const navigate = useNavigate();
   const handleClickSupervisorSignin = () => {
     navigate("/svisor/signin");
   };
+  const { isSupervisorLogin } = useCustomLoginTS();
+
   return (
     <footer style={{ position: "relative" }}>
       <FooterStyle background={ColorStyle.g700} color={ColorStyle.grayScale}>
@@ -71,7 +74,21 @@ const Footer = () => {
                 있습니다.
               </li>
             </ul>
-            <button onClick={handleClickSupervisorSignin}>관리자 로그인</button>
+            {isSupervisorLogin ? null : (
+              <button
+                onClick={handleClickSupervisorSignin}
+                style={{
+                  cursor: "pointer",
+                  marginTop: "10px",
+                  border: "none",
+                  background: "transparent",
+                  fontSize: "14px",
+                  color: `${ColorStyle.g800}`,
+                }}
+              >
+                관리자 로그인
+              </button>
+            )}
           </ContentStyle>
         </div>
       </div>
