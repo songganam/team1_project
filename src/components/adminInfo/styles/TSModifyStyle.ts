@@ -56,7 +56,7 @@ export const TSPreviewWrapStyle = styled.div`
   flex-direction: column;
   align-items: flex-start;
   gap: 10px;
-  z-index: 998;
+  z-index: 997;
 `;
 
 export const TSShopStyle = styled.div`

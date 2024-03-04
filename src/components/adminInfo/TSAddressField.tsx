@@ -99,7 +99,7 @@ const TSAddressField = () => {
               onBlur={handleBlur}
             />
           </TSTextFieldAdressStyle>
-          <TSTextFieldAdressStyle state={state}>
+          {/* <TSTextFieldAdressStyle state={state}>
             <TSInputStyle
               type="text"
               placeholder="상세 주소를 입력하세요"
@@ -108,7 +108,7 @@ const TSAddressField = () => {
               onBlur={handleBlur}
               onChange={handleChangeDetailLocation}
             />
-          </TSTextFieldAdressStyle>
+          </TSTextFieldAdressStyle> */}
         </div>
         <div>
           <ButtonStyleTS type="button" onClick={handleOpenDaumPostSearch}>
