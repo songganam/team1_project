@@ -355,9 +355,9 @@ export const ReviewContentWrap = styled.div`
   width: 1180px;
   /* height: 360px; */
   padding: 0px 10px;
-  flex-direction: column;
+  /* flex-direction: column; */
   justify-content: center;
-  align-items: flex-start;
+  /* align-items: flex-start; */
   gap: 10px;
 `;
 export const ReviewItemWrap = styled.div`

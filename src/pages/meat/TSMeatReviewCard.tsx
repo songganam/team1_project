@@ -98,10 +98,10 @@ const TSMeatReviewCard = ({ reviewData }: { reviewData: ReviewDataForm }) => {
                   navigation={true}
                   thumbs={{ swiper: thumbsSwiper }}
                   modules={[FreeMode, Navigation, Thumbs]}
-                  className="mySwiper2"
+                  className="rvcard-swiper"
                 >
                   {reviewData?.pic.map((pic, index) => (
-                    <SwiperSlide key={index}>
+                    <SwiperSlide key={index} className="rvcard-swiper-slide">
                       <img
                         src={`${baseApi}/pic/shop/${ishop}/review/${reviewData.ireview}/${reviewData.pic[index]}`}
                       />
@@ -116,7 +116,7 @@ const TSMeatReviewCard = ({ reviewData }: { reviewData: ReviewDataForm }) => {
                   freeMode={true}
                   watchSlidesProgress={true}
                   modules={[FreeMode, Navigation, Thumbs]}
-                  className="mySwiper"
+                  className="rv-sub-swiper"
                 >
                   {reviewData?.pic.map((pic, index) => (
                     <SwiperSlide key={index}>
@@ -154,25 +154,6 @@ const TSMeatReviewCard = ({ reviewData }: { reviewData: ReviewDataForm }) => {
                 </ReviewContentWrap>
               </ReviewInfoWrap>
             </ContentWrap>
-          </div>
-          <div>
-            <span>신고하고싶다 이말이야</span>
-            {/* <input
-              type="text"
-              name="ireport"
-              value={reportData.ireport}
-              onChange={e => handleChangeReport(e)}
-            /> */}
-
-            <select onChange={e => handleChangeReport(e)}>
-              <option value={1}>욕설/인신공격</option>
-              <option value={2}>음란물</option>
-              <option value={3}>영리목적/홍보성</option>
-              <option value={4}>개인정보</option>
-              <option value={5}>게시글 도배</option>
-              <option value={6}>기타</option>
-            </select>
-            <button onClick={handleClickReport}>신고슛</button>
           </div>
         </div>
       </ReviewCardWrap>

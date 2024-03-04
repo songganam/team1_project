@@ -5,6 +5,7 @@
   padding: 0;
   box-sizing: border-box;
   outline-style: none;
+  /* min-height: 1200px; */
 }
 ul,
 li {
