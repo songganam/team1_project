@@ -98,11 +98,13 @@ export const patchBookConfirm = async ({
     checkShop: patchBookConfirmForm.checkShop,
     ireser: patchBookConfirmForm.ireser,
   };
+  console.log("test", data);
   try {
     const header = { headers: { "Content-Type": "application/json" } };
-    const res = await authAxios.patch(`${host}/reservation/confirm`, data, {
-      headers: header,
-    });
+    const res = await authAxios.patch(
+      `${host}/reservation/confirm?checkShop=${data.checkShop}&ireser=${data.ireser}`,
+      header,
+    );
     const status = res.status.toString();
     if (status.charAt(0) === "2") {
       console.log("예약 확정 성공");

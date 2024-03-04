@@ -41,12 +41,15 @@ const SupervisorShopCard = () => {
   }, [page]);
 
   const successFn = result => {
-    setSvisorShopData(result);
-    console.log(result);
+    const filteredData = result.filter(item => item.confirm === 1);
+    setSvisorShopData(filteredData);
+    console.log(filteredData);
   };
+
   const failFn = result => {
     console.log(result);
   };
+
   const errorFn = result => {
     console.log(result);
   };
