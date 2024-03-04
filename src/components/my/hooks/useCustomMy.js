@@ -102,28 +102,13 @@ const useCustomMy = () => {
     });
   };
 
-  const MoveToBookPage = PageParam => {
-    let queryStr = "";
-    if (PageParam) {
-      const PageNum = getNum(PageParam.page, page);
-      queryStr = createSearchParams({
-        page: PageNum,
-      }).toString();
-    } else {
-      queryStr = defaultQueryString;
-    }
-    // ! Page
-    navigate({ pathname: "../admin/book", search: queryStr });
-  };
-
   return {
     page,
     isModal,
     openModal,
     closeModal,
     moveToLogin,
-    // moveToBookPage,
-    MoveToBookPage,
+    moveToBookPage,
     moveToListPage,
     moveToReviewPage,
     moveToDetail,

@@ -61,23 +61,10 @@ const AdminMeatBookCard = () => {
     console.log(result);
   };
 
-  // 날짜 형태 변환 함수
-  const formatDate = dateString => {
-    const options = {
-      year: "numeric",
-      month: "2-digit",
-      day: "2-digit",
-      hour: "2-digit",
-      minute: "2-digit",
-    };
-    const formattedDate = new Date(dateString).toLocaleString("ko-KR", options);
-    return formattedDate;
-  };
-
   // 예약 확정 (PATCH)
-  const handleConfirmBook = (checkShop, ireser) => {
+  const handleConfirmBook = ireser => {
     const patchBookConfirmForm = {
-      checkShop: checkShop,
+      checkShop: adminMeatBookData.checkShop,
       ireser: ireser,
     };
     // 확정 전 확인 모달창
@@ -161,8 +148,21 @@ const AdminMeatBookCard = () => {
   };
 
   // 예약 관리 카드 더보기 (페이지)
-  const handleChangeAdminBook = e => {
-    moveToAdminBookChange(e);
+  const handleChangeAdminBook = () => {
+    moveToAdminBookChange({ page: page + 1 });
+  };
+
+  // 날짜 형태 변환 함수
+  const formatDate = dateString => {
+    const options = {
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+      hour: "2-digit",
+      minute: "2-digit",
+    };
+    const formattedDate = new Date(dateString).toLocaleString("ko-KR", options);
+    return formattedDate;
   };
 
   return (
@@ -195,9 +195,6 @@ const AdminMeatBookCard = () => {
                       adminMeatBookData.ireser,
                     )
                   }
-                  style={{
-                    display: adminMeatBookData.confirm !== 2 ? "block" : "none",
-                  }}
                 >
                   <Button bttext="예약거부"></Button>
                 </div>
@@ -209,27 +206,21 @@ const AdminMeatBookCard = () => {
                     cancelFn={closeModal}
                   />
                 )}
-                <div
-                  onClick={e =>
-                    handleConfirmBook(
-                      adminMeatBookData.checkShop,
-                      adminMeatBookData.ireser,
-                    )
-                  }
-                  style={{
-                    display: adminMeatBookData.confirm !== 2 ? "block" : "none",
-                  }}
-                >
-                  <Button bttext="예약확정"></Button>
+                <div>
+                  <div
+                    onClick={e => handleConfirmBook(adminMeatBookData.ireser)}
+                  >
+                    <Button bttext="예약확정"></Button>
+                  </div>
+                  {useResultModal && (
+                    <SelectedModal
+                      title="예약 확정"
+                      content="예약을 확정하시겠습니까?"
+                      confirmFn={handleConfirmNewBook}
+                      cancelFn={closeModal}
+                    />
+                  )}
                 </div>
-                {useResultModal && (
-                  <SelectedModal
-                    title="예약 확정"
-                    content="예약을 확정하시겠습니까?"
-                    confirmFn={handleConfirmNewBook}
-                    cancelFn={closeModal}
-                  />
-                )}
               </AdminMeatBookCardBookButton>
             </AdminMeatBookCardWrapper>
           ),
