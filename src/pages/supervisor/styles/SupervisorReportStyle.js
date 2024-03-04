@@ -1,25 +1,15 @@
 import styled from "@emotion/styled";
 
-// export const SupervisorReportWrapper = styled.div`
-//   position: relative;
-//   display: flex;
-//   flex-direction: column;
-//   align-items: flex-start;
-//   gap: 17px;
-//   font-family: Pretendard;
-// `;
-
-export const SvisorReportWrap = styled.div`
+export const SupervisorReportWrapper = styled.div`
   position: relative;
-  height: 1000px;
-  /* display: block; */
-  background-color: #ffffff;
-  margin-left: 210px;
+  width: 100%;
 `;
 
 export const SupervisorReportHeader = styled.div`
   position: fixed;
   display: flex;
+  top: 114px;
+  left: 210px;
   width: calc(100% - 210px);
   padding: 11px 36px;
   justify-content: space-between;
@@ -43,74 +33,22 @@ export const SupervisorReportHeader = styled.div`
     line-height: normal;
   }
 `;
-export const SvisorReportMain = styled.div`
+export const SupervisorReportContents = styled.div`
   position: relative;
-  display: flex;
-  /* width: calc(100% 0px); */
-  width: 100%;
-
-  /* margin-right: 370px; */
-  flex-direction: column;
-  /* align-items: flex-end; */
-  font-size: 14px;
-  padding-left: 210px;
-  padding-bottom: 100px;
-  justify-content: center;
-  align-content: space-around;
-  align-items: flex-end;
+  text-align: center;
+  top: 114px;
+  left: 210px;
+  
+  /* padding-left: 100px; */
+  /* display: block;
+  width: 1180px; */
 `;
-
-export const SvisorReportOption = styled.div`
+export const SupervisorTable = styled.div`
   position: relative;
-  padding-top: 180px;
-  padding-bottom: 108px;
-  /* justify-content: flex-end; */
-  margin-right: 50px;
+  display: block;
+  /* margin: 0 auto; */
+  width: 1180px;
 
-  .selectoption {
-    /* align-items: flex-end; */
-    padding-left: 10px;
-    width: 367px;
-    height: 30px;
-    color: #a8a8a8;
-    border-color: #dbdbdb;
-    cursor: pointer;
-  }
-`;
-export const SvisorTable = styled.div`
-  display: flex;
-  width: 100%;
-  color: #5c5c5c;
-  justify-content: space-around;
-  align-items: end;
-
-  /* align-items: center; */
-
-  .tableHeader {
-    width: 100%;
-    /* justify-content: space-around;
-    align-items: end; */
-    height: 55px;
-  }
-  .tableBody {
-    width: 170px;
-    /* justify-content: center; */
-    height: 60px;
-  }
-  .delete-bt {
-    width: 50px;
-    height: 30px;
-    border: none;
-    color: #ffffff;
-    background-color: #099e76;
-    cursor: pointer;
-  }
-  .cancel-bt {
-    width: 50px;
-    height: 30px;
-    border: none;
-    color: #ffffff;
-    background-color: #099e76;
-    cursor: pointer;
+  .table {
   }
 `;

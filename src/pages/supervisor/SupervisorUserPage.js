@@ -1,87 +1,120 @@
-import React from "react";
+import { useEffect, useState } from "react";
+import { getUser, patchUser } from "../../api/userApi";
+import useCustomHook from "../../components/meat/hooks/useCustomHook";
+import { SupervisorReportHeader } from "./styles/SupervisorReportStyle";
 import {
-  SupervisorReportHeader,
-  SvisorReportMain,
-  SvisorReportWrap,
-} from "./styles/SupervisorReportStyle";
-import Button from "../../components/button/Button";
-import {
+  SupervisorUserContents,
   SupervisorUserWrapper,
-  SvisorTable,
-  SvisorTbody,
-  SvisorThead,
-  SvisorUserHeader,
-  SvisorUserMain,
-  SvisorUserWrap,
 } from "./styles/SupervisorUserStyle";
+import Button from "../../components/button/Button";
 
 const SupervisorUserPage = () => {
+  const [data, setData] = useState([]);
+  // const [refresh, setRefresh] = useState(false);
+  const { page } = useCustomHook();
+  useEffect(() => {
+    const params = { page };
+    getUser({ params, successFn, failFn, errorFn });
+  }, [page]);
+
+  const successFn = response => {
+    setData(response);
+  };
+
+  const failFn = response => {
+    setData(response);
+  };
+
+  const errorFn = response => {
+    setData(response);
+  };
+
+  const handleClickLock = result => {
+    // alert("클릭됨");
+    // iuser  필요
+    // alert(result);
+    patchUser({ result, successLockFn, failLockFn, errorLockFn });
+  };
+
+  const successLockFn = response => {
+    console.log(response);
+    // setRefresh(true);
+    // setData(response);
+  };
+
+  const failLockFn = response => {
+    console.log(response);
+    // setData(response);
+  };
+
+  const errorLockFn = response => {
+    console.log(response);
+    // setData(response);
+  };
+
+  // const handleClickUnlock = result => {
+  //   alert("클릭됨");
+  //   alert(result);
+  // };
   return (
-    <SvisorUserWrap>
-      <SvisorUserHeader>
-        <div className="page-title">유저 관리</div>
+    <SupervisorUserWrapper>
+      <SupervisorReportHeader>
+        <div className="page-title">유저 분석</div>
         <div>
           <Button bttext="저장" />
         </div>
-      </SvisorUserHeader>
-      <SvisorUserMain>
-        <meta charset="UTF-8" />
-        <div
-          name="viewport"
-          content="width=device-width, initial-scale=1.0"
-        ></div>
-
-        <body>
-          <SvisorTable>
-            <SvisorThead>
-              <tr
-              // style={{
-              //   border: "1px solid #DBDBDB",
-              //   padding: "8px",
-              //   borderBottom: "1px solid #DBDBDB",
-              //   borderLeft: "0px solid #DBDBDB",
-              //   borderRight: "0px solid #DBDBDB",
-              //   textAlign: "center",
-              // }}
-              // className="tableHeader"
-              >
-                <th>순번</th>
-                <th>이름</th>
-                <th>아이디</th>
-                <th>사업자등록번호</th>
-                <th>상태</th>
-                <th>계정잠금</th>
-                <th>계정해제</th>
-              </tr>
-            </SvisorThead>
-            <SvisorTbody>
-              <tr>
-                <td>1</td>
-                <td>홍길동</td>
-                <td>hong123</td>
-                <td>123-45-67890</td>
-                <td>활성</td>
-                <td>
-                  <button onClick="unlockAccount">계정잠금</button>
-                </td>
-                <td>
-                  <button onClick="unlockAccount">계정해제</button>
-                </td>
-              </tr>
-              {/* <!-- 여기에 추가적인 계정 정보를 추가할 수 있습니다. --> */}
-            </SvisorTbody>
-          </SvisorTable>
-
-          <script>
-            function unlockAccount(accountNumber){" "}
-            {
-              // 여기에 계정 해제 로직을 추가하세요.
-              // alert('계정이 성공적으로 해제되었습니다.');
-            }
-          </script>
-        </body>
-      </SvisorUserMain>
-    </SvisorUserWrap>
+      </SupervisorReportHeader>
+      <SupervisorUserContents>
+        <h1>테이블 예시입니다 맵포함</h1>
+        <div>
+          <table>
+            <thead>
+              <th>순번</th>
+              <th>이름</th>
+              <th>ID</th>
+              <th>사업자등록번호</th>
+              <th>상태</th>
+              <th>계정잠금</th>
+            </thead>
+            <tbody>
+              {/* 여기다가 맵을 돌리는거죠! */}
+              {/* 왜 data머시긴가요? useState 다시 설명읽기! */}
+              {/*
+               데이터(data)를 반복할꺼야(map)
+               data를 앞으로 item이라 부를꺼야
+               순서를 index라 할꺼야
+               */}
+              {data?.map((item, index) => (
+                // ? Key? 기준값!
+                // ? 기준값? 절대 중복될 수없는 유니크한 값! (a.k.a 주민등록번호)
+                // ? iuser 고유한 값이네?
+                <tr key={item.iuser}>
+                  {/* data 안에 있는 name, id , number, state */}
+                  <td>{index}</td>
+                  <td>{item?.name}</td>
+                  <td>{item?.id}</td>
+                  <td>{item?.number}</td>
+                  <td>{item?.state}</td>
+                  {item?.state === 0 ? (
+                    <td>
+                      <button onClick={() => handleClickLock(item.iuser)}>
+                        잠금
+                      </button>
+                    </td>
+                  ) : (
+                    <td>
+                      <button onClick={() => handleClickLock(item.iuser)}>
+                        해제
+                      </button>
+                    </td>
+                  )}
+                </tr>
+              ))}
+            </tbody>
+          </table>
+        </div>
+      </SupervisorUserContents>
+    </SupervisorUserWrapper>
   );
 };
 
