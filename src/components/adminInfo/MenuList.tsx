@@ -1,16 +1,15 @@
-import { useRecoilState, useRecoilValue } from "recoil";
-import { MenuContainerStyle, TSMenuStyle } from "./styles/TSMenuStyle";
-import {
-  TSBackgroundBoxStyle,
-  TSBoxInnerStyle,
-  TSNavStyle,
-} from "./styles/TSModifyStyle";
-import { atomMenuInfoState, menuRefreshState } from "../../atom/atomMenuInfo";
 import { useEffect, useState } from "react";
-import useModal from "../meat/hooks/useModal";
+import { useRecoilState, useRecoilValue } from "recoil";
+import { API_SERVER_HOST } from "../../api/config";
 import { getMenu } from "../../api/menuInfoApi";
-import ResultModal from "../common/ResultModal";
+import { atomMenuInfoState, menuRefreshState } from "../../atom/atomMenuInfo";
 import Fetching from "../common/Fetching";
+import ResultModal from "../common/ResultModal";
+import useModal from "../meat/hooks/useModal";
+import { MenuContainerStyle, TSMenuStyle } from "./styles/TSMenuStyle";
+import { TSBackgroundBoxStyle, TSBoxInnerStyle } from "./styles/TSModifyStyle";
+
+const host = API_SERVER_HOST;
 
 // 메뉴 타입 정의
 interface Menu {
@@ -86,14 +85,21 @@ const MenuList = () => {
               <div className="menu-img">
                 <img
                   src={
-                    menu.pic ||
-                    `${process.env.PUBLIC_URL}/assets/images/menuImg.png`
+                    menu.pic
+                      ? `${host}/pic/shop/${menu.ishop}/menu/${menu.pic}`
+                      : `${process.env.PUBLIC_URL}/assets/images/menuImg.png`
                   }
+                  alt={`미리보기${index}`}
+                  style={{
+                    maxWidth: "160px",
+                  }}
                 />
               </div>
               <div className="menu-info">
                 <div className="menu-title">{menu.menu}</div>
-                <div>{menu.price}</div>
+                <div>
+                  {new Intl.NumberFormat("ko-KR").format(menu.price)} 원
+                </div>
               </div>
             </TSMenuStyle>
           ))}

@@ -1,6 +1,5 @@
 import MenuList from "../../components/adminInfo/MenuList";
 import MenuModify from "../../components/adminInfo/MenuModify";
-import { ButtonStyleTS } from "../../components/adminInfo/styles/ButtonStyleTS";
 import {
   TSAdminInfoWrapStyle,
   TSNavStyle,

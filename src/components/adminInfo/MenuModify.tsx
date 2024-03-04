@@ -1,5 +1,6 @@
 import { ChangeEvent, useRef, useState } from "react";
 import { useRecoilState } from "recoil";
+import { API_SERVER_HOST } from "../../api/config";
 import { deleteMenu, postMenu, putMenu } from "../../api/menuInfoApi";
 import {
   atomMenuInfoState,
@@ -16,6 +17,8 @@ import {
   TSBoxInnerStyle,
 } from "./styles/TSModifyStyle";
 import { TSInputStyle, TSTextFieldStyle } from "./styles/TSTextFieldStyle";
+
+const host = API_SERVER_HOST;
 
 // 텍스트필드 스타일 props 타입 정의
 type TextFieldStateProps = "default" | "focus" | "error" | "filled";
@@ -45,14 +48,17 @@ const MenuModify = () => {
         openModal("사진 등록", "5MB 이하만 가능합니다.", closeModal);
         return;
       }
-      const reader = new FileReader();
-      reader.onloadend = () => {
-        // 미리보기 URL 생성 및 Recoil 상태 업데이트
-        const newPic = reader.result as string;
-        setMenuInfo(prevState => ({ ...prevState, pic: newPic }));
-        setSelectedFile(file);
-      };
-      reader.readAsDataURL(file);
+      // const reader = new FileReader();
+      // reader.onloadend = () => {
+      //   // 미리보기 URL 생성 및 Recoil 상태 업데이트
+      //   const newPic = reader.result as string;
+      //   setMenuInfo(prevState => ({ ...prevState, pic: newPic }));
+      //   setSelectedFile(file);
+      // };
+      // reader.readAsDataURL(file);
+      const newPic = URL.createObjectURL(file);
+      setMenuInfo(prev => ({ ...prev, pic: newPic }));
+      setSelectedFile(file);
     }
   };
 
@@ -252,11 +258,14 @@ const MenuModify = () => {
           <div className="pics-thumb">
             {menuInfo.pic && (
               <img
-                src={menuInfo.pic}
+                src={
+                  menuInfo.pic.startsWith("blob")
+                    ? menuInfo.pic
+                    : `${host}/pic/shop/${menuInfo.ishop}/menu/${menuInfo.pic}`
+                }
                 alt="미리보기 이미지"
                 style={{
                   maxWidth: "92px",
-                  cursor: "pointer",
                   borderRadius: "4px",
                 }}
               />

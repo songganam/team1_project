@@ -1,11 +1,11 @@
+import { ChangeEvent, useEffect, useRef, useState } from "react";
 import { useRecoilState } from "recoil";
+import { API_SERVER_HOST } from "../../api/config";
+import { atomStoreInfoState } from "../../atom/atomStoreInfoState";
 import ResultModal from "../common/ResultModal";
 import useModal from "../meat/hooks/useModal";
 import { ButtonStyleTS } from "./styles/ButtonStyleTS";
 import { TSBoxInnerStyle } from "./styles/TSModifyStyle";
-import { atomStoreInfoState } from "../../atom/atomStoreInfoState";
-import { ChangeEvent, useEffect, useRef, useState } from "react";
-import { API_SERVER_HOST } from "../../api/config";
 
 const host = API_SERVER_HOST;
 
@@ -134,7 +134,11 @@ const TSPicsInput = () => {
           {images.map((image, index) => (
             <img
               key={index}
-              src={image.url}
+              src={
+                image.url
+                  ? image.url
+                  : `${process.env.PUBLIC_URL}/assets/images/menuImg.png`
+              }
               alt={`미리보기${index}`}
               style={{
                 maxWidth: "92px",
