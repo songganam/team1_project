@@ -8,7 +8,7 @@ const Footer = () => {
     navigate("/svisor/signin");
   };
   return (
-    <footer style={{ position: "relative", zIndex: "999" }}>
+    <footer style={{ position: "relative" }}>
       <FooterStyle background={ColorStyle.g700} color={ColorStyle.grayScale}>
         <ul>
           <li>고객센터: 053-123-4567</li>
