@@ -62,12 +62,12 @@ const useCustomLoginTS = () => {
 
   const saveAsAdminCookie = (result: any) => {
     setAdminState(result);
-    setCookie("owner", JSON.stringify(result), 1);
+    setCookie("member", JSON.stringify(result), 1);
   };
 
   const saveAsSupervisorCookie = (result: any) => {
     setSupervisorState(result);
-    setCookie("admin", JSON.stringify(result), 1);
+    setCookie("member", JSON.stringify(result), 1);
   };
 
   const doLogout = async () => {
@@ -75,8 +75,8 @@ const useCustomLoginTS = () => {
     resetAdminState();
     resetSupervisorState();
     removeCookie("member");
-    removeCookie("owner");
-    removeCookie("admin");
+    // removeCookie("member");
+    // removeCookie("member");
     try {
       const header = { headers: { "Content-Type": "application/json" } };
       const res = await axios.post(`${host}/signout`, header);
