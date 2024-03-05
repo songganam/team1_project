@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import {
+  SupervisorHeader,
   SupervisorReportContents,
   SupervisorReportHeader,
   SupervisorReportWrapper,
@@ -8,6 +9,7 @@ import {
 import useCustomHook from "../../components/meat/hooks/useCustomHook";
 import { getReport, patchReport, patchReportCancel } from "../../api/reportApi";
 import Button from "../../components/button/Button";
+import { SupervisorOption } from "./styles/SupervisorUserStyle";
 
 const SupervisorReportPage = () => {
   const [reportData, setReportData] = useState([]);
@@ -87,17 +89,17 @@ const SupervisorReportPage = () => {
 
   return (
     <SupervisorReportWrapper>
-      <SupervisorReportHeader>
+      <SupervisorHeader>
         <div className="page-title">신고 관리</div>
         <div>
           <Button bttext="저장" />
         </div>
-      </SupervisorReportHeader>
+      </SupervisorHeader>
       <SupervisorReportContents>
-        <h1>테이블 예시입니다 맵포함</h1>
-        <div>
+        {/* <h1>테이블 예시입니다 맵포함</h1> */}
+        <SupervisorOption>
           {/* <select  */}
-          <label htmlFor="category">카테고리 선택 : </label>
+          <label htmlFor="category"></label>
           <select
             id="category"
             name="category"
@@ -109,7 +111,7 @@ const SupervisorReportPage = () => {
             <option value="2">고기집 후기</option>
             <option value="3">정육점 후기</option>
           </select>
-        </div>
+        </SupervisorOption>
         <SupervisorTable>
           <table>
             <thead>
@@ -119,7 +121,8 @@ const SupervisorReportPage = () => {
               <th>작성자</th>
               <th>신고 수</th>
               <th>상태</th>
-              <th>계정잠금</th>
+              <th>신고 취소</th>
+              <th>글 숨김</th>
             </thead>
             <tbody>
               {/* 여기다가 맵을 돌리는거죠! */}
@@ -143,13 +146,13 @@ const SupervisorReportPage = () => {
 
                   <td>
                     <button onClick={() => handleClickReportCancel(item.pk)}>
-                      신고취소
+                      취소
                     </button>
                   </td>
 
                   <td>
                     <button onClick={() => handleClickHide(item.pk)}>
-                      글숨김
+                      숨김
                     </button>
                   </td>
                 </tr>

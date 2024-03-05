@@ -2,9 +2,13 @@ import styled from "@emotion/styled";
 
 export const AdminDocMain = styled.div`
   position: relative;
-  display: block;
-  /* width: 100%; */
-  padding: 90px 163px;
+  width: 100%;
+  margin-top: 20px;
+  margin-bottom: 200px;
+  margin-left: 300px;
+  display: flex;
+  flex-direction: column;
+  font-size: 14px;
 
   .title {
     position: relative;
@@ -37,7 +41,8 @@ export const AdminDocBox = styled.div`
 
   border-radius: 8px;
   background: #fff;
-  font-size: 14px;
+  font-size: 19px;
+  /* font-style: bold; */
   /* shadow */
   box-shadow: 0px 1px 2px -1px rgba(0, 0, 0, 0.1),
     0px 1px 3px 0px rgba(0, 0, 0, 0.1);
@@ -68,7 +73,7 @@ export const BoxChart = styled.div`
 
   border-radius: 8px;
   background: #fff;
-  font-size: 14px;
+  font-size: 19px;
   /* shadow */
   box-shadow: 0px 1px 2px -1px rgba(0, 0, 0, 0.1),
     0px 1px 3px 0px rgba(0, 0, 0, 0.1);

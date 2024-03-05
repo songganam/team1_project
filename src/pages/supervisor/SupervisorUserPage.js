@@ -1,17 +1,23 @@
 import { useEffect, useState } from "react";
 import { getUser, patchUser } from "../../api/userApi";
 import useCustomHook from "../../components/meat/hooks/useCustomHook";
-import { SupervisorReportHeader } from "./styles/SupervisorReportStyle";
 import {
+  SupervisorHeader,
+  SupervisorReportHeader,
+} from "./styles/SupervisorReportStyle";
+import {
+  SupervisorOption,
+  SupervisorTable,
   SupervisorUserContents,
   SupervisorUserWrapper,
 } from "./styles/SupervisorUserStyle";
 import Button from "../../components/button/Button";
 
 const SupervisorUserPage = () => {
+  // GET API
   const [data, setData] = useState([]);
   // const [refresh, setRefresh] = useState(false);
-  const { page } = useCustomHook();
+  const { page, moveToCheck } = useCustomHook();
   useEffect(() => {
     const params = { page };
     getUser({ params, successFn, failFn, errorFn });
@@ -29,6 +35,7 @@ const SupervisorUserPage = () => {
     setData(response);
   };
 
+  // PATCH API
   const handleClickLock = result => {
     // alert("클릭됨");
     // iuser  필요
@@ -56,21 +63,46 @@ const SupervisorUserPage = () => {
   //   alert("클릭됨");
   //   alert(result);
   // };
+
+  const [selectedCategory, setSelectedCategory] = useState(0);
+
+  const handleCategoryChange = event => {
+    const selectedValue = event.target.value;
+    setSelectedCategory(selectedValue);
+    console.log("카테", selectedValue);
+    moveToCheck({ check: selectedValue });
+  };
+
   return (
     <SupervisorUserWrapper>
-      <SupervisorReportHeader>
+      <SupervisorHeader>
         <div className="page-title">유저 분석</div>
         <div>
           <Button bttext="저장" />
         </div>
-      </SupervisorReportHeader>
+      </SupervisorHeader>
       <SupervisorUserContents>
-        <h1>테이블 예시입니다 맵포함</h1>
-        <div>
+        {/* <h1>테이블 예시입니다 맵포함</h1> */}
+        <SupervisorOption>
+          {/* <select  */}
+          <label htmlFor="category"> </label>
+          <select
+            id="category"
+            name="category"
+            onChange={handleCategoryChange}
+            value={selectedCategory}
+          >
+            <option value="0">고기잡담 글</option>
+            <option value="1">고기잡담 댓글</option>
+            <option value="2">고기집 후기</option>
+            <option value="3">정육점 후기</option>
+          </select>
+        </SupervisorOption>
+        <SupervisorTable>
           <table>
-            <thead>
+            <thead style={{ marginBottom: "20px" }}>
               <th>순번</th>
-              <th>이름</th>
+              <th>작성자</th>
               <th>ID</th>
               <th>사업자등록번호</th>
               <th>상태</th>
@@ -88,7 +120,7 @@ const SupervisorUserPage = () => {
                 // ? Key? 기준값!
                 // ? 기준값? 절대 중복될 수없는 유니크한 값! (a.k.a 주민등록번호)
                 // ? iuser 고유한 값이네?
-                <tr key={item.iuser}>
+                <tr key={item?.iuser}>
                   {/* data 안에 있는 name, id , number, state */}
                   <td>{index}</td>
                   <td>{item?.name}</td>
@@ -112,7 +144,7 @@ const SupervisorUserPage = () => {
               ))}
             </tbody>
           </table>
-        </div>
+        </SupervisorTable>
       </SupervisorUserContents>
     </SupervisorUserWrapper>
   );
