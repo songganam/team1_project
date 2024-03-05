@@ -77,11 +77,13 @@ export const changeBookmark = async storeNum => {
   }
 };
 
-export const getReview = async () => {
+export const getReview = async ({ params }) => {
+  console.log("파라미터", params);
   try {
     const header = { headers: { "Content-Type": "application/json" } };
     const res = await authAxios.get(
-      `${API_SERVER_HOST}/api/owner/review?page=0&size=10&sort=`,
+      `${API_SERVER_HOST}/api/owner/review`,
+      { params: params },
       header,
     );
     return res.data;

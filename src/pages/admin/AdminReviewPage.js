@@ -9,7 +9,7 @@ import { getReview } from "../../api/meatApi";
 import { TSNavStyle } from "../../components/adminInfo/styles/TSModifyStyle";
 import "./styles.css";
 import { ReviewWrap } from "./styles/AdminReviewStyle";
-import ReviewAdminCard from "./styles/ReviewAdminCard";
+import ReviewAdminCard from "./styles/TSReviewAdminCard";
 
 const initState = [
   {

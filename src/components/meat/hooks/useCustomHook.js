@@ -33,6 +33,10 @@ const useCustomHook = () => {
     ? parseInt(urlSearchParams.get("category"))
     : 0;
 
+  const size = urlSearchParams.get("size")
+    ? parseInt(urlSearchParams.get("size"))
+    : 3;
+
   const filter = urlSearchParams.get("filter")
     ? parseInt(urlSearchParams.get("filter"))
     : 0;
@@ -46,6 +50,7 @@ const useCustomHook = () => {
     search,
     category,
     filter,
+    size,
   }).toString();
 
   // @COMMENT Page Query
@@ -133,6 +138,21 @@ const useCustomHook = () => {
     });
   };
 
+  const moveToSize = SizeParam => {
+    let queryStr = "";
+    if (SizeParam) {
+      const SizeStr = getNum(SizeParam.size, size);
+      queryStr = createSearchParams({
+        size: SizeStr,
+      }).toString();
+      console.log("queryStr:", queryStr);
+      setRefresh(!refresh);
+    } else {
+      queryStr = defaultQueryString;
+    }
+    navigate({ pathname: "../review", search: queryStr });
+  };
+
   const [refresh, setRefresh] = useState(false);
 
   const moveToSearch = SearchParam => {
@@ -194,6 +214,8 @@ const useCustomHook = () => {
     moveToPayment,
     shutModal,
     moveToCheck,
+    size,
+    moveToSize,
   };
 };
 export default useCustomHook;

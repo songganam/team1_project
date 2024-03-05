@@ -135,4 +135,6 @@ export const SelectBtnItem = styled.div`
 `;
 export const ReviewCardWrap = styled.div`
   padding: 80px 10px;
+  box-shadow: 0px 1px 2px -1px rgba(0, 0, 0, 0.1),
+    0px 1px 3px 0px rgba(0, 0, 0, 0.1);
 `;
