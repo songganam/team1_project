@@ -1,5 +1,10 @@
 import axios from "axios";
-import { ListParam, ReportForm, ReserForm } from "../pages/meat/Meat";
+import {
+  ListParam,
+  ReportForm,
+  ReserForm,
+  replayForm,
+} from "../pages/meat/Meat";
 import authAxios from "../util/tokenUtil";
 import { BNumForm } from "../pages/sign/TSJoin";
 import { report } from "process";
@@ -129,5 +134,23 @@ export const postReportTS = async ({
     console.log(error);
     throw error;
     //
+  }
+};
+
+// @AREA Reply
+
+export const putReplyTS = async ({ replyData }: { replyData: replayForm }) => {
+  console.log("axios data : ", replyData);
+  try {
+    const header = { headers: { "Content-Type": "application/json" } };
+    const response = await authAxios.put(
+      `${API_SERVER_HOST}/api/owner/review`,
+      replyData,
+      header,
+    );
+    return response.data;
+  } catch (error) {
+    console.log("error");
+    throw error;
   }
 };

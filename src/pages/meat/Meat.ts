@@ -96,3 +96,14 @@ export interface ReportForm {
   ishop: number;
   checkShop: number;
 }
+
+export interface SwiperStyle extends React.CSSProperties {
+  "--swiper-navigation-color": string;
+  "--swiper-pagination-color": string;
+}
+
+export interface replayForm {
+  ireview: number;
+  checkShop: number;
+  comment: string;
+}
