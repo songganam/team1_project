@@ -1,8 +1,16 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
+import {
+  API_SERVER_HOST,
+  getSvisorNewShop,
+  patchShopConfirm,
+  patchShopReject,
+} from "../../api/supervisorShopApi";
+import useModal from "../../hooks/useModal";
 import Button from "../button/Button";
+import SelectedModal from "../common/SelectedModal";
+import useCustomMy from "../my/hooks/useCustomMy";
 import {
   NewShopContent,
-  NewShopSwiperWrap,
   NewShopTitle,
   SupervisorNewShopButton,
   SupervisorNewShopInfo,
@@ -10,15 +18,9 @@ import {
   SupervisorNewShopVisual,
   SupervisorNewShopWrapper,
 } from "./styles/SupervisorNewShopCardStyle";
-import { Navigation } from "swiper/modules";
-import { Swiper, SwiperSlide } from "swiper/react";
-import useCustomMy from "../my/hooks/useCustomMy";
-import {
-  getSvisorNewShop,
-  patchShopConfirm,
-} from "../../api/supervisorShopApi";
-import useModal from "../../hooks/useModal";
-import SelectedModal from "../common/SelectedModal";
+import useCustomHook from "../meat/hooks/useCustomHook";
+
+const host = API_SERVER_HOST;
 
 const initState = [
   {
@@ -35,14 +37,27 @@ const initState = [
   },
 ];
 
+const PatchInitState = {
+  checkShop: 0,
+  ishop: 0,
+  confirm: 0,
+};
+
 const SupervisorNewShopCard = () => {
   const { page } = useCustomMy();
   const [svisorNewShopData, setSvisorNewShopData] = useState(initState);
-  const [shopConfirm, setShopConfirm] = useState(null);
+  const [patchData, setPatchData] = useState(PatchInitState);
+  const [patchRejectData, setPatchRejectData] = useState(PatchInitState);
 
   // 모달창
   const { useResultModal, openModal, closeModal } = useModal();
 
+  const {
+    isSelectModal,
+    openSelectModal,
+    confirmSelectModal,
+    cancelSelectModal,
+  } = useCustomHook();
   // 신규 매장 정보 불러오기 (GET)
   useEffect(() => {
     const param = { page };
@@ -63,89 +78,135 @@ const SupervisorNewShopCard = () => {
     console.log(result);
   };
 
-  // 가게 승인 여부 변경 (PATCH)
-  const handleConfirmShop = (checkShop, ishop, confirm, actionType) => {
-    if (confirm === 0) {
-      let newConfirmValue;
+  // 가게 승인 여부 변경 (PATCH) : 승인
+  const handleConfirmShop = (checkShop, ishop, confirm) => {
+    const patchCheckShop = checkShop;
+    const patchIshop = ishop;
+    const patchConfirm = confirm;
+    console.log(patchCheckShop, patchIshop, patchConfirm);
+    setPatchData({
+      ...setPatchData,
+      confirm: 1,
+      ishop: patchIshop,
+      checkShop: patchCheckShop,
+    });
 
-      if (actionType === "approve") {
-        newConfirmValue = 1;
-      } else if (actionType === "reject") {
-        newConfirmValue = 2;
-      } else {
-        return;
-      }
-
-      const patchShopConfirmData = {
-        checkShop: checkShop,
-        ishop: ishop,
-        confirm: newConfirmValue,
-      };
-
-      setShopConfirm(patchShopConfirmData);
-
-      setSvisorNewShopData(prevData =>
-        prevData.map(shop =>
-          shop.ishop === ishop ? { ...shop, confirm: newConfirmValue } : shop,
-        ),
-      );
-
-      openModal();
-    } else {
-      return;
-    }
-  };
-
-  const handleConfirmDone = confirmValue => {
-    if (shopConfirm) {
-      const { checkShop, ishop, confirm } = shopConfirm;
-      const newConfirmValue = confirmValue === 2 ? 2 : 0;
-      patchShopConfirm({
-        patchShopForm: { checkShop, ishop, confirm: newConfirmValue },
-        successPatch,
-        failPatch,
-        errorPatch,
-      });
-      closeModal();
-    }
-  };
-
-  const successPatch = patchResult => {
-    console.log("승인 여부 변경 성공", patchResult);
-    const updatedMyShopList = svisorNewShopData.filter(
-      shop => shop.ishop !== shopConfirm.ishop,
+    openSelectModal(
+      "입점 승인",
+      "입점을 승인하시겠습니까?",
+      () => {
+        patchShopConfirm({
+          patchData: {
+            ...patchData,
+            confirm: 1,
+            ishop: patchIshop,
+            checkShop: patchCheckShop,
+          },
+          successConfirmPatch,
+          failConfirmPatch,
+          errorConfirmPatch,
+        }),
+          cancelSelectModal();
+      },
+      cancelSelectModal,
     );
-    setSvisorNewShopData(updatedMyShopList);
+
+    console.log(patchData);
   };
 
-  const failPatch = patchResult => {
-    console.log("승인 여부 변경 실패", patchResult);
+  const handleConfirmDone = (checkShop, ishop, confirm) => {
+    closeModal();
+    console.log(checkShop, ishop, confirm);
   };
 
-  const errorPatch = patchResult => {
+  const successConfirmPatch = patchResult => {
+    console.log("가게 입점 승인 성공", patchResult);
+    const param = { page };
+    getSvisorNewShop({ param, successFn, failFn, errorFn });
+  };
+
+  const failConfirmPatch = patchResult => {
+    console.log("가게 입점 승인 오류", patchResult);
+  };
+
+  const errorConfirmPatch = patchResult => {
+    console.log("서버 오류", patchResult);
+  };
+
+  // 가게 승인 여부 변경 (PATCH) : 거부
+  const handleRejectShop = (checkShop, ishop, confirm) => {
+    const patchCheckShop = checkShop;
+    const patchIshop = ishop;
+    const patchConfirm = confirm;
+    console.log(patchCheckShop, patchIshop, patchConfirm);
+    setPatchRejectData({
+      ...setPatchRejectData,
+      confirm: 2,
+      ishop: patchIshop,
+      checkShop: patchCheckShop,
+    });
+
+    console.log(patchRejectData);
+
+    patchShopReject({
+      patchRejectData: {
+        ...patchRejectData,
+        confirm: 2,
+        ishop: patchIshop,
+        checkShop: patchCheckShop,
+      },
+      successRejectPatch,
+      failRejectPatch,
+      errorRejectPatch,
+    });
+    openModal();
+  };
+
+  const handleConfirmRejectDone = (checkShop, ishop, confirm) => {
+    closeModal();
+    console.log(checkShop, ishop, confirm);
+  };
+
+  const successRejectPatch = patchResult => {
+    console.log("가게 입점 거부 성공", patchResult);
+    const param = { page };
+    getSvisorNewShop({ param, successFn, failFn, errorFn });
+  };
+
+  const failRejectPatch = patchResult => {
+    console.log("가게 입점 거부 오류", patchResult);
+  };
+
+  const errorRejectPatch = patchResult => {
     console.log("서버 오류", patchResult);
   };
 
   return (
     <>
+      {isSelectModal.isOpen && (
+        <SelectedModal
+          title={isSelectModal.title}
+          content={isSelectModal.content}
+          confirmFn={isSelectModal.confirmFn}
+          cancelFn={isSelectModal.cancelFn}
+        />
+      )}
       {svisorNewShopData.map(
         (svisorNewShopData, index) =>
           svisorNewShopData.confirm === 0 && (
             <SupervisorNewShopWrapper key={index}>
               <SupervisorNewShopVisual>
-                <NewShopSwiperWrap>
-                  <Swiper
-                    navigation={true}
-                    modules={[Navigation]}
-                    className="mySwiper"
-                  >
-                    <SwiperSlide>{svisorNewShopData.pic}</SwiperSlide>
-                    <SwiperSlide>{svisorNewShopData.pic}</SwiperSlide>
-                    <SwiperSlide>{svisorNewShopData.pic}</SwiperSlide>
-                    <SwiperSlide>{svisorNewShopData.pic}</SwiperSlide>
-                    <SwiperSlide>{svisorNewShopData.pic}</SwiperSlide>
-                  </Swiper>
-                </NewShopSwiperWrap>
+                {svisorNewShopData.checkShop === 0 ? (
+                  <img
+                    src={`${API_SERVER_HOST}/pic/shop/${svisorNewShopData.ishop}/shop_pic/${svisorNewShopData.pic}`}
+                    alt="매장 이미지"
+                  />
+                ) : (
+                  <img
+                    src={`${API_SERVER_HOST}/pic/butcher/${svisorNewShopData.ishop}/butchershop_pic/${svisorNewShopData.pic}`}
+                    alt="매장 이미지"
+                  />
+                )}
               </SupervisorNewShopVisual>
               <SupervisorNewShopInner>
                 <SupervisorNewShopInfo>
@@ -169,28 +230,18 @@ const SupervisorNewShopCard = () => {
                         svisorNewShopData.checkShop,
                         svisorNewShopData.ishop,
                         svisorNewShopData.confirm,
-                        "approve",
                       )
                     }
                   >
                     <Button bttext="승인" />
                   </div>
-                  {useResultModal && (
-                    <SelectedModal
-                      title="입점 승인"
-                      content="입점을 승인하시겠습니까?"
-                      confirmFn={handleConfirmDone}
-                      cancelFn={closeModal}
-                    />
-                  )}
                   <div>
                     <div
                       onClick={() =>
-                        handleConfirmShop(
+                        handleRejectShop(
                           svisorNewShopData.checkShop,
                           svisorNewShopData.ishop,
                           svisorNewShopData.confirm,
-                          "reject",
                         )
                       }
                     >
@@ -200,7 +251,13 @@ const SupervisorNewShopCard = () => {
                       <SelectedModal
                         title="입점 거부"
                         content="입점을 거부하시겠습니까?"
-                        confirmFn={handleConfirmDone}
+                        confirmFn={() =>
+                          handleConfirmRejectDone(
+                            svisorNewShopData.checkShop,
+                            svisorNewShopData.ishop,
+                            svisorNewShopData.confirm,
+                          )
+                        }
                         cancelFn={closeModal}
                       />
                     )}
