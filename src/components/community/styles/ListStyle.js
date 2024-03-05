@@ -107,8 +107,9 @@ export const LargeImgStyle = styled.div`
 `;
 export const ThumbnailStyle = styled.div`
   position: relative;
-  max-width: 480px;
+  max-width: 500px;
   max-height: 1000px;
+  padding: 0 5px 5px 0;
   display: flex;
   flex-wrap: wrap;
   /* justify-content: space-between; */

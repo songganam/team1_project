@@ -3,11 +3,14 @@ import { useRecoilState, useRecoilValue } from "recoil";
 import { API_SERVER_HOST } from "../../api/config";
 import { getMenu } from "../../api/menuInfoApi";
 import { atomMenuInfoState, menuRefreshState } from "../../atom/atomMenuInfo";
+import AdminSmallImageWireframe from "../common/AdminSmallImageWireframe";
 import Fetching from "../common/Fetching";
 import ResultModal from "../common/ResultModal";
+import MenuListPlaceholder from "../community/MenuListPlaceholder";
 import useModal from "../meat/hooks/useModal";
 import { MenuContainerStyle, TSMenuStyle } from "./styles/TSMenuStyle";
 import { TSBackgroundBoxStyle, TSBoxInnerStyle } from "./styles/TSModifyStyle";
+import MenuListWireframe from "../common/MenuListWireframe";
 
 const host = API_SERVER_HOST;
 
@@ -83,16 +86,21 @@ const MenuList = () => {
               style={{ cursor: "pointer" }}
             >
               <div className="menu-img">
-                <img
+                <MenuListPlaceholder
                   src={
                     menu.pic
                       ? `${host}/pic/shop/${menu.ishop}/menu/${menu.pic}`
                       : `${process.env.PUBLIC_URL}/assets/images/menuImg.png`
                   }
                   alt={`미리보기${index}`}
-                  style={{
-                    maxWidth: "160px",
-                  }}
+                  // style={{
+                  //   maxWidth: "160px",
+                  // }}
+                  placeholder={
+                    <div>
+                      <MenuListWireframe />
+                    </div>
+                  }
                 />
               </div>
               <div className="menu-info">

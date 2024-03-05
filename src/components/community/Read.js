@@ -37,8 +37,11 @@ import {
 } from "./styles/ReadStyle";
 // @COMMENT import React-Query
 import { useMutation } from "@tanstack/react-query";
+import LargeImageWireframe from "../common/LargeImageWireframe";
 import useCustomHook from "../meat/hooks/useCustomHook";
 import useCustomLoginTS from "../meat/hooks/useCustomLoginTS";
+import ImagePlaceholder from "./ImagePlaceholder";
+import SmallImageWireframe from "../common/SmallImageWireframe";
 
 const host = API_SERVER_HOST;
 // 서버데이터 초기값
@@ -82,7 +85,7 @@ const Read = () => {
   // @RTK 로그인 정보 불러오기
   // const authState = useSelector(state => state.authSlice);
   // @RECOIL 로그인 정보 불러오기
-  const { userState } = useCustomLoginTS();
+  const { userState, isSupervisorLogin } = useCustomLoginTS();
   // console.log(authState.nickname);
   const isNickname = userState.nickname;
   // const isNickname = authState.nickname;
@@ -584,6 +587,7 @@ const Read = () => {
                 alt="like"
               />
             )}
+            <div>{content.totalFav}</div>
             <button className="like-button">좋아요</button>
           </div>
           {/* <button onClick={handleClickReport}>신고버튼</button>
@@ -624,9 +628,14 @@ const Read = () => {
         <ImgStyle>
           <LargeImgStyle>
             {content.pics[0] ? (
-              <img
+              <ImagePlaceholder
                 src={`${host}/pic/community/${content.iboard}/${selectedImg}`}
                 alt="Large image"
+                placeholder={
+                  <div>
+                    <LargeImageWireframe />
+                  </div>
+                }
               />
             ) : null}
           </LargeImgStyle>
@@ -641,9 +650,14 @@ const Read = () => {
                       handleThumbnailClick(pic.pic);
                     }}
                   >
-                    <img
+                    <ImagePlaceholder
                       src={`${host}/pic/community/${content.iboard}/${pic.pic}`}
                       alt={`img_${index + 1}`}
+                      placeholder={
+                        <div>
+                          <SmallImageWireframe />
+                        </div>
+                      }
                     />
                   </div>
                 ),
@@ -726,14 +740,18 @@ const Read = () => {
               moveToModify(content.iboard);
             }}
           >
-            {isName === isNickname ? <Button bttext="수정하기" /> : null}
+            {isName === isNickname || isSupervisorLogin ? (
+              <Button bttext="수정하기" />
+            ) : null}
           </div>
           <div
             onClick={() => {
               handleDelRead(content.iboard);
             }}
           >
-            {isName === isNickname ? <Button bttext="삭제하기" /> : null}
+            {isName === isNickname || isSupervisorLogin ? (
+              <Button bttext="삭제하기" />
+            ) : null}
           </div>
         </div>
         <div
