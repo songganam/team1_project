@@ -149,8 +149,7 @@ const TSAdminInfoPage = () => {
                 <div>상호명</div>
                 <div className="essential">*</div>
               </div>
-              <TSTextField placeholder={"상호명을 입력하세요"} name="name" />
-
+              <TSTextField placeholder="상호명을 입력하세요" name="name" />
               <div className="name-guide">
                 <div className="text-guide">
                   숫자, 한글, 영문, 특수문자 사용가능
@@ -219,7 +218,10 @@ const TSAdminInfoPage = () => {
                 <div className="preview-inner">
                   <img
                     className="preview-img"
-                    src={`${host}/pic/shop/${storeInfo.ishop}/shop_pic/${storeInfo.pics[0].pic}`}
+                    src={
+                      `${host}/pic/shop/${storeInfo.ishop}/shop_pic/${storeInfo.pics[0].pic}` ||
+                      `${process.env.PUBLIC_URL}/assets/images/menuImg.png`
+                    }
                   />
                   <div className="shop-info-box">
                     <div className="shop-info">
