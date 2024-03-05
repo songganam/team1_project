@@ -1,6 +1,7 @@
-import React, { useState } from "react";
-import Layout from "../../layouts/Layout";
+import { useState } from "react";
 import { Outlet, useNavigate } from "react-router";
+import AdminLayout from "../../layouts/AdminLayout";
+import { ColorStyle } from "../../styles/common/CommonStyle";
 import {
   SupervisorPageContent,
   SupervisorPageData,
@@ -8,7 +9,6 @@ import {
   SupervisorPageMenuBar,
   SupervisorPageWrapper,
 } from "./styles/SupervisorPageStyle";
-import { ColorStyle } from "../../styles/common/CommonStyle";
 
 const SupervisorPage = () => {
   // 패스 이동
@@ -40,7 +40,7 @@ const SupervisorPage = () => {
   };
 
   return (
-    <Layout>
+    <AdminLayout>
       <SupervisorPageWrapper>
         <SupervisorPageData>
           <SupervisorPageMenuBar>
@@ -96,7 +96,7 @@ const SupervisorPage = () => {
           </SupervisorPageContent>
         </SupervisorPageData>
       </SupervisorPageWrapper>
-    </Layout>
+    </AdminLayout>
   );
 };
 

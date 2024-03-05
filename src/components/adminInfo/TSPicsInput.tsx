@@ -2,7 +2,9 @@ import { ChangeEvent, useEffect, useRef, useState } from "react";
 import { useRecoilState } from "recoil";
 import { API_SERVER_HOST } from "../../api/config";
 import { atomStoreInfoState } from "../../atom/atomStoreInfoState";
+import AdminSmallImageWireframe from "../common/AdminSmallImageWireframe";
 import ResultModal from "../common/ResultModal";
+import AdminImagePlaceholder from "../community/AdminImagePlaceholder";
 import useModal from "../meat/hooks/useModal";
 import { ButtonStyleTS } from "./styles/ButtonStyleTS";
 import { TSBoxInnerStyle } from "./styles/TSModifyStyle";
@@ -132,7 +134,7 @@ const TSPicsInput = () => {
         />
         <div className="pics-thumb">
           {images.map((image, index) => (
-            <img
+            <AdminImagePlaceholder
               key={index}
               src={
                 image.url
@@ -140,12 +142,17 @@ const TSPicsInput = () => {
                   : `${process.env.PUBLIC_URL}/assets/images/menuImg.png`
               }
               alt={`미리보기${index}`}
-              style={{
-                maxWidth: "92px",
-                cursor: "pointer",
-                borderRadius: "4px",
-              }}
+              // style={{
+              //   maxWidth: "92px",
+              //   cursor: "pointer",
+              //   borderRadius: "4px",
+              // }}
               onClick={() => deleteImage(index)}
+              placeholder={
+                <div>
+                  <AdminSmallImageWireframe />
+                </div>
+              }
             />
           ))}
         </div>

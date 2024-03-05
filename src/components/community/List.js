@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { getList } from "../../api/communityApi";
 import { API_SERVER_HOST } from "../../api/config";
 import useCustomMove from "../../hooks/useCustomMove";
@@ -6,6 +6,8 @@ import { ColorStyle } from "../../styles/common/CommonStyle";
 import Button from "../button/Button";
 import Fetching from "../common/Fetching";
 import Paging from "../common/Paging";
+import SmallImageWireframe from "../common/SmallImageWireframe";
+import ImagePlaceholder from "./ImagePlaceholder";
 import Thead from "./Thead";
 import {
   BtnStyle,
@@ -141,12 +143,22 @@ const List = () => {
               handleClickTopen(item);
             }}
           >
-            <TnoStyle color={ColorStyle.g700}>{item.boardNum}</TnoStyle>
+            <TnoStyle color={ColorStyle.g700}>
+              {item.announce === 1 ? (
+                <div>
+                  <img
+                    src={`${process.env.PUBLIC_URL}/assets/images/notice.svg`}
+                  />
+                </div>
+              ) : (
+                <div>{item.boardNum}</div>
+              )}
+            </TnoStyle>
             <TitleStyle>{item.title}</TitleStyle>
             <InfoStyle color={ColorStyle.g700}>
               <div>{item.writerName}</div>
               <div>{item.createdAt}</div>
-              {/* <div>조회수</div> */}
+              <div>{item.totalFav}</div>
             </InfoStyle>
           </TtableStyle>
 
@@ -167,9 +179,14 @@ const List = () => {
                     (pic, index) =>
                       pic && (
                         <div className="thumbnail" key={index}>
-                          <img
+                          <ImagePlaceholder
                             src={`${host}/pic/community/${preview.iboard}/${pic}`}
                             alt={`img_${index + 1}`}
+                            placeholder={
+                              <div>
+                                <SmallImageWireframe />
+                              </div>
+                            }
                           />
                         </div>
                       ),
@@ -180,14 +197,28 @@ const List = () => {
                 <ContentStyle>
                   <UserStyle>
                     {preview.writerPic ? (
-                      <img
+                      <ImagePlaceholder
                         src={`${host}/pic/user/${preview.iuser}/${preview.writerPic}`}
                         alt="프로필사진"
+                        placeholder={
+                          <div>
+                            <img
+                              src={`${process.env.PUBLIC_URL}/assets/images/user_profile.png`}
+                            />
+                          </div>
+                        }
                       />
                     ) : (
-                      <img
+                      <ImagePlaceholder
                         src={`${process.env.PUBLIC_URL}/assets/images/user_profile.png`}
-                        alt="기본사진"
+                        alt="프로필 기본사진"
+                        placeholder={
+                          <div>
+                            <img
+                              src={`${process.env.PUBLIC_URL}/assets/images/user_profile.png`}
+                            />
+                          </div>
+                        }
                       />
                     )}
                     <NameStyle>
@@ -218,7 +249,7 @@ const List = () => {
       ))}
 
       {/* 페이지네이션 */}
-      <Paging totalItems={serverData[0].count} itemPerPage={10} />
+      <Paging totalItems={serverData[0].boardAllCount} itemPerPage={10} />
       <SearchStyle>
         {/* <select className="select">
           <option value={0}>전체</option>

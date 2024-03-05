@@ -17,6 +17,8 @@ import {
   TSBoxInnerStyle,
 } from "./styles/TSModifyStyle";
 import { TSInputStyle, TSTextFieldStyle } from "./styles/TSTextFieldStyle";
+import AdminImagePlaceholder from "../community/AdminImagePlaceholder";
+import AdminSmallImageWireframe from "../common/AdminSmallImageWireframe";
 
 const host = API_SERVER_HOST;
 
@@ -257,17 +259,22 @@ const MenuModify = () => {
           />
           <div className="pics-thumb">
             {menuInfo.pic && (
-              <img
+              <AdminImagePlaceholder
                 src={
                   menuInfo.pic.startsWith("blob")
                     ? menuInfo.pic
                     : `${host}/pic/shop/${menuInfo.ishop}/menu/${menuInfo.pic}`
                 }
                 alt="미리보기 이미지"
-                style={{
-                  maxWidth: "92px",
-                  borderRadius: "4px",
-                }}
+                // style={{
+                //   maxWidth: "92px",
+                //   borderRadius: "4px",
+                // }}
+                placeholder={
+                  <div>
+                    <AdminSmallImageWireframe />
+                  </div>
+                }
               />
             )}
           </div>

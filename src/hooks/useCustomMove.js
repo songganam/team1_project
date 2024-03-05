@@ -8,7 +8,8 @@ import useCustomLoginTS from "../components/meat/hooks/useCustomLoginTS";
 
 const useCustomMove = () => {
   // 로그인 훅
-  const { isLogin, moveToLogin } = useCustomLoginTS();
+  const { isLogin, moveToLogin, isSupervisorLogin, isAdminLogin } =
+    useCustomLoginTS();
   // path hook
   const navigate = useNavigate();
   // query 알아내기, 읽기
@@ -47,7 +48,7 @@ const useCustomMove = () => {
   };
   // to add
   const moveToAdd = () => {
-    if (isLogin) {
+    if (isLogin || isSupervisorLogin || isAdminLogin) {
       navigate("/community/add");
     } else {
       moveToLogin();

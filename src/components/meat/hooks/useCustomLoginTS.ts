@@ -104,6 +104,7 @@ const useCustomLoginTS = () => {
   };
 
   return {
+    supervisorState,
     adminState,
     userState,
     doLoginTS,

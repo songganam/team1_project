@@ -1,5 +1,6 @@
 import { useEffect, useState } from "react";
 import { useRecoilState } from "recoil";
+import { API_SERVER_HOST } from "../../api/config";
 import { getShopInfo, putShopInfo } from "../../api/shopInfoApi";
 import { atomStoreInfoState } from "../../atom/atomStoreInfoState";
 import TSAddressField from "../../components/adminInfo/TSAddressField";
@@ -20,10 +21,11 @@ import {
   TSShopStyle,
   TSWrapInnerStyle,
 } from "../../components/adminInfo/styles/TSModifyStyle";
+import AdminShopImageWireframe from "../../components/common/AdminShopImageWireframe";
 import Fetching from "../../components/common/Fetching";
 import ResultModal from "../../components/common/ResultModal";
+import ImagePlaceholder from "../../components/community/ImagePlaceholder";
 import useModal from "../../components/meat/hooks/useModal";
-import { API_SERVER_HOST } from "../../api/config";
 
 const host = API_SERVER_HOST;
 
@@ -216,11 +218,17 @@ const TSAdminInfoPage = () => {
               </div>
               {storeInfo?.pics[0] ? (
                 <div className="preview-inner">
-                  <img
+                  <ImagePlaceholder
                     className="preview-img"
+                    alt="대표 가게이미지"
                     src={
                       `${host}/pic/shop/${storeInfo.ishop}/shop_pic/${storeInfo.pics[0].pic}` ||
                       `${process.env.PUBLIC_URL}/assets/images/menuImg.png`
+                    }
+                    placeholder={
+                      <div>
+                        <AdminShopImageWireframe />
+                      </div>
                     }
                   />
                   <div className="shop-info-box">
