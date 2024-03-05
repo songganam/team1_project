@@ -51,7 +51,6 @@ const AdminDocPage = () => {
     setDocData(response);
   };
 
-
   const [chartData, setChartData] = useState({
     labels: ["1주", "2주", "3주", "4주", "5주"],
     datasets: [
