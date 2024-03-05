@@ -20,8 +20,11 @@ export const SupervisorNewShopVisual = styled.div`
   margin: auto 0;
   width: 348px;
   height: 330px;
-  background-color: blue;
   border-radius: 5px;
+  img {
+    width: 348px;
+    height: 330px;
+  }
 `;
 
 export const NewShopSwiperWrap = styled.div`

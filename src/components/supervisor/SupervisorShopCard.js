@@ -1,4 +1,14 @@
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
+import { Navigation } from "swiper/modules";
+import { Swiper, SwiperSlide } from "swiper/react";
+import {
+  API_SERVER_HOST,
+  getSvisorSearchShop,
+  getSvisorShop,
+} from "../../api/supervisorShopApi";
+import { SupervisorShopTop } from "../../pages/supervisor/styles/SupervisorShopPageStyle";
+import Button from "../button/Button";
+import useCustomMy from "../my/hooks/useCustomMy";
 import {
   ShopContent,
   ShopSwiperWrap,
@@ -9,11 +19,6 @@ import {
   SupervisorShopVisual,
   SupervisorShopWrapper,
 } from "./styles/SupervisorShopCardStyle";
-import Button from "../button/Button";
-import { Navigation } from "swiper/modules";
-import { Swiper, SwiperSlide } from "swiper/react";
-import useCustomMy from "../my/hooks/useCustomMy";
-import { getSvisorShop } from "../../api/supervisorShopApi";
 
 const initState = [
   {
@@ -33,6 +38,7 @@ const initState = [
 const SupervisorShopCard = () => {
   const { page } = useCustomMy();
   const [svisorShopData, setSvisorShopData] = useState(initState);
+  const [searchKeyword, setSearchKeyword] = useState("");
 
   // 기존 매장 정보 불러오기 (GET)
   useEffect(() => {
@@ -54,24 +60,59 @@ const SupervisorShopCard = () => {
     console.log(result);
   };
 
+  // 검색 매장 정보 불러오기 (GET)
+  useEffect(() => {
+    const getSvisorSearchShopForm = { shopName: searchKeyword, page };
+    getSvisorSearchShop({
+      getSvisorSearchShopForm,
+      successSearchFn,
+      failSearchFn,
+      errorSearchFn,
+    });
+  }, [searchKeyword, page]);
+
+  const successSearchFn = result => {
+    console.log(result);
+    setSvisorShopData(result);
+  };
+
+  const failSearchFn = result => {
+    console.log(result);
+  };
+
+  const errorSearchFn = result => {
+    console.log(result);
+  };
+
+  const handleSearchChange = e => {
+    setSearchKeyword(e.target.value);
+  };
+
   return (
     <>
+      <SupervisorShopTop>
+        <p>기존 입점 매장 목록</p>
+        <input
+          type="text"
+          placeholder="검색할 가게 상호명 또는 대표자명을 입력하세요."
+          value={searchKeyword}
+          onChange={handleSearchChange}
+        />
+      </SupervisorShopTop>
       {svisorShopData.map((SvisorShopData, index) => (
         <SupervisorShopWrapper key={index}>
           <SupervisorShopVisual>
-            <ShopSwiperWrap>
-              <Swiper
-                navigation={true}
-                modules={[Navigation]}
-                className="mySwiper"
-              >
-                <SwiperSlide>{SvisorShopData.pic}</SwiperSlide>
-                <SwiperSlide>{SvisorShopData.pic}</SwiperSlide>
-                <SwiperSlide>{SvisorShopData.pic}</SwiperSlide>
-                <SwiperSlide>{SvisorShopData.pic}</SwiperSlide>
-                <SwiperSlide>{SvisorShopData.pic}</SwiperSlide>
-              </Swiper>
-            </ShopSwiperWrap>
+            {SvisorShopData.checkShop === 0 ? (
+              <img
+                src={`${API_SERVER_HOST}/pic/shop/${SvisorShopData.ishop}/shop_pic/${SvisorShopData.pic}`}
+                alt="매장 이미지"
+              />
+            ) : (
+              <img
+                src={`${API_SERVER_HOST}/pic/butcher/${SvisorShopData.ishop}/butchershop_pic/${SvisorShopData.pic}`}
+                alt="매장 이미지"
+              />
+            )}
           </SupervisorShopVisual>
           <SupervisorShopInner>
             <SupervisorShopInfo>
