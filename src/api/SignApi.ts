@@ -44,6 +44,7 @@ export const loginAdminPostTS = async ({
     }
   } catch (error) {
     console.log(error);
+    throw error;
   }
 };
 
@@ -52,14 +53,17 @@ export const postSignUpTS = async ({
 }: {
   signUpData: FormData;
 }) => {
+  console.log("plz", signUpData);
   try {
+    const header = { headers: { "Content-Type": "multipart/form-data" } };
     const response = await axios.post(
-      `${API_SERVER_HOST}/owner/signup`,
+      `${API_SERVER_HOST}/api/owner/signup`,
       signUpData,
+      header,
     );
     return response.data;
   } catch (error) {
-    console.log("");
+    console.log("오류임");
     throw error;
   }
 };
@@ -86,5 +90,6 @@ export const postSvisorSignUpTs = async ({
     }
   } catch (error) {
     console.log(error);
+    throw error;
   }
 };

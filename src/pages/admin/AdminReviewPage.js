@@ -6,10 +6,10 @@ import "swiper/css/navigation";
 import "swiper/css/thumbs";
 
 import { getReview } from "../../api/meatApi";
-import ReviewCard from "./ReviewCard";
+import { TSNavStyle } from "../../components/adminInfo/styles/TSModifyStyle";
 import "./styles.css";
 import { ReviewWrap } from "./styles/AdminReviewStyle";
-import { TSNavStyle } from "../../components/adminInfo/styles/TSModifyStyle";
+import ReviewAdminCard from "./styles/ReviewAdminCard";
 
 const initState = [
   {
@@ -43,7 +43,7 @@ const AdminReviewPage = () => {
       <div style={{ width: "100%", display: "flex" }}>
         {reviewData?.slice(0, 3).map((item, index) => (
           <div key={item.iuser}>
-            <ReviewCard reviewData={reviewData[index]} />
+            <ReviewAdminCard reviewData={reviewData[index]} />
           </div>
         ))}
       </div>

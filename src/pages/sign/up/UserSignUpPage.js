@@ -85,15 +85,15 @@ const UserSignUpPage = () => {
     setImage(null);
   };
 
-  console.log("이1", product.email);
-  console.log("이2", product.upw);
-  console.log("이3", product.checkUpw);
-  console.log("이4", product.name);
-  console.log("이5", product.nickname);
-  console.log("이6", product.birth);
-  console.log("이7", product.gender);
-  console.log("이8", product.address);
-  console.log("이9", product.tel);
+  // console.log("이1", product.email);
+  // console.log("이2", product.upw);
+  // console.log("이3", product.checkUpw);
+  // console.log("이4", product.name);
+  // console.log("이5", product.nickname);
+  // console.log("이6", product.birth);
+  // console.log("이7", product.gender);
+  // console.log("이8", product.address);
+  // console.log("이9", product.tel);
 
   const handleClick = async product => {
     const formData = new FormData();

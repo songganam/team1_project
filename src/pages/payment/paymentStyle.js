@@ -34,7 +34,9 @@ export const SuccessWrap = styled.div`
     width: 500px;
     height: 500px;
     border-radius: 10px;
-    border: 2px solid ${ColorStyle.primary};
+    /* border: 2px solid ${ColorStyle.primary}; */
+    box-shadow: 0px 1px 2px -1px rgba(0, 0, 0, 0.1),
+      0px 1px 3px 0px rgba(0, 0, 0, 0.1);
     /* background-color: ${ColorStyle.g100}; */
     h2 {
       font-family: "DAEAM_LEE_TAE_JOON";

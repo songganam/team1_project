@@ -6,7 +6,7 @@ import Loading from "../components/loading/Loading";
 const LazyAdInfoPage = lazy(() => import("../pages/admin/TSAdminInfoPage"));
 const LazyAdMenuPage = lazy(() => import("../pages/admin/TSAdminMenuPage"));
 const LazyAdBookPage = lazy(() => import("../pages/admin/AdminBookPage"));
-const LazyAdReviewPage = lazy(() => import("../pages/admin/AdminReviewPage"));
+const LazyAdReviewPage = lazy(() => import("../pages/admin/TSAdminReviewPage"));
 const LazyAdDocPage = lazy(() => import("../pages/admin/AdminDocPage"));
 
 const adminRouter = () => {
