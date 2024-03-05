@@ -7,7 +7,6 @@ import {
   postSvisorSignUpTs,
 } from "../../../api/SignApi";
 import { atomUserState } from "../../../atom/atomUserState";
-
 import { atomAdminState } from "../../../atom/atomAdminState";
 import { SigninForm } from "../../../pages/sign/TSJoin";
 import { removeCookie, setCookie } from "../../../util/CookiesUtil";
@@ -26,11 +25,12 @@ const useCustomLoginTS = () => {
   const API_SERVER_HOST = "";
   const host = `${API_SERVER_HOST}/api/user`;
 
-  const isLogin = userState.result == 1 ? true : false;
-  const isAdminLogin = adminState?.shopName?.length > 0;
+  const isLogin = userState.result === 1;
+  const isSupervisorLogin = supervisorState.result === 1;
+  const isAdminLogin = adminState.result === 1;
+  // const isAdminLogin = adminState?.shopName?.length > 0;
   console.log("Test3", isAdminLogin);
   console.log("Test4", adminState.shopName);
-  const isSupervisorLogin = supervisorState.result == 1 ? true : false;
 
   const doLoginTS = async ({ authParam }: { authParam: SigninForm }) => {
     const result = await loginPostTS({ authParam });
@@ -62,12 +62,12 @@ const useCustomLoginTS = () => {
 
   const saveAsAdminCookie = (result: any) => {
     setAdminState(result);
-    setCookie("member", JSON.stringify(result), 1);
+    setCookie("owner", JSON.stringify(result), 1);
   };
 
   const saveAsSupervisorCookie = (result: any) => {
     setSupervisorState(result);
-    setCookie("member", JSON.stringify(result), 1);
+    setCookie("admin", JSON.stringify(result), 1);
   };
 
   const doLogout = async () => {
@@ -75,6 +75,8 @@ const useCustomLoginTS = () => {
     resetAdminState();
     resetSupervisorState();
     removeCookie("member");
+    removeCookie("owner");
+    removeCookie("admin");
     try {
       const header = { headers: { "Content-Type": "application/json" } };
       const res = await axios.post(`${host}/signout`, header);

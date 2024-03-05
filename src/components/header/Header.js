@@ -46,7 +46,7 @@ const Header = () => {
   const { isLogin, doLogout, isSupervisorLogin, isAdminLogin } =
     useCustomLoginTS();
   const [fetching, setFetching] = useState(false);
-  const [refreshHeader, setRefreshHeader] = useState(false);
+  // const [refreshHeader, setRefreshHeader] = useState(false);
 
   // const [refresh, setRefresh] = useState(false);
 
@@ -66,7 +66,7 @@ const Header = () => {
   useEffect(() => {
     const param = {};
     getUserInfo({ param, successFn, failFn, errorFn });
-  }, [refresh, refreshHeader]);
+  }, [refresh]);
 
   const successFn = result => {
     setMyProfileData(result);
@@ -89,13 +89,14 @@ const Header = () => {
         setFetching(false);
         confirmSelectModal(
           openModal("로그아웃 완료", "로그아웃이 완료되었습니다.", () => {
-            closeModal(), navigate("/");
+            closeModal(), navigate("/"), window.location.reload();
           }),
         );
       },
       cancelSelectModal,
     );
   };
+  console.log("super status", isSupervisorLogin);
 
   return (
     <HeaderStyle>
@@ -144,7 +145,9 @@ const Header = () => {
           {/* <Link to="/sale">마감세일</Link> */}
           <Link to="/community">고기잡담</Link>
           {isLogin ? <Link to="/my">마이페이지</Link> : null}
+
           {isAdminLogin ? <Link to="/admin">가게관리</Link> : null}
+
           {isSupervisorLogin ? <Link to="/svisor">고기로관리</Link> : null}
         </NavStyle>
       </BarStyle>

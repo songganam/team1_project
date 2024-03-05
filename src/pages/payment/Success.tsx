@@ -1,5 +1,7 @@
 import { useEffect } from "react";
 import { useNavigate, useSearchParams } from "react-router-dom";
+import { SuccessWrap } from "./paymentStyle";
+import { DefaultBt } from "../sign/up/styles/UserSignUpStyles";
 
 export function SuccessPage() {
   const navigate = useNavigate();
@@ -41,18 +43,29 @@ export function SuccessPage() {
     }
     confirm();
   }, []);
+  // const navigate = useNavigate();
+  const handleClickBack = () => {
+    navigate("/my/book");
+  };
 
   return (
-    <div className="result wrapper" style={{ width: "100%", height: "1000px" }}>
+    <SuccessWrap className="result wrapper">
       <div className="box_section">
         <h2>결제 성공</h2>
         {/* <p>{`주문번호: ${searchParams.get("orderId")}`}</p> */}
         <p>{`결제 금액: ${Number(
           searchParams.get("amount"),
         ).toLocaleString()}원`}</p>
-        <p>{`예약번호: ${searchParams.get("pk")}`}</p>
+        {/* <p>{`예약번호: ${searchParams.get("pk")}`}</p> */}
+        <span>고기로 예약을 이용해주셔서 감사합니다.</span>
+        <span>더 좋은 서비스로 보답하겠습니다.</span>
+        <div style={{ padding: "30px" }}>
+          <DefaultBt onClick={handleClickBack}>
+            <span>되돌아가기</span>
+          </DefaultBt>
+        </div>
       </div>
-    </div>
+    </SuccessWrap>
   );
 }
 
