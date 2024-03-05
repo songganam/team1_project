@@ -1,72 +1,75 @@
-import React, { useState } from "react";
+import { useQuery } from "@tanstack/react-query";
+import { useState } from "react";
 import "swiper/css";
 import "swiper/css/free-mode";
 import "swiper/css/navigation";
 import "swiper/css/thumbs";
-import { FreeMode, Navigation, Thumbs } from "swiper/modules";
-import { Swiper } from "swiper/react";
-import { ContentWrap, SwiperWrap } from "./styles/AdminPageStyle";
 
-interface SwiperStyle extends React.CSSProperties {
-  "--swiper-navigation-color"?: string;
-  "--swiper-pagination-color"?: string;
+import { getReview } from "../../api/meatApi";
+import { TSNavStyle } from "../../components/adminInfo/styles/TSModifyStyle";
+import "./styles.css";
+import { ReviewWrap } from "./styles/AdminReviewStyle";
+import ReviewAdminCard from "./styles/ReviewAdminCard";
+import useCustomLoginTS from "../../components/meat/hooks/useCustomLoginTS";
+
+const initState: ReviewForm[] = [
+  {
+    checkShop: 0,
+    ireview: 0,
+    ishop: 0,
+    iuser: 0,
+    star: 0,
+    comment: "",
+    exist: 0,
+    review: "",
+    createdAt: "",
+    updatedAt: "",
+    pics: [""],
+  },
+];
+interface ReviewForm {
+  checkShop: number;
+  ireview: number;
+  ishop: number;
+  iuser: number;
+  star: number;
+  comment: string;
+  exist: number;
+  review: string;
+  createdAt: string;
+  updatedAt: string;
+  pics: string[];
 }
 
-const AdminReviewPage: React.FC = () => {
-  const [thumbsSwiper, setThumbsSwiper] = useState<any>(null);
+const AdminReviewPage = () => {
 
-  const swiperStyle: SwiperStyle = {
-    "--swiper-navigation-color": "#fff",
-    "--swiper-pagination-color": "#fff",
-  };
+  const { adminState } = useCustomLoginTS();
+
+  const { data } = useQuery({
+    queryKey: ["reviewData"],
+    queryFn: () => getReview(),
+  });
+  const [thumbsSwiper, setThumbsSwiper] = useState(null);
+  // console.log("순서확인", thumbsSwiper);
+  const reviewData = data || initState;
+  console.log("데이터", reviewData);
 
   return (
-    <div>
-      <div>
-        <h1>리뷰 관리</h1>
-      </div>
-      {/* @AREA */}
-      <ContentWrap>
-        <SwiperWrap>
-          <Swiper
-            style={swiperStyle}
-            loop={true}
-            spaceBetween={10}
-            navigation={true}
-            thumbs={{ swiper: thumbsSwiper }}
-            modules={[FreeMode, Navigation, Thumbs]}
-            className="mySwiper2"
-          >
-            {/* ... (이하 동일) */}
-          </Swiper>
-          <Swiper
-            onSwiper={setThumbsSwiper}
-            loop={true}
-            spaceBetween={10}
-            slidesPerView={5}
-            freeMode={true}
-            watchSlidesProgress={true}
-            modules={[FreeMode, Navigation, Thumbs]}
-            className="mySwiper"
-          >
-            {/* ... (이하 동일) */}
-          </Swiper>
-        </SwiperWrap>
-        {/* ... (이하 동일) */}
-      </ContentWrap>
+    <ReviewWrap>
+      <TSNavStyle>
+        <div className="page-title">매장 리뷰 관리</div>
+        {/* 나중에 type="submit"으로 변경해야함 */}
+        {/* <ButtonStyleTS type="button">저장</ButtonStyleTS> */}
+      </TSNavStyle>
 
-      {/* 더보기 버튼 */}
-      <div>
-        <img
-          src={process.env.PUBLIC_URL + "/assets/images/next_btn.png"}
-          alt=""
-        />
-        <img
-          src={process.env.PUBLIC_URL + "/assets/images/prev_btn.png"}
-          alt=""
-        />
+      <div style={{ width: "100%", display: "flex" }}>
+        {reviewData?.map((item: ReviewForm, index: number) => (
+          <div key={item?.ireview}>
+            <ReviewAdminCard reviewData={reviewData[index]} />
+          </div>
+        ))}
       </div>
-    </div>
+    </ReviewWrap>
   );
 };
 

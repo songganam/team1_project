@@ -83,18 +83,13 @@ const LoginPage = () => {
     onError: (error: AxiosError) => {
       console.log("error log", error.response);
       if (error.response) {
-        if (error.response.status === 404) {
-          openModal(
-            "로그인 실패",
-            "이메일 또는 비밀번호를 확인해주세요.",
-            closeModal,
-          );
-        } else if (error.response.status === 400) {
-          openModal(
-            "로그인 실패",
-            "이메일 또는 비밀번호를 확인해주세요",
-            closeModal,
-          );
+        const responseData = error.response.data as { code?: string };
+        if (responseData.code === "INVALID_EXIST_USER_ID") {
+          openModal("로그인 실패", "아이디가 존재하지 않습니다. ", closeModal);
+        } else if (responseData.code === "CONFIRM") {
+          openModal("로그인 실패", "입점이 되지 않은 가게입니다.", closeModal);
+        } else if (responseData.code === "INVALID_PASSWORD") {
+          openModal("로그인 실패", "비밀번호를 확인해주세요.", closeModal);
         }
       }
     },

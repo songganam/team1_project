@@ -1,5 +1,7 @@
+import { AxiosError, AxiosResponse } from "axios";
 import { ChangeEvent, MouseEvent, RefObject, useRef, useState } from "react";
 import DaumPostcodeEmbed from "react-daum-postcode";
+import { AdminJoinData, BNumForm, BusiResponse } from "../TSJoin";
 import { CateSelectWrap, SelectMeatWrap } from "./styles/AdminSignUpStyles";
 import {
   DefaultBt,
@@ -14,35 +16,30 @@ import {
   JaddPageWrap,
   JaddPwWrap,
 } from "./styles/UserSignUpStyles";
-import { AdminJoinData, BNumForm, BusiResponse } from "../TSJoin";
-import { AxiosError, AxiosResponse } from "axios";
 
-import { useMutation, useQuery } from "@tanstack/react-query";
-import useCustomHook from "../../../components/meat/hooks/useCustomHook";
-import { postBusiNumTS } from "../../../api/typeApi";
+import { useMutation } from "@tanstack/react-query";
 import { postSignUpTS } from "../../../api/SignApi";
 import { getCoord } from "../../../api/meatApi";
-import EmptyModal from "../../../components/common/EmptyModal";
-import TitleHeader from "../../../components/titleheader/TitleHeader";
-import { SelectedCate } from "../../meat/styles/TS_Style";
-import { BoxInnerStyle } from "../../../components/adminInfo/styles/ModifyStyle";
+import { postBusiNumTS } from "../../../api/typeApi";
 import RadioInput from "../../../components/adminInfo/RadioInput";
+import { BoxInnerStyle } from "../../../components/adminInfo/styles/ModifyStyle";
+import EmptyModal from "../../../components/common/EmptyModal";
+import useCustomHook from "../../../components/meat/hooks/useCustomHook";
+import TitleHeader from "../../../components/titleheader/TitleHeader";
 import Layout from "../../../layouts/Layout";
+import { SelectedCate } from "../../meat/styles/TS_Style";
 
 const initState: AdminJoinData = {
-  pic: [""],
-  dto: {
-    id: "",
-    upw: "",
-    checkUpw: "",
-    num: "",
-    name: "",
-    shopName: "",
-    x: "",
-    y: "",
-    location: "",
-    imeat: 1,
-  },
+  id: "",
+  upw: "",
+  checkPw: "",
+  num: "",
+  name: "",
+  shopName: "",
+  x: "",
+  y: "",
+  location: "",
+  imeat: 2,
 };
 const AdminJoinPage = () => {
   // @COMMENT join-form-data , fetching state
@@ -63,15 +60,13 @@ const AdminJoinPage = () => {
   } = useCustomHook();
 
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
-    setSignUpData({
-      ...signUpData,
-      dto: { ...signUpData.dto, [e.target.name]: e.target.value },
-    });
+    setSignUpData({ ...signUpData, [e.target.name]: e.target.value });
   };
 
   // @COMMENT Uploading Image
   const [image, setImage] = useState<null | string>(null);
   const [selectedImage, setSelectedImage] = useState<File | null>(null);
+
   const uploadRef: RefObject<HTMLInputElement> = useRef(null);
   const handleClickImg = () => {
     if (uploadRef.current) {
@@ -120,26 +115,17 @@ const AdminJoinPage = () => {
     mutationFn: (signUpData: FormData) => postSignUpTS({ signUpData }),
     // 5048525999, 1231231231, 0012402024, 1348711626;
     onSuccess: (result: AxiosResponse) => {
-      // const resultData = result.data[0].b_stt;
-      // console.log("result", resultData);
-      // if (resultData === "계속사업자") {
-      //   setCheckFlag(true);
-      //   console.log("체크 플래그 ", ckeckFlag);
-      //   console.log("사업자등록번호 인증이 완료되었습니다.");
-      // } else {
-      //   setCheckFlag(false);
-      //   console.log("체크 플래그 ", ckeckFlag);
-      //   console.log("폐업을 했거나 존재하지 않는 사업자등록번호입니다.");
-      // }
+      openModal("회원가입 완료", "회원가입이 완료되었습니다.", closeModal);
     },
     onError: (result: AxiosError) => {
       console.log("result", result);
+      openModal("회원가입 실패", "회원가입이 완료되지 않았습니다.", closeModal);
     },
   });
 
   const handleClickBusiCheck = () => {
     const dataForm = {
-      b_no: [`${signUpData.dto.num}`],
+      b_no: [`${signUpData.num}`],
     };
     bNumMutation.mutate(dataForm);
   };
@@ -156,21 +142,34 @@ const AdminJoinPage = () => {
     const dto = new Blob(
       [
         JSON.stringify({
-          pic: selectedImage,
-          id: signUpData.dto.id,
-          upw: signUpData.dto.upw,
-          checkUpw: signUpData.dto.checkUpw,
-          number: signUpData.dto.num,
-          name: signUpData.dto.name,
-          shopName: signUpData.dto.shopName,
-          imeat: signUpData.dto.imeat,
-          x: signUpData.dto.x,
-          y: signUpData.dto.y,
-          location: signUpData.dto.location,
+          id: signUpData?.id,
+          upw: signUpData?.upw,
+          checkPw: signUpData?.checkPw,
+          num: signUpData?.num,
+          name: signUpData?.name,
+          shopName: signUpData?.shopName,
+          // imeat: signUpData?.imeat,
+          imeat: 1,
+          x: signUpData?.x,
+          y: signUpData?.y,
+          location: signUpData?.location,
         }),
       ],
       { type: "application/json" },
     );
+
+    const testa = {
+      id: signUpData?.id,
+      upw: signUpData?.upw,
+      checkPw: signUpData?.checkPw,
+      num: signUpData?.num,
+      name: signUpData?.name,
+      shopName: signUpData?.shopName,
+      imeat: 1,
+      x: signUpData?.x,
+      y: signUpData?.y,
+      location: signUpData?.location,
+    };
 
     formData.append("dto", dto);
     if (selectedImage !== null) {
@@ -178,9 +177,10 @@ const AdminJoinPage = () => {
     }
 
     signUpMutation.mutate(formData);
-    console.log("가입완료");
+    // console.log("디띠오", testData);
+    console.log("클릭");
 
-    // console.log("결과값 : ", data);
+    console.log("결과값 : ", testa);
     // if (ckeckFlag === true) {
     //   alert("님 사업자체크하셈 안댐 이건");
     // } else {
@@ -193,7 +193,7 @@ const AdminJoinPage = () => {
   const [messageColor, setMessageColor] = useState("");
 
   const handleValiation = () => {
-    if (signUpData.dto.upw === signUpData.dto.checkUpw) {
+    if (signUpData.upw === signUpData.checkPw) {
       setMessage("비밀번호가 일치합니다.");
       setMessageColor("green");
     } else {
@@ -221,10 +221,7 @@ const AdminJoinPage = () => {
     console.log(fullAddress); // e.g. '서울 성동구 왕십리로2길 20 (성수동1가)'
     setSignUpData(prevState => ({
       ...prevState,
-      dto: {
-        ...prevState.dto,
-        location: fullAddress,
-      },
+      location: fullAddress,
     }));
     // 이건 X,Y 값을 알아내기 위한 API이기때문에 필요없으시면 사용하실 필요 없습니다.
     getCoord({ fullAddress, successCoordFn });
@@ -243,11 +240,8 @@ const AdminJoinPage = () => {
     console.log("result value ", result.y);
     setSignUpData(prev => ({
       ...prev,
-      dto: {
-        ...prev.dto,
-        x: result.x,
-        y: result.y,
-      },
+      x: result.x,
+      y: result.y,
     }));
   };
   // @COMMENT 다음포스트 호출
@@ -261,11 +255,11 @@ const AdminJoinPage = () => {
     );
   };
 
-  // @COMMENT Store Category
-  const RadioBtnActive =
-    process.env.PUBLIC_URL + `/assets/images/radioBtn_active.png`;
-  const RadioBtnNone =
-    process.env.PUBLIC_URL + `/assets/images/radioBtn_none.png`;
+  // // @COMMENT Store Category
+  // const RadioBtnActive =
+  //   process.env.PUBLIC_URL + `/assets/images/radioBtn_active.png`;
+  // const RadioBtnNone =
+  //   process.env.PUBLIC_URL + `/assets/images/radioBtn_none.png`;
 
   const [selectedCate, setSelectedCate] = useState<number>(0);
   //   const storeCategory = ["돼지", "소", "닭", "오리", "양"];
@@ -275,20 +269,14 @@ const AdminJoinPage = () => {
       setSelectedMeat(0);
       setSignUpData(prevState => ({
         ...prevState,
-        dto: {
-          ...prevState.dto,
-          imeat: 0,
-        },
+        imeat: 0,
       }));
       // console.log("imeat 변경값 :", signUpData.imeat);
     } else {
       setSelectedMeat(null);
       setSignUpData(prevState => ({
         ...prevState,
-        dto: {
-          ...prevState.dto,
-          imeat: null,
-        },
+        imeat: null,
       }));
     }
   };
@@ -297,10 +285,7 @@ const AdminJoinPage = () => {
     setSelectedMeat(index);
     setSignUpData(prevState => ({
       ...prevState,
-      dto: {
-        ...prevState.dto,
-        imeat: index + 1,
-      },
+      imeat: index + 1,
     }));
     // console.log("imeat 변경값 :", signUpData.imeat);
   };
@@ -371,7 +356,7 @@ const AdminJoinPage = () => {
               <input
                 type="text"
                 name="id"
-                value={signUpData.dto.id}
+                value={signUpData.id}
                 className="JaddName"
                 placeholder="아이디임"
                 onChange={e => handleChange(e)}
@@ -385,7 +370,7 @@ const AdminJoinPage = () => {
                 <input
                   type="password"
                   name="upw"
-                  value={signUpData.dto.upw}
+                  value={signUpData.upw}
                   className="JaddPw"
                   placeholder="비번임"
                   onChange={e => handleChange(e)}
@@ -393,19 +378,19 @@ const AdminJoinPage = () => {
               </JaddPwWrap>
               <br />
               <JaddMorePwWrap>
-                <label htmlFor="checkUpw">비밀번호 확인</label>
+                <label htmlFor="checkPw">비밀번호 확인</label>
                 <input
                   type="password"
-                  name="checkUpw"
-                  value={signUpData.dto.checkUpw}
+                  name="checkPw"
+                  value={signUpData.checkPw}
                   className="JaddMorePw"
                   placeholder="비번체크다"
                   onChange={e => handleChange(e)}
                   onBlur={handleValiation}
                 />
                 {message !== "" &&
-                  signUpData.dto.upw !== "" &&
-                  signUpData.dto.checkUpw !== "" && (
+                  signUpData.upw !== "" &&
+                  signUpData.checkPw !== "" && (
                     <div
                       style={{
                         color: messageColor,
@@ -425,7 +410,7 @@ const AdminJoinPage = () => {
                 <input
                   type="text"
                   name="num"
-                  value={signUpData.dto.num}
+                  value={signUpData.num}
                   className="JaddNickName"
                   placeholder="사업자번호임 제대로 적어"
                   maxLength={10}
@@ -445,7 +430,7 @@ const AdminJoinPage = () => {
               <input
                 type="text"
                 name="name"
-                value={signUpData.dto.name}
+                value={signUpData.name}
                 className="JaddName"
                 placeholder="실명"
                 onChange={e => handleChange(e)}
@@ -458,7 +443,7 @@ const AdminJoinPage = () => {
                 <input
                   type="text"
                   name="location"
-                  value={signUpData.dto.location}
+                  value={signUpData.location}
                   className="JaddNickName"
                   placeholder="주소다 이말이야"
                   readOnly
@@ -475,7 +460,7 @@ const AdminJoinPage = () => {
               <input
                 type="text"
                 name="shopName"
-                value={signUpData.dto.shopName}
+                value={signUpData.shopName}
                 className="JaddName"
                 placeholder="가게이름임"
                 onChange={e => handleChange(e)}

@@ -79,7 +79,11 @@ export const changeBookmark = async storeNum => {
 
 export const getReview = async () => {
   try {
-    const res = await axios.get("/json/reviews.json");
+    const header = { headers: { "Content-Type": "application/json" } };
+    const res = await authAxios.get(
+      `${API_SERVER_HOST}/api/owner/review?page=0&size=10&sort=`,
+      header,
+    );
     return res.data;
   } catch (error) {
     console.log("loading error");
