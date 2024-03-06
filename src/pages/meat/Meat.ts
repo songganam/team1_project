@@ -107,3 +107,16 @@ export interface replayForm {
   checkShop: number;
   comment: string;
 }
+
+
+export interface deatailReviewForm {
+  iuser: number;
+  writerPic: string;
+  ireview: number;
+  nickname: string;
+  star: number;
+  review: string;
+  pic: string[];
+  comment: string;
+  exist: number;
+}

@@ -18,9 +18,12 @@ export function CheckoutPage() {
   // Load
   const amount = Number(queryParams.get("amount"));
   const pk = Number(queryParams.get("pk"));
+  const checkShop = Number(queryParams.get("checkShop"));
 
   console.log("amount", amount);
   console.log("pk", pk);
+  console.log("checkShop", checkShop);
+
   // console.log(pk)
 
   const paymentWidgetRef = useRef<PaymentWidgetInstance | null>(null);
@@ -91,7 +94,7 @@ export function CheckoutPage() {
                 orderName: "고기로 예약",
                 customerName: "고기로 이용자님",
                 // customerEmail: "customer123@gmail.com",
-                successUrl: `${window.location.origin}/payment/success?pk=${pk}`,
+                successUrl: `${window.location.origin}/payment/success?pk=${pk}&checkShop=${checkShop}`,
                 failUrl: `${window.location.origin}/payment/fail`,
               });
             } catch (error) {

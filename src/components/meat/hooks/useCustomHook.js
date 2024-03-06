@@ -130,11 +130,18 @@ const useCustomHook = () => {
     });
   };
   // @COMMENT Payment
-  const moveToPayment = (pk, amount) => {
-    console.log("payment, pk :", pk, "amount :", amount);
+  const moveToPayment = (pk, amount, checkShop) => {
+    console.log(
+      "payment, pk :",
+      pk,
+      "amount :",
+      amount,
+      "checkShop:",
+      checkShop,
+    );
     navigate({
       pathname: `/payment/checkout`,
-      search: `pk=${pk}&amount=${amount}`,
+      search: `pk=${pk}&amount=${amount}&checkShop=${checkShop}`,
     });
   };
 

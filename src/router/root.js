@@ -82,13 +82,13 @@ const router = createBrowserRouter([
     ),
   },
   {
-    path: "/join/",
+    path: "/user/signup",
     element: (
       <Suspense fallback={<Loading />}>
         <LazyJoinPage />
       </Suspense>
     ),
-    children: joinRouter(),
+    // children: joinRouter(),
   },
   {
     path: "/meat/",

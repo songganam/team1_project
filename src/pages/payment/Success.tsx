@@ -16,7 +16,7 @@ export function SuccessPage() {
     // amount
     const requestData = {
       // orderId: searchParams.get("orderId"),
-      checkShop: 0,
+      checkShop: searchParams.get("checkShop"),
       amount: searchParams.get("amount"),
       ireser: searchParams.get("pk"),
       // paymentKey: searchParams.get("paymentKey"),

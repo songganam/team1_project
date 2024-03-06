@@ -11,7 +11,7 @@ import CountingStar from "../../components/common/CountingStar";
 import Fetching from "../../components/common/Fetching";
 import ResultModal from "../../components/common/ResultModal";
 import useCustomHook from "../../components/meat/hooks/useCustomHook";
-import useCustomLogin from "../../components/meat/hooks/JS/useCustomLogin";
+import useCustomLoginTS from "../../components/meat/hooks/useCustomLoginTS";
 import {
   ImgStyle,
   LargeImgStyle,
@@ -60,7 +60,7 @@ const MeatDetailPage = () => {
   const { isModal, openModal, closeModal, moveToLogin } = useCustomHook();
   const [storeInfo, setStoreInfo] = useState({});
   const [fetching, setFetching] = useState(false);
-  const { isLogin } = useCustomLogin();
+  const { isLogin } = useCustomLoginTS();
   const isBookInfo = storeInfo.isBook;
   const defaultMenuImage =
     process.env.PUBLIC_URL + `/assets/images/favicon.png`;

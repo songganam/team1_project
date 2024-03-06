@@ -167,7 +167,7 @@ export const postReviewReportTS = async ({
     const header = { headers: { "Content-Type": "application/json" } };
     const response = await authAxios.post(
       `${API_SERVER_HOST}/api/user/review/report`,
-      // reportData,
+      reportData,
       header,
     );
     return response.data;

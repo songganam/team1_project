@@ -157,12 +157,13 @@ const MeatReservationPage = () => {
       console.log("response-body-pk", result?.pk);
       const amount = result?.amount;
       const pk = result?.pk;
+      const checkShop = 0;
       setFetching(false);
       // openModal("예약완료", "예약이 완료되었습니다.", () => {
       //   closeModal();
       //   navigate("/my/book");
       // });
-      moveToPayment(pk, amount);
+      moveToPayment(pk, amount, checkShop);
       // navigate("/payment", { state: { amount } });
     },
     onError: (error: AxiosError) => {

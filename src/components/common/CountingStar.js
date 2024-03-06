@@ -7,10 +7,14 @@ const CountingStar = ({ star }) => {
 
   const StarStyle = styled.div`
     display: flex;
-    gap: 5px;
-    img {
-      width: 20px;
-      height: 20px;
+    gap: 2px;
+    /* img {
+      width: 14px;
+      height: 14px;
+    } */
+    .star {
+      width: 14px;
+      height: 14px;
     }
   `;
   for (let i = 0; i < star; i++) {
@@ -19,7 +23,7 @@ const CountingStar = ({ star }) => {
   return (
     <StarStyle>
       {starCount.map((star, index) => (
-        <img key={index} src={star} alt="star" />
+        <img className="star" key={index} src={star} alt="star" />
       ))}
     </StarStyle>
   );

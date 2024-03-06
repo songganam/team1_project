@@ -34,7 +34,7 @@ import {
 import Fetching from "../../components/common/Fetching";
 
 const MeatDetailPage = () => {
-  const { openModal, isModal, closeModal } = useCustomHook();
+  const { openModal, isModal, closeModal, moveToPayment } = useCustomHook();
   const navigate = useNavigate();
   const { ibutcher } = useParams();
   const location = useLocation();
@@ -233,10 +233,14 @@ const MeatDetailPage = () => {
   const successPickupFn = result => {
     console.log(result);
     setStoreInfo(result);
+    const amount = result?.amount;
+    const pk = result?.pk;
+    const checkShop = 1;
+    moveToPayment(pk, amount, checkShop);
     setFetching(false);
-    openModal("등록완료", "픽업예약이 완료되었습니다.", () => {
-      closeModal, navigate(-1);
-    });
+    // openModal("등록완료", "픽업예약이 완료되었습니다.", () => {
+    //   closeModal, navigate(-1);
+    // });
   };
   const failPickupFn = result => {
     console.log(result);
