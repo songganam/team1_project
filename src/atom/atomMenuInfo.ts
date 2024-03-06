@@ -4,6 +4,7 @@ interface MenuState {
   checkShop: number;
   imenu: number;
   ishop: number;
+  ibutcher?: number;
   price: number;
   menu: string;
   pic: string;
@@ -14,6 +15,7 @@ export const defaultMenuState = {
   checkShop: 0,
   imenu: 0,
   ishop: 0,
+  ibutcher: 0,
   price: 0,
   menu: "",
   pic: "",

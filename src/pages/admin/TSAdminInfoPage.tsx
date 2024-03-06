@@ -158,7 +158,7 @@ const TSAdminInfoPage = () => {
                 <div className="text-guide">
                   숫자, 한글, 영문, 특수문자 사용가능
                 </div>
-                <div className="text-length">{storeInfo.name?.length}/30</div>
+                <div className="text-length">{storeInfo?.name.length}/30</div>
               </div>
             </TSBoxInnerStyle>
           </TSBackgroundBoxStyle>
@@ -186,7 +186,7 @@ const TSAdminInfoPage = () => {
                     숫자, 한글, 영문, 특수문자 사용가능
                   </div>
                   <div className="text-length">
-                    {storeInfo.open?.length}/100
+                    {storeInfo?.open.length}/100
                   </div>
                 </div>
               </div>
@@ -226,8 +226,9 @@ const TSAdminInfoPage = () => {
                     src={
                       storeInfo?.checkShop !== 1
                         ? `${host}/pic/shop/${storeInfo.ishop}/shop_pic/${storeInfo.pics[0].pic}`
-                        : `${host}/pic/butcher/${storeInfo.ishop}/butchershop_pic/${storeInfo.pics[0].pic}` ||
-                          `${process.env.PUBLIC_URL}/assets/images/menuImg.png`
+
+                        : `${host}/pic/butcher/${storeInfo.ishop}/butchershop_pic/${storeInfo.pics[0].pic}`
+
                     }
                     placeholder={
                       <div>

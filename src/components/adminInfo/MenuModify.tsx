@@ -1,5 +1,5 @@
 import { ChangeEvent, useRef, useState } from "react";
-import { useRecoilState } from "recoil";
+import { useRecoilState, useRecoilValue } from "recoil";
 import { API_SERVER_HOST } from "../../api/config";
 import { deleteMenu, postMenu, putMenu } from "../../api/menuInfoApi";
 import {
@@ -7,8 +7,11 @@ import {
   defaultMenuState,
   menuRefreshState,
 } from "../../atom/atomMenuInfo";
+import { atomStoreInfoState } from "../../atom/atomStoreInfoState";
+import AdminSmallImageWireframe from "../common/AdminSmallImageWireframe";
 import Fetching from "../common/Fetching";
 import ResultModal from "../common/ResultModal";
+import AdminImagePlaceholder from "../community/AdminImagePlaceholder";
 import useModal from "../meat/hooks/useModal";
 import { ButtonStyleTS } from "./styles/ButtonStyleTS";
 import {
@@ -17,8 +20,6 @@ import {
   TSBoxInnerStyle,
 } from "./styles/TSModifyStyle";
 import { TSInputStyle, TSTextFieldStyle } from "./styles/TSTextFieldStyle";
-import AdminImagePlaceholder from "../community/AdminImagePlaceholder";
-import AdminSmallImageWireframe from "../common/AdminSmallImageWireframe";
 
 const host = API_SERVER_HOST;
 
@@ -31,6 +32,7 @@ const MenuModify = () => {
   const [fetching, setFetching] = useState(false);
   // 메뉴정보 상태관리
   const [menuInfo, setMenuInfo] = useRecoilState(atomMenuInfoState);
+  const storeInfo = useRecoilValue(atomStoreInfoState);
   const [refreshTrigger, setRefreshTrigger] = useRecoilState(menuRefreshState);
   const [selectedFile, setSelectedFile] = useState<File | null>(null);
 
@@ -263,7 +265,9 @@ const MenuModify = () => {
                 src={
                   menuInfo.pic.startsWith("blob")
                     ? menuInfo.pic
-                    : `${host}/pic/shop/${menuInfo.ishop}/menu/${menuInfo.pic}`
+                    : storeInfo.checkShop !== 1
+                    ? `${host}/pic/shop/${menuInfo.ishop}/menu/${menuInfo.pic}`
+                    : `${host}/pic/butcher/${menuInfo.ishop}/menu/${menuInfo.pic}`
                 }
                 alt="미리보기 이미지"
                 // style={{

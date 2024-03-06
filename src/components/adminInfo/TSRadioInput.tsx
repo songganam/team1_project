@@ -30,7 +30,7 @@ const TSRadioInput = () => {
     { id: 3, label: "닭", value: "chicken" },
     { id: 4, label: "오리", value: "duck" },
     { id: 5, label: "양", value: "lamb" },
-    { id: 0, label: "정육점", value: "butcher" },
+    // { id: 0, label: "정육점", value: "butcher" },
   ];
 
   return (

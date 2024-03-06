@@ -30,6 +30,7 @@ const AboutPage = () => {
 
   useEffect(() => {
     getAbout({ aboutData, successFn, failFn, errorFn });
+    setFetching(true);
   }, []);
 
   const { ishop } = useParams();
@@ -45,6 +46,7 @@ const AboutPage = () => {
   const successFn = result => {
     setAboutData(result);
     // setCommuData(result);
+    setFetching(false);
 
     console.log("성공", result);
   };
@@ -52,10 +54,12 @@ const AboutPage = () => {
   const failFn = result => {
     // setLoading(false);
     console.log(result);
+    setFetching(false);
   };
   const errorFn = result => {
     // setLoading(false);
     console.log(result);
+    setFetching(false);
   };
 
   // 예약 버튼 클릭 시 페이지 이동.
