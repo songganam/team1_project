@@ -1,17 +1,15 @@
 import { useEffect, useState } from "react";
-import { Navigation } from "swiper/modules";
-import { Swiper, SwiperSlide } from "swiper/react";
 import {
   API_SERVER_HOST,
   getSvisorSearchShop,
   getSvisorShop,
+  patchShopDelete,
 } from "../../api/supervisorShopApi";
 import { SupervisorShopTop } from "../../pages/supervisor/styles/SupervisorShopPageStyle";
 import Button from "../button/Button";
 import useCustomMy from "../my/hooks/useCustomMy";
 import {
   ShopContent,
-  ShopSwiperWrap,
   ShopTitle,
   SupervisorShopButton,
   SupervisorShopInfo,
@@ -19,7 +17,13 @@ import {
   SupervisorShopVisual,
   SupervisorShopWrapper,
 } from "./styles/SupervisorShopCardStyle";
+import useModal from "../../hooks/useModal";
+import useCustomHook from "../meat/hooks/useCustomHook";
+import SelectedModal from "../common/SelectedModal";
 
+const host = API_SERVER_HOST;
+
+// 매장 정보 초기값
 const initState = [
   {
     checkShop: 0,
@@ -35,10 +39,23 @@ const initState = [
   },
 ];
 
+// 매장 상태 초기값
+const PatchInitState = {
+  checkShop: 0,
+  ishop: 0,
+  confirm: 0,
+};
+
+// 기존 매장 정보 카드 컴포넌트
 const SupervisorShopCard = () => {
   const { page } = useCustomMy();
   const [svisorShopData, setSvisorShopData] = useState(initState);
+  const [patchDeleteData, setPatchDeleteData] = useState(PatchInitState);
   const [searchKeyword, setSearchKeyword] = useState("");
+
+  // 모달창
+  const { closeModal } = useModal();
+  const { isSelectModal, openSelectModal, cancelSelectModal } = useCustomHook();
 
   // 기존 매장 정보 불러오기 (GET)
   useEffect(() => {
@@ -58,6 +75,62 @@ const SupervisorShopCard = () => {
 
   const errorFn = result => {
     console.log(result);
+  };
+
+  // 가게 승인 여부 변경 (PATCH) : 퇴출
+  const handleDeleteShop = (checkShop, ishop, confirm) => {
+    const patchCheckShop = checkShop;
+    const patchIshop = ishop;
+    const patchConfirm = confirm;
+    console.log(patchCheckShop, patchIshop, patchConfirm);
+    setPatchDeleteData({
+      ...setPatchDeleteData,
+      confirm: 3,
+      ishop: patchIshop,
+      checkShop: patchCheckShop,
+    });
+
+    // 퇴출 확인 모달창
+    openSelectModal(
+      "매장 퇴출",
+      "해당 매장을 퇴출하시겠습니까?",
+      () => {
+        patchShopDelete({
+          patchDeleteData: {
+            ...patchDeleteData,
+            confirm: 3,
+            ishop: patchIshop,
+            checkShop: patchCheckShop,
+          },
+          successDeletePatch,
+          failDeletePatch,
+          errorDeletePatch,
+        }),
+          cancelSelectModal();
+      },
+      cancelSelectModal,
+    );
+
+    console.log(patchDeleteData);
+  };
+
+  const handleDeleteDone = (checkShop, ishop, confirm) => {
+    closeModal();
+    console.log(checkShop, ishop, confirm);
+  };
+
+  const successDeletePatch = patchResult => {
+    console.log("가게 퇴출 성공", patchResult);
+    const param = { page };
+    getSvisorShop({ param, successFn, failFn, errorFn });
+  };
+
+  const failDeletePatch = patchResult => {
+    console.log("가게 퇴출 오류", patchResult);
+  };
+
+  const errorDeletePatch = patchResult => {
+    console.log("서버 오류", patchResult);
   };
 
   // 검색 매장 정보 불러오기 (GET)
@@ -99,6 +172,14 @@ const SupervisorShopCard = () => {
           onChange={handleSearchChange}
         />
       </SupervisorShopTop>
+      {isSelectModal.isOpen && (
+        <SelectedModal
+          title={isSelectModal.title}
+          content={isSelectModal.content}
+          confirmFn={isSelectModal.confirmFn}
+          cancelFn={isSelectModal.cancelFn}
+        />
+      )}
       {svisorShopData.map((SvisorShopData, index) => (
         <SupervisorShopWrapper key={index}>
           <SupervisorShopVisual>
@@ -130,7 +211,17 @@ const SupervisorShopCard = () => {
               </ShopContent>
             </SupervisorShopInfo>
             <SupervisorShopButton>
-              <Button bttext="매장 퇴출"></Button>
+              <div
+                onClick={() =>
+                  handleDeleteShop(
+                    SvisorShopData.checkShop,
+                    SvisorShopData.ishop,
+                    SvisorShopData.confirm,
+                  )
+                }
+              >
+                <Button bttext="매장 퇴출"></Button>
+              </div>
             </SupervisorShopButton>
           </SupervisorShopInner>
         </SupervisorShopWrapper>
