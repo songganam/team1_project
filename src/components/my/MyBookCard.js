@@ -65,7 +65,7 @@ const MyBookCard = props => {
   const handleConfirmCancle = () => {
     if (bookToCancle) {
       const { checkShop, ireser } = bookToCancle;
-      // 리뷰 삭제 성공 시 리스트 업데이트
+      // 예약 삭제 성공 시 리스트 업데이트
       const updatedMyBookList = myBookList.filter(
         book => book.ireser !== ireser,
       );
@@ -91,6 +91,23 @@ const MyBookCard = props => {
 
   const errorPatch = patchResult => {
     console.log("서버 오류", patchResult);
+  };
+
+  // 날짜 형태 변환 함수
+  const formatDate = dateString => {
+    if (!dateString || isNaN(new Date(dateString))) {
+      return "날짜 없음";
+    }
+
+    const options = {
+      year: "numeric",
+      month: "2-digit",
+      day: "2-digit",
+      hour: "2-digit",
+      minute: "2-digit",
+    };
+    const formattedDate = new Date(dateString).toLocaleString("ko-KR", options);
+    return formattedDate;
   };
 
   // 예약 변경 페이지 이동
@@ -150,7 +167,7 @@ const MyBookCard = props => {
                 <li>요청사항</li>
               </MyBookCardInfoTitle>
               <MyBookCardDateContent>
-                <li>{myBookList.date}</li>
+                <li>{formatDate(myBookList.date)}</li>
                 <li>
                   {myBookList.confirm === 0
                     ? "대기"
@@ -207,12 +224,12 @@ const MyBookCard = props => {
                 }
                 style={{ display: myBookList.confirm !== 2 ? "block" : "none" }}
               >
-                <Button bttext="예약취소"></Button>
+                <Button bttext="예약삭제"></Button>
               </div>
               {useResultModal && (
                 <SelectedModal
-                  title="예약 취소"
-                  content="예약을 취소하시겠습니까?"
+                  title="예약 삭제"
+                  content="예약을 삭제하시겠습니까?"
                   confirmFn={handleConfirmCancle}
                   cancelFn={closeModal}
                 />

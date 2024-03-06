@@ -36,13 +36,18 @@ const initState = {
 
 // 고깃집 예약 관리 카드
 const AdminMeatBookCard = () => {
-  const { page, moveToAdminBookChange } = useCustomMy();
-  const [adminMeatBookData, setAdminMeatBookData] = useState(initState);
-  const [bookToConfrim, setBookToConfrim] = useState(null);
+  const { page, moveToAdminBookPage } = useCustomMy();
+  const [adminMeatBookData, setAdminMeatBookData] = useState({
+    checkShop: 0,
+    count: 0,
+    ownerReservationList: [],
+  });
+  const [bookToConfirm, setBookToConfirm] = useState(null);
   const [bookToReject, setBookToReject] = useState(null);
 
   // 모달창
   const { useResultModal, openModal, closeModal } = useModal();
+  const [popType, setPopType] = useState(0);
 
   // 예약 관리 정보 불러오기 (GET)
   useEffect(() => {
@@ -51,9 +56,16 @@ const AdminMeatBookCard = () => {
   }, [page]);
 
   const successFn = result => {
-    setAdminMeatBookData(result);
+    const updatedList = adminMeatBookData.ownerReservationList.concat(
+      result.ownerReservationList,
+    );
+    setAdminMeatBookData({
+      ...adminMeatBookData,
+      ownerReservationList: updatedList,
+    });
     console.log(result);
   };
+
   const failFn = result => {
     console.log(result);
   };
@@ -68,27 +80,26 @@ const AdminMeatBookCard = () => {
       ireser: ireser,
     };
     // 확정 전 확인 모달창
-    setBookToConfrim(patchBookConfirmForm);
+    setBookToConfirm(patchBookConfirmForm);
+    setPopType(2);
     openModal();
     console.log(patchBookConfirmForm);
   };
 
   const handleConfirmNewBook = () => {
-    if (bookToConfrim) {
-      const { checkShop, ireser } = bookToConfrim;
-      // 확정 성공 시 리스트 업데이트
-      const updatedMyBookList = adminMeatBookData.ownerReservationList.filter(
-        book => book.ireser !== ireser,
-      );
-      setAdminMeatBookData(updatedMyBookList);
+    if (bookToConfirm) {
+      const { checkShop, ireser } = bookToConfirm;
       patchBookConfirm({
-        patchBookConfirmForm: bookToConfrim,
+        patchBookConfirmForm: bookToConfirm,
         successConfirmPatch,
         failConfrimPatch,
         errorConfrimPatch,
       });
-      console.log(bookToConfrim);
+      console.log(bookToConfirm);
       closeModal();
+
+      // 확정 성공 시 페이지 새로고침
+      window.location.reload();
     }
   };
 
@@ -105,26 +116,22 @@ const AdminMeatBookCard = () => {
   };
 
   // 예약 거부 (PATCH)
-  const handleRejectBook = (checkShop, ireser) => {
+  const handleRejectBook = ireser => {
     const patchBookForm = {
-      checkShop: checkShop,
+      checkShop: adminMeatBookData.checkShop,
       ireser: ireser,
     };
 
     // 삭제 전 확인 모달창
     setBookToReject(patchBookForm);
+    setPopType(1);
     openModal();
-    console.log(patchBookForm);
+    console.log("form : ", patchBookForm);
   };
 
   const handleConfirmReject = () => {
     if (bookToReject) {
       const { checkShop, ireser } = bookToReject;
-      // 삭제 성공 시 리스트 업데이트
-      const updatedMyBookList = adminMeatBookData.ownerReservationList.filter(
-        book => book.ireser !== ireser,
-      );
-      setAdminMeatBookData(updatedMyBookList);
       patchRejectBook({
         patchBookForm: bookToReject,
         successPatch,
@@ -133,6 +140,9 @@ const AdminMeatBookCard = () => {
       });
       console.log(bookToReject);
       closeModal();
+
+      // 거부 성공 시 페이지 새로고침
+      window.location.reload();
     }
   };
 
@@ -150,11 +160,15 @@ const AdminMeatBookCard = () => {
 
   // 예약 관리 카드 더보기 (페이지)
   const handleChangeAdminBook = () => {
-    moveToAdminBookChange({ page: page + 1 });
+    moveToAdminBookPage({ page: page + 1 });
   };
 
   // 날짜 형태 변환 함수
   const formatDate = dateString => {
+    if (!dateString || isNaN(new Date(dateString))) {
+      return "날짜 없음";
+    }
+
     const options = {
       year: "numeric",
       month: "2-digit",
@@ -189,24 +203,9 @@ const AdminMeatBookCard = () => {
                 </AdiminMeatBookCardContent>
               </AdminMeatBookCardInfo>
               <AdminMeatBookCardBookButton>
-                <div
-                  onClick={e =>
-                    handleRejectBook(
-                      adminMeatBookData.checkShop,
-                      adminMeatBookData.ireser,
-                    )
-                  }
-                >
+                <div onClick={e => handleRejectBook(adminMeatBookData.ireser)}>
                   <Button bttext="예약거부"></Button>
                 </div>
-                {useResultModal && (
-                  <SelectedModal
-                    title="예약 거부"
-                    content="예약을 거부하시겠습니까?"
-                    confirmFn={handleConfirmReject}
-                    cancelFn={closeModal}
-                  />
-                )}
                 <div>
                   <div
                     onClick={e => handleConfirmBook(adminMeatBookData.ireser)}
@@ -215,9 +214,17 @@ const AdminMeatBookCard = () => {
                   </div>
                   {useResultModal && (
                     <SelectedModal
-                      title="예약 확정"
-                      content="예약을 확정하시겠습니까?"
-                      confirmFn={handleConfirmNewBook}
+                      title={popType == 1 ? "예약 거부" : "예약 확정"}
+                      content={
+                        popType == 1
+                          ? "예약을 거부하시겠습니까?"
+                          : "예약을 확정하시겠습니까?"
+                      }
+                      confirmFn={
+                        popType == 1
+                          ? handleConfirmReject
+                          : handleConfirmNewBook
+                      }
                       cancelFn={closeModal}
                     />
                   )}

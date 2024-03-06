@@ -30,6 +30,8 @@ export const NavStyle = styled.div`
     font-style: normal;
     font-weight: 700;
     line-height: normal;
+    padding-top: 10px;
+    padding-bottom: 10px;
   }
 `;
 
@@ -50,7 +52,8 @@ export const AdminBookInner = styled.div`
     font-size: 18px;
     font-style: normal;
     font-weight: 600;
-    margin-bottom: 25px;
+    margin-top: 10px;
+    margin-bottom: 20px;
   }
 `;
 
@@ -69,7 +72,8 @@ export const AdminNoShowInner = styled.div`
     font-size: 18px;
     font-style: normal;
     font-weight: 600;
-    margin-bottom: 25px;
+    margin-top: 10px;
+    margin-bottom: 20px;
   }
 `;
 

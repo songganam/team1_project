@@ -1,11 +1,9 @@
 import { useEffect, useState } from "react";
 import {
   API_SERVER_HOST,
-  getSvisorSearchShop,
   getSvisorShop,
   patchShopDelete,
 } from "../../api/supervisorShopApi";
-import { SupervisorShopTop } from "../../pages/supervisor/styles/SupervisorShopPageStyle";
 import Button from "../button/Button";
 import useCustomMy from "../my/hooks/useCustomMy";
 import {
@@ -14,12 +12,14 @@ import {
   SupervisorShopButton,
   SupervisorShopInfo,
   SupervisorShopInner,
+  SupervisorShopTop,
   SupervisorShopVisual,
   SupervisorShopWrapper,
 } from "./styles/SupervisorShopCardStyle";
 import useModal from "../../hooks/useModal";
 import useCustomHook from "../meat/hooks/useCustomHook";
 import SelectedModal from "../common/SelectedModal";
+import { SupervisorMoreViewButton } from "./styles/SupervisorNewShopCardStyle";
 
 const host = API_SERVER_HOST;
 
@@ -48,7 +48,7 @@ const PatchInitState = {
 
 // 기존 매장 정보 카드 컴포넌트
 const SupervisorShopCard = () => {
-  const { page } = useCustomMy();
+  const { page, moveToSvShopPage } = useCustomMy();
   const [svisorShopData, setSvisorShopData] = useState(initState);
   const [patchDeleteData, setPatchDeleteData] = useState(PatchInitState);
   const [searchKeyword, setSearchKeyword] = useState("");
@@ -133,44 +133,31 @@ const SupervisorShopCard = () => {
     console.log("서버 오류", patchResult);
   };
 
-  // 검색 매장 정보 불러오기 (GET)
-  useEffect(() => {
-    const getSvisorSearchShopForm = { shopName: searchKeyword, page };
-    getSvisorSearchShop({
-      getSvisorSearchShopForm,
-      successSearchFn,
-      failSearchFn,
-      errorSearchFn,
-    });
-  }, [searchKeyword, page]);
-
-  const successSearchFn = result => {
-    console.log(result);
-    setSvisorShopData(result);
-  };
-
-  const failSearchFn = result => {
-    console.log(result);
-  };
-
-  const errorSearchFn = result => {
-    console.log(result);
-  };
-
-  const handleSearchChange = e => {
-    setSearchKeyword(e.target.value);
+  // 신규 매장 카드 더보기 (페이지)
+  const handleChangeShop = () => {
+    moveToSvShopPage({ page: page + 1 });
   };
 
   return (
     <>
       <SupervisorShopTop>
         <p>기존 입점 매장 목록</p>
-        <input
-          type="text"
-          placeholder="검색할 가게 상호명 또는 대표자명을 입력하세요."
-          value={searchKeyword}
-          onChange={handleSearchChange}
-        />
+        <div>
+          <input
+            type="text"
+            placeholder="검색할 가게 상호명 또는 대표자명을 입력하세요."
+            value={searchKeyword}
+          />
+          <button
+            className="icon"
+            style={{ border: "none", background: "none" }}
+          >
+            <img
+              src={`${process.env.PUBLIC_URL}/assets/images/search_b.svg`}
+              alt="search"
+            />
+          </button>
+        </div>
       </SupervisorShopTop>
       {isSelectModal.isOpen && (
         <SelectedModal
@@ -226,6 +213,9 @@ const SupervisorShopCard = () => {
           </SupervisorShopInner>
         </SupervisorShopWrapper>
       ))}
+      <SupervisorMoreViewButton onClick={handleChangeShop}>
+        <span>더보기</span>
+      </SupervisorMoreViewButton>
     </>
   );
 };

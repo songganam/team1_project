@@ -13,9 +13,11 @@ import useCustomMy from "../my/hooks/useCustomMy";
 import {
   NewShopContent,
   NewShopTitle,
+  SupervisorMoreViewButton,
   SupervisorNewShopButton,
   SupervisorNewShopInfo,
   SupervisorNewShopInner,
+  SupervisorNewShopTop,
   SupervisorNewShopVisual,
   SupervisorNewShopWrapper,
 } from "./styles/SupervisorNewShopCardStyle";
@@ -47,8 +49,21 @@ const PatchInitState = {
 
 // 신규 매장 정보 카드 컴포넌트
 const SupervisorNewShopCard = () => {
-  const { page } = useCustomMy();
-  const [svisorNewShopData, setSvisorNewShopData] = useState(initState);
+  const { page, moveToSvNewShopPage } = useCustomMy();
+  const [svisorNewShopData, setSvisorNewShopData] = useState([
+    {
+      checkShop: 0,
+      ishop: 0,
+      name: "",
+      shopName: "",
+      location: "",
+      x: "",
+      y: "",
+      tel: "",
+      confirm: 0,
+      pic: "",
+    },
+  ]);
   const [patchData, setPatchData] = useState(PatchInitState);
   const [patchRejectData, setPatchRejectData] = useState(PatchInitState);
 
@@ -188,8 +203,16 @@ const SupervisorNewShopCard = () => {
     console.log("서버 오류", patchResult);
   };
 
+  // 신규 매장 카드 더보기 (페이지)
+  const handleChangeNewShop = () => {
+    moveToSvNewShopPage({ page: page + 1 });
+  };
+
   return (
     <>
+      <SupervisorNewShopTop>
+        <p>신규 입점 매장 목록</p>
+      </SupervisorNewShopTop>
       {isSelectModal.isOpen && (
         <SelectedModal
           title={isSelectModal.title}
@@ -198,66 +221,70 @@ const SupervisorNewShopCard = () => {
           cancelFn={isSelectModal.cancelFn}
         />
       )}
-      {svisorNewShopData.map(
-        (svisorNewShopData, index) =>
-          svisorNewShopData.confirm === 0 && (
-            <SupervisorNewShopWrapper key={index}>
-              <SupervisorNewShopVisual>
-                {svisorNewShopData.checkShop === 0 ? (
-                  <img
-                    src={`${API_SERVER_HOST}/pic/shop/${svisorNewShopData.ishop}/shop_pic/${svisorNewShopData.pic}`}
-                    alt="매장 이미지"
-                  />
-                ) : (
-                  <img
-                    src={`${API_SERVER_HOST}/pic/butcher/${svisorNewShopData.ishop}/butchershop_pic/${svisorNewShopData.pic}`}
-                    alt="매장 이미지"
-                  />
-                )}
-              </SupervisorNewShopVisual>
-              <SupervisorNewShopInner>
-                <SupervisorNewShopInfo>
-                  <NewShopTitle>
-                    <li>대표자명</li>
-                    <li>상호명</li>
-                    <li>상세 주소</li>
-                    <li>연락처</li>
-                  </NewShopTitle>
-                  <NewShopContent>
-                    <li>{svisorNewShopData.name}</li>
-                    <li>{svisorNewShopData.shopName}</li>
-                    <li>{svisorNewShopData.location}</li>
-                    <li>{svisorNewShopData.tel}</li>
-                  </NewShopContent>
-                </SupervisorNewShopInfo>
-                <SupervisorNewShopButton>
-                  <div
-                    onClick={() =>
-                      handleConfirmShop(
-                        svisorNewShopData.checkShop,
-                        svisorNewShopData.ishop,
-                        svisorNewShopData.confirm,
-                      )
-                    }
-                  >
-                    <Button bttext="승인" />
-                  </div>
-                  <div
-                    onClick={() =>
-                      handleRejectShop(
-                        svisorNewShopData.checkShop,
-                        svisorNewShopData.ishop,
-                        svisorNewShopData.confirm,
-                      )
-                    }
-                  >
-                    <Button bttext="거부" />
-                  </div>
-                </SupervisorNewShopButton>
-              </SupervisorNewShopInner>
-            </SupervisorNewShopWrapper>
-          ),
-      )}
+      {svisorNewShopData && svisorNewShopData?.length > 0
+        ? svisorNewShopData?.map((svisorNewShopData, index) =>
+            svisorNewShopData.confirm === 0 ? (
+              <SupervisorNewShopWrapper key={index}>
+                <SupervisorNewShopVisual>
+                  {svisorNewShopData.checkShop === 0 ? (
+                    <img
+                      src={`${API_SERVER_HOST}/pic/shop/${svisorNewShopData.ishop}/shop_pic/${svisorNewShopData.pic}`}
+                      alt="매장 이미지"
+                    />
+                  ) : (
+                    <img
+                      src={`${API_SERVER_HOST}/pic/butcher/${svisorNewShopData.ishop}/butchershop_pic/${svisorNewShopData.pic}`}
+                      alt="매장 이미지"
+                    />
+                  )}
+                </SupervisorNewShopVisual>
+                <SupervisorNewShopInner>
+                  <SupervisorNewShopInfo>
+                    <NewShopTitle>
+                      <li>대표자명</li>
+                      <li>상호명</li>
+                      <li>상세 주소</li>
+                      <li>연락처</li>
+                    </NewShopTitle>
+                    <NewShopContent>
+                      <li>{svisorNewShopData.name}</li>
+                      <li>{svisorNewShopData.shopName}</li>
+                      <li>{svisorNewShopData.location}</li>
+                      <li>{svisorNewShopData.tel}</li>
+                    </NewShopContent>
+                  </SupervisorNewShopInfo>
+                  <SupervisorNewShopButton>
+                    <div
+                      onClick={() =>
+                        handleConfirmShop(
+                          svisorNewShopData.checkShop,
+                          svisorNewShopData.ishop,
+                          svisorNewShopData.confirm,
+                        )
+                      }
+                    >
+                      <Button bttext="승인" />
+                    </div>
+                    <div
+                      onClick={() =>
+                        handleRejectShop(
+                          svisorNewShopData.checkShop,
+                          svisorNewShopData.ishop,
+                          svisorNewShopData.confirm,
+                        )
+                      }
+                    >
+                      <Button bttext="거부" />
+                    </div>
+                  </SupervisorNewShopButton>
+                </SupervisorNewShopInner>
+              </SupervisorNewShopWrapper>
+            ) : null,
+          )
+        : null}
+      <SupervisorMoreViewButton onClick={handleChangeNewShop}>
+        <span>더보기</span>
+      </SupervisorMoreViewButton>
     </>
   );
 };

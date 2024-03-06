@@ -22,9 +22,6 @@ const AdminBookPage = () => {
     <AdminBookPageWrapper>
       <NavStyle>
         <div className="page-title">예약 관리</div>
-        <div>
-          <Button bttext="저장" />
-        </div>
       </NavStyle>
       <AdminBookPageContent>
         <AdminBookInner>

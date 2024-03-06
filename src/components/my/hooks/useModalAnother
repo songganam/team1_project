@@ -1,0 +1,26 @@
+import React, { useState } from "react";
+
+const useModalAnother = () => {
+  const [resultModal, setResultModal] = useState({
+    isOpen: false,
+    type: null,
+  });
+
+  const openModal = type => {
+    setResultModal({
+      isOpen: true,
+      type: type,
+    });
+  };
+
+  const closeModal = () => {
+    setResultModal({
+      isOpen: false,
+      type: null,
+    });
+  };
+
+  return { resultModal, openModal, closeModal };
+};
+
+export default useModalAnother;
