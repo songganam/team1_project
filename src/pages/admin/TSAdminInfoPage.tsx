@@ -24,8 +24,8 @@ import {
 import AdminShopImageWireframe from "../../components/common/AdminShopImageWireframe";
 import Fetching from "../../components/common/Fetching";
 import ResultModal from "../../components/common/ResultModal";
-import ImagePlaceholder from "../../components/community/ImagePlaceholder";
 import useModal from "../../components/meat/hooks/useModal";
+import ImagePlaceholder from "../../components/community/ImagePlaceholder";
 
 const host = API_SERVER_HOST;
 
@@ -137,14 +137,16 @@ const TSAdminInfoPage = () => {
           <TSBackgroundBoxStyle>
             <TSPicsInput />
           </TSBackgroundBoxStyle>
-          {storeInfo?.imeat !== 0 ? (
+          {storeInfo?.checkShop !== 1 && (
             <TSBackgroundBoxStyle>
               <TSCheckBoxInput />
             </TSBackgroundBoxStyle>
-          ) : null}
-          <TSBackgroundBoxStyle>
-            <TSRadioInput />
-          </TSBackgroundBoxStyle>
+          )}
+          {storeInfo?.checkShop !== 1 && (
+            <TSBackgroundBoxStyle>
+              <TSRadioInput />
+            </TSBackgroundBoxStyle>
+          )}
           <TSBackgroundBoxStyle>
             <TSBoxInnerStyle>
               <div className="title">
@@ -156,7 +158,7 @@ const TSAdminInfoPage = () => {
                 <div className="text-guide">
                   숫자, 한글, 영문, 특수문자 사용가능
                 </div>
-                <div className="text-length">{storeInfo.name?.length}/30</div>
+                <div className="text-length">{storeInfo?.name.length}/30</div>
               </div>
             </TSBoxInnerStyle>
           </TSBackgroundBoxStyle>
@@ -184,7 +186,7 @@ const TSAdminInfoPage = () => {
                     숫자, 한글, 영문, 특수문자 사용가능
                   </div>
                   <div className="text-length">
-                    {storeInfo.open?.length}/100
+                    {storeInfo?.open.length}/100
                   </div>
                 </div>
               </div>
@@ -193,7 +195,7 @@ const TSAdminInfoPage = () => {
           <TSBackgroundBoxStyle>
             <TSAddressField />
           </TSBackgroundBoxStyle>
-          {storeInfo?.imeat !== 0 ? (
+          {storeInfo?.checkShop !== 1 && (
             <TSBackgroundBoxStyle>
               <TSBoxInnerStyle>
                 <div className="title">
@@ -204,7 +206,7 @@ const TSAdminInfoPage = () => {
                 <div className="text-guide">숫자만 사용가능, 단위: 원</div>
               </TSBoxInnerStyle>
             </TSBackgroundBoxStyle>
-          ) : null}
+          )}
         </TSShopStyle>
         <TSPreviewWrapStyle>
           <TSBackgroundBoxStyle>
@@ -222,8 +224,9 @@ const TSAdminInfoPage = () => {
                     className="preview-img"
                     alt="대표 가게이미지"
                     src={
-                      `${host}/pic/shop/${storeInfo.ishop}/shop_pic/${storeInfo.pics[0].pic}` ||
-                      `${process.env.PUBLIC_URL}/assets/images/menuImg.png`
+                      storeInfo?.checkShop !== 1
+                        ? `${host}/pic/shop/${storeInfo.ishop}/shop_pic/${storeInfo.pics[0].pic}`
+                        : `${host}/pic/butcher/${storeInfo.ishop}/butchershop_pic/${storeInfo.pics[0].pic}`
                     }
                     placeholder={
                       <div>
@@ -247,20 +250,24 @@ const TSAdminInfoPage = () => {
                             {storeInfo?.tel}
                           </div>
                         </div>
-                        <div className="shop-info-text-wrap">
-                          <div className="shop-info-cate">고기종류</div>
-                          <div className="shop-info-detail">
-                            {/* storeInfo.imeat의 id에 따른 label*/}
-                            {meatTypes.getLabel(storeInfo.imeat)}
+                        {storeInfo?.checkShop !== 1 && (
+                          <div className="shop-info-text-wrap">
+                            <div className="shop-info-cate">고기종류</div>
+                            <div className="shop-info-detail">
+                              {/* storeInfo.imeat의 id에 따른 label*/}
+                              {meatTypes.getLabel(storeInfo.imeat)}
+                            </div>
                           </div>
-                        </div>
-                        <div className="shop-info-text-wrap">
-                          <div className="shop-info-cate">편의시설</div>
-                          <div className="shop-info-detail">
-                            {/* storeInfo.facilities의 id에 따른 label 모두 */}
-                            {facilitiesTypes.getLabel(storeInfo.facilities)}
+                        )}
+                        {storeInfo?.checkShop !== 1 && (
+                          <div className="shop-info-text-wrap">
+                            <div className="shop-info-cate">편의시설</div>
+                            <div className="shop-info-detail">
+                              {/* storeInfo.facilities의 id에 따른 label 모두 */}
+                              {facilitiesTypes.getLabel(storeInfo.facilities)}
+                            </div>
                           </div>
-                        </div>
+                        )}
                       </div>
                     </div>
                   </div>

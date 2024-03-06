@@ -259,7 +259,7 @@ export const TSBoxInnerStyle = styled.div`
     flex-shrink: 0;
   }
   .shop-name {
-    width: 50px;
+    width: 100%;
     height: 18px;
     flex-shrink: 0;
     color: #fff;

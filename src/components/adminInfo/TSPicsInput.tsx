@@ -35,7 +35,9 @@ const TSPicsInput = () => {
       url:
         pic.isNew && pic.file
           ? URL.createObjectURL(pic.file)
-          : `${host}/pic/shop/${storeInfo.ishop}/shop_pic/${pic.pic}`,
+          : storeInfo.checkShop !== 1
+          ? `${host}/pic/shop/${storeInfo.ishop}/shop_pic/${pic.pic}`
+          : `${host}/pic/butcher/${storeInfo.ishop}/butchershop_pic/${pic.pic}`,
       picsPk: pic.picsPk,
     }));
     setImages(initialImages);

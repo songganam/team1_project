@@ -550,6 +550,21 @@ const Read = () => {
   // const handleClickRPostBtn = () => {};
   // Report Comment Button Click
 
+  const formatDate = dateString => {
+    const date = new Date(dateString);
+    // 'ko-KR'은 한국어 로케일을 의미합니다. 필요에 따라 변경하십시오.
+    // 옵션을 통해 날짜와 시간 포맷을 조정할 수 있습니다.
+    return date.toLocaleString("ko-KR", {
+      year: "numeric",
+      month: "long",
+      day: "numeric",
+      hour: "2-digit",
+      minute: "2-digit",
+      second: "2-digit",
+      hour12: false, // 24시간 형식을 사용하려면 이 옵션을 false로 설정
+    });
+  };
+
   return (
     <WrapStyle>
       {fetching ? <Fetching /> : null}
@@ -573,7 +588,7 @@ const Read = () => {
         <MoreTitleStyle>{content.title}</MoreTitleStyle>
         <WriterBoxStyle>
           <div className="userName">{content.name}</div>
-          <div className="date">{content.createdAt}</div>
+          <div className="date">{formatDate(content.createdAt)}</div>
           {/* @COMMENT TEST LIKE BUTTON */}
           <div className="like-box" onClick={handleClickFav}>
             {content?.isFav === 1 ? (
