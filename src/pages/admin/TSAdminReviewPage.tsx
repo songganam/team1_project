@@ -82,11 +82,11 @@ const AdminReviewPage = () => {
 
       <div
         style={{
-          width: "1080px",
+          width: "100%",
           display: "flex",
           flexWrap: "wrap",
           justifyContent: "space-around",
-          gap: "50px",
+          gap: "30px",
           // margin: "50px",
           // marginTop: "50px",
         }}
@@ -107,7 +107,7 @@ const AdminReviewPage = () => {
       <div
         style={{
           display: "flex",
-          width: "1080px",
+          width: "100%",
           justifyContent: "center",
           paddingBottom: "30px",
           paddingTop: "80px",

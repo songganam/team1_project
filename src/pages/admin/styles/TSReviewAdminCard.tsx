@@ -137,6 +137,37 @@ const ReviewAdminCard = ({ reviewData }: { reviewData: ReviewForm }) => {
       <div style={{ width: "100%", display: "flex" }}>
         <div>
           <ContentWrap>
+            <ReviewInfoWrap>
+              <ReviewUserInfoWrap>
+                <ReviewProfileItem>
+                  <div>
+                    <img
+                      src={
+                        process.env.PUBLIC_URL + "/assets/images/favicon.png"
+                      }
+                      alt=""
+                    />
+                  </div>
+                  <div className="nickname-star-wrap">
+                    <div className="user-date">
+                      <div>
+                        <span>{reviewData?.nickname}</span>
+                      </div>
+                      <ReviewDateWrap>
+                        {/* <span>{reviewData.createdAt}</span> */}
+                        <span>{createAtDate}</span>
+                      </ReviewDateWrap>
+                    </div>
+                    <div>
+                      <CountingStar star={reviewData?.star} />
+                    </div>
+                  </div>
+                </ReviewProfileItem>
+              </ReviewUserInfoWrap>
+              <ReviewContentWrap>
+                <span>{reviewData?.review}</span>
+              </ReviewContentWrap>
+            </ReviewInfoWrap>
             <SwiperWrap>
               <Swiper
                 style={swiperStyle}
@@ -158,7 +189,7 @@ const ReviewAdminCard = ({ reviewData }: { reviewData: ReviewForm }) => {
               <Swiper
                 onSwiper={setThumbsSwiper}
                 loop={true}
-                spaceBetween={10}
+                spaceBetween={8}
                 slidesPerView={5}
                 freeMode={true}
                 watchSlidesProgress={true}
@@ -174,33 +205,6 @@ const ReviewAdminCard = ({ reviewData }: { reviewData: ReviewForm }) => {
                 ))}
               </Swiper>
             </SwiperWrap>
-            <ReviewInfoWrap>
-              <ReviewUserInfoWrap>
-                <ReviewProfileItem>
-                  <div>
-                    <img
-                      src={
-                        process.env.PUBLIC_URL + "/assets/images/favicon.png"
-                      }
-                      alt=""
-                    />
-                  </div>
-                  <div>
-                    <span>{reviewData?.nickname}</span>
-                  </div>
-                </ReviewProfileItem>
-                <ReviewDateWrap>
-                  {/* <span>{reviewData.createdAt}</span> */}
-                  <span>{createAtDate}</span>
-                </ReviewDateWrap>
-                <div>
-                  <CountingStar star={reviewData?.star} />
-                </div>
-              </ReviewUserInfoWrap>
-              <ReviewContentWrap>
-                <span>{reviewData?.review}</span>
-              </ReviewContentWrap>
-            </ReviewInfoWrap>
           </ContentWrap>
         </div>
       </div>
@@ -208,7 +212,7 @@ const ReviewAdminCard = ({ reviewData }: { reviewData: ReviewForm }) => {
       <div></div>
       {/* 답글 입력이 완료되었다면 */}
       {reviewData?.exist === 1 ? (
-        <div style={{ marginBottom: "10px" }}>
+        <div style={{ marginBottom: "5px", marginTop: "15px" }}>
           <ReviewShowWrap>
             <ReviewShowTop>
               <ReviewWrtier>

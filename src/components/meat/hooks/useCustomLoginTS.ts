@@ -21,6 +21,8 @@ const useCustomLoginTS = () => {
   const resetAdminState = useResetRecoilState(atomAdminState);
   const resetSupervisorState = useResetRecoilState(atomSupervisorState);
 
+  // const [userRoleState,setUserRoleState] = useRecoilState(atomUser)
+
   const navigate = useNavigate();
   const API_SERVER_HOST = "";
   const host = `${API_SERVER_HOST}/api/user`;
@@ -62,12 +64,12 @@ const useCustomLoginTS = () => {
 
   const saveAsAdminCookie = (result: any) => {
     setAdminState(result);
-    setCookie("member", JSON.stringify(result), 1);
+    setCookie("owner", JSON.stringify(result), 1);
   };
 
   const saveAsSupervisorCookie = (result: any) => {
     setSupervisorState(result);
-    setCookie("member", JSON.stringify(result), 1);
+    setCookie("admin", JSON.stringify(result), 1);
   };
 
   const doLogout = async () => {
@@ -75,6 +77,8 @@ const useCustomLoginTS = () => {
     resetAdminState();
     resetSupervisorState();
     removeCookie("member");
+    removeCookie("owner");
+    removeCookie("admin");
     // removeCookie("member");
     // removeCookie("member");
     try {

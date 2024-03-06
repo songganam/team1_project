@@ -42,24 +42,27 @@ export const ReviewShowWrap = styled.div`
   flex-shrink: 0;
   /* gap: 20px; */
 
-  border-radius: 10px;
-  border: 1px solid var(--gray-scale-500, #8f8f8f);
+  border-radius: 5px;
+  /* border: 1px solid var(--gray-scale-500, #8f8f8f); */
+  box-shadow: inset 0 0 2px rgba(0, 0, 0, 0.5);
   background: #fff;
 
   display: flex;
-  width: 306px;
-  padding: 15px 20px;
-  gap: 10px;
+  /* width: 306px; */
+  padding: 15px;
+  /* gap: 10px; */
   flex-direction: column;
-  justify-content: flex-end;
-  align-items: flex-start;
+  gap: 20px;
+  /* justify-content: flex-end; */
+  /* align-items: flex-start; */
 `;
 export const ReviewShowTop = styled.div`
-  width: 306px;
+  width: 100%;
   /* height: 44px; */
   /* padding: 10px 20px; */
-  flex-direction: column;
-  justify-content: center;
+  display: flex;
+  /* flex-direction: column; */
+  /* justify-content: center; */
   align-items: center;
   gap: 10px;
   /* flex-shrink: 0; */
@@ -68,15 +71,15 @@ export const ReviewShowTop = styled.div`
 export const ReviewContent = styled.div`
   display: flex;
   width: 259px;
-  height: 60px;
+  /* height: 60px; */
   flex-direction: column;
   justify-content: center;
   flex-shrink: 0;
 
   span {
-    color: #000;
+    color: ${ColorStyle.g1000};
     font-family: DAEAM_LEE_TAE_JOON;
-    font-size: 14px;
+    font-size: 16px;
     font-style: normal;
     font-weight: 400;
     line-height: 125%; /* 13.75px */
@@ -84,11 +87,11 @@ export const ReviewContent = styled.div`
 `;
 export const ReviewWrtier = styled.div`
   span {
-    color: #000;
+    color: ${ColorStyle.g1000};
     font-family: DAEAM_LEE_TAE_JOON;
-    font-size: 19px;
+    font-size: 16px;
     font-style: normal;
-    font-weight: 400;
+    font-weight: 600;
     line-height: 125%; /* 17.5px */
   }
 `;
@@ -97,7 +100,7 @@ export const ReviewDate = styled.div`
     color: var(--gray-scale-500, #8f8f8f);
     text-align: center;
     font-family: DAEAM_LEE_TAE_JOON;
-    font-size: 11px;
+    font-size: 14px;
     font-style: normal;
     font-weight: 400;
     line-height: 125%; /* 13.75px */
@@ -144,24 +147,38 @@ export const ReviewCardWrap = styled.div`
   /* justify-content: space-around; */
   justify-content: center;
   align-items: center;
+  padding: 10px;
+  /* gap: 30px; */
   /* padding: 80px 0px; */
   box-shadow: 0px 1px 2px -1px rgba(0, 0, 0, 0.1),
     0px 1px 3px 0px rgba(0, 0, 0, 0.1);
 `;
 export const ReviewProfileItem = styled.div`
   display: flex;
-  width: 132px;
+  padding-top: 10px;
+  width: 100%;
   align-items: center;
-  gap: 10px;
+  gap: 12px;
 
   img {
-    width: 30px;
-    height: 30px;
+    width: 40px;
+    height: 40px;
     border-radius: 30px;
   }
   span {
     font-size: 14px;
     font-family: "DAEAM_LEE_TAE_JOON";
+  }
+  .user-date {
+    display: flex;
+    gap: 10px;
+  }
+  .nickname-star-wrap {
+    height: 40px;
+    display: flex;
+    padding-top: 3px;
+    flex-direction: column;
+    gap: 5px;
   }
 `;
 export const ReviewUserInfoWrap = styled.div`
@@ -179,7 +196,7 @@ export const ReviewContentWrap = styled.div`
 
     /* Rugular 14 */
     font-family: "DAEAM_LEE_TAE_JOON";
-    font-size: 14px;
+    font-size: 18px;
     font-style: normal;
     font-weight: 400;
     line-height: 125%; /* 17.5px */
@@ -187,8 +204,8 @@ export const ReviewContentWrap = styled.div`
 `;
 export const ReviewDateWrap = styled.div`
   display: flex;
-  width: 100px;
-  height: 18px;
+  width: 100%;
+  /* height: 18px; */
   flex-direction: column;
   justify-content: center;
 
@@ -196,7 +213,7 @@ export const ReviewDateWrap = styled.div`
     color: ${ColorStyle.g500};
     /* Rugular 14 */
     font-family: "DAEAM_LEE_TAE_JOON";
-    font-size: 11px;
+    font-size: 12px;
     font-style: normal;
     font-weight: 400;
     line-height: 125%; /* 17.5px */
@@ -206,18 +223,21 @@ export const ReviewInfoWrap = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
-  gap: 20px;
-  margin: 10px;
+  gap: 30px;
+  /* margin: 10px; */
 `;
 
 export const ContentWrap = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
+  width: 100%;
   /* gap: 20px; */
-  margin: 10px;
+  /* margin: 10px; */
 `;
 export const SwiperWrap = styled.div`
+  margin-left: 2px;
+  margin-right: 5px;
   /* img {
     width: 320px;
   } */

@@ -16,9 +16,14 @@ export const InfoWrap = styled.div`
 export const InfoImageWrap = styled.div`
   width: 1180px;
   height: 800px;
-  img {
-    width: 1180px;
-    height: 800px;
+  .storeSwiper {
+    width: 100%;
+    height: 100%;
+    img {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+    }
   }
 `;
 export const InfoContentWrap = styled.div`
@@ -326,7 +331,9 @@ export const NoticeCardItem = styled.div`
 `;
 // ! REVIEW AREA
 export const ReviewWrap = styled.div`
+  width: 1080px;
   display: flex;
+  flex-wrap: wrap;
   flex-direction: column;
   align-items: center;
   padding: 30px 0px;
@@ -356,7 +363,7 @@ export const ReviewContentWrap = styled.div`
   /* height: 360px; */
   padding: 0px 10px;
   /* flex-direction: column; */
-  
+
   justify-content: center;
   /* align-items: flex-start; */
   gap: 10px;

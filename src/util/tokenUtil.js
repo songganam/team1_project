@@ -5,17 +5,29 @@ const authAxios = axios.create();
 
 const beforeReq = config => {
   console.log("전달", config);
-  const memberInfo = getCookie("member");
-  console.log("get Token : ", memberInfo);
-  if (!memberInfo) {
-    console.log("not found cookie info");
-    return Promise.reject({ response: { data: { error: "please login" } } });
+  const roles = ["member", "owner", "admin"];
+  for (const role of roles) {
+    const memberInfo = getCookie(role);
+    if (memberInfo) {
+      console.log(`get Token for ${role}:`, memberInfo);
+      const { accessToken } = memberInfo;
+      console.log("acessToken : ", accessToken);
+      config.headers.Authorization = `Bearer ${accessToken}`;
+      return config;
+    }
   }
-  console.log("toke info");
-  const { accessToken } = memberInfo;
-  console.log("acessToken : ", accessToken);
-  config.headers.Authorization = `Bearer ${accessToken}`;
-  return config;
+  // const memberInfo = getCookie("member");
+  // console.log("get Token : ", memberInfo);
+  // if (!memberInfo) {
+  //   console.log("not found cookie info");
+  //   return Promise.reject({ response: { data: { error: "please login" } } });
+  // }
+  // console.log("toke info");
+  // const { accessToken } = memberInfo;
+  // console.log("acessToken : ", accessToken);
+  // config.headers.Authorization = `Bearer ${accessToken}`;
+  // return config;
+  return Promise.reject({ response: { data: { error: "please login" } } });
 };
 
 const requestFail = error => {

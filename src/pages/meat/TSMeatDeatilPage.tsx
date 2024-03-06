@@ -6,7 +6,6 @@ import "swiper/css/navigation";
 import { Swiper, SwiperSlide } from "swiper/react";
 import { API_SERVER_HOST } from "../../api/config";
 import { changeBookmark } from "../../api/meatApi";
-import Button from "../../components/button/Button";
 import Fetching from "../../components/common/Fetching";
 import ResultModal from "../../components/common/ResultModal";
 import useCustomHook from "../../components/meat/hooks/useCustomHook";
@@ -45,7 +44,8 @@ import {
 // @COMMENT use React-Query
 import { useQuery } from "@tanstack/react-query";
 import { getGInfoTS } from "../../api/typeApi";
-import { Glist } from "./Meat";
+import { DefaultBt } from "../../components/button/styles/ButtonStyle";
+import { Glist, deatailReviewForm } from "./Meat";
 import TSMeatReviewCard from "./TSMeatReviewCard";
 
 const initState: Glist = {
@@ -111,7 +111,7 @@ const MeatDetailPage = () => {
   const storeNum = ishop;
 
   const [visualReview, setVisualReview] = useState(3);
-  const handleMoreReview = (event: MouseEvent<HTMLDivElement>) => {
+  const handleMoreReview = (event: MouseEvent<HTMLButtonElement>) => {
     setVisualReview(prevCount => prevCount + 3);
   };
 
@@ -154,6 +154,7 @@ const MeatDetailPage = () => {
   const [zoomable, setZoomable] = useState(true);
   const defaultMenuImage =
     process.env.PUBLIC_URL + `/assets/images/favicon.png`;
+
   return (
     <div>
       {fetching ? <Fetching /> : null}
@@ -165,16 +166,17 @@ const MeatDetailPage = () => {
         />
       )}
       <ReadWrap>
-        {/* {loading ? <Loading /> : <div></div>} */}
         <InfoWrap>
           {/* 이미지 */}
           <InfoImageWrap>
+            {/* <img src={`${host}${storeInfo.pics[0]}`} alt={`store-image`} /> */}
             <Swiper
               preventClicks={false}
               preventClicksPropagation={false}
               slidesPerView={1}
               spaceBetween={0}
               pagination={true}
+              className="storeSwiper"
             >
               {storeInfo.pics &&
                 storeInfo.pics.map((pic: string, index: number) => (
@@ -333,6 +335,7 @@ const MeatDetailPage = () => {
         )}
 
         {/* 고기집 리뷰사진: /pic/shop/가게pk/reveiw/리뷰pk/사진이름 */}
+
         <ReviewWrap>
           {storeInfo?.reviews?.length === 0 ? (
             <div></div>
@@ -343,7 +346,7 @@ const MeatDetailPage = () => {
           )}
 
           <ReviewContentWrap>
-            {storeInfo?.reviews &&
+            {/* {storeInfo?.reviews &&
               storeInfo?.reviews
                 .slice(0, visualReview)
                 .map((review: Glist["reviews"][0], index: number) => (
@@ -353,16 +356,60 @@ const MeatDetailPage = () => {
                       // ishop={storeInfo.ishop[index]}
                     />
                   </div>
-                ))}
+                ))} */}
           </ReviewContentWrap>
 
-          {storeInfo?.reviews?.length === 0 ? (
+          <div
+            style={{
+              width: "100%",
+              display: "flex",
+              flexWrap: "wrap",
+              justifyContent: "space-around",
+              gap: "30px",
+              // margin: "50px",
+              // marginTop: "50px",
+            }}
+          >
+            {storeInfo.reviews
+              .slice(0, visualReview)
+              .map((item: deatailReviewForm, index: number) => (
+                <div
+                  key={item?.ireview}
+                  style={{
+                    // width: "100%",
+                    flex: "1 0 30%",
+                    maxWidth: "30%",
+                  }}
+                >
+                  <TSMeatReviewCard reviewData={storeInfo?.reviews[index]} />
+                </div>
+              ))}
+          </div>
+          <div
+            style={{
+              display: "flex",
+              width: "100%",
+              justifyContent: "center",
+              paddingBottom: "30px",
+              paddingTop: "80px",
+            }}
+          >
+            {storeInfo?.reviews?.length === 0 ? (
+              <div></div>
+            ) : (
+              <DefaultBt onClick={handleMoreReview}>
+                <span>더보기</span>
+              </DefaultBt>
+            )}
+          </div>
+
+          {/* {storeInfo?.reviews?.length === 0 ? (
             <div></div>
           ) : (
             <div onClick={handleMoreReview}>
               <Button bttext={"더보기"} />
             </div>
-          )}
+          )} */}
           <MoreBtnWrap></MoreBtnWrap>
         </ReviewWrap>
       </ReadWrap>
