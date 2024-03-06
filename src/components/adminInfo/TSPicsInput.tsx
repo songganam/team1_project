@@ -31,7 +31,7 @@ const TSPicsInput = () => {
     //   ishopPics: [],
     // }));
 
-    const initialImages = storeInfo.pics.map(pic => ({
+    const initialImages = storeInfo?.pics?.map(pic => ({
       url:
         pic.isNew && pic.file
           ? URL.createObjectURL(pic.file)
@@ -39,7 +39,7 @@ const TSPicsInput = () => {
       picsPk: pic.picsPk,
     }));
     setImages(initialImages);
-  }, [setStoreInfo, storeInfo.pics, storeInfo.ishop]);
+  }, [setStoreInfo, storeInfo?.pics, storeInfo?.ishop]);
 
   const fileInputRef = useRef<HTMLInputElement>(null);
 
@@ -51,7 +51,7 @@ const TSPicsInput = () => {
   // 이미지 변경 이벤트 핸들러
   const handleChange = (e: ChangeEvent<HTMLInputElement>) => {
     if (e.target.files) {
-      const totalImages = storeInfo.pics.length + e.target.files.length;
+      const totalImages = storeInfo?.pics.length + e.target.files.length;
       if (totalImages > 5) {
         openModal(
           "사진 등록",
@@ -63,11 +63,11 @@ const TSPicsInput = () => {
 
       const files = Array.from(e.target.files).slice(
         0,
-        5 - storeInfo.pics.length,
+        5 - storeInfo?.pics.length,
       );
 
       // 새로운 이미지 객체들을 기존 pics 배열에 추가합니다.
-      const newPics = files.map(file => ({
+      const newPics = files?.map(file => ({
         pic: URL.createObjectURL(file),
         isNew: true,
         file,
@@ -87,10 +87,10 @@ const TSPicsInput = () => {
   // 이미지 삭제 로직
   const deleteImage = (index: number) => {
     // 삭제하려는 이미지의 picsPk를 추출합니다.
-    const deletedPicsPk = storeInfo.pics[index]?.picsPk;
+    const deletedPicsPk = storeInfo?.pics[index]?.picsPk;
 
     // pics 배열에서 선택된 이미지를 제거합니다.
-    const updatedPics = storeInfo.pics.filter((_, i) => i !== index);
+    const updatedPics = storeInfo?.pics.filter((_, i) => i !== index);
 
     // deletedPicsPk가 정의되어 있고, 아직 ishopPics 배열에 추가되지 않은 경우에만 추가합니다.
     const updatedIshopPics = [...storeInfo.ishopPics];
@@ -98,7 +98,7 @@ const TSPicsInput = () => {
       deletedPicsPk !== undefined &&
       !storeInfo.ishopPics.includes(deletedPicsPk)
     ) {
-      updatedIshopPics.push(deletedPicsPk);
+      updatedIshopPics?.push(deletedPicsPk);
     }
 
     // 상태를 업데이트합니다.
@@ -133,7 +133,7 @@ const TSPicsInput = () => {
           onChange={handleChange}
         />
         <div className="pics-thumb">
-          {images.map((image, index) => (
+          {images?.map((image, index) => (
             <AdminImagePlaceholder
               key={index}
               src={

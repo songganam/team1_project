@@ -94,7 +94,7 @@ const TSCheckBoxInput = () => {
 
   useEffect(() => {
     // Recoil 상태에 기반한 체크박스 상태 초기화
-    const updatedCheckboxes = initialCheckboxes.map(option => ({
+    const updatedCheckboxes = initialCheckboxes?.map(option => ({
       ...option,
       checked: storeInfo.facilities.includes(option.id),
     }));
@@ -125,16 +125,16 @@ const TSCheckBoxInput = () => {
         {/* <div className="essential">*</div> */}
       </div>
       <div className="check-box-wrap">
-        {initialCheckboxes.map(option => (
+        {initialCheckboxes?.map(option => (
           <TSCheckBoxLabelStyle key={option.id}>
             <input
               type="checkbox"
               id={`facility-${option.id}`}
-              checked={option.checked}
-              onChange={() => handleChange(option.id)}
+              checked={option?.checked}
+              onChange={() => handleChange(option?.id)}
             />
             <div className="checkbox-custom">
-              {option.checked ? (
+              {option?.checked ? (
                 // 체크된 상태일 때의 SVG 아이콘
                 <svg
                   xmlns="http://www.w3.org/2000/svg"

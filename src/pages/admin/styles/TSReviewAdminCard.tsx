@@ -8,25 +8,24 @@ import { FreeMode, Navigation, Thumbs } from "swiper/modules";
 import { Swiper, SwiperSlide } from "swiper/react";
 
 import CountingStar from "../../../components/common/CountingStar";
+import {} from "./AdminPageStyle";
 import {
   ContentWrap,
-  ReviewContentWrap,
-  ReviewDateWrap,
-  ReviewInfoWrap,
-  ReviewProfileItem,
-  ReviewUserInfoWrap,
-  SwiperWrap,
-} from "./AdminPageStyle";
-import {
   MiniBtn,
   ReviewCardWrap,
   ReviewContent,
+  ReviewContentWrap,
   ReviewDate,
+  ReviewDateWrap,
+  ReviewInfoWrap,
   ReviewInput,
+  ReviewProfileItem,
   ReviewReplyBtnWrap,
   ReviewShowTop,
   ReviewShowWrap,
+  ReviewUserInfoWrap,
   ReviewWrtier,
+  SwiperWrap,
 } from "./AdminReviewStyle";
 import "./swiper.css";
 
@@ -42,10 +41,7 @@ import ResultModal from "../../../components/common/ResultModal";
 
 const baseApi = API_SERVER_HOST;
 
-const ReviewAdminCard = (
-  { reviewData }: { reviewData: ReviewForm },
-  { refresh }: { refresh: boolean },
-) => {
+const ReviewAdminCard = ({ reviewData }: { reviewData: ReviewForm }) => {
   const { adminState } = useCustomLoginTS();
   console.log("value", reviewData);
   const [thumbsSwiper, setThumbsSwiper] = useState<any>(null);
@@ -56,11 +52,6 @@ const ReviewAdminCard = (
   const swiperStyle: SwiperStyle = {
     "--swiper-navigation-color": "#fff",
     "--swiper-pagination-color": "#fff",
-  };
-
-  const [inputVisual, setInpuVisual] = useState(false);
-  const handleClickInput = () => {
-    setInpuVisual(true);
   };
 
   const replayInitData: replayForm = {
@@ -75,7 +66,9 @@ const ReviewAdminCard = (
     onSuccess: (result: AxiosResponse) => {
       if (result) {
         openModal("등록 성공", "답글 등록을 성공하였습니다.", () => {
-          closeModal(), window.location.reload();
+          closeModal(),
+            // window.location.reload(),
+            setReplyData(replayInitData);
         });
       }
     },
@@ -95,6 +88,42 @@ const ReviewAdminCard = (
     setReplyData({ ...replyData, [e.target.name]: e.target.value });
     console.log("change", replyData);
   };
+
+  const [inputVisual, setInpuVisual] = useState(false);
+  const handleClickInput = () => {
+    setInpuVisual(true);
+  };
+  const handleClickInputCancel = () => {
+    setInpuVisual(false);
+  };
+
+  const dateTime = reviewData?.updatedAt;
+  const date = new Date(dateTime);
+  const formattedDate =
+    date.getFullYear() +
+    "-" +
+    ("0" + (date.getMonth() + 1)).slice(-2) +
+    "-" +
+    ("0" + date.getDate()).slice(-2) +
+    " " +
+    ("0" + date.getHours()).slice(-2) +
+    ":" +
+    ("0" + date.getMinutes()).slice(-2);
+
+  const createAt = reviewData?.createdAt;
+  const createDate = new Date(createAt);
+  const createAtDate =
+    createDate.getFullYear() +
+    "-" +
+    ("0" + (date.getMonth() + 1)).slice(-2) +
+    "-" +
+    ("0" + date.getDate()).slice(-2) +
+    " " +
+    ("0" + date.getHours()).slice(-2) +
+    ":" +
+    ("0" + date.getMinutes()).slice(-2);
+
+  // console.log(formattedDate);
 
   return (
     <ReviewCardWrap>
@@ -161,7 +190,8 @@ const ReviewAdminCard = (
                   </div>
                 </ReviewProfileItem>
                 <ReviewDateWrap>
-                  <span>2024.02.19</span>
+                  {/* <span>{reviewData.createdAt}</span> */}
+                  <span>{createAtDate}</span>
                 </ReviewDateWrap>
                 <div>
                   <CountingStar star={reviewData?.star} />
@@ -178,14 +208,15 @@ const ReviewAdminCard = (
       <div></div>
       {/* 답글 입력이 완료되었다면 */}
       {reviewData?.exist === 1 ? (
-        <div>
+        <div style={{ marginBottom: "10px" }}>
           <ReviewShowWrap>
             <ReviewShowTop>
               <ReviewWrtier>
                 <span>사장님</span>
               </ReviewWrtier>
               <ReviewDate>
-                <span>{reviewData?.updatedAt}</span>
+                {/* <span>{reviewData?.updatedAt}</span> */}
+                <span>{formattedDate}</span>
               </ReviewDate>
             </ReviewShowTop>
             <ReviewContent>
@@ -194,29 +225,38 @@ const ReviewAdminCard = (
           </ReviewShowWrap>
         </div>
       ) : (
-        // <div>
-        //   <MiniBtn onClick={handleClickInput}>
-        //     <span>답글작성</span>
-        //   </MiniBtn>
-        // </div>
-        <div style={{ marginTop: "30px" }}>
-          <ReviewInput
-            placeholder="답글을 남겨주세요."
-            name="comment"
-            value={replyData.comment}
-            maxLength={30}
-            onChange={e => handleChange(e)}
-          />
-
-          <ReviewReplyBtnWrap>
+        <div style={{ marginTop: "30px", marginBottom: "30px" }}>
+          <div style={{ float: "right", marginBottom: "20px" }}>
             <MiniBtn
-              onClick={() =>
-                handleClickReply(reviewData?.ireview, reviewData?.checkShop)
-              }
+              onClick={inputVisual ? handleClickInputCancel : handleClickInput}
             >
-              <span>작성완료</span>
+              <span>{inputVisual ? "작성취소" : "답글작성"}</span>
             </MiniBtn>
-          </ReviewReplyBtnWrap>
+          </div>
+
+          {inputVisual ? (
+            <div>
+              <div>
+                <ReviewInput
+                  placeholder="답글을 남겨주세요."
+                  name="comment"
+                  value={replyData.comment}
+                  maxLength={30}
+                  onChange={e => handleChange(e)}
+                />
+              </div>
+
+              <ReviewReplyBtnWrap>
+                <MiniBtn
+                  onClick={() =>
+                    handleClickReply(reviewData?.ireview, reviewData?.checkShop)
+                  }
+                >
+                  <span>작성완료</span>
+                </MiniBtn>
+              </ReviewReplyBtnWrap>
+            </div>
+          ) : null}
         </div>
       )}
     </ReviewCardWrap>
