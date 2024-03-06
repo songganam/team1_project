@@ -37,32 +37,138 @@ ChartJS.register(
   Legend,
 );
 
+const initState = {
+  totalBookmark: 0,
+  totalReservation: 0,
+  totalReview: 0,
+  starAvg: 0,
+  bookmarkCnt: [0],
+  reviewCnt: [0],
+  reservationCnt: [0],
+};
+
 const AdminDocPage = () => {
-  const [docData, setDocData] = useState([]);
   const { page, moveToCheck } = useCustomHook();
 
-  const successDocFn = response => {
-    setDocData(response);
-  };
-  const failDocFn = response => {
-    setDocData(response);
-  };
-  const errorDocFn = response => {
-    setDocData(response);
-  };
+  // 매장 데이터 및 차트 데이터를 상태로 관리
+  const [docData, setDocData] = useState(initState);
+  const [selectedCategory, setSelectedCategory] = useState("북마크");
 
-  const [chartData, setChartData] = useState({
-    labels: ["1주", "2주", "3주", "4주", "5주"],
+  console.log("카테고리", selectedCategory);
+
+  const bookmarkArray = [
+    docData?.bookmarkCnt[0],
+    docData?.bookmarkCnt[1],
+    docData?.bookmarkCnt[2],
+    docData?.bookmarkCnt[3],
+  ];
+
+  const reserArray = [
+    docData?.reservationCnt[0],
+    docData?.reservationCnt[1],
+    docData?.reservationCnt[2],
+    docData?.reservationCnt[3],
+  ];
+  const reviewArray = [
+    docData?.reviewCnt[0],
+    docData?.reviewCnt[1],
+    docData?.reviewCnt[2],
+    docData?.reviewCnt[3],
+  ];
+
+  console.log("BArray", bookmarkArray);
+  console.log("RESERArray", reserArray);
+  console.log("REVIEWArray", reviewArray);
+
+  // 북마크, 예약, 리뷰 각각의 차트 데이터 상태 정의
+  const [bookmarkChartData, setBookmarkChartData] = useState({
+    // labels: ["1주", "2주", "3주", "4주", "5주"],
+    labels: ["1주", "2주", "3주", "4주"],
     datasets: [
       {
-        label: "주간 판매량",
-        data: [65, 59, 80, 81, 56],
+        label: "주간 북마크 수",
+        data: [10, 20, 15, 25],
+        fill: false,
+        backgroundColor: "rgb(255, 99, 132)",
+        borderColor: "rgba(255, 99, 132, 0.2)",
+      },
+    ],
+  });
+  // console.log("데스트두", docData?.bookmarkCnt[0]);
+
+  const [reservationChartData, setReservationChartData] = useState({
+    labels: ["1주", "2주", "3주", "4주"],
+    datasets: [
+      {
+        label: "주간 예약 수",
+        data: [5, 15, 10, 20],
         fill: false,
         backgroundColor: "rgb(75, 192, 192)",
         borderColor: "rgba(75, 192, 192, 0.2)",
       },
     ],
   });
+
+  const [reviewChartData, setReviewChartData] = useState({
+    labels: ["1주", "2주", "3주", "4주"],
+    datasets: [
+      {
+        label: "주간 리뷰 수",
+        data: [15, 10, 25, 20],
+        fill: false,
+        backgroundColor: "rgb(255, 205, 86)",
+        borderColor: "rgba(255, 205, 86, 0.2)",
+      },
+    ],
+  });
+
+  // 차트 데이터 업데이트 함수
+  const updateChartData = data => {
+    console.log("차트 성공");
+    // 선택된 카테고리에 따라 적절한 차트 데이터를 업데이트합니다.
+    if (selectedCategory === "북마크") {
+      setBookmarkChartData({
+        labels: ["1주", "2주", "3주", "4주"],
+        datasets: [
+          {
+            label: "주간 북마크 수",
+            data: data.bookmarkCnt,
+            fill: false,
+            backgroundColor: "rgb(255, 99, 132)",
+            borderColor: "rgba(255, 99, 132, 0.2)",
+          },
+        ],
+      });
+    }
+    if (selectedCategory === "예약") {
+      setReservationChartData({
+        labels: ["1주", "2주", "3주", "4주"],
+        datasets: [
+          {
+            label: "주간 예약 수",
+            data: data.reservationCnt,
+            fill: false,
+            backgroundColor: "rgb(75, 192, 192)",
+            borderColor: "rgba(75, 192, 192, 0.2)",
+          },
+        ],
+      });
+    }
+    if (selectedCategory === "리뷰") {
+      setReviewChartData({
+        labels: ["1주", "2주", "3주", "4주"],
+        datasets: [
+          {
+            label: "주간 리뷰 수",
+            data: data.reviewCnt,
+            fill: false,
+            backgroundColor: "rgb(255, 205, 86)",
+            borderColor: "rgba(255, 205, 86, 0.2)",
+          },
+        ],
+      });
+    }
+  };
 
   // 차트 옵션
   const options = {
@@ -81,10 +187,19 @@ const AdminDocPage = () => {
   useEffect(() => {
     const params = { page };
     getDoc({ params, successDocFn, failDocFn, errorDocFn });
-  });
-  // useEffect(() => {
-  //   fetchChartData();
-  // }, []);
+  }, [page, selectedCategory]);
+
+  const successDocFn = response => {
+    setDocData(response);
+    updateChartData(response);
+    // console.log("들어온 데이터 :", docData);
+  };
+  const failDocFn = response => {
+    setDocData(response);
+  };
+  const errorDocFn = response => {
+    setDocData(response);
+  };
 
   return (
     <SupervisorReportWrapper>
@@ -94,12 +209,12 @@ const AdminDocPage = () => {
           <Button bttext="저장" />
         </div>
       </SupervisorHeader>
+        {/* <DocMainTop>
+          <div className="title"><span></span></div>
+        </DocMainTop> */}
       <AdminDocMain>
-        <DocMainTop>
-          <div className="title">{/* <span>Month</span> */}</div>
-        </DocMainTop>
         <AdminDocBoard>
-          <AdminDocBox>
+          <AdminDocBox onClick={() => setSelectedCategory("북마크")}>
             <BoxTop>
               <span>북마크</span>
             </BoxTop>
@@ -107,7 +222,7 @@ const AdminDocPage = () => {
               <span>{docData?.totalBookmark}</span>
             </BoxContent>
           </AdminDocBox>
-          <AdminDocBox>
+          <AdminDocBox onClick={() => setSelectedCategory("예약")}>
             <BoxTop>
               <span>예약</span>
             </BoxTop>
@@ -115,7 +230,7 @@ const AdminDocPage = () => {
               <span>{docData?.totalReservation}</span>
             </BoxContent>
           </AdminDocBox>
-          <AdminDocBox>
+          <AdminDocBox onClick={() => setSelectedCategory("리뷰")}>
             <BoxTop>
               <span>리뷰</span>
             </BoxTop>
@@ -135,7 +250,31 @@ const AdminDocPage = () => {
         <BoxChart>
           <div>
             <h2>차트</h2>
-            <Line data={chartData} options={options} />
+            {/* 선택된 카테고리에 따라 해당 차트를 렌더링 */}
+            {selectedCategory === "북마크" && (
+              <Line
+                data={bookmarkChartData}
+                options={{
+                  scales: { x: { type: "category" }, y: { type: "linear" } },
+                }}
+              />
+            )}
+            {selectedCategory === "예약" && (
+              <Line
+                data={reservationChartData}
+                options={{
+                  scales: { x: { type: "category" }, y: { type: "linear" } },
+                }}
+              />
+            )}
+            {selectedCategory === "리뷰" && (
+              <Line
+                data={reviewChartData}
+                options={{
+                  scales: { x: { type: "category" }, y: { type: "linear" } },
+                }}
+              />
+            )}
           </div>
         </BoxChart>
       </AdminDocMain>

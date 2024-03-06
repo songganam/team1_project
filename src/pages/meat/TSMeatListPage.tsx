@@ -151,27 +151,28 @@ const MeatListPage = () => {
         </KindOfMeat>
       </KindOfMeatWrap>
       {/* @COMMENT Filter Test */}
-      <FilterWrapper>
-        <SelectedFilter
-          onClick={() => handleClickFilter("0")}
-          selected={filterFlag === "0"}
-        >
-          <span>최신순</span>
-        </SelectedFilter>
-        <SelectedFilter
-          onClick={() => handleClickFilter("1")}
-          selected={filterFlag === "1"}
-        >
-          <span>별점순</span>
-        </SelectedFilter>
-        <SelectedFilter
-          onClick={() => handleClickFilter("2")}
-          selected={filterFlag === "2"}
-        >
-          <span>북마크순</span>
-        </SelectedFilter>
-      </FilterWrapper>
       <form>
+        <FilterWrapper>
+          <SelectedFilter
+            onClick={() => handleClickFilter("0")}
+            selected={filterFlag === "0"}
+          >
+            <span>최신순</span>
+          </SelectedFilter>
+          <SelectedFilter
+            onClick={() => handleClickFilter("1")}
+            selected={filterFlag === "1"}
+          >
+            <span>별점순</span>
+          </SelectedFilter>
+          <SelectedFilter
+            onClick={() => handleClickFilter("2")}
+            selected={filterFlag === "2"}
+          >
+            <span>북마크순</span>
+          </SelectedFilter>
+        </FilterWrapper>
+
         <SearchWrap>
           <SearchBar>
             <SearchInput

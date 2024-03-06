@@ -106,10 +106,9 @@ const SupervisorReportPage = () => {
             onChange={handleCategoryChange}
             value={selectedCategory}
           >
-            <option value="0">고기잡담 글</option>
-            <option value="1">고기잡담 댓글</option>
-            <option value="2">고기집 후기</option>
-            <option value="3">정육점 후기</option>
+            <option value="0">숨김</option>
+            <option value="1">취소된 글</option>
+            
           </select>
         </SupervisorOption>
         <SupervisorTable>
