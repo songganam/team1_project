@@ -79,14 +79,6 @@ const AdminReviewPage = () => {
       <TSNavStyle>
         <div className="page-title">매장 리뷰 관리</div>
       </TSNavStyle>
-      {/* 
-      <div style={{ width: "100%", display: "flex" }}>
-        {reviewData?.map((item: ReviewForm, index: number) => (
-          <div key={item?.ireview}>
-            <ReviewAdminCard reviewData={reviewData[index]} />
-          </div>
-        ))}
-      </div> */}
 
       <div
         style={{
@@ -94,7 +86,9 @@ const AdminReviewPage = () => {
           display: "flex",
           flexWrap: "wrap",
           justifyContent: "space-around",
-          margin: "50px",
+          gap: "50px",
+          // margin: "50px",
+          // marginTop: "50px",
         }}
       >
         {reviewData?.map((item: ReviewForm, index: number) => (
@@ -116,6 +110,7 @@ const AdminReviewPage = () => {
           width: "1080px",
           justifyContent: "center",
           paddingBottom: "30px",
+          paddingTop: "80px",
         }}
       >
         <DefaultBt onClick={handleMoreView}>

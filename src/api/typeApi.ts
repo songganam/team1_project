@@ -154,3 +154,25 @@ export const putReplyTS = async ({ replyData }: { replyData: replayForm }) => {
     throw error;
   }
 };
+
+// @AREA
+
+export const postReviewReportTS = async ({
+  reportData,
+}: {
+  reportData: ReportForm;
+}) => {
+  console.log("axios", reportData);
+  try {
+    const header = { headers: { "Content-Type": "application/json" } };
+    const response = await authAxios.post(
+      `${API_SERVER_HOST}/api/user/review/report`,
+      // reportData,
+      header,
+    );
+    return response.data;
+  } catch (error) {
+    console.log(error);
+    throw error;
+  }
+};

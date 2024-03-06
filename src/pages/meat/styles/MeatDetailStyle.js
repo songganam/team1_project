@@ -356,6 +356,7 @@ export const ReviewContentWrap = styled.div`
   /* height: 360px; */
   padding: 0px 10px;
   /* flex-direction: column; */
+  
   justify-content: center;
   /* align-items: flex-start; */
   gap: 10px;

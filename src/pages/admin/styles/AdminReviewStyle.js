@@ -1,15 +1,19 @@
 import styled from "@emotion/styled";
 import TextareaAutosize from "react-textarea-autosize";
+import { ColorStyle } from "../../../styles/common/CommonStyle";
 export const ReviewWrap = styled.div`
   width: 1080px;
-  padding-left: 210px;
+  padding-left: 20px;
+  margin-top: 85px;
+  margin-bottom: 50px;
+  margin-left: 210px;
 `;
 export const ReviewItem = styled.div`
   display: flex;
 `;
 export const ReviewReplyBtnWrap = styled.div`
   float: right;
-  padding: 20px 35px;
+  padding: 20px 0px;
 `;
 export const ReviewInput = styled(TextareaAutosize)`
   display: flex;
@@ -100,13 +104,14 @@ export const ReviewDate = styled.div`
   }
 `;
 export const MiniBtn = styled.button`
+  cursor: pointer;
   display: flex;
   /* width: 64px; */
   /* height: 35px; */
   padding: 5px 10px;
   flex-direction: column;
-  justify-content: center;
-  align-items: center;
+  /* justify-content: center; */
+  /* align-items: center; */
   gap: 10px;
   flex-shrink: 0;
 
@@ -134,7 +139,88 @@ export const SelectBtnItem = styled.div`
   gap: 10px;
 `;
 export const ReviewCardWrap = styled.div`
-  padding: 80px 10px;
+  display: flex;
+  flex-direction: column;
+  /* justify-content: space-around; */
+  justify-content: center;
+  align-items: center;
+  /* padding: 80px 0px; */
   box-shadow: 0px 1px 2px -1px rgba(0, 0, 0, 0.1),
     0px 1px 3px 0px rgba(0, 0, 0, 0.1);
+`;
+export const ReviewProfileItem = styled.div`
+  display: flex;
+  width: 132px;
+  align-items: center;
+  gap: 10px;
+
+  img {
+    width: 30px;
+    height: 30px;
+    border-radius: 30px;
+  }
+  span {
+    font-size: 14px;
+    font-family: "DAEAM_LEE_TAE_JOON";
+  }
+`;
+export const ReviewUserInfoWrap = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 5px;
+`;
+
+export const ReviewContentWrap = styled.div`
+  width: 300px;
+  height: 40px;
+  span {
+    color: #000;
+
+    /* Rugular 14 */
+    font-family: "DAEAM_LEE_TAE_JOON";
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 125%; /* 17.5px */
+  }
+`;
+export const ReviewDateWrap = styled.div`
+  display: flex;
+  width: 100px;
+  height: 18px;
+  flex-direction: column;
+  justify-content: center;
+
+  span {
+    color: ${ColorStyle.g500};
+    /* Rugular 14 */
+    font-family: "DAEAM_LEE_TAE_JOON";
+    font-size: 11px;
+    font-style: normal;
+    font-weight: 400;
+    line-height: 125%; /* 17.5px */
+  }
+`;
+export const ReviewInfoWrap = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  gap: 20px;
+  margin: 10px;
+`;
+
+export const ContentWrap = styled.div`
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  /* gap: 20px; */
+  margin: 10px;
+`;
+export const SwiperWrap = styled.div`
+  /* img {
+    width: 320px;
+  } */
+  /* height: 3; */
+  /* color: transparent; */
 `;
