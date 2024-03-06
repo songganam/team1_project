@@ -63,6 +63,51 @@ const useCustomMy = () => {
     navigate({ pathname: "../review", search: queryStr });
   };
 
+  // 신규 예약 내역 더보기
+  const moveToAdminBookPage = PageParam => {
+    let queryStr = "";
+    if (PageParam) {
+      const PageNum = getNum(PageParam.page, page);
+      queryStr = createSearchParams({
+        page: PageNum,
+      }).toString();
+    } else {
+      queryStr = defaultQueryString;
+    }
+    // ! category
+    navigate({ pathname: "../book", search: queryStr });
+  };
+
+  // 신규 매장 더보기
+  const moveToSvNewShopPage = PageParam => {
+    let queryStr = "";
+    if (PageParam) {
+      const PageNum = getNum(PageParam.page, page);
+      queryStr = createSearchParams({
+        page: PageNum,
+      }).toString();
+    } else {
+      queryStr = defaultQueryString;
+    }
+    // ! category
+    navigate({ pathname: "../shop", search: queryStr });
+  };
+
+  // 기존 매장 더보기
+  const moveToSvShopPage = PageParam => {
+    let queryStr = "";
+    if (PageParam) {
+      const PageNum = getNum(PageParam.page, page);
+      queryStr = createSearchParams({
+        page: PageNum,
+      }).toString();
+    } else {
+      queryStr = defaultQueryString;
+    }
+    // ! category
+    navigate({ pathname: "../shop", search: queryStr });
+  };
+
   // 상세 페이지 이동
   const moveToDetail = (ishop, imeat) => {
     const path =
@@ -93,15 +138,6 @@ const useCustomMy = () => {
     });
   };
 
-  // 가게 주인 예약 관리 페이지 내 신규 예약 페이지 이동
-  const moveToAdminBookChange = (ireser, name, date, headCount, request) => {
-    console.log(name);
-    navigate({
-      pathname: `../../admin/book/${ireser}`,
-      search: `name=${name}&headcount=${headCount}&date=${date}&request=${request}&${defaultQueryString}`,
-    });
-  };
-
   return {
     page,
     isModal,
@@ -114,7 +150,9 @@ const useCustomMy = () => {
     moveToDetail,
     moveToReserChange,
     moveToPickupChange,
-    moveToAdminBookChange,
+    moveToAdminBookPage,
+    moveToSvNewShopPage,
+    moveToSvShopPage,
   };
 };
 export default useCustomMy;

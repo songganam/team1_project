@@ -1,4 +1,32 @@
 import styled from "@emotion/styled";
+import { ColorStyle } from "../../../styles/common/CommonStyle";
+
+export const SupervisorShopTop = styled.div`
+  position: relative;
+  display: flex;
+  justify-content: space-between;
+  width: 690px;
+  input {
+    width: 317px;
+    height: 28px;
+    padding: 12px 16px;
+    border: 1px solid var(--gray-200, #e5e7eb);
+    font-family: Pretendard;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    margin-top: 10px;
+  }
+  p {
+    margin-top: 10px;
+  }
+  img {
+    width: 30px;
+    height: 25px;
+    margin-left: 5px;
+    cursor: pointer;
+  }
+`;
 
 export const SupervisorShopWrapper = styled.div`
   position: relative;

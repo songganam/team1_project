@@ -33,7 +33,7 @@ const AdminNoShowCard = () => {
   }, [page]);
   const successFn = result => {
     setNoShowData(result);
-    console.log("굿", result);
+    console.log(result);
   };
   const failFn = result => {
     console.log(result);
@@ -41,10 +41,14 @@ const AdminNoShowCard = () => {
   const errorFn = result => {
     console.log(result);
   };
-  console.log("쑈", noShowData);
+  console.log(noShowData);
 
   // 날짜 형태 변환 함수
   const formatDate = dateString => {
+    if (!dateString || isNaN(new Date(dateString))) {
+      return "날짜 없음";
+    }
+
     const options = {
       year: "numeric",
       month: "2-digit",

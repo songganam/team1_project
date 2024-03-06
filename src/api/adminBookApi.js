@@ -3,8 +3,6 @@ import authAxios from "../util/tokenUtil";
 export const API_SERVER_HOST = "";
 const host = `${API_SERVER_HOST}/api`;
 
-// 관리자 예약 관리 페이지 : 고깃집 OR 정육점 (GET)
-
 // 관리자 예약 관리 페이지 : 고깃집 예약 관리 내역 가져오기 (GET)
 export const getAdminMeatBook = async ({
   param,
@@ -132,10 +130,9 @@ export const patchRejectBook = async ({
   };
   try {
     const header = { headers: { "Content-Type": "application/json" } };
-    const res = await authAxios.patch(
-      `${host}/reservation/confirm?checkShop=${data.checkShop}&ireser=${data.ireser}`,
-      header,
-    );
+    const res = await authAxios.patch(`${host}/reservation`, data, {
+      headers: header,
+    });
     const status = res.status.toString();
     if (status.charAt(0) === "2") {
       console.log("예약 거부 성공");

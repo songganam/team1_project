@@ -30,6 +30,8 @@ export const NavStyle = styled.div`
     font-style: normal;
     font-weight: 700;
     line-height: normal;
+    padding-top: 10px;
+    padding-bottom: 10px;
   }
 `;
 
@@ -70,22 +72,6 @@ export const SupervisorShopInner = styled.div`
     font-style: normal;
     font-weight: 600;
     margin-bottom: 25px;
-  }
-`;
-
-export const SupervisorShopTop = styled.div`
-  position: relative;
-  display: flex;
-  justify-content: space-between;
-  input {
-    width: 317px;
-    height: 28px;
-    padding: 12px 16px;
-    border: 1px solid var(--gray-200, #e5e7eb);
-    font-family: Pretendard;
-    font-size: 14px;
-    font-style: normal;
-    font-weight: 400;
   }
 `;
 
