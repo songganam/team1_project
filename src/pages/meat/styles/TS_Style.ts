@@ -66,6 +66,7 @@ export const SelectedCate = styled.div<StyledComponentProps>`
 export const SelectedFilter = styled.div<StyledComponentProps>`
   display: flex;
   align-items: center;
+  height: 35px;
   justify-content: center;
   border: none;
   background: transparent;
@@ -83,7 +84,9 @@ export const SelectedFilter = styled.div<StyledComponentProps>`
 export const FilterWrapper = styled.div`
   display: inline-flex;
   align-items: flex-start;
+  padding-left: 20px;
   gap: 16px;
+  justify-content: center;
   button {
     display: flex;
     width: 70px;
