@@ -8,6 +8,7 @@ import {
 import useModal from "../../hooks/useModal";
 import Button from "../button/Button";
 import SelectedModal from "../common/SelectedModal";
+import useCustomHook from "../meat/hooks/useCustomHook";
 import useCustomMy from "../my/hooks/useCustomMy";
 import {
   NewShopContent,
@@ -18,10 +19,10 @@ import {
   SupervisorNewShopVisual,
   SupervisorNewShopWrapper,
 } from "./styles/SupervisorNewShopCardStyle";
-import useCustomHook from "../meat/hooks/useCustomHook";
 
 const host = API_SERVER_HOST;
 
+// 매장 정보 초기값
 const initState = [
   {
     checkShop: 0,
@@ -37,12 +38,14 @@ const initState = [
   },
 ];
 
+// 매장 상태 초기값
 const PatchInitState = {
   checkShop: 0,
   ishop: 0,
   confirm: 0,
 };
 
+// 신규 매장 정보 카드 컴포넌트
 const SupervisorNewShopCard = () => {
   const { page } = useCustomMy();
   const [svisorNewShopData, setSvisorNewShopData] = useState(initState);
@@ -50,14 +53,9 @@ const SupervisorNewShopCard = () => {
   const [patchRejectData, setPatchRejectData] = useState(PatchInitState);
 
   // 모달창
-  const { useResultModal, openModal, closeModal } = useModal();
+  const { closeModal } = useModal();
+  const { isSelectModal, openSelectModal, cancelSelectModal } = useCustomHook();
 
-  const {
-    isSelectModal,
-    openSelectModal,
-    confirmSelectModal,
-    cancelSelectModal,
-  } = useCustomHook();
   // 신규 매장 정보 불러오기 (GET)
   useEffect(() => {
     const param = { page };
@@ -91,6 +89,7 @@ const SupervisorNewShopCard = () => {
       checkShop: patchCheckShop,
     });
 
+    // 승인 확인 모달창
     openSelectModal(
       "입점 승인",
       "입점을 승인하시겠습니까?",
@@ -140,29 +139,37 @@ const SupervisorNewShopCard = () => {
     const patchConfirm = confirm;
     console.log(patchCheckShop, patchIshop, patchConfirm);
     setPatchRejectData({
-      ...setPatchRejectData,
+      ...setPatchData,
       confirm: 2,
       ishop: patchIshop,
       checkShop: patchCheckShop,
     });
 
-    console.log(patchRejectData);
-
-    patchShopReject({
-      patchRejectData: {
-        ...patchRejectData,
-        confirm: 2,
-        ishop: patchIshop,
-        checkShop: patchCheckShop,
+    // 거부 확인 모달창
+    openSelectModal(
+      "입점 거부",
+      "입점을 거부하시겠습니까?",
+      () => {
+        patchShopReject({
+          patchRejectData: {
+            ...patchRejectData,
+            confirm: 2,
+            ishop: patchIshop,
+            checkShop: patchCheckShop,
+          },
+          successRejectPatch,
+          failRejectPatch,
+          errorRejectPatch,
+        }),
+          cancelSelectModal();
       },
-      successRejectPatch,
-      failRejectPatch,
-      errorRejectPatch,
-    });
-    openModal();
+      cancelSelectModal,
+    );
+
+    console.log(patchData);
   };
 
-  const handleConfirmRejectDone = (checkShop, ishop, confirm) => {
+  const handleRejectDone = (checkShop, ishop, confirm) => {
     closeModal();
     console.log(checkShop, ishop, confirm);
   };
@@ -235,32 +242,16 @@ const SupervisorNewShopCard = () => {
                   >
                     <Button bttext="승인" />
                   </div>
-                  <div>
-                    <div
-                      onClick={() =>
-                        handleRejectShop(
-                          svisorNewShopData.checkShop,
-                          svisorNewShopData.ishop,
-                          svisorNewShopData.confirm,
-                        )
-                      }
-                    >
-                      <Button bttext="거부" />
-                    </div>
-                    {useResultModal && (
-                      <SelectedModal
-                        title="입점 거부"
-                        content="입점을 거부하시겠습니까?"
-                        confirmFn={() =>
-                          handleConfirmRejectDone(
-                            svisorNewShopData.checkShop,
-                            svisorNewShopData.ishop,
-                            svisorNewShopData.confirm,
-                          )
-                        }
-                        cancelFn={closeModal}
-                      />
-                    )}
+                  <div
+                    onClick={() =>
+                      handleRejectShop(
+                        svisorNewShopData.checkShop,
+                        svisorNewShopData.ishop,
+                        svisorNewShopData.confirm,
+                      )
+                    }
+                  >
+                    <Button bttext="거부" />
                   </div>
                 </SupervisorNewShopButton>
               </SupervisorNewShopInner>

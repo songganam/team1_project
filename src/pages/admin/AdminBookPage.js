@@ -15,9 +15,9 @@ import AdminButcherBookCard from "../../components/admin/AdminButcherBookCard";
 import { useRecoilState } from "recoil";
 import { atomAdminState } from "../../atom/atomAdminState";
 
-// const [adminState, setAdminState] = useRecoilState(atomAdminState);
-
 const AdminBookPage = () => {
+  const [adminState, setAdminState] = useRecoilState(atomAdminState);
+
   return (
     <AdminBookPageWrapper>
       <NavStyle>
@@ -30,11 +30,11 @@ const AdminBookPage = () => {
         <AdminBookInner>
           <p>신규 예약 목록</p>
           <AdminBookCardBt>
-            {/* {adminState.checkShop === 0 ? ( */}
-            <AdminMeatBookCard />
-            {/* ) : ( */}
-            <AdminButcherBookCard />
-            {/* )} */}
+            {adminState.checkShop === 0 ? (
+              <AdminMeatBookCard />
+            ) : (
+              <AdminButcherBookCard />
+            )}
           </AdminBookCardBt>
         </AdminBookInner>
         <AdminNoShowInner>
