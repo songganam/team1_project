@@ -110,6 +110,7 @@ const AdminMeatBookCard = () => {
       checkShop: checkShop,
       ireser: ireser,
     };
+
     // 삭제 전 확인 모달창
     setBookToReject(patchBookForm);
     openModal();

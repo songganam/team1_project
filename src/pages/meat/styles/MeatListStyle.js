@@ -13,6 +13,7 @@ export const KindOfMeatWrap = styled.div`
   gap: 100px;
   margin: 30px 10px;
 `;
+
 export const KindOfMeat = styled.div`
   cursor: pointer;
   width: 70px;
@@ -27,6 +28,7 @@ export const KindOfMeat = styled.div`
     font-size: ${FontSize.title};
   }
 `;
+
 export const SearchWrap = styled.div`
   position: relative;
   float: right;
@@ -36,7 +38,10 @@ export const SearchWrap = styled.div`
   gap: 3px;
 `;
 export const SearchBar = styled.div`
+position: relative;
   display: flex;
+  align-items: center;
+  justify-content: center;
   height: 35px;
   padding: 5px 20px;
   align-items: center;

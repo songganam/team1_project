@@ -4,7 +4,8 @@ import { ColorStyle, FontSize } from "../../../styles/common/CommonStyle";
 // 고깃집 가게 카드 컴포넌트
 export const CardWrapper = styled.div`
   width: 1180px;
-  margin-top: 80px;
+  margin-top: 30px;
+  
 `;
 export const MeatStoreCard = styled.div`
   font-family: "DAEAM_LEE_TAE_JOON";
@@ -26,7 +27,7 @@ export const MeatStoreInfo = styled.div`
   display: flex;
   width: 200px;
   height: 230px;
-  padding: 10px;
+  padding: 10px; 
   align-items: flex-start;
   justify-content: center;
   align-content: flex-start;

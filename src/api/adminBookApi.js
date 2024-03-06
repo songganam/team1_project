@@ -132,9 +132,10 @@ export const patchRejectBook = async ({
   };
   try {
     const header = { headers: { "Content-Type": "application/json" } };
-    const res = await authAxios.patch(`${host}/reservation`, data, {
-      headers: header,
-    });
+    const res = await authAxios.patch(
+      `${host}/reservation/confirm?checkShop=${data.checkShop}&ireser=${data.ireser}`,
+      header,
+    );
     const status = res.status.toString();
     if (status.charAt(0) === "2") {
       console.log("예약 거부 성공");

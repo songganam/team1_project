@@ -40,7 +40,7 @@ const TSRadioInput = () => {
         <div className="essential">*</div>
       </div>
       <div className="radio-wrap">
-        {radios.map(option => (
+        {radios?.map(option => (
           <TSRadioLableStyle key={option.id}>
             <input
               type="radio"

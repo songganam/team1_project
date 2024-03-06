@@ -226,7 +226,9 @@ const TSAdminInfoPage = () => {
                     src={
                       storeInfo?.checkShop !== 1
                         ? `${host}/pic/shop/${storeInfo.ishop}/shop_pic/${storeInfo.pics[0].pic}`
+
                         : `${host}/pic/butcher/${storeInfo.ishop}/butchershop_pic/${storeInfo.pics[0].pic}`
+
                     }
                     placeholder={
                       <div>

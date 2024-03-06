@@ -630,13 +630,6 @@ const Read = () => {
             )}
             <button className="like-button">신고하기</button>
           </div>
-          {/* <div className="viewBox">
-            <img
-              src={`${process.env.PUBLIC_URL}/assets/images/view_eye.svg`}
-              alt="img"
-            />
-            <div className="viewCount"></div>            
-          </div> */}
         </WriterBoxStyle>
       </TitleBoxStyle>
       <MoreBoxStyle>
