@@ -38,15 +38,20 @@ import useCustomLoginTS from "../../../components/meat/hooks/useCustomLoginTS";
 import { SwiperStyle, replayForm } from "../../meat/Meat";
 import { ReviewForm } from "../TSAdminReviewPage";
 import ResultModal from "../../../components/common/ResultModal";
+import OptiPlaceholder from "../../../components/image-optimization/OptiPlaceholder";
+import OptiWireframe from "../../../components/image-optimization/OptiWireframe";
 
 const baseApi = API_SERVER_HOST;
 
 const ReviewAdminCard = ({ reviewData }: { reviewData: ReviewForm }) => {
   const { adminState } = useCustomLoginTS();
   console.log("value", reviewData);
+  // const {} = useCustomLoginTS();
   const [thumbsSwiper, setThumbsSwiper] = useState<any>(null);
 
   const ishop = adminState.ishop;
+  const storeCheckShop = adminState.checkShop;
+  console.log("ckshop", storeCheckShop);
   // const checkshop = adminState.checkshop;
 
   const swiperStyle: SwiperStyle = {
@@ -180,9 +185,31 @@ const ReviewAdminCard = ({ reviewData }: { reviewData: ReviewForm }) => {
               >
                 {reviewData?.pics.map((pic: string, index: number) => (
                   <SwiperSlide key={index}>
-                    <img
-                      src={`${baseApi}/pic/shop/${ishop}/review/${reviewData.ireview}/${pic}`}
-                    />
+                    {storeCheckShop === 0 ? (
+                      <OptiPlaceholder
+                        alt=""
+                        width={300}
+                        height={180}
+                        placeholder={
+                          <div>
+                            <OptiWireframe width={300} height={180} />
+                          </div>
+                        }
+                        src={`${baseApi}/pic/butcher/${ishop}/review/${reviewData.ireview}/${pic}`}
+                      />
+                    ) : (
+                      <OptiPlaceholder
+                        alt=""
+                        width={300}
+                        height={180}
+                        placeholder={
+                          <div>
+                            <OptiWireframe width={300} height={180} />
+                          </div>
+                        }
+                        src={`${baseApi}/pic/butcher/${ishop}/review/${reviewData.ireview}/${pic}`}
+                      />
+                    )}
                   </SwiperSlide>
                 ))}
               </Swiper>
@@ -198,9 +225,31 @@ const ReviewAdminCard = ({ reviewData }: { reviewData: ReviewForm }) => {
               >
                 {reviewData?.pics.map((pic: string, index: number) => (
                   <SwiperSlide key={index}>
-                    <img
-                      src={`${baseApi}/pic/shop/${ishop}/review/${reviewData.ireview}/${pic}`}
-                    />
+                    {storeCheckShop === 0 ? (
+                      <OptiPlaceholder
+                        alt=""
+                        width={54}
+                        height={54}
+                        placeholder={
+                          <div>
+                            <OptiWireframe width={54} height={54} />
+                          </div>
+                        }
+                        src={`${baseApi}/pic/butcher/${ishop}/review/${reviewData.ireview}/${pic}`}
+                      />
+                    ) : (
+                      <OptiPlaceholder
+                        alt=""
+                        width={54}
+                        height={54}
+                        placeholder={
+                          <div>
+                            <OptiWireframe width={54} height={54} />
+                          </div>
+                        }
+                        src={`${baseApi}/pic/butcher/${ishop}/review/${reviewData.ireview}/${pic}`}
+                      />
+                    )}
                   </SwiperSlide>
                 ))}
               </Swiper>
