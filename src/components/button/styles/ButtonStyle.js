@@ -21,4 +21,13 @@ export const DefaultBt = styled.button`
     font-weight: 400;
     color: ${ColorStyle.primary};
   }
+
+  :hover {
+    background: ${ColorStyle.g200};
+    color: ${ColorStyle.primary};
+  }
+  :active {
+    background: ${ColorStyle.secondary};
+    color: ${ColorStyle.grayScale};
+  }
 `;

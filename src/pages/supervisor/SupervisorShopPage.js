@@ -1,8 +1,6 @@
-import Button from "../../components/button/Button";
 import SupervisorNewShopCard from "../../components/supervisor/SupervisorNewShopCard";
-import SupervisorShopCard from "../../components/supervisor/SupervisorShopCard";
+import { SupervisorHeader } from "./styles/SupervisorReportStyle";
 import {
-  NavStyle,
   SupervisorNewShopBt,
   SupervisorNewShopInner,
   SupervisorShopBt,
@@ -14,9 +12,9 @@ import {
 const SupervisorShopPage = () => {
   return (
     <SupervisorShopPageWrapper>
-      <NavStyle>
+      <SupervisorHeader>
         <div className="page-title">매장 관리</div>
-      </NavStyle>
+      </SupervisorHeader>
       <SupervisorShopPageContent>
         <SupervisorNewShopInner>
           <SupervisorNewShopBt>
@@ -25,7 +23,7 @@ const SupervisorShopPage = () => {
         </SupervisorNewShopInner>
         <SupervisorShopInner>
           <SupervisorShopBt>
-            <SupervisorShopCard></SupervisorShopCard>
+            {/* <SupervisorShopCard></SupervisorShopCard> */}
           </SupervisorShopBt>
         </SupervisorShopInner>
       </SupervisorShopPageContent>

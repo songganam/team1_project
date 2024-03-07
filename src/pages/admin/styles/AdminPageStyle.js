@@ -18,7 +18,7 @@ export const AdiminPageMenuBar = styled.div`
   align-items: flex-start;
   width: 210px;
   height: 1530px;
-  padding: 16px 40px;
+  padding: 16px;
   gap: 10px;
   background-color: #202734;
   z-index: 996;
@@ -39,7 +39,7 @@ export const AdminPageMenu = styled.div`
     line-height: 40px;
     border: none;
     background: none;
-    margin-bottom: 10px;
+    /* margin-bottom: 10px; */
     cursor: pointer;
   }
 `;
@@ -50,16 +50,12 @@ export const AdminPageContent = styled.div`
   /* background-color: pink; */
 `;
 
-
-
-
 export const ReviewProfileWrap = styled.div`
   display: flex;
   flex-direction: column;
   align-items: flex-start;
   gap: 10px;
 `;
-
 
 export const CateWrap = styled.div`
   display: flex;

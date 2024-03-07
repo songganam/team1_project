@@ -12,10 +12,28 @@
         Project demo video
     </h2>
     <h3>
-        시연 영상
+       2차 일반유저 시연 영상
     </h3>    
     <span>        
         <a href="https://youtu.be/ToPfr4-frgw?si=eXPoT0nfMPvG4nNv" target="_blank">
+            🔹 시연영상 바로가기
+        </a>
+    </span>
+<br/><br/>
+    <h3>
+       3차 가게주인 유저 시연 영상
+    </h3>    
+    <span>        
+        <a href="https://youtu.be/OrsRuUjquZY" target="_blank">
+            🔹 시연영상 바로가기
+        </a>
+    </span>
+<br/><br/>
+    <h3>
+       3차 사이트 관리자 시연 영상
+    </h3>    
+    <span>        
+        <a href="https://youtu.be/pFxCM4ed72s" target="_blank">
             🔹 시연영상 바로가기
         </a>
     </span>
@@ -83,7 +101,10 @@
   </h3>
 
   <p>
-    🔸 <b>23-12-29 ~ 24-02-06</b>
+    🔸 <b> 2차: 23-12-29 ~ 24-02-06</b>
+  </p>
+  <p>
+    🔸 <b> 3차: 24-02-07 ~ 24-03-08</b>
   </p>
 
   <h2>
@@ -108,6 +129,8 @@
         <br/><img src="https://img.shields.io/badge/HTML5-E34F26?style=for-the-badge&logo=HTML5&logoColor=white">
         <img src="https://img.shields.io/badge/Javascript-F7DF1E?style=for-the-badge&logo=Javascript&logoColor=white">
         <img src="https://img.shields.io/badge/StyledComponents-DB7093?style=for-the-badge&logo=StyledComponents&logoColor=white">
+        <img src="https://img.shields.io/badge/Recoil-000000?style=for-the-badge&logo=Recoil&logoColor=white">
+        <img src="https://img.shields.io/badge/Typescript-000000?style=for-the-badge&logo=Typescript&logoColor=white">
     </div>
 
   <h2>
@@ -122,20 +145,29 @@
     <b>[Front-end]</b>
   </h4>
     <span>
-      <b>황준하(팀장)</b>
+      <b>황준하(2차 팀장)</b>
       </br>
     </span>
     <br />
     <p><b>✔ 담당파트 : </b></p>
+    <p>
+     - 일반유저: 커뮤니티(고기잡담) 페이지
+    </p>        
+    <p>
+     - 가게주인: 매장정보관리
+    </p>        
+    <p>
+     - 가게주인: 메뉴관리
+    </p>        
+    <p>
+     - 사이트관리자: 공지사항 등록
+    </p>        
     <p>
      - 프로젝트 구성
     </p>
     <p>
      - 깃허브 관리
     </p>
-    <p>
-     - 커뮤니티(고기잡담) 페이지
-    </p>        
     <br/>
   <span>
       <b>송가람</b>
@@ -144,22 +176,41 @@
     <br />
     <p><b>✔ 담당파트 : </b></p>    
     <p>
-      - 로그인/회원가입/메인 페이지 
+      - 일반유저: 로그인/회원가입
+    </p>
+    <p>
+      - 일반유저: 메인 페이지 
+    </p>
+    <p>
+      - 가게주인: 매장분석 
+    </p>
+    <p>
+      - 사이트관리자: 유저관리 
+    </p>
+    <p>
+      - 사이트관리자: 신고관리 
     </p>
     <p>
       - 회의록 관리
     </p>
+    <br/>
     <span>
-      <b>김솔</b>
+      <b>김솔(3차 팀장)</b>
       </br>
     </span>
     <br />
     <p><b>✔ 담당파트 : </b></p>
     <p>
-     - 마이페이지
+     - 일반유저: 마이페이지
     </p>
     <p>
+     - 가게주인: 예약관리
+    </p>        
+    <p>
+     - 사이트관리자: 매장관리
+    <p>
      - 노션 관리
+    </p>        
     </p>        
     <br/>
     <span>
@@ -169,7 +220,13 @@
     <br />
     <p><b>✔ 담당파트 : </b></p>
     <p>
-     - JWT/고깃집/정육점 페이지
+     - 일반유저: JWT/고깃집/정육점 페이지
+    </p>
+    <p>
+     - 일반유저: 결제기능/ 2차 보완(신고,좋아요)
+    </p>
+    <p>
+     - 가게주인: 리뷰관리
     </p>
     <p>
      - 피그마 관리
@@ -187,9 +244,12 @@
     <p>
      - 유저/TDD
     </p>       
+    <p>
+     - 총관리자/예약/토스페이
+    </p>       
     <br/>
   <span>
-      <b>배용진(팀장)</b>
+      <b>배용진(2차 팀장)</b>
       <br />
   </span>
     <br />
@@ -197,6 +257,10 @@
     <p>
       - 가게조회/북마크 기능 
     </p>
+    <p>
+      - 가게 관리자 
+    </p>
+    <br/>
     <span>
       <b>문하나</b>
       </br>
@@ -205,10 +269,13 @@
     <p><b>✔ 담당파트 : </b></p>
     <p>
      - 예약페이지/예약(픽업)
-    </p>       
+    </p>
+    <p>
+     - 고깃집/정육점/유저
+    </p>
     <br/>
     <span>
-      <b>박동현</b>
+      <b>박동현(3차 팀장)</b>
       </br>
     </span>
     <br />

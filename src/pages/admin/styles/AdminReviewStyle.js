@@ -43,9 +43,9 @@ export const ReviewShowWrap = styled.div`
   /* gap: 20px; */
 
   border-radius: 5px;
-  /* border: 1px solid var(--gray-scale-500, #8f8f8f); */
-  box-shadow: inset 0 0 2px rgba(0, 0, 0, 0.5);
-  background: #fff;
+  border: 1px solid ${ColorStyle.g200};
+  /* box-shadow: inset 0 0 2px rgba(0, 0, 0, 0.5); */
+  background: ${ColorStyle.g100};
 
   display: flex;
   /* width: 306px; */
@@ -130,6 +130,14 @@ export const MiniBtn = styled.button`
     font-weight: 400;
     line-height: 125%; /* 23.75px */
   }
+  :hover {
+    background: ${ColorStyle.g200};
+    color: ${ColorStyle.primary};
+  }
+  :active {
+    background: ${ColorStyle.secondary};
+    color: ${ColorStyle.grayScale};
+  }
 `;
 
 export const SelectBtnWrap = styled.div`
@@ -190,7 +198,8 @@ export const ReviewUserInfoWrap = styled.div`
 
 export const ReviewContentWrap = styled.div`
   width: 300px;
-  height: 40px;
+  /* height: 40px; */
+  padding-bottom: 10px;
   span {
     color: #000;
 
@@ -236,8 +245,7 @@ export const ContentWrap = styled.div`
   /* margin: 10px; */
 `;
 export const SwiperWrap = styled.div`
-  margin-left: 2px;
-  margin-right: 5px;
+  margin-left: -1px;
   /* img {
     width: 320px;
   } */
