@@ -35,7 +35,7 @@ const SupervisorPage = () => {
 
   // 매장 리뷰 관리 페이지
   const handleClickSvNotice = () => {
-    navigate("/svisor/notice");
+    navigate("/community/add");
     setActiveButton("/svisor/notice");
   };
 
@@ -45,40 +45,85 @@ const SupervisorPage = () => {
         <SupervisorPageData>
           <SupervisorPageMenuBar>
             <SupervisorPageMenu>
-              <button
-                onClick={handleClickSvShop}
+              <div
                 style={{
-                  color:
-                    activeButton === "/svisor/shop"
-                      ? `${ColorStyle.grayScale}`
-                      : `${ColorStyle.g600}`,
+                  display: "flex",
+                  gap: "10px",
+                  alignItems: "center",
+                  width: "130px",
+                  height: "45px",
                 }}
               >
-                매장 관리
-              </button>
-              <button
-                onClick={handleClickSvUser}
+                {activeButton === "/svisor/shop" ? (
+                  <img
+                    src={`${process.env.PUBLIC_URL}/assets/images/nav.svg`}
+                  />
+                ) : null}
+                <button
+                  onClick={handleClickSvShop}
+                  style={{
+                    color:
+                      activeButton === "/svisor/shop"
+                        ? `${ColorStyle.grayScale}`
+                        : `${ColorStyle.g600}`,
+                  }}
+                >
+                  매장 관리
+                </button>
+              </div>
+              <div
                 style={{
-                  color:
-                    activeButton === "/svisor/user"
-                      ? `${ColorStyle.grayScale}`
-                      : `${ColorStyle.g600}`,
+                  display: "flex",
+                  gap: "10px",
+                  alignItems: "center",
+                  width: "130px",
+                  height: "45px",
                 }}
               >
-                유저 관리
-              </button>
-              <button
-                onClick={handleClickSvReport}
+                {activeButton === "/svisor/user" ? (
+                  <img
+                    src={`${process.env.PUBLIC_URL}/assets/images/nav.svg`}
+                  />
+                ) : null}
+                <button
+                  onClick={handleClickSvUser}
+                  style={{
+                    color:
+                      activeButton === "/svisor/user"
+                        ? `${ColorStyle.grayScale}`
+                        : `${ColorStyle.g600}`,
+                  }}
+                >
+                  유저 관리
+                </button>
+              </div>
+              <div
                 style={{
-                  color:
-                    activeButton === "/svisor/report"
-                      ? `${ColorStyle.grayScale}`
-                      : `${ColorStyle.g600}`,
+                  display: "flex",
+                  gap: "10px",
+                  alignItems: "center",
+                  width: "130px",
+                  height: "45px",
                 }}
               >
-                신고 관리
-              </button>
-              {/* <button
+                {activeButton === "/svisor/report" ? (
+                  <img
+                    src={`${process.env.PUBLIC_URL}/assets/images/nav.svg`}
+                  />
+                ) : null}
+                <button
+                  onClick={handleClickSvReport}
+                  style={{
+                    color:
+                      activeButton === "/svisor/report"
+                        ? `${ColorStyle.grayScale}`
+                        : `${ColorStyle.g600}`,
+                  }}
+                >
+                  신고 관리
+                </button>
+              </div>
+              <button
                 onClick={handleClickSvNotice}
                 style={{
                   color:
@@ -88,7 +133,7 @@ const SupervisorPage = () => {
                 }}
               >
                 공지사항 등록
-              </button> */}
+              </button>
             </SupervisorPageMenu>
           </SupervisorPageMenuBar>
           <SupervisorPageContent>

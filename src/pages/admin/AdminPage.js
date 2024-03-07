@@ -51,61 +51,136 @@ const AdminPage = () => {
         <AdminPageData>
           <AdiminPageMenuBar>
             <AdminPageMenu>
-              <button
-                onClick={handleClickAdInfo}
+              <div
                 style={{
-                  color:
-                    activeButton === "/admin/info"
-                      ? `${ColorStyle.grayScale}`
-                      : `${ColorStyle.g600}`,
+                  display: "flex",
+                  gap: "10px",
+                  alignItems: "center",
+                  width: "130px",
+                  height: "45px",
                 }}
               >
-                매장 정보 관리
-              </button>
-              <button
-                onClick={handleClickAdMenu}
+                {activeButton === "/admin/info" ? (
+                  <img
+                    src={`${process.env.PUBLIC_URL}/assets/images/nav.svg`}
+                  />
+                ) : null}
+                <button
+                  onClick={handleClickAdInfo}
+                  style={{
+                    color:
+                      activeButton === "/admin/info"
+                        ? `${ColorStyle.grayScale}`
+                        : `${ColorStyle.g600}`,
+                  }}
+                >
+                  매장 정보 관리
+                </button>
+              </div>
+              <div
                 style={{
-                  color:
-                    activeButton === "/admin/menu"
-                      ? `${ColorStyle.grayScale}`
-                      : `${ColorStyle.g600}`,
+                  display: "flex",
+                  gap: "10px",
+                  alignItems: "center",
+                  width: "130px",
+                  height: "45px",
                 }}
               >
-                메뉴 관리
-              </button>
-              <button
-                onClick={handleClickAdBook}
+                {activeButton === "/admin/menu" ? (
+                  <img
+                    src={`${process.env.PUBLIC_URL}/assets/images/nav.svg`}
+                  />
+                ) : null}
+                <button
+                  onClick={handleClickAdMenu}
+                  style={{
+                    color:
+                      activeButton === "/admin/menu"
+                        ? `${ColorStyle.grayScale}`
+                        : `${ColorStyle.g600}`,
+                  }}
+                >
+                  메뉴 관리
+                </button>
+              </div>
+              <div
                 style={{
-                  color:
-                    activeButton === "/admin/book"
-                      ? `${ColorStyle.grayScale}`
-                      : `${ColorStyle.g600}`,
+                  display: "flex",
+                  gap: "10px",
+                  alignItems: "center",
+                  width: "130px",
+                  height: "45px",
                 }}
               >
-                예약 관리
-              </button>
-              <button
-                onClick={handleClickAdReview}
+                {activeButton === "/admin/book" ? (
+                  <img
+                    src={`${process.env.PUBLIC_URL}/assets/images/nav.svg`}
+                  />
+                ) : null}
+                <button
+                  onClick={handleClickAdBook}
+                  style={{
+                    color:
+                      activeButton === "/admin/book"
+                        ? `${ColorStyle.grayScale}`
+                        : `${ColorStyle.g600}`,
+                  }}
+                >
+                  예약 관리
+                </button>
+              </div>
+              <div
                 style={{
-                  color:
-                    activeButton === "/admin/review"
-                      ? `${ColorStyle.grayScale}`
-                      : `${ColorStyle.g600}`,
+                  display: "flex",
+                  gap: "10px",
+                  alignItems: "center",
+                  width: "130px",
+                  height: "45px",
                 }}
               >
-                리뷰 관리
-              </button>
-              <button
-                onClick={handleClickAdDoc}
+                {activeButton === "/admin/review" ? (
+                  <img
+                    src={`${process.env.PUBLIC_URL}/assets/images/nav.svg`}
+                  />
+                ) : null}
+                <button
+                  onClick={handleClickAdReview}
+                  style={{
+                    color:
+                      activeButton === "/admin/review"
+                        ? `${ColorStyle.grayScale}`
+                        : `${ColorStyle.g600}`,
+                  }}
+                >
+                  리뷰 관리
+                </button>
+              </div>
+              <div
                 style={{
-                  color:
-                    activeButton === "/admin/doc"
-                      ? `${ColorStyle.grayScale}`
-                      : `${ColorStyle.g600}`,
+                  display: "flex",
+                  gap: "10px",
+                  alignItems: "center",
+                  width: "130px",
+                  height: "45px",
                 }}
               >
-                매장 분석
-              </button>
+                {activeButton === "/admin/doc" ? (
+                  <img
+                    src={`${process.env.PUBLIC_URL}/assets/images/nav.svg`}
+                  />
+                ) : null}
+                <button
+                  onClick={handleClickAdDoc}
+                  style={{
+                    color:
+                      activeButton === "/admin/doc"
+                        ? `${ColorStyle.grayScale}`
+                        : `${ColorStyle.g600}`,
+                  }}
+                >
+                  매장 분석
+                </button>
+              </div>
             </AdminPageMenu>
           </AdiminPageMenuBar>
           <AdminPageContent>

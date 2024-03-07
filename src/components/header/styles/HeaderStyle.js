@@ -57,7 +57,7 @@ export const HeaderStyle = styled.div`
   width: 100%;
   top: 0;
   left: 0;
-  z-index: 998;
+  z-index: 997;
   background-color: #fff;
   display: flex;
   flex-wrap: wrap;
