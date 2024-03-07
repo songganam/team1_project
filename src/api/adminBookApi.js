@@ -85,7 +85,7 @@ export const getNoShow = async ({ param, successFn, failFn, errorFn }) => {
   }
 };
 
-// 관리자 예약 관리 페이지 : 예약 확정 (PATCH)
+// 관리자 예약 관리 페이지 : 고깃집 예약 확정 (PATCH)
 export const patchBookConfirm = async ({
   patchBookConfirmForm,
   successConfirmPatch,
@@ -117,7 +117,7 @@ export const patchBookConfirm = async ({
   }
 };
 
-// 관리자 예약 관리 페이지 : 예약 거부 (PATCH)
+// 관리자 예약 관리 페이지 : 고깃집 예약 거부 (PATCH)
 export const patchRejectBook = async ({
   patchBookForm,
   successPatch,
@@ -144,5 +144,37 @@ export const patchRejectBook = async ({
   } catch (error) {
     console.log("서버 오류");
     errorPatch(error);
+  }
+};
+
+// 관리자 예약 관리 페이지 : 정육점 픽업 확정 (PATCH)
+export const patchPickUpConfirm = async ({
+  patchPickUpConfirmForm,
+  successPupConfirmPatch,
+  failPupConfrimPatch,
+  errorPupConfrimPatch,
+}) => {
+  const data = {
+    checkShop: patchPickUpConfirmForm.checkShop,
+    ireser: patchPickUpConfirmForm.ireser,
+  };
+  console.log("test", data);
+  try {
+    const header = { headers: { "Content-Type": "application/json" } };
+    const res = await authAxios.patch(
+      `${host}/reservation/confirm?checkShop=${data.checkShop}&ireser=${data.ireser}`,
+      header,
+    );
+    const status = res.status.toString();
+    if (status.charAt(0) === "2") {
+      console.log("예약 확정 성공");
+      successPupConfirmPatch(res.data);
+      return res.data;
+    } else {
+      failPupConfrimPatch("예약 확정 오류");
+    }
+  } catch (error) {
+    console.log("서버 오류");
+    errorPupConfrimPatch(error);
   }
 };

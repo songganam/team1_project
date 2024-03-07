@@ -5,6 +5,7 @@ import {
 } from "./styles/AdminNoshowCardStyle";
 import { getNoShow } from "../../api/adminBookApi";
 import useCustomMy from "../my/hooks/useCustomMy";
+import { AdminMoreViewButton } from "./styles/AdminMeatBookCardStyle";
 
 // 노쇼 관리 카드 (고깃집) 초기값
 const initState = {
@@ -23,25 +24,41 @@ const initState = {
 
 // 노쇼 관리 카드
 const AdminNoShowCard = () => {
-  const { page } = useCustomMy();
-  const [noShowData, setNoShowData] = useState(initState);
+  const { page, moveToNoShowPage } = useCustomMy();
+  const [noShowData, setNoShowData] = useState({
+    count: 0,
+    ownerNoShowList: [],
+  });
 
   // 노쇼 관리 정보 불러오기 (GET)
   useEffect(() => {
     const param = { page };
     getNoShow({ param, successFn, failFn, errorFn });
   }, [page]);
+
+  // const successFn = result => {
+  //   setNoShowData(result);
+  //   console.log(result);
+  // };
+
   const successFn = result => {
-    setNoShowData(result);
+    const updatedList = noShowData?.ownerNoShowList?.concat(
+      result.ownerNoShowList,
+    );
+    setNoShowData({
+      ...noShowData,
+      ownerNoShowList: updatedList,
+    });
     console.log(result);
   };
+
   const failFn = result => {
     console.log(result);
   };
+
   const errorFn = result => {
     console.log(result);
   };
-  console.log(noShowData);
 
   // 날짜 형태 변환 함수
   const formatDate = dateString => {
@@ -60,26 +77,34 @@ const AdminNoShowCard = () => {
     return formattedDate;
   };
 
+  // 예약 관리 카드 더보기 (페이지)
+  const handleChangeNoShowBook = () => {
+    moveToNoShowPage({ page: page + 1 });
+  };
+
   return (
     <>
       {noShowData &&
       noShowData?.ownerNoShowList &&
       noShowData?.ownerNoShowList.length > 0 ? (
-        noShowData?.ownerNoShowList.map((noShowItem, index) => (
+        noShowData?.ownerNoShowList.map((noShowData, index) => (
           <AdminNoshowCardWrapper key={index}>
             <AdminNoshowContent>
               <b>예약자명</b>
-              <span>{noShowItem.name}</span>
+              <span>{noShowData?.name}</span>
               <b>에약일시</b>
-              <span>{formatDate(noShowItem.date)}</span>
+              <span>{formatDate(noShowData?.date)}</span>
               <b>인원 수</b>
-              <span>{noShowItem.headCount}</span>
+              <span>{noShowData?.headCount}</span>
             </AdminNoshowContent>
           </AdminNoshowCardWrapper>
         ))
       ) : (
         <p></p>
       )}
+      <AdminMoreViewButton onClick={handleChangeNoShowBook}>
+        <span>더보기</span>
+      </AdminMoreViewButton>
     </>
   );
 };

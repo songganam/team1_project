@@ -1,10 +1,10 @@
 import SupervisorNewShopCard from "../../components/supervisor/SupervisorNewShopCard";
+
 import { SupervisorHeader } from "./styles/SupervisorReportStyle";
+
 import {
   SupervisorNewShopBt,
   SupervisorNewShopInner,
-  SupervisorShopBt,
-  SupervisorShopInner,
   SupervisorShopPageContent,
   SupervisorShopPageWrapper,
 } from "./styles/SupervisorShopPageStyle";
@@ -21,11 +21,13 @@ const SupervisorShopPage = () => {
             <SupervisorNewShopCard></SupervisorNewShopCard>
           </SupervisorNewShopBt>
         </SupervisorNewShopInner>
+
         <SupervisorShopInner>
           <SupervisorShopBt>
-            {/* <SupervisorShopCard></SupervisorShopCard> */}
+            
           </SupervisorShopBt>
         </SupervisorShopInner>
+
       </SupervisorShopPageContent>
     </SupervisorShopPageWrapper>
   );

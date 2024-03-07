@@ -19,7 +19,6 @@ import {
   SearchWrap,
 } from "./styles/MeatListStyle";
 import { FilterWrapper, SelectedFilter } from "./styles/TS_Style";
-import { number } from "prop-types";
 // 고깃집 목록보기 페이지입니다.
 
 const initState: List[] = [

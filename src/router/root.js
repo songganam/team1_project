@@ -4,7 +4,6 @@ import Loading from "../components/loading/Loading";
 import adminRouter from "./adminRouter";
 import butcherRouter from "./butcherRouter";
 import communityRouter from "./communityRouter";
-import joinRouter from "./joinRouter";
 import meatRouter from "./meatRouter";
 import myRouter from "./myRouter";
 import paymentRouter from "./paymentRouter";

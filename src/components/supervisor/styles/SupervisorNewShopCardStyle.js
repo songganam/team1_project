@@ -3,10 +3,27 @@ import styled from "@emotion/styled";
 export const SupervisorNewShopTop = styled.div`
   position: relative;
   display: flex;
-  align-items: flex-start;
-  width: 690px;
+  justify-content: space-between;
+  width: 900px;
+  input {
+    width: 317px;
+    height: 28px;
+    padding: 12px 16px;
+    border: 1px solid var(--gray-200, #e5e7eb);
+    font-family: Pretendard;
+    font-size: 14px;
+    font-style: normal;
+    font-weight: 400;
+    margin-top: 10px;
+  }
   p {
     margin-top: 10px;
+  }
+  img {
+    width: 30px;
+    height: 25px;
+    margin-left: 5px;
+    cursor: pointer;
   }
 `;
 
@@ -15,7 +32,7 @@ export const SupervisorNewShopWrapper = styled.div`
   display: flex;
   align-items: center;
   gap: 56px;
-  width: 690px;
+  width: 900px;
   height: 400px;
   border-radius: 8px;
   padding-left: 30px;
@@ -102,9 +119,15 @@ export const NewShopContent = styled.div`
 
 export const SupervisorNewShopButton = styled.div`
   display: flex;
-  align-items: flex-start;
+  align-items: flex-end;
   gap: 30px;
-  margin-left: 45px;
+  margin-left: 254px;
+`;
+
+export const SvMoreViewButton = styled.div`
+  position: relative;
+  display: flex;
+  gap: 30px;
 `;
 
 export const SupervisorMoreViewButton = styled.button`

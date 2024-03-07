@@ -1,19 +1,14 @@
-import React from "react";
+import { useRecoilState } from "recoil";
+import { atomAdminState } from "../../atom/atomAdminState";
+import AdminButcherBookCard from "../../components/admin/AdminButcherBookCard";
 import AdminMeatBookCard from "../../components/admin/AdminMeatBookCard";
-import AdminNoShowCard from "../../components/admin/AdminNoShowCard";
 import {
   AdminBookCardBt,
   AdminBookInner,
   AdminBookPageContent,
   AdminBookPageWrapper,
-  AdminNoShowCardBt,
-  AdminNoShowInner,
   NavStyle,
 } from "./styles/AdminBookpageStyle";
-import Button from "../../components/button/Button";
-import AdminButcherBookCard from "../../components/admin/AdminButcherBookCard";
-import { useRecoilState } from "recoil";
-import { atomAdminState } from "../../atom/atomAdminState";
 
 const AdminBookPage = () => {
   const [adminState, setAdminState] = useRecoilState(atomAdminState);
@@ -34,13 +29,6 @@ const AdminBookPage = () => {
             )}
           </AdminBookCardBt>
         </AdminBookInner>
-        <AdminNoShowInner>
-          <p>노쇼 목록</p>
-          <AdminNoShowCardBt>
-            <AdminNoShowCard></AdminNoShowCard>
-            <Button bttext="더보기"></Button>
-          </AdminNoShowCardBt>
-        </AdminNoShowInner>
       </AdminBookPageContent>
     </AdminBookPageWrapper>
   );

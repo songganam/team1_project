@@ -6,6 +6,7 @@ import Loading from "../components/loading/Loading";
 const LazyAdInfoPage = lazy(() => import("../pages/admin/TSAdminInfoPage"));
 const LazyAdMenuPage = lazy(() => import("../pages/admin/TSAdminMenuPage"));
 const LazyAdBookPage = lazy(() => import("../pages/admin/AdminBookPage"));
+const LazyAdNoshowPage = lazy(() => import("../pages/admin/AdminNoshow"));
 const LazyAdReviewPage = lazy(() => import("../pages/admin/TSAdminReviewPage"));
 const LazyAdDocPage = lazy(() => import("../pages/admin/AdminDocPage"));
 
@@ -33,6 +34,14 @@ const adminRouter = () => {
       element: (
         <Suspense fallback={<Loading />}>
           <LazyAdBookPage />
+        </Suspense>
+      ),
+    },
+    {
+      path: "noshow",
+      element: (
+        <Suspense fallback={<Loading />}>
+          <LazyAdNoshowPage />
         </Suspense>
       ),
     },
