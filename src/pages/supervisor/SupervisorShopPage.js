@@ -21,13 +21,6 @@ const SupervisorShopPage = () => {
             <SupervisorNewShopCard></SupervisorNewShopCard>
           </SupervisorNewShopBt>
         </SupervisorNewShopInner>
-
-        <SupervisorShopInner>
-          <SupervisorShopBt>
-            
-          </SupervisorShopBt>
-        </SupervisorShopInner>
-
       </SupervisorShopPageContent>
     </SupervisorShopPageWrapper>
   );

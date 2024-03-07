@@ -107,21 +107,15 @@ const AdminPage = () => {
                   메뉴 관리
                 </button>
               </div>
-              
-              <button
-                onClick={handleClickAdNoshow}
+              <div
                 style={{
-                  color:
-                    activeButton === "/admin/noshow"
-                      ? `${ColorStyle.grayScale}`
-                      : `${ColorStyle.g600}`,
+                  display: "flex",
+                  gap: "10px",
+                  alignItems: "center",
+                  width: "130px",
+                  height: "45px",
                 }}
               >
-                노쇼 관리
-              </button>
-              <button
-                onClick={handleClickAdReview}
-
                 {activeButton === "/admin/book" ? (
                   <img
                     src={`${process.env.PUBLIC_URL}/assets/images/nav.svg`}
@@ -140,7 +134,32 @@ const AdminPage = () => {
                 </button>
               </div>
               <div
-
+                style={{
+                  display: "flex",
+                  gap: "10px",
+                  alignItems: "center",
+                  width: "130px",
+                  height: "45px",
+                }}
+              >
+                {activeButton === "/admin/noshow" ? (
+                  <img
+                    src={`${process.env.PUBLIC_URL}/assets/images/nav.svg`}
+                  />
+                ) : null}
+                <button
+                  onClick={handleClickAdNoshow}
+                  style={{
+                    color:
+                      activeButton === "/admin/noshow"
+                        ? `${ColorStyle.grayScale}`
+                        : `${ColorStyle.g600}`,
+                  }}
+                >
+                  노쇼 관리
+                </button>
+              </div>
+              <div
                 style={{
                   display: "flex",
                   gap: "10px",
