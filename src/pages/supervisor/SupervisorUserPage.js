@@ -35,6 +35,10 @@ const SupervisorUserPage = () => {
     setData(response);
   };
 
+  // const [refresh, setRefresh] = useState(false);
+  // useEffect(() => {
+  //   console.log("refresh", refresh);
+  // }, [refresh]);
   // PATCH API
   const handleClickLock = result => {
     // alert("클릭됨");
@@ -46,6 +50,7 @@ const SupervisorUserPage = () => {
   const successLockFn = response => {
     console.log(response);
     // setRefresh(true);
+    window.location.reload();
     // setData(response);
   };
 
@@ -76,28 +81,25 @@ const SupervisorUserPage = () => {
   return (
     <SupervisorUserWrapper>
       <SupervisorHeader>
-        <div className="page-title">유저 분석</div>
-        <div>
+        <div className="page-title">유저 관리</div>
+        {/* <div>
           <Button bttext="저장" />
-        </div>
+        </div> */}
       </SupervisorHeader>
       <SupervisorUserContents>
         {/* <h1>테이블 예시입니다 맵포함</h1> */}
-        <SupervisorOption>
-          {/* <select  */}
-          <label htmlFor="category"> </label>
+        {/* <SupervisorOption>
+          <label htmlFor="usercategory"> </label>
           <select
-            id="category"
+            id="usercategory"
             name="category"
             onChange={handleCategoryChange}
             value={selectedCategory}
           >
-            <option value="0">고기잡담 글</option>
-            <option value="1">고기잡담 댓글</option>
-            <option value="2">고기집 후기</option>
-            <option value="3">정육점 후기</option>
-          </select>
-        </SupervisorOption>
+            <option value="0">잠금</option>
+            <option value="1">정상</option>
+          </select> */}
+        {/* </SupervisorOption> */}
         <SupervisorTable>
           <table>
             <thead style={{ marginBottom: "20px" }}>

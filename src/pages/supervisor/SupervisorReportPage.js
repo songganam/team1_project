@@ -10,15 +10,21 @@ import useCustomHook from "../../components/meat/hooks/useCustomHook";
 import { getReport, patchReport, patchReportCancel } from "../../api/reportApi";
 import Button from "../../components/button/Button";
 import { SupervisorOption } from "./styles/SupervisorUserStyle";
+import ResultModal from "../../components/common/ResultModal";
 
 const SupervisorReportPage = () => {
   const [reportData, setReportData] = useState([]);
+  const { openModal, isModal, closeModal } = useCustomHook();
   const { page, check, moveToCheck } = useCustomHook();
+
+  const [hideStatus, setHideStatus] = useState(false);
+  const [cancelStatus, setCancelStatus] = useState(false);
+
   // 신고글 가져오기 (API)
   useEffect(() => {
     const params = { page, check };
     getReport({ params, successFn, failFn, errorFn });
-  }, [page, check]);
+  }, [page, check, hideStatus, cancelStatus]);
 
   const successFn = res => {
     setReportData(res);
@@ -43,12 +49,15 @@ const SupervisorReportPage = () => {
     patchReport({ hideForm, successHideFn, failHideFn, errorHideFn });
   };
   const successHideFn = res => {
+    openModal("숨김성공", "숨김처리가 완료되었습니다.", closeModal);
     console.log(res);
+    setHideStatus(!hideStatus);
   };
   const failHideFn = res => {
     console.log(res);
   };
   const errorHideFn = res => {
+    openModal("숨김실패", "처리를 실패하였습니다.", closeModal);
     console.log(res);
   };
 
@@ -69,12 +78,15 @@ const SupervisorReportPage = () => {
     });
   };
   const successCancelFn = res => {
+    openModal("취소성공", "신고 취소를 완료되었습니다.", closeModal);
+    setCancelStatus(!cancelStatus);
     console.log(res);
   };
   const failCancelFn = res => {
     console.log(res);
   };
   const errorCancelFn = res => {
+    openModal("취소실패", "처리를 실패하였습니다.", closeModal);
     console.log(res);
   };
 
@@ -89,11 +101,16 @@ const SupervisorReportPage = () => {
 
   return (
     <SupervisorReportWrapper>
+      {/* {fetching ? <Fetching /> : null} */}
+      {isModal.isOpen && (
+        <ResultModal
+          title={isModal.title}
+          content={isModal.content}
+          callFn={isModal.callFn}
+        />
+      )}
       <SupervisorHeader>
         <div className="page-title">신고 관리</div>
-        <div>
-          <Button bttext="저장" />
-        </div>
       </SupervisorHeader>
       <SupervisorReportContents>
         {/* <h1>테이블 예시입니다 맵포함</h1> */}
@@ -106,9 +123,10 @@ const SupervisorReportPage = () => {
             onChange={handleCategoryChange}
             value={selectedCategory}
           >
-            <option value="0">숨김</option>
-            <option value="1">취소된 글</option>
-            
+            <option value="0">고기잡담 글</option>
+            <option value="1">고기잡담 댓글</option>
+            <option value="2">고기집 후기</option>
+            <option value="3">정육점 후기</option>
           </select>
         </SupervisorOption>
         <SupervisorTable>
