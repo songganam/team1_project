@@ -21,11 +21,10 @@ import {
   TSShopStyle,
   TSWrapInnerStyle,
 } from "../../components/adminInfo/styles/TSModifyStyle";
-import AdminShopImageWireframe from "../../components/common/AdminShopImageWireframe";
-import Fetching from "../../components/common/Fetching";
 import ResultModal from "../../components/common/ResultModal";
+import OptiPlaceholder from "../../components/image-optimization/OptiPlaceholder";
+import OptiWireframe from "../../components/image-optimization/OptiWireframe";
 import useModal from "../../components/meat/hooks/useModal";
-import ImagePlaceholder from "../../components/community/ImagePlaceholder";
 
 const host = API_SERVER_HOST;
 
@@ -220,7 +219,7 @@ const TSAdminInfoPage = () => {
               </div>
               {storeInfo?.pics[0] ? (
                 <div className="preview-inner">
-                  <ImagePlaceholder
+                  <OptiPlaceholder
                     className="preview-img"
                     alt="대표 가게이미지"
                     src={
@@ -228,9 +227,11 @@ const TSAdminInfoPage = () => {
                         ? `${host}/pic/shop/${storeInfo.ishop}/shop_pic/${storeInfo.pics[0].pic}`
                         : `${host}/pic/butcher/${storeInfo.ishop}/butchershop_pic/${storeInfo.pics[0].pic}`
                     }
+                    width={500}
+                    height={340}
                     placeholder={
                       <div>
-                        <AdminShopImageWireframe />
+                        <OptiWireframe width={500} height={340} />
                       </div>
                     }
                   />

@@ -8,10 +8,9 @@ import {
   menuRefreshState,
 } from "../../atom/atomMenuInfo";
 import { atomStoreInfoState } from "../../atom/atomStoreInfoState";
-import AdminSmallImageWireframe from "../common/AdminSmallImageWireframe";
-import Fetching from "../common/Fetching";
 import ResultModal from "../common/ResultModal";
-import AdminImagePlaceholder from "../community/AdminImagePlaceholder";
+import OptiPlaceholder from "../image-optimization/OptiPlaceholder";
+import OptiWireframe from "../image-optimization/OptiWireframe";
 import useModal from "../meat/hooks/useModal";
 import { ButtonStyleTS } from "./styles/ButtonStyleTS";
 import {
@@ -261,7 +260,7 @@ const MenuModify = () => {
           />
           <div className="pics-thumb">
             {menuInfo.pic && (
-              <AdminImagePlaceholder
+              <OptiPlaceholder
                 src={
                   menuInfo.pic.startsWith("blob")
                     ? menuInfo.pic
@@ -270,13 +269,11 @@ const MenuModify = () => {
                     : `${host}/pic/butcher/${menuInfo.ishop}/menu/${menuInfo.pic}`
                 }
                 alt="미리보기 이미지"
-                // style={{
-                //   maxWidth: "92px",
-                //   borderRadius: "4px",
-                // }}
+                width={92}
+                height={92}
                 placeholder={
                   <div>
-                    <AdminSmallImageWireframe />
+                    <OptiWireframe width={92} height={92} />
                   </div>
                 }
               />

@@ -37,11 +37,10 @@ import {
 } from "./styles/ReadStyle";
 // @COMMENT import React-Query
 import { useMutation } from "@tanstack/react-query";
-import LargeImageWireframe from "../common/LargeImageWireframe";
+import OptiPlaceholder from "../image-optimization/OptiPlaceholder";
+import OptiWireframe from "../image-optimization/OptiWireframe";
 import useCustomHook from "../meat/hooks/useCustomHook";
 import useCustomLoginTS from "../meat/hooks/useCustomLoginTS";
-import ImagePlaceholder from "./ImagePlaceholder";
-import SmallImageWireframe from "../common/SmallImageWireframe";
 
 const host = API_SERVER_HOST;
 // 서버데이터 초기값
@@ -638,12 +637,14 @@ const Read = () => {
         <ImgStyle>
           <LargeImgStyle>
             {content.pics[0] ? (
-              <ImagePlaceholder
+              <OptiPlaceholder
                 src={`${host}/pic/community/${content.iboard}/${selectedImg}`}
                 alt="Large image"
+                width={480}
+                height={480}
                 placeholder={
                   <div>
-                    <LargeImageWireframe />
+                    <OptiWireframe width={480} height={480} />
                   </div>
                 }
               />
@@ -660,12 +661,14 @@ const Read = () => {
                       handleThumbnailClick(pic.pic);
                     }}
                   >
-                    <ImagePlaceholder
+                    <OptiPlaceholder
                       src={`${host}/pic/community/${content.iboard}/${pic.pic}`}
                       alt={`img_${index + 1}`}
+                      width={80}
+                      height={80}
                       placeholder={
                         <div>
-                          <SmallImageWireframe />
+                          <OptiWireframe width={80} height={80} />
                         </div>
                       }
                     />

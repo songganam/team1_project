@@ -15,6 +15,7 @@ export const TableStyle = styled.div`
   position: relative;
   display: flex;
   justify-content: space-between;
+  align-items: center;
   padding: 3px;
   border-top: ${props => props.borderTop};
   margin-top: ${props => props.marginTop};
