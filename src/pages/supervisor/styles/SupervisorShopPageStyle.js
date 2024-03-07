@@ -62,22 +62,3 @@ export const SupervisorNewShopBt = styled.div`
   align-items: flex-end;
   gap: 20px;
 `;
-
-export const SupervisorShopInner = styled.div`
-  position: relative;
-  display: block;
-  p {
-    font-family: Pretendard;
-    font-size: 18px;
-    font-style: normal;
-    font-weight: 600;
-    margin-bottom: 25px;
-  }
-`;
-
-export const SupervisorShopBt = styled.div`
-  display: inline-flex;
-  flex-direction: column;
-  align-items: flex-end;
-  gap: 20px;
-`;

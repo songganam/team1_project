@@ -177,6 +177,21 @@ const useCustomHook = () => {
     navigate({ pathname: "../list", search: queryStr });
   };
 
+  const moveToSVSearch = SearchParam => {
+    let queryStr = "";
+    if (SearchParam) {
+      const SearchStr = getNum(SearchParam.search, search);
+      queryStr = createSearchParams({
+        search: SearchStr,
+      }).toString();
+      console.log("queryStr:", queryStr);
+      setRefresh(!refresh);
+    } else {
+      queryStr = defaultQueryString;
+    }
+    navigate({ pathname: "../shop", search: queryStr });
+  };
+
   const moveToCheck = CheckParam => {
     let queryStr = "";
     if (CheckParam) {
@@ -223,6 +238,7 @@ const useCustomHook = () => {
     moveToCheck,
     size,
     moveToSize,
+    moveToSVSearch,
   };
 };
 export default useCustomHook;

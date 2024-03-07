@@ -78,6 +78,21 @@ const useCustomMy = () => {
     navigate({ pathname: "../book", search: queryStr });
   };
 
+  // 신규 예약 내역 더보기
+  const moveToNoShowPage = PageParam => {
+    let queryStr = "";
+    if (PageParam) {
+      const PageNum = getNum(PageParam.page, page);
+      queryStr = createSearchParams({
+        page: PageNum,
+      }).toString();
+    } else {
+      queryStr = defaultQueryString;
+    }
+    // ! category
+    navigate({ pathname: "../noshow", search: queryStr });
+  };
+
   // 신규 매장 더보기
   const moveToSvNewShopPage = PageParam => {
     let queryStr = "";
@@ -153,6 +168,7 @@ const useCustomMy = () => {
     moveToAdminBookPage,
     moveToSvNewShopPage,
     moveToSvShopPage,
+    moveToNoShowPage,
   };
 };
 export default useCustomMy;

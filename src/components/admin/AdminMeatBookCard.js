@@ -79,6 +79,7 @@ const AdminMeatBookCard = () => {
       checkShop: adminMeatBookData.checkShop,
       ireser: ireser,
     };
+
     // 확정 전 확인 모달창
     setBookToConfirm(patchBookConfirmForm);
     setPopType(2);
@@ -196,7 +197,7 @@ const AdminMeatBookCard = () => {
                   <li>요청사항</li>
                 </AdminMeatBookCardTitle>
                 <AdiminMeatBookCardContent>
-                  <li>{adminMeatBookData.name}</li>
+                  <li>{adminMeatBookData?.name}</li>
                   <li>{formatDate(adminMeatBookData.date)}</li>
                   <li>{adminMeatBookData.headCount}</li>
                   <li>{adminMeatBookData.request}</li>

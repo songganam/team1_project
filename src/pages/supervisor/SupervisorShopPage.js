@@ -1,12 +1,8 @@
-import Button from "../../components/button/Button";
 import SupervisorNewShopCard from "../../components/supervisor/SupervisorNewShopCard";
-import SupervisorShopCard from "../../components/supervisor/SupervisorShopCard";
 import {
   NavStyle,
   SupervisorNewShopBt,
   SupervisorNewShopInner,
-  SupervisorShopBt,
-  SupervisorShopInner,
   SupervisorShopPageContent,
   SupervisorShopPageWrapper,
 } from "./styles/SupervisorShopPageStyle";
@@ -23,11 +19,6 @@ const SupervisorShopPage = () => {
             <SupervisorNewShopCard></SupervisorNewShopCard>
           </SupervisorNewShopBt>
         </SupervisorNewShopInner>
-        <SupervisorShopInner>
-          <SupervisorShopBt>
-            <SupervisorShopCard></SupervisorShopCard>
-          </SupervisorShopBt>
-        </SupervisorShopInner>
       </SupervisorShopPageContent>
     </SupervisorShopPageWrapper>
   );

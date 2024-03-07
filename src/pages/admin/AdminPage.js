@@ -32,6 +32,10 @@ const AdminPage = () => {
     navigate("/admin/book");
     setActiveButton("/admin/book");
   };
+  const handleClickAdNoshow = () => {
+    navigate("/admin/noshow");
+    setActiveButton("/admin/noshow");
+  };
 
   // 매장 리뷰 관리 페이지
   const handleClickAdReview = () => {
@@ -83,6 +87,17 @@ const AdminPage = () => {
                 }}
               >
                 예약 관리
+              </button>
+              <button
+                onClick={handleClickAdNoshow}
+                style={{
+                  color:
+                    activeButton === "/admin/noshow"
+                      ? `${ColorStyle.grayScale}`
+                      : `${ColorStyle.g600}`,
+                }}
+              >
+                노쇼 관리
               </button>
               <button
                 onClick={handleClickAdReview}
