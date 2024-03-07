@@ -21,6 +21,8 @@ import {
   MyReviewCardVisual,
   MyReviewCardWrapper,
 } from "./styles/MyReviewCardStyle";
+import OptiPlaceholder from "../image-optimization/OptiPlaceholder";
+import OptiWireframe from "../image-optimization/OptiWireframe";
 
 // 내가 쓴 리뷰 보기 카드 리스트
 const MyReviewCard = props => {
@@ -89,13 +91,20 @@ const MyReviewCard = props => {
       {myReviewList.map((myReviewList, index) => (
         <MyReviewCardWrapper key={index}>
           <MyReviewCardVisual>
-            <img
+            <OptiPlaceholder
               src={
                 myReviewList.checkShop === 0
                   ? `${host}/shop/${myReviewList.ishop}/shop_pic/${myReviewList.pic}`
                   : `${host}/butcher/${myReviewList.ishop}/butchershop_pic/${myReviewList.pic}`
               }
               alt="가게 이미지"
+              width={331}
+              height={228}
+              placeholder={
+                <div>
+                  <OptiWireframe width={331} height={228} />
+                </div>
+              }
             />
           </MyReviewCardVisual>
           <MyReviewCardContent>

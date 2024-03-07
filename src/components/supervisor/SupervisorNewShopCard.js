@@ -23,6 +23,8 @@ import {
   SupervisorNewShopWrapper,
   SvMoreViewButton,
 } from "./styles/SupervisorNewShopCardStyle";
+import OptiPlaceholder from "../image-optimization/OptiPlaceholder";
+import OptiWireframe from "../image-optimization/OptiWireframe";
 
 const host = API_SERVER_HOST;
 
@@ -333,14 +335,28 @@ const SupervisorNewShopCard = () => {
               >
                 <SupervisorNewShopVisual>
                   {filteredData.checkShop === 0 ? (
-                    <img
+                    <OptiPlaceholder
                       src={`${API_SERVER_HOST}/pic/shop/${filteredData.ishop}/shop_pic/${filteredData.pic}`}
                       alt="매장 이미지"
+                      width={348}
+                      height={330}
+                      placeholder={
+                        <div>
+                          <OptiWireframe width={348} height={330} />
+                        </div>
+                      }
                     />
                   ) : (
-                    <img
+                    <OptiPlaceholder
                       src={`${API_SERVER_HOST}/pic/butcher/${filteredData.ishop}/butchershop_pic/${filteredData.pic}`}
                       alt="매장 이미지"
+                      width={348}
+                      height={330}
+                      placeholder={
+                        <div>
+                          <OptiWireframe width={348} height={330} />
+                        </div>
+                      }
                     />
                   )}
                 </SupervisorNewShopVisual>
