@@ -20,7 +20,7 @@ export const TSNavStyle = styled.div`
   justify-content: space-between;
   align-items: center;
   background: #fff;
-  z-index: 993;
+  z-index: 1;
   /* Shadow */
   box-shadow: 0px 1px 2px -1px rgba(0, 0, 0, 0.1),
     0px 1px 3px 0px rgba(0, 0, 0, 0.1);
@@ -56,7 +56,7 @@ export const TSPreviewWrapStyle = styled.div`
   flex-direction: column;
   align-items: flex-start;
   gap: 10px;
-  z-index: 998;
+  /* z-index: 998; */
 `;
 
 export const TSShopStyle = styled.div`
@@ -79,6 +79,7 @@ export const TSBackgroundBoxStyle = styled.div`
   /* shadow */
   box-shadow: 0px 1px 2px -1px rgba(0, 0, 0, 0.1),
     0px 1px 3px 0px rgba(0, 0, 0, 0.1);
+  /* z-index: 999; */
 `;
 
 export const OnClickBoxStyle = styled.div`
