@@ -210,7 +210,7 @@ const AdminDocPage = () => {
           <Button bttext="저장" />
         </div> */}
       </DocHeader>
-        {/* <DocMainTop>
+      {/* <DocMainTop>
           <div className="title"><span></span></div>
         </DocMainTop> */}
       <AdminDocMain>
