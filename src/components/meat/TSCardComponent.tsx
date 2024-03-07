@@ -1,5 +1,7 @@
 import React, { MouseEvent } from "react";
 import { useNavigate, useParams } from "react-router";
+import { API_SERVER_HOST } from "../../api/config";
+import { PropsList } from "../../pages/meat/Meat";
 import ResultModal from "../common/ResultModal";
 import useCustomHook from "./hooks/useCustomHook";
 import useCustomLoginTS from "./hooks/useCustomLoginTS";
@@ -13,9 +15,8 @@ import {
   MeatStoreTitle,
   ReserveBtn,
 } from "./styles/GCardStyle";
-import { API_SERVER_HOST } from "../../api/config";
-import { PropsList } from "../../pages/meat/Meat";
-import BlurredImage from "./BlurredImage";
+import MeatListPlaceholder from "../image-optimization/OptiPlaceholder";
+import MeatlistWireframe from "../image-optimization/OptiWireframe";
 
 const ListCard: React.FC<PropsList> = ({ serverData }) => {
   const navigate = useNavigate();
@@ -81,11 +82,22 @@ const ListCard: React.FC<PropsList> = ({ serverData }) => {
               </MeatStoreBox>
             </MeatStoreInfo>
             <MeatSotreCardImg>
-              <img
+              <MeatListPlaceholder
+                src={`${host}${item.ishop}/shop_pic/${item.pics[0]}`}
+                alt={"고기 이미지"}
+                width={380}
+                height={210}
+                placeholder={
+                  <div>
+                    <MeatlistWireframe width={380} height={210} />
+                  </div>
+                }
+              />
+              {/* <img
                 src={`${host}${item.ishop}/shop_pic/${item.pics[0]}`}
                 alt="고기 더미 이미지"
                 loading="lazy"
-              />
+              /> */}
               {/* <BlurredImage
                 alt="고기 더미 이미지"
                 host={host}

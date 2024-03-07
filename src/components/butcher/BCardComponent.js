@@ -14,6 +14,8 @@ import {
 import useCustomHook from "../meat/hooks/useCustomHook";
 import useCustomLoginTS from "../meat/hooks/useCustomLoginTS";
 import { API_SERVER_HOST } from "../../api/meatApi";
+import MeatListPlaceholder from "../image-optimization/OptiPlaceholder";
+import MeatlistWireframe from "../image-optimization/OptiWireframe";
 
 const GCardComponent = ({ data }) => {
   const baseApi = API_SERVER_HOST;
@@ -72,10 +74,21 @@ const GCardComponent = ({ data }) => {
               </ButcherStoreBox>
             </ButcherStoreInfo>
             <ButcherSotreCardImg>
-              <img
+              <MeatListPlaceholder
+                width={380}
+                height={210}
                 src={`${host}${item.ibutcher}/butchershop_pic/${item.pics[0]}`}
                 alt="고기 더미 이미지"
+                placeholder={
+                  <div>
+                    <MeatlistWireframe width={380} height={210} />
+                  </div>
+                }
               />
+              {/* <img
+                src={`${host}${item.ibutcher}/butchershop_pic/${item.pics[0]}`}
+                alt="고기 더미 이미지"
+              /> */}
             </ButcherSotreCardImg>
           </ButcherStoreCard>
         ))}
