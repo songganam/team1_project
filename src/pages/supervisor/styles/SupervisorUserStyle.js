@@ -66,5 +66,6 @@ export const SupervisorTable = styled.div`
     border: none;
     background-color: #066e52;
     color: #fff;
+    cursor: pointer;
   }
 `;

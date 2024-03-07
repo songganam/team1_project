@@ -12,6 +12,7 @@ import Fetching from "../../components/common/Fetching";
 import ResultModal from "../../components/common/ResultModal";
 import useCustomHook from "../../components/meat/hooks/useCustomHook";
 import useCustomLoginTS from "../../components/meat/hooks/useCustomLoginTS";
+import TSButcherReviewCard from "../butcher/TSButcherReviewCard";
 import {
   ImgStyle,
   LargeImgStyle,
@@ -53,10 +54,13 @@ import {
   ReviewUserProfile,
   ReviewWrap,
 } from "./styles/ButcherDetailStyle";
+import { DefaultBt } from "../sign/up/styles/UserSignUpStyles";
 
 const MeatDetailPage = () => {
   const navigate = useNavigate();
   const { ibutcher } = useParams();
+  const { ishop } = useParams();
+
   const { isModal, openModal, closeModal, moveToLogin } = useCustomHook();
   const [storeInfo, setStoreInfo] = useState({});
   const [fetching, setFetching] = useState(false);
@@ -72,6 +76,7 @@ const MeatDetailPage = () => {
     console.log("더보기임");
     setVisualReview(prevCount => prevCount + 3);
   };
+  console.log("페이지 샵", ishop);
 
   useEffect(() => {
     setFetching(true);
@@ -159,6 +164,7 @@ const MeatDetailPage = () => {
               slidesPerView={1}
               spaceBetween={0}
               pagination={true}
+              className="storeSwiper"
             >
               {storeInfo.pics &&
                 storeInfo.pics.map((pic, index) => (
@@ -326,83 +332,57 @@ const MeatDetailPage = () => {
             </ReviewTitle>
           )}
 
-          <ReviewContentWrap>
-            {storeInfo?.reviews &&
-              storeInfo?.reviews.slice(0, visualReview).map((review, index) => (
-                <ReviewItemWrap key={index}>
-                  {/* Image */}
-                  <ImgStyle>
-                    <LargeImgStyle>
-                      {review.pics && review.pics.length == 0 ? (
-                        <img
-                          src={
-                            process.env.PUBLIC_URL +
-                            `/assets/images/favicon.png`
-                          }
-                          alt=""
-                        />
-                      ) : (
-                        <img
-                          src={`${baseApi}/pic/butcher/${storeInfo.ibutcher}/review/${review.ireview}/${review.pics[0]}`}
-                          alt="Large image"
-                        />
-                      )}
-                    </LargeImgStyle>
-                    <ThumbnailStyle>
-                      {review.pics.slice(1, 5).map(
-                        (pic, index) =>
-                          pic && (
-                            <div className="thumbnail" key={index}>
-                              <img
-                                src={`${baseApi}/pic/butcher/${
-                                  storeInfo.ibutcher
-                                }/review/${review.ireview}/${
-                                  review.pics[`${index}`]
-                                }`}
-                                alt={`img_${index + 1}`}
-                              />
-                            </div>
-                          ),
-                      )}
-                    </ThumbnailStyle>
-                  </ImgStyle>
-                  <ReviewContentmWrap>
-                    <ReviewProfileWrap>
-                      <ReviewProfileImage>
-                        {review.writerPic ? (
-                          <img
-                            src={`${baseApi}/pic/user/${review.iuser}/${review.writerPic}`}
-                            alt="프로필사진"
-                          />
-                        ) : (
-                          <img
-                            src={`${process.env.PUBLIC_URL}/assets/images/user_profile.png`}
-                            alt="기본사진"
-                          />
-                        )}
-                      </ReviewProfileImage>
-                      <ReviewUserProfile>
-                        <div>
-                          <span>{review.nickname}</span>
-                        </div>
-                        <CountingStar star={review.star} />
-                      </ReviewUserProfile>
-                    </ReviewProfileWrap>
-                    <ReviewContent>
-                      <p>{review.review}</p>
-                    </ReviewContent>
-                  </ReviewContentmWrap>
-                </ReviewItemWrap>
-              ))}
-          </ReviewContentWrap>
+          {/* New design */}
+          <div
+            style={{
+              width: "100%",
+              display: "flex",
+              flexWrap: "wrap",
+              justifyContent: "flex-start",
+              gap: "30px",
+              // margin: "50px",
+              // marginTop: "50px",
+            }}
+          >
+            {storeInfo?.reviews?.slice(0, visualReview).map((item, index) => (
+              <div
+                key={item?.ireview}
+                style={{
+                  // width: "100%",
+                  flex: "1 0 30%",
+                  maxWidth: "30%",
+                }}
+              >
+                <TSButcherReviewCard reviewData={storeInfo?.reviews[index]} />
+              </div>
+            ))}
+          </div>
+          <div
+            style={{
+              display: "flex",
+              width: "100%",
+              justifyContent: "center",
+              paddingBottom: "30px",
+              paddingTop: "80px",
+            }}
+          >
+            {storeInfo?.reviews?.length === 0 ? (
+              <div></div>
+            ) : (
+              <DefaultBt onClick={handleMoreReview}>
+                <span>더보기</span>
+              </DefaultBt>
+            )}
+          </div>
+          {/* 
           {storeInfo?.reviews?.length === 0 ? (
             <div></div>
           ) : (
             <div onClick={handleMoreReview}>
               <Button bttext={"더보기"} />
             </div>
-          )}
-          <MoreBtnWrap></MoreBtnWrap>
+          )} */}
+          {/* <MoreBtnWrap></MoreBtnWrap> */}
         </ReviewWrap>
       </ReadWrap>
     </div>

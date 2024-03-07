@@ -238,7 +238,7 @@ const MenuModify = () => {
           callFn={isModal.callFn}
         />
       )}
-      {fetching ? <Fetching /> : null}
+      {/* {fetching ? <Fetching /> : null} */}
       <TSBoxInnerStyle>
         <div className="big-title">메뉴 등록 / 수정하기</div>
         <div className="text-guide">

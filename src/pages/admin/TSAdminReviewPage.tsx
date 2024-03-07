@@ -85,7 +85,7 @@ const AdminReviewPage = () => {
           width: "100%",
           display: "flex",
           flexWrap: "wrap",
-          justifyContent: "space-around",
+          justifyContent: "flex-start",
           gap: "30px",
           // margin: "50px",
           // marginTop: "50px",

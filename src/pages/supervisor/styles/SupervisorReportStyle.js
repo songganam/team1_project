@@ -10,6 +10,7 @@ export const SupervisorHeader = styled.div`
   top: 114px;
   left: 210px;
   width: calc(100% - 210px);
+  height: 68px;
   padding: 11px 36px;
   justify-content: space-between;
   align-items: center;
@@ -17,7 +18,7 @@ export const SupervisorHeader = styled.div`
   /* Shadow */
   box-shadow: 0px 1px 2px -1px rgba(0, 0, 0, 0.1),
     0px 1px 3px 0px rgba(0, 0, 0, 0.1);
-  z-index: 997;
+  z-index: 995;
   .page-title {
     display: flex;
     width: 136px;
@@ -94,5 +95,6 @@ export const SupervisorTable = styled.div`
     border: none;
     background-color: #066e52;
     color: #fff;
+    cursor: pointer;
   }
 `;

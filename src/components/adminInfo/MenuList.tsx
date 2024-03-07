@@ -4,7 +4,6 @@ import { API_SERVER_HOST } from "../../api/config";
 import { getMenu } from "../../api/menuInfoApi";
 import { atomMenuInfoState, menuRefreshState } from "../../atom/atomMenuInfo";
 import { atomStoreInfoState } from "../../atom/atomStoreInfoState";
-import Fetching from "../common/Fetching";
 import MenuListWireframe from "../common/MenuListWireframe";
 import ResultModal from "../common/ResultModal";
 import MenuListPlaceholder from "../community/MenuListPlaceholder";
@@ -70,7 +69,7 @@ const MenuList = () => {
           callFn={isModal.callFn}
         />
       )}
-      {fetching ? <Fetching /> : null}
+      {/* {fetching ? <Fetching /> : null} */}
       <TSBoxInnerStyle>
         <div className="big-title">메뉴목록</div>
         <div className="title">

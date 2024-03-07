@@ -18,10 +18,10 @@ export const SupervisorPageMenuBar = styled.div`
   align-items: flex-start;
   width: 210px;
   height: 1530px;
-  padding: 16px 40px;
+  padding: 16px;
   gap: 10px;
   background-color: #202734;
-  z-index: 999;
+  z-index: 996;
 `;
 
 export const SupervisorPageMenu = styled.div`
@@ -39,7 +39,7 @@ export const SupervisorPageMenu = styled.div`
     line-height: 40px;
     border: none;
     background: none;
-    margin-bottom: 10px;
+    /* margin-bottom: 10px; */
     cursor: pointer;
   }
 `;

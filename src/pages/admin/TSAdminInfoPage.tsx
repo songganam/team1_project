@@ -125,7 +125,7 @@ const TSAdminInfoPage = () => {
           callFn={isModal.callFn}
         />
       )}
-      {fetching ? <Fetching /> : null}
+      {/* {fetching ? <Fetching /> : null} */}
       <TSNavStyle>
         <div className="page-title">매장 정보 관리</div>
         <ButtonStyleTS type="button" onClick={handleSave}>
@@ -226,9 +226,7 @@ const TSAdminInfoPage = () => {
                     src={
                       storeInfo?.checkShop !== 1
                         ? `${host}/pic/shop/${storeInfo.ishop}/shop_pic/${storeInfo.pics[0].pic}`
-
                         : `${host}/pic/butcher/${storeInfo.ishop}/butchershop_pic/${storeInfo.pics[0].pic}`
-
                     }
                     placeholder={
                       <div>

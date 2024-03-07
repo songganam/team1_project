@@ -13,6 +13,7 @@ import {
   BoxChart,
   BoxContent,
   BoxTop,
+  DocHeader,
   DocMainTop,
 } from "./styles/AdminDocStyle";
 import {
@@ -203,12 +204,12 @@ const AdminDocPage = () => {
 
   return (
     <SupervisorReportWrapper>
-      <SupervisorHeader>
+      <DocHeader>
         <div className="page-title">매장 분석</div>
-        <div>
+        {/* <div>
           <Button bttext="저장" />
-        </div>
-      </SupervisorHeader>
+        </div> */}
+      </DocHeader>
         {/* <DocMainTop>
           <div className="title"><span></span></div>
         </DocMainTop> */}
@@ -249,7 +250,7 @@ const AdminDocPage = () => {
         </AdminDocBoard>
         <BoxChart>
           <div>
-            <h2>차트</h2>
+            <h2>월간 통계</h2>
             {/* 선택된 카테고리에 따라 해당 차트를 렌더링 */}
             {selectedCategory === "북마크" && (
               <Line

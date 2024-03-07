@@ -120,3 +120,15 @@ export interface deatailReviewForm {
   comment: string;
   exist: number;
 }
+
+export interface butcherDeatailReviewForm {
+  iuser: number;
+  writerPic: string;
+  ireview: number;
+  nickname: string;
+  star: number;
+  review: string;
+  pics: string[];
+  comment: string;
+  exist: number;
+}

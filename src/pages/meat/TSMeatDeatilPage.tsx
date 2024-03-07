@@ -389,19 +389,18 @@ const MeatDetailPage = () => {
             style={{
               display: "flex",
               width: "100%",
-              justifyContent: "center",
+              justifyContent: "flex-start",
               paddingBottom: "30px",
               paddingTop: "80px",
             }}
-          >
-            {storeInfo?.reviews?.length === 0 ? (
-              <div></div>
-            ) : (
-              <DefaultBt onClick={handleMoreReview}>
-                <span>더보기</span>
-              </DefaultBt>
-            )}
-          </div>
+          ></div>
+          {storeInfo?.reviews?.length === 0 ? (
+            <div></div>
+          ) : (
+            <DefaultBt onClick={handleMoreReview}>
+              <span>더보기</span>
+            </DefaultBt>
+          )}
 
           {/* {storeInfo?.reviews?.length === 0 ? (
             <div></div>
