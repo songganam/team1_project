@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useParams } from "react-router-dom";
 import { getUserInfo } from "../../api/MyApi";
 import { getOne, putOne } from "../../api/communityApi";

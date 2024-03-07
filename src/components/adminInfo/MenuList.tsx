@@ -4,9 +4,9 @@ import { API_SERVER_HOST } from "../../api/config";
 import { getMenu } from "../../api/menuInfoApi";
 import { atomMenuInfoState, menuRefreshState } from "../../atom/atomMenuInfo";
 import { atomStoreInfoState } from "../../atom/atomStoreInfoState";
-import MenuListWireframe from "../common/MenuListWireframe";
 import ResultModal from "../common/ResultModal";
-import MenuListPlaceholder from "../community/MenuListPlaceholder";
+import OptiPlaceholder from "../image-optimization/OptiPlaceholder";
+import OptiWireframe from "../image-optimization/OptiWireframe";
 import useModal from "../meat/hooks/useModal";
 import { MenuContainerStyle, TSMenuStyle } from "./styles/TSMenuStyle";
 import { TSBackgroundBoxStyle, TSBoxInnerStyle } from "./styles/TSModifyStyle";
@@ -86,7 +86,7 @@ const MenuList = () => {
               style={{ cursor: "pointer" }}
             >
               <div className="menu-img">
-                <MenuListPlaceholder
+                <OptiPlaceholder
                   src={
                     storeInfo.checkShop !== 1
                       ? menu?.pic
@@ -97,12 +97,11 @@ const MenuList = () => {
                       : `${process.env.PUBLIC_URL}/assets/images/menuImg.png`
                   }
                   alt={`미리보기${index}`}
-                  // style={{
-                  //   maxWidth: "160px",
-                  // }}
+                  width={160}
+                  height={160}
                   placeholder={
                     <div>
-                      <MenuListWireframe />
+                      <OptiWireframe width={160} height={160} />
                     </div>
                   }
                 />

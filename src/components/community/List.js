@@ -6,7 +6,8 @@ import { ColorStyle } from "../../styles/common/CommonStyle";
 import Button from "../button/Button";
 import Fetching from "../common/Fetching";
 import Paging from "../common/Paging";
-import SmallImageWireframe from "../common/SmallImageWireframe";
+import OptiPlaceholder from "../image-optimization/OptiPlaceholder";
+import OptiWireframe from "../image-optimization/OptiWireframe";
 import ImagePlaceholder from "./ImagePlaceholder";
 import Thead from "./Thead";
 import {
@@ -179,12 +180,14 @@ const List = () => {
                     (pic, index) =>
                       pic && (
                         <div className="thumbnail" key={index}>
-                          <ImagePlaceholder
+                          <OptiPlaceholder
                             src={`${host}/pic/community/${preview.iboard}/${pic}`}
                             alt={`img_${index + 1}`}
+                            width={80}
+                            height={80}
                             placeholder={
                               <div>
-                                <SmallImageWireframe />
+                                <OptiWireframe width={80} height={80} />
                               </div>
                             }
                           />
