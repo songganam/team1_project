@@ -1,11 +1,11 @@
 import { FadeLoader } from "react-spinners";
 import { ColorStyle } from "../../styles/common/CommonStyle";
 
-const MeatlistWireframe = () => {
+const MeatlistWireframe = ({ width, height }) => {
   const laodingCss = {
     position: "relative",
-    width: "380px",
-    height: "210px",
+    width: `${width}px`,
+    height: `${height}px`,
     background: "rgba(255,255,255,0.8)",
     display: "flex",
     flexDirection: "column",

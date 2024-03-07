@@ -1,6 +1,13 @@
 import { useState } from "react";
 
-const MeatListPlaceholder = ({ src, alt, placeholder, ...props }) => {
+const MeatListPlaceholder = ({
+  src,
+  alt,
+  placeholder,
+  width,
+  height,
+  ...props
+}) => {
   const [loaded, setLoaded] = useState(false);
 
   return (
@@ -20,8 +27,8 @@ const MeatListPlaceholder = ({ src, alt, placeholder, ...props }) => {
         src={src}
         alt={alt}
         style={{
-          width: "160px",
-          height: "160px",
+          width: `${width}px`,
+          height: `${height}px`,
           cursor: "pointer",
           borderRadius: "4px",
           display: loaded ? "block" : "none",
