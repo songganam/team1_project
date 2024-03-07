@@ -23,6 +23,8 @@ import {
   MainButcher,
   MainGogiShop,
 } from "./styles/AboutPageStyle";
+import OptiPlaceholder from "../../components/image-optimization/OptiPlaceholder";
+import OptiWireframe from "../../components/image-optimization/OptiWireframe";
 
 const AboutPage = () => {
   const [aboutData, setAboutData] = useState([]);
@@ -97,9 +99,20 @@ const AboutPage = () => {
         <AboutPageWrap>
           {/* Top사진 */}
           <AboutPageTop>
-            <img
+            {/* <img
               className="TopImage"
               src="/assets/images/aboutimages/main.png"
+            /> */}
+            <OptiPlaceholder
+              className="TopImage"
+              src="/assets/images/aboutimages/main.png"
+              width={1920}
+              height={800}
+              placeholder={
+                <div>
+                  <OptiWireframe width={1920} height={800} />
+                </div>
+              }
             />
             <img
               className="TopText"
@@ -113,10 +126,17 @@ const AboutPage = () => {
               <GogishopCard>
                 {/* 고깃집 첫번째 카드 */}
                 <AboutCardWrap>
-                  <img
+                  <OptiPlaceholder
+                    width={583}
+                    height={360}
+                    placeholder={
+                      <div>
+                        <OptiWireframe width={583} height={360} />
+                      </div>
+                    }
                     className="AboutCardImg"
                     src={`${host}${aboutData.gogi[0]?.ishop}/shop_pic/${aboutData.gogi[0]?.pic}`}
-                  ></img>
+                  ></OptiPlaceholder>
                   <div className="AboutCardTitle">
                     {aboutData.gogi[0]?.name}
                   </div>
@@ -149,9 +169,16 @@ const AboutPage = () => {
                 </AboutCardWrap>
                 {/* 고깃집 두번쨰 카드 */}
                 <AboutCardWrap>
-                  <img
+                  <OptiPlaceholder
                     className="AboutCardImg"
                     src={`${host}${aboutData.gogi[1]?.ishop}/shop_pic/${aboutData.gogi[1]?.pic}`}
+                    width={583}
+                    height={360}
+                    placeholder={
+                      <div>
+                        <OptiWireframe width={583} height={360} />
+                      </div>
+                    }
                   />
                   <div className="AboutCardTitle">
                     {aboutData.gogi[1]?.name}
@@ -193,9 +220,16 @@ const AboutPage = () => {
               <ButcherCards>
                 {/* 정육점 첫번째 카드 */}
                 <AboutCardWrap>
-                  <img
+                  <OptiPlaceholder
                     className="AboutCardImg"
                     src={`${host}${aboutData.gogi[2].ishop}/shop_pic/${aboutData.gogi[2].pic}`}
+                    width={583}
+                    height={360}
+                    placeholder={
+                      <div>
+                        <OptiWireframe width={583} height={360} />
+                      </div>
+                    }
                   />
                   <div className="AboutCardTitle">{aboutData.gogi[2].name}</div>
                   <div className="AboutCardPrice">
@@ -227,9 +261,16 @@ const AboutPage = () => {
                 </AboutCardWrap>
                 {/* 정육점 두번째 카드 */}
                 <AboutCardWrap>
-                  <img
+                  <OptiPlaceholder
                     className="AboutCardImg"
                     src={`${host}${aboutData.gogi[3].ishop}/shop_pic/${aboutData.gogi[3].pic}`}
+                    width={583}
+                    height={360}
+                    placeholder={
+                      <div>
+                        <OptiWireframe width={583} height={360} />
+                      </div>
+                    }
                   />
                   <div className="AboutCardTitle">{aboutData.gogi[3].name}</div>
                   <div className="AboutCardPrice">
@@ -263,9 +304,16 @@ const AboutPage = () => {
             </MainButcher>
 
             <MainBand>
-              <img
+              <OptiPlaceholder
                 src="/assets/images/aboutimages/gogiro_band.svg"
                 alt="image"
+                width={1920}
+                height={324}
+                placeholder={
+                  <div>
+                    <OptiWireframe width={1920} height={324} />
+                  </div>
+                }
               />
               <span className="MainBandText">고기-로</span>
             </MainBand>
@@ -283,39 +331,18 @@ const AboutPage = () => {
 
                 <span className="ShopTexts-four">7,900원</span>
               </div>
-              <img src="/assets/images/aboutimages/shoppic.svg" />
+              <OptiPlaceholder
+                src="/assets/images/aboutimages/shoppic.svg"
+                width={875}
+                height={648}
+                alt={""}
+                placeholder={
+                  <div>
+                    <OptiWireframe width={875} height={648} />
+                  </div>
+                }
+              />
             </AboutPageShops>
-            {/* 오늘의 행사 */}
-            {/* 이벤트 첫번째 카드 */}
-            {/* <AboutPageEvent>
-              <div className="EventTitle">오늘의 행사</div>
-              <AboutEventCards>
-                <AboutCardWrap>
-                  <img
-                    className="EventImage"
-                    src="/assets/images/aboutimages/butcher_3.svg"
-                  />
-                  <div className="AboutCardTitle">신미식육점</div>
-                  <div className="AboutCardPrice">최대 30% 할인 행사</div>
-                  <div className="EventButton-wrap">
-                    <DefaultBt className="EventButton">방문하기</DefaultBt>
-                  </div>
-                </AboutCardWrap> */}
-            {/* 이벤트 두번째 카드
-                <AboutCardWrap>
-                  <img
-                    className="EventImage"
-                    src="/assets/images/aboutimages/butcher_3.svg"
-                  />
-                  <div className="AboutCardTitle">신미식육점</div>
-                  <div className="AboutCardPrice">최대 30% 할인 행사</div>
-                  <div className="EventButton-wrap">
-                    <DefaultBt className="EventButton">방문하기</DefaultBt>
-                  </div>
-                </AboutCardWrap>
-              </AboutEventCards>
-            </AboutPageEvent> */}
-
             <AboutPageCommunity>
               <span className="CommunityTitle">고기 잡담</span>
               <CommunityImages>
@@ -323,40 +350,75 @@ const AboutPage = () => {
                   className="BigImage"
                   onClick={e => handleCommuClick(aboutData.commu[0]?.iboard)}
                 >
-                  <img
+                  <OptiPlaceholder
                     src={`${comuhost}${aboutData.commu[0]?.iboard}/${aboutData.commu[0]?.pic}`}
+                    width={600}
+                    height={600}
+                    placeholder={
+                      <div>
+                        <OptiWireframe width={600} height={600} />
+                      </div>
+                    }
                   />
                 </div>
                 <div
                   className="smallone"
                   onClick={e => handleCommuClick(aboutData.commu[1]?.iboard)}
                 >
-                  <img
+                  <OptiPlaceholder
                     src={`${comuhost}${aboutData.commu[1]?.iboard}/${aboutData.commu[1]?.pic}`}
+                    width={290}
+                    height={290}
+                    placeholder={
+                      <div>
+                        <OptiWireframe width={290} height={290} />
+                      </div>
+                    }
                   />
                 </div>
                 <div
                   className="smalltwo"
                   onClick={e => handleCommuClick(aboutData.commu[2]?.iboard)}
                 >
-                  <img
+                  <OptiPlaceholder
                     src={`${comuhost}${aboutData.commu[2]?.iboard}/${aboutData.commu[2]?.pic}`}
+                    width={290}
+                    height={290}
+                    placeholder={
+                      <div>
+                        <OptiWireframe width={290} height={290} />
+                      </div>
+                    }
                   />
                 </div>
                 <div
                   className="smallthree"
                   onClick={e => handleCommuClick(aboutData.commu[3]?.iboard)}
                 >
-                  <img
+                  <OptiPlaceholder
                     src={`${comuhost}${aboutData.commu[3]?.iboard}/${aboutData.commu[3]?.pic}`}
+                    width={290}
+                    height={290}
+                    placeholder={
+                      <div>
+                        <OptiWireframe width={290} height={290} />
+                      </div>
+                    }
                   />
                 </div>
                 <div
                   className="smallfour"
                   onClick={e => handleCommuClick(aboutData.commu[4]?.iboard)}
                 >
-                  <img
+                  <OptiPlaceholder
                     src={`${comuhost}${aboutData.commu[4]?.iboard}/${aboutData.commu[4]?.pic}`}
+                    width={290}
+                    height={290}
+                    placeholder={
+                      <div>
+                        <OptiWireframe width={290} height={290} />
+                      </div>
+                    }
                   />
                 </div>
               </CommunityImages>
