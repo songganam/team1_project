@@ -16,6 +16,8 @@ import {
   MyListCardWrapper,
   MyMoreViewButton,
 } from "./styles/MyListCardStyle";
+import OptiPlaceholder from "../image-optimization/OptiPlaceholder";
+import OptiWireframe from "../image-optimization/OptiWireframe";
 
 // 내 북마크 내역 카드
 const MyListCard = props => {
@@ -63,13 +65,20 @@ const MyListCard = props => {
           onClick={() => handleMoveDetail(myList.ishop, myList.imeat)}
         >
           <MyListCardVisual>
-            <img
+            <OptiPlaceholder
               src={
                 myList.imeat === 0
                   ? `${host}/butcher/${myList.ishop}/butchershop_pic/${myList.pic}`
                   : `${host}/shop/${myList.ishop}/shop_pic/${myList.pic}`
               }
               alt="가게 이미지"
+              width={331}
+              height={228}
+              placeholder={
+                <div>
+                  <OptiWireframe width={331} height={228} />
+                </div>
+              }
             />
           </MyListCardVisual>
           <MyListCardContent>

@@ -21,6 +21,8 @@ import {
   MyBookCardWrapper,
   MyMoreViewButton,
 } from "./styles/MyBookCardStyle";
+import OptiPlaceholder from "../image-optimization/OptiPlaceholder";
+import OptiWireframe from "../image-optimization/OptiWireframe";
 
 // 내 예약/픽업 카드 리스트
 const MyBookCard = props => {
@@ -138,13 +140,20 @@ const MyBookCard = props => {
       {myBookList.map((myBookList, index) => (
         <MyBookCardWrapper key={index}>
           <MyBookCardVisual>
-            <img
+            <OptiPlaceholder
               src={
                 myBookList.checkShop === 0
                   ? `${host}/shop/${myBookList.ishop}/shop_pic/${myBookList.pic}`
                   : `${host}/butcher/${myBookList.ishop}/butchershop_pic/${myBookList.pic}`
               }
               alt="가게 이미지"
+              width={331}
+              height={228}
+              placeholder={
+                <div>
+                  <OptiWireframe width={331} height={228} />
+                </div>
+              }
             />
           </MyBookCardVisual>
           <MyBookCardContent>
