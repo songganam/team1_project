@@ -16,9 +16,14 @@ export const InfoWrap = styled.div`
 export const InfoImageWrap = styled.div`
   width: 1180px;
   height: 800px;
-  img {
-    width: 1180px;
-    height: 800px;
+  .storeSwiper {
+    width: 100%;
+    height: 100%;
+    img {
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+    }
   }
 `;
 export const InfoContentWrap = styled.div`
@@ -30,7 +35,7 @@ export const InfoContentWrap = styled.div`
   align-items: flex-start;
   gap: 10px;
   position: absolute;
-  top: 500px;
+  top: 470px;
   background: rgba(17, 17, 17, 0.35);
 `;
 export const InfoContent = styled.div`
@@ -326,13 +331,16 @@ export const NoticeCardItem = styled.div`
 `;
 // ! REVIEW AREA
 export const ReviewWrap = styled.div`
+  width: 1080px;
   display: flex;
+  flex-wrap: wrap;
   flex-direction: column;
   align-items: center;
   padding: 30px 0px;
 `;
 export const ReviewTitle = styled.div`
   margin-top: 150px;
+  margin-bottom: 30px;
   position: relative;
   display: flex;
   width: 157px;
@@ -354,9 +362,10 @@ export const ReviewContentWrap = styled.div`
   width: 1180px;
   /* height: 360px; */
   padding: 0px 10px;
-  flex-direction: column;
+  /* flex-direction: column; */
+
   justify-content: center;
-  align-items: flex-start;
+  /* align-items: flex-start; */
   gap: 10px;
 `;
 export const ReviewItemWrap = styled.div`
@@ -473,4 +482,47 @@ export const OverlayContent = styled.span`
 
 export const ReviewUserProfile = styled.div`
   gap: 5px;
+`;
+
+export const ImgStyle = styled.div`
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+`;
+export const LargeImgStyle = styled.div`
+  position: relative;
+  max-width: 480px;
+  min-width: 60px;
+  overflow: hidden;
+  box-shadow: 4px 4px 4px 0px rgba(0, 0, 0, 0.25);
+  img {
+    width: 380px;
+    height: 210px;
+    border-radius: 5px;
+  }
+`;
+export const ThumbnailStyle = styled.div`
+  position: relative;
+  max-width: 480px;
+  max-height: 1000px;
+  display: flex;
+  flex-wrap: wrap;
+  /* justify-content: space-between; */
+  align-items: center;
+  gap: 20px;
+  overflow: hidden;
+  img {
+    max-width: 80px;
+    max-height: 100px;
+    border-radius: 5px;
+    box-shadow: 4px 4px 4px 0px rgba(0, 0, 0, 0.25);
+    cursor: pointer;
+  }
+`;
+export const MoreBtnWrap = styled.div`
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 30px 0px;
 `;

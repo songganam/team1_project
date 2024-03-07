@@ -168,10 +168,12 @@ const Read = () => {
     console.log(result);
   };
 
+  const [favorite, setFavorite] = useState(false);
+
   useEffect(() => {
     setFetching(true);
     getOneData();
-  }, [iboard, page]);
+  }, [iboard, page, favorite]);
 
   // 해당글의 이미지 큰이미지로 보여주기
   // content.pics가 변경될 때마다 실행됩니다.
@@ -375,18 +377,18 @@ const Read = () => {
   //   iboard: parseInt(iboard),
   // };
   // console.log("데이터 폼 테스트 :", dataForm);
-  const [favorite, setFavorite] = useState(false);
+
   const favMutation = useMutation({
     mutationFn: fav => postFav({ iboard }),
     onSuccess: result => {
       // console.log("성공한 게시물 : ", iboard);
       if (result.result === 0) {
+        setFavorite(!favorite);
         openModal("좋아요 해제", "좋아요가 해제 되었습니다.", shutModal);
-        setFavorite(false);
       }
       if (result.result === 1) {
+        setFavorite(!favorite);
         openModal("좋아요 등록", "좋아요가 등록 되었습니다.", shutModal);
-        setFavorite(true);
       }
     },
     onError: () => {},

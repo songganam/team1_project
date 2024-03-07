@@ -28,6 +28,9 @@ import useCustomHook from "../../../components/meat/hooks/useCustomHook";
 import TitleHeader from "../../../components/titleheader/TitleHeader";
 import Layout from "../../../layouts/Layout";
 import { SelectedCate } from "../../meat/styles/TS_Style";
+import { useNavigate } from "react-router-dom";
+import ResultModal from "../../../components/common/ResultModal";
+import { ColorStyle } from "../../../styles/common/CommonStyle";
 
 const initState: AdminJoinData = {
   id: "",
@@ -44,7 +47,7 @@ const initState: AdminJoinData = {
 const AdminJoinPage = () => {
   // @COMMENT join-form-data , fetching state
   const [signUpData, setSignUpData] = useState(initState);
-  const [ckeckFlag, setCheckFlag] = useState(false);
+  const [checkFlag, setCheckFlag] = useState(false);
   const [fetch, setFetching] = useState(false);
   const {
     openModal,
@@ -99,11 +102,21 @@ const AdminJoinPage = () => {
 
       if (busiStatus === "계속사업자") {
         setCheckFlag(true);
-        console.log("체크 플래그 ", ckeckFlag);
+        openModal(
+          "인증 완료",
+          "사업자등록번호 인증이 완료되었습니다.",
+          closeModal,
+        );
+        console.log("체크 플래그 ", checkFlag);
         console.log("사업자등록번호 인증이 완료되었습니다.");
       } else {
         setCheckFlag(false);
-        console.log("체크 플래그 ", ckeckFlag);
+        console.log("체크 플래그 ", checkFlag);
+        openModal(
+          "인증 실패",
+          "폐업을 했거나 존재하지 않는 사업자등록번호입니다.",
+          closeModal,
+        );
         console.log("폐업을 했거나 존재하지 않는 사업자등록번호입니다.");
       }
     },
@@ -119,7 +132,7 @@ const AdminJoinPage = () => {
     },
     onError: (result: AxiosError) => {
       console.log("result", result);
-      openModal("회원가입 실패", "회원가입이 완료되지 않았습니다.", closeModal);
+      // openModal("회원가입 실패", "회원가입이 완료되지 않았습니다.", closeModal);
     },
   });
 
@@ -176,16 +189,37 @@ const AdminJoinPage = () => {
       formData.append("pic", selectedImage);
     }
 
-    signUpMutation.mutate(formData);
+    // signUpMutation.mutate(formData);
     // console.log("디띠오", testData);
     console.log("클릭");
 
-    console.log("결과값 : ", testa);
-    // if (ckeckFlag === true) {
-    //   alert("님 사업자체크하셈 안댐 이건");
-    // } else {
-    // }
-    // signUpMutation.mutate(formData);
+    // console.log("결과값 : ", testa);
+    if (signUpData.id === "") {
+      openModal("아이디 필수 입력", "아이디를 입력해주세요.", closeModal);
+    } else if (signUpData.upw === null) {
+      openModal("비밀번호 4~8자 이내", "비밀번호를 입력해주세요.", closeModal); // c,k
+    } else if (signUpData.checkPw === null) {
+      openModal(
+        "비밀번호 확인 필수 입력",
+        "비밀번호를 확인해주세요.",
+        closeModal,
+      ); // ck
+    } else if (signUpData.name === "") {
+      openModal("이름 필수 입력", "이름을 입력해주세요.", closeModal);
+    } else if (signUpData.num === "") {
+      openModal(
+        "사업자등록번호 필수 입력",
+        "사업자등록번호룰 입력해주세요.",
+        closeModal,
+      );
+    } else if (signUpData.shopName === "") {
+      openModal("가게이름 필수 입력", "가게이름을 입력해주세요.", closeModal);
+    } else if (signUpData.location === "") {
+      openModal("주소 필수 입력", "주소를 입력해주세요.", closeModal);
+    } else if (checkFlag === false) {
+      openModal("사업자 미인증", "사업자 인증이 되지않았습니다.", closeModal);
+    }
+    signUpMutation.mutate(formData);
   };
 
   // @COMMENT Password
@@ -297,9 +331,20 @@ const AdminJoinPage = () => {
   };
   const options = ["돼지", "소", "닭", "오리", "양"];
 
+  const navigate = useNavigate();
+  const handleClickCancel = () => {
+    navigate("/");
+  };
   return (
     <Layout>
       <JaddPageWrap>
+        {isModal.isOpen && (
+          <ResultModal
+            title={isModal.title}
+            content={isModal.content}
+            callFn={isModal.callFn}
+          />
+        )}
         {isEmptyModal.isOpen && (
           <EmptyModal
             content={isEmptyModal.content}
@@ -358,7 +403,7 @@ const AdminJoinPage = () => {
                 name="id"
                 value={signUpData.id}
                 className="JaddName"
-                placeholder="아이디임"
+                placeholder="정확하게 입력하세요."
                 onChange={e => handleChange(e)}
                 maxLength={20}
               />
@@ -372,7 +417,9 @@ const AdminJoinPage = () => {
                   name="upw"
                   value={signUpData.upw}
                   className="JaddPw"
-                  placeholder="비번임"
+                  placeholder="비밀번호를 입력하세요.(특수문자 포함 4-8자)"
+                  maxLength={8}
+                  minLength={4}
                   onChange={e => handleChange(e)}
                 />
               </JaddPwWrap>
@@ -384,8 +431,10 @@ const AdminJoinPage = () => {
                   name="checkPw"
                   value={signUpData.checkPw}
                   className="JaddMorePw"
-                  placeholder="비번체크다"
+                  placeholder="입력한 비밀번호를 한번 더 확인하세요."
                   onChange={e => handleChange(e)}
+                  maxLength={8}
+                  minLength={4}
                   onBlur={handleValiation}
                 />
                 {message !== "" &&
@@ -412,15 +461,38 @@ const AdminJoinPage = () => {
                   name="num"
                   value={signUpData.num}
                   className="JaddNickName"
-                  placeholder="사업자번호임 제대로 적어"
+                  placeholder="사업자번호 (-) 없이 입력하세요."
                   maxLength={10}
                   onChange={e => handleChange(e)}
                 />
+                {checkFlag === true ? (
+                  <DefaultBt
+                    onClick={handleClickBusiCheck}
+                    className="JaddNickName-Bt"
+                    // clicked={checkFlag === true}
+                    // style={{
+                    //   background: `${ColorStyle.secondary}`,
+                    //   color: "white",
+                    // }}
+                  >
+                    {/* {checkFlag === true ? "인증완료" : "체크"} */}
+                    인증완료
+                  </DefaultBt>
+                ) : (
+                  <DefaultBt
+                    onClick={handleClickBusiCheck}
+                    className="JaddNickName-Bt"
+                  >
+                    {/* {checkFlag === true ? "인증완료" : "체크"} */}
+                    체크
+                  </DefaultBt>
+                )}
                 <DefaultBt
                   onClick={handleClickBusiCheck}
                   className="JaddNickName-Bt"
                 >
-                  체크
+                  {checkFlag === true ? "인증완료" : "체크"}
+                  {/* 체크 */}
                 </DefaultBt>
               </JaddNickNameInner>
             </JaddNickNameWrap>
@@ -432,7 +504,7 @@ const AdminJoinPage = () => {
                 name="name"
                 value={signUpData.name}
                 className="JaddName"
-                placeholder="실명"
+                placeholder="본인 이름을 입력하세요."
                 onChange={e => handleChange(e)}
               />
             </JaddNameWrap>
@@ -445,7 +517,7 @@ const AdminJoinPage = () => {
                   name="location"
                   value={signUpData.location}
                   className="JaddNickName"
-                  placeholder="주소다 이말이야"
+                  placeholder="주소"
                   readOnly
                   onChange={e => handleChange(e)}
                 />
@@ -462,7 +534,7 @@ const AdminJoinPage = () => {
                 name="shopName"
                 value={signUpData.shopName}
                 className="JaddName"
-                placeholder="가게이름임"
+                placeholder="가게이름을 정확히 입력하세요."
                 onChange={e => handleChange(e)}
               />
             </JaddNameWrap>
@@ -514,9 +586,9 @@ const AdminJoinPage = () => {
               <button
                 type="button"
                 className="cancel-button"
-                // onClick={() => {
-                //   handleClickCancel();
-                // }}
+                onClick={() => {
+                  handleClickCancel();
+                }}
               >
                 취소하기
               </button>
