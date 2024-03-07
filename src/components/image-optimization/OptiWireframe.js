@@ -1,7 +1,7 @@
 import { FadeLoader } from "react-spinners";
 import { ColorStyle } from "../../styles/common/CommonStyle";
 
-const MeatlistWireframe = ({ width, height }) => {
+const OptiWireframe = ({ width, height }) => {
   const laodingCss = {
     position: "relative",
     width: `${width}px`,
@@ -22,4 +22,4 @@ const MeatlistWireframe = ({ width, height }) => {
   );
 };
 
-export default MeatlistWireframe;
+export default OptiWireframe;

@@ -1,6 +1,6 @@
 import { useState } from "react";
 
-const MeatListPlaceholder = ({
+const OptiPlaceholder = ({
   src,
   alt,
   placeholder,
@@ -40,4 +40,4 @@ const MeatListPlaceholder = ({
   );
 };
 
-export default MeatListPlaceholder;
+export default OptiPlaceholder;

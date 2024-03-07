@@ -3,6 +3,8 @@ import { useNavigate, useParams } from "react-router";
 import { API_SERVER_HOST } from "../../api/config";
 import { PropsList } from "../../pages/meat/Meat";
 import ResultModal from "../common/ResultModal";
+import OptiPlaceholder from "../image-optimization/OptiPlaceholder";
+import OptiWireframe from "../image-optimization/OptiWireframe";
 import useCustomHook from "./hooks/useCustomHook";
 import useCustomLoginTS from "./hooks/useCustomLoginTS";
 import {
@@ -15,8 +17,6 @@ import {
   MeatStoreTitle,
   ReserveBtn,
 } from "./styles/GCardStyle";
-import MeatListPlaceholder from "../image-optimization/OptiPlaceholder";
-import MeatlistWireframe from "../image-optimization/OptiWireframe";
 
 const ListCard: React.FC<PropsList> = ({ serverData }) => {
   const navigate = useNavigate();
@@ -82,14 +82,14 @@ const ListCard: React.FC<PropsList> = ({ serverData }) => {
               </MeatStoreBox>
             </MeatStoreInfo>
             <MeatSotreCardImg>
-              <MeatListPlaceholder
+              <OptiPlaceholder
                 src={`${host}${item.ishop}/shop_pic/${item.pics[0]}`}
                 alt={"고기 이미지"}
                 width={380}
                 height={210}
                 placeholder={
                   <div>
-                    <MeatlistWireframe width={380} height={210} />
+                    <OptiWireframe width={380} height={210} />
                   </div>
                 }
               />

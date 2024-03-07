@@ -45,10 +45,10 @@ import {
 import { useQuery } from "@tanstack/react-query";
 import { getGInfoTS } from "../../api/typeApi";
 import { DefaultBt } from "../../components/button/styles/ButtonStyle";
+import OptiPlaceholder from "../../components/image-optimization/OptiPlaceholder";
+import OptiWireframe from "../../components/image-optimization/OptiWireframe";
 import { Glist, deatailReviewForm } from "./Meat";
 import TSMeatReviewCard from "./TSMeatReviewCard";
-import MeatListPlaceholder from "../../components/image-optimization/OptiPlaceholder";
-import MeatlistWireframe from "../../components/image-optimization/OptiWireframe";
 
 const initState: Glist = {
   ishop: 0,
@@ -184,14 +184,14 @@ const MeatDetailPage = () => {
                 storeInfo.pics.map((pic: string, index: number) => (
                   <SwiperSlide key={index}>
                     {/* <img src={`${host}${pic}`} alt={`store-image-${index}`} /> */}
-                    <MeatListPlaceholder
+                    <OptiPlaceholder
                       src={`${host}${pic}`}
                       alt={`store-image-${index}`}
                       width={1180}
                       height={800}
                       placeholder={
                         <div>
-                          <MeatlistWireframe width={1180} height={800} />
+                          <OptiWireframe width={1180} height={800} />
                         </div>
                       }
                     />
