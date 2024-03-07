@@ -268,9 +268,16 @@ const MeatDetailPage = () => {
                       {item.pic === null ? (
                         <img src={defaultMenuImage} alt="defaultImage" />
                       ) : (
-                        <img
+                        <OptiPlaceholder
                           src={`${baseApi}/pic/shop/${storeInfo.ishop}/menu/${item.pic}`}
                           alt=""
+                          width={370}
+                          height={350}
+                          placeholder={
+                            <div>
+                              <OptiWireframe width={370} height={350} />
+                            </div>
+                          }
                         />
                       )}
                     </MenuCardImageWrap>

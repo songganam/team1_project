@@ -38,6 +38,8 @@ import {
   butcherDeatailReviewForm,
   deatailReviewForm,
 } from "../meat/Meat";
+import OptiPlaceholder from "../../components/image-optimization/OptiPlaceholder";
+import OptiWireframe from "../../components/image-optimization/OptiWireframe";
 
 const TSButcherReviewCard = ({
   reviewData,
@@ -252,7 +254,15 @@ const TSButcherReviewCard = ({
                 >
                   {reviewData?.pics.map((pic: string, index: number) => (
                     <SwiperSlide key={index}>
-                      <img
+                      <OptiPlaceholder
+                        alt=""
+                        width={300}
+                        height={180}
+                        placeholder={
+                          <div>
+                            <OptiWireframe width={300} height={180} />
+                          </div>
+                        }
                         src={`${baseApi}/pic/butcher/${ibutcher}/review/${reviewData.ireview}/${pic}`}
                       />
                     </SwiperSlide>
@@ -270,7 +280,15 @@ const TSButcherReviewCard = ({
                 >
                   {reviewData?.pics.map((pic: string, index: number) => (
                     <SwiperSlide key={index}>
-                      <img
+                      <OptiPlaceholder
+                        alt=""
+                        height={54}
+                        width={54}
+                        placeholder={
+                          <div>
+                            <OptiWireframe width={54} height={54} />
+                          </div>
+                        }
                         src={`${baseApi}/pic/butcher/${ibutcher}/review/${reviewData.ireview}/${pic}`}
                         // src={`${baseApi}/pic/shop/${ishop}/review/${reviewData.ireview}/${pic}`}
                       />

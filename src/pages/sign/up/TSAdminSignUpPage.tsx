@@ -18,19 +18,18 @@ import {
 } from "./styles/UserSignUpStyles";
 
 import { useMutation } from "@tanstack/react-query";
+import { useNavigate } from "react-router-dom";
 import { postSignUpTS } from "../../../api/SignApi";
 import { getCoord } from "../../../api/meatApi";
 import { postBusiNumTS } from "../../../api/typeApi";
 import RadioInput from "../../../components/adminInfo/RadioInput";
 import { BoxInnerStyle } from "../../../components/adminInfo/styles/ModifyStyle";
 import EmptyModal from "../../../components/common/EmptyModal";
+import ResultModal from "../../../components/common/ResultModal";
 import useCustomHook from "../../../components/meat/hooks/useCustomHook";
 import TitleHeader from "../../../components/titleheader/TitleHeader";
 import Layout from "../../../layouts/Layout";
 import { SelectedCate } from "../../meat/styles/TS_Style";
-import { useNavigate } from "react-router-dom";
-import ResultModal from "../../../components/common/ResultModal";
-import { ColorStyle } from "../../../styles/common/CommonStyle";
 
 const initState: AdminJoinData = {
   id: "",
@@ -42,7 +41,7 @@ const initState: AdminJoinData = {
   x: "",
   y: "",
   location: "",
-  imeat: 2,
+  imeat: 0,
 };
 const AdminJoinPage = () => {
   // @COMMENT join-form-data , fetching state
@@ -161,8 +160,8 @@ const AdminJoinPage = () => {
           num: signUpData?.num,
           name: signUpData?.name,
           shopName: signUpData?.shopName,
-          // imeat: signUpData?.imeat,
-          imeat: 1,
+          imeat: signUpData?.imeat,
+          // imeat: 1,
           x: signUpData?.x,
           y: signUpData?.y,
           location: signUpData?.location,
@@ -178,7 +177,7 @@ const AdminJoinPage = () => {
       num: signUpData?.num,
       name: signUpData?.name,
       shopName: signUpData?.shopName,
-      imeat: 1,
+      imeat: signUpData.imeat,
       x: signUpData?.x,
       y: signUpData?.y,
       location: signUpData?.location,
@@ -193,7 +192,7 @@ const AdminJoinPage = () => {
     // console.log("디띠오", testData);
     console.log("클릭");
 
-    // console.log("결과값 : ", testa);
+    console.log("결과값 : ", testa);
     if (signUpData.id === "") {
       openModal("아이디 필수 입력", "아이디를 입력해주세요.", closeModal);
     } else if (signUpData.upw === null) {
@@ -296,6 +295,7 @@ const AdminJoinPage = () => {
   //   process.env.PUBLIC_URL + `/assets/images/radioBtn_none.png`;
 
   const [selectedCate, setSelectedCate] = useState<number>(0);
+  const [selectedMeat, setSelectedMeat] = useState<number | null>(null);
   //   const storeCategory = ["돼지", "소", "닭", "오리", "양"];
   const handleClickCate = (index: number) => {
     setSelectedCate(index);
@@ -314,20 +314,27 @@ const AdminJoinPage = () => {
       }));
     }
   };
-  const [selectedMeat, setSelectedMeat] = useState<number | null>(null);
+
   const handleClickMeat = (index: number) => {
     setSelectedMeat(index);
     setSignUpData(prevState => ({
       ...prevState,
       imeat: index + 1,
     }));
+    // console.log("selected Meat : ", selectedMeat);
     // console.log("imeat 변경값 :", signUpData.imeat);
   };
 
   const [selectedRadioValue, setSelectedRadioValue] = useState("돼지");
   const handleRadioChange = (e: ChangeEvent<HTMLInputElement>) => {
+    const imeatValue = Number(e.target.value);
     setSelectedRadioValue(e.target.value);
-    console.log(e.target.value);
+    setSignUpData(prevState => ({
+      ...prevState,
+      imeat: imeatValue,
+    }));
+    // console.log("값", e.target.value);
+    console.log("값", imeatValue);
   };
   const options = ["돼지", "소", "닭", "오리", "양"];
 
@@ -335,6 +342,9 @@ const AdminJoinPage = () => {
   const handleClickCancel = () => {
     navigate("/");
   };
+
+  console.log("imeat value", signUpData.imeat);
+
   return (
     <Layout>
       <JaddPageWrap>

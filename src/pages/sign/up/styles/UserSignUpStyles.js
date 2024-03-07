@@ -13,7 +13,7 @@ export const JaddPageMain = styled.div`
   flex-wrap: wrap; /* 아이템을 여러 줄에 걸쳐 배치 */
   justify-content: center; /* 가로 방향 중앙 정렬 */
   align-items: center;
-  padding-top: 140px;
+  padding-top: 100px;
 `;
 export const JaddPageImage = styled.div`
   position: relative;
@@ -21,6 +21,7 @@ export const JaddPageImage = styled.div`
   flex-direction: column;
   justify-content: center;
   align-items: center;
+  margin-bottom: 20px;
 
   .previewBox {
     position: relative;
@@ -35,8 +36,8 @@ export const JaddPageImage = styled.div`
   }
   .uploadBox {
     position: absolute;
-    left: 77%;
-    top: 77%;
+    left: 65%;
+    top: 70%;
     width: 56px !important;
     height: 56px !important;
     border: none;

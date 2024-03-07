@@ -9,11 +9,14 @@ import {
   AdminPageMenu,
   AdminPageWrapper,
 } from "./styles/AdminPageStyle";
+import useCustomLoginTS from "../../components/meat/hooks/useCustomLoginTS";
 
 const AdminPage = () => {
   // 패스 이동
   const navigate = useNavigate();
   const [activeButton, setActiveButton] = useState("/admin/info");
+  const { adminState } = useCustomLoginTS();
+  const storeCheckShop = adminState.checkShop;
 
   // 매장 정보 관리 페이지
   const handleClickAdInfo = () => {
@@ -133,32 +136,35 @@ const AdminPage = () => {
                   예약 관리
                 </button>
               </div>
-              <div
-                style={{
-                  display: "flex",
-                  gap: "10px",
-                  alignItems: "center",
-                  width: "130px",
-                  height: "45px",
-                }}
-              >
-                {activeButton === "/admin/noshow" ? (
-                  <img
-                    src={`${process.env.PUBLIC_URL}/assets/images/nav.svg`}
-                  />
-                ) : null}
-                <button
-                  onClick={handleClickAdNoshow}
+
+              {storeCheckShop === 0 ? (
+                <div
                   style={{
-                    color:
-                      activeButton === "/admin/noshow"
-                        ? `${ColorStyle.grayScale}`
-                        : `${ColorStyle.g600}`,
+                    display: "flex",
+                    gap: "10px",
+                    alignItems: "center",
+                    width: "130px",
+                    height: "45px",
                   }}
                 >
-                  노쇼 관리
-                </button>
-              </div>
+                  {activeButton === "/admin/noshow" ? (
+                    <img
+                      src={`${process.env.PUBLIC_URL}/assets/images/nav.svg`}
+                    />
+                  ) : null}
+                  <button
+                    onClick={handleClickAdNoshow}
+                    style={{
+                      color:
+                        activeButton === "/admin/noshow"
+                          ? `${ColorStyle.grayScale}`
+                          : `${ColorStyle.g600}`,
+                    }}
+                  >
+                    노쇼 관리
+                  </button>
+                </div>
+              ) : null}
               <div
                 style={{
                   display: "flex",
