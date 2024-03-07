@@ -1,7 +1,5 @@
 import styled from "@emotion/styled";
 
-
-
 export const AdminDocMain = styled.div`
   position: relative;
   width: 100%;
@@ -19,7 +17,35 @@ export const AdminDocMain = styled.div`
     padding-bottom: 90px;
   }
 `;
+export const DocHeader = styled.div`
+  position: fixed;
+  display: flex;
+  top: 114px;
+  left: 210px;
+  width: calc(100% - 210px);
+  height: 68px;
+  padding: 11px 36px;
+  justify-content: space-between;
+  align-items: center;
+  background-color: #fff;
+  /* Shadow */
+  box-shadow: 0px 1px 2px -1px rgba(0, 0, 0, 0.1),
+    0px 1px 3px 0px rgba(0, 0, 0, 0.1);
+  z-index: 997;
+  .page-title {
+    display: flex;
+    width: 136px;
+    justify-content: space-between;
+    align-items: center;
+    flex-shrink: 0;
+    color: var(--grayscale-90, #1c1c1e);
 
+    font-size: 24px;
+    font-style: normal;
+    font-weight: 700;
+    line-height: normal;
+  }
+`;
 
 export const AdminDocBoard = styled.div`
   position: relative;
@@ -82,7 +108,9 @@ export const BoxChart = styled.div`
   box-shadow: 0px 1px 2px -1px rgba(0, 0, 0, 0.1),
     0px 1px 3px 0px rgba(0, 0, 0, 0.1);
 
+
   h2 {
     width: 600px;
+    padding-bottom: 60px;
   }
 `;
